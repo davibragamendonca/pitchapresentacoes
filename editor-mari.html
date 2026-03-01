@@ -1124,24 +1124,52 @@ function loadApiKey() {
 }
 
 function parseAIJson(raw) {
-  // Try direct parse first
+  console.log('[AI raw]', raw);
+
+  // 1. Direct parse
   try { return JSON.parse(raw); } catch(e) {}
-  // Fix literal newlines/tabs inside JSON string values using a state machine
-  let inString = false, escape = false, out = [];
+
+  // 2. State machine: fix all control chars inside strings + track open brackets
+  let inStr = false, esc = false, out = [];
   for (let i = 0; i < raw.length; i++) {
-    const c = raw[i];
-    if (escape) { out.push(c); escape = false; continue; }
-    if (c === '\\') { out.push(c); escape = true; continue; }
-    if (c === '"') { inString = !inString; out.push(c); continue; }
-    if (inString) {
-      if (c === '\n') { out.push('\\n'); continue; }
-      if (c === '\r') { out.push('\\r'); continue; }
-      if (c === '\t') { out.push('\\t'); continue; }
+    const c = raw[i], code = c.charCodeAt(0);
+    if (esc) { out.push(c); esc = false; continue; }
+    if (c === '\\') { out.push(c); esc = true; continue; }
+    if (c === '"') { inStr = !inStr; out.push(c); continue; }
+    if (inStr && code < 0x20) {
+      const map = {'\n':'\\n','\r':'\\r','\t':'\\t','\b':'\\b','\f':'\\f'};
+      out.push(map[c] || `\\u${code.toString(16).padStart(4,'0')}`);
+      continue;
     }
     out.push(c);
   }
-  try { return JSON.parse(out.join('')); } catch(e) {}
-  throw new Error('A IA não retornou um JSON válido. Tente novamente com um texto menor.');
+  let fixed = out.join('');
+  try { return JSON.parse(fixed); } catch(e) {}
+
+  // 3. Remove trailing commas before ] or }
+  fixed = fixed.replace(/,(\s*[}\]])/g, '$1');
+  try { return JSON.parse(fixed); } catch(e) {}
+
+  // 4. Close truncated JSON (count unclosed brackets)
+  let depth = 0, inS = false, es = false;
+  let closes = '';
+  for (const c of fixed) {
+    if (es) { es = false; continue; }
+    if (c === '\\') { es = true; continue; }
+    if (c === '"') { inS = !inS; continue; }
+    if (!inS) { if (c === '[' || c === '{') depth++; else if (c === ']' || c === '}') depth--; }
+  }
+  let truncated = fixed.trimEnd().replace(/,$/, '');
+  // close open string if needed
+  if (inS) truncated += '"';
+  // close objects and arrays greedily
+  const opens = (fixed.match(/\{/g)||[]).length - (fixed.match(/\}/g)||[]).length;
+  const openArr = (fixed.match(/\[/g)||[]).length - (fixed.match(/\]/g)||[]).length;
+  truncated += '}'.repeat(Math.max(0, opens)) + ']'.repeat(Math.max(0, openArr));
+  console.log('[AI truncation fix]', truncated.slice(-200));
+  try { return JSON.parse(truncated); } catch(e) {}
+
+  throw new Error('A IA não retornou um JSON válido. Verifique o console (F12) e tente com um texto mais curto.');
 }
 
 async function doImportWithAI() {
@@ -1220,8 +1248,9 @@ CRITICAL JSON RULES:
 
     const data = await res.json();
     const raw = data.content?.[0]?.text || '';
+    console.log('[AI response full]', raw);
     const match = raw.match(/\[[\s\S]*\]/);
-    if (!match) throw new Error('A IA não retornou um JSON válido. Tente novamente.');
+    if (!match) throw new Error('A IA não retornou um JSON válido. Verifique o console (F12).');
 
     const slides = parseAIJson(match[0]);
     if (!Array.isArray(slides) || !slides.length) throw new Error('Nenhum slide foi gerado.');
