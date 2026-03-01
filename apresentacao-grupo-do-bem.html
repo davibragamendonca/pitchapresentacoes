@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Proposta Oficial — Grupo do Bem</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+  color-adjust: exact !important;
+}
+
+@page { size: 1920px 1080px; margin: 0; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #222;
+  width: 1920px;
+}
+
+/* ====== SLIDE BASE ====== */
+.slide {
+  width: 1920px;
+  height: 1080px;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+  break-after: page;
+  display: flex;
+}
+
+/* ============================
+   DARK SLIDES
+   ============================ */
+.slide-dark { background: #0a0a0a !important; }
+
+.blob-cyan {
+  position: absolute; top: -140px; left: -140px;
+  width: 620px; height: 520px;
+  background: radial-gradient(ellipse, rgba(0,210,220,0.6) 0%, rgba(0,180,200,0.28) 45%, transparent 72%);
+  border-radius: 50%;
+  filter: blur(55px);
+}
+.blob-purple {
+  position: absolute; top: -200px; right: -140px;
+  width: 820px; height: 720px;
+  background: radial-gradient(ellipse, rgba(145,55,220,0.72) 0%, rgba(120,40,195,0.38) 45%, transparent 72%);
+  border-radius: 50%;
+  filter: blur(80px);
+}
+.grid-overlay {
+  position: absolute; top: 0; right: 0;
+  width: 65%; height: 100%;
+  background-image:
+    linear-gradient(rgba(165,100,230,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(165,100,230,0.08) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+
+.dark-content {
+  position: relative; z-index: 10;
+  padding: 90px 140px;
+  display: flex; flex-direction: column;
+  justify-content: center; height: 100%;
+}
+
+/* Logo */
+.pitch-logo { display: flex; align-items: center; gap: 16px; margin-bottom: 56px; }
+.pitch-logo svg { width: 64px; height: 64px; }
+.p-name   { font-size: 34px; font-weight: 900; color: #fff; letter-spacing:-1px; line-height:1; display:block; }
+.p-company{ font-size: 14px; font-weight: 800; color: #fff; letter-spacing: 6px; display:block; }
+
+/* Tag */
+.slide-tag {
+  display: inline-block;
+  background: #7B2FBE !important;
+  color: #fff;
+  font-size: 26px; font-weight: 800;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  padding: 13px 30px; margin-bottom: 40px;
+  align-self: flex-start;
+}
+
+/* Títulos dark */
+.dark-title {
+  font-size: 106px; font-weight: 900; color: #fff;
+  line-height: 1.02; text-transform: uppercase;
+  letter-spacing: -2px; max-width: 1500px;
+}
+.dark-title-xl { font-size: 120px; }
+
+.dark-subtitle {
+  font-size: 38px; font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  margin-top: 30px; text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.company-badge {
+  font-size: 24px; font-weight: 800;
+  color: #00C9C9; letter-spacing: 4px;
+  margin-bottom: 20px; text-transform: uppercase;
+}
+
+/* ============================
+   LIGHT SLIDES
+   ============================ */
+.slide-light { background: #f7f6f4 !important; }
+
+.light-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(100,75,155,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,75,155,0.06) 1px, transparent 1px);
+  background-size: 54px 54px;
+}
+
+.light-content {
+  position: relative; z-index: 10;
+  padding: 64px 110px;
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+}
+
+.section-tag {
+  display: inline-block;
+  background: #7B2FBE !important;
+  color: #fff;
+  font-size: 22px; font-weight: 800;
+  letter-spacing: 3px; text-transform: uppercase;
+  padding: 10px 24px; margin-bottom: 24px;
+  align-self: flex-start;
+}
+
+.light-title {
+  font-size: 72px; font-weight: 900;
+  color: #111; text-transform: uppercase;
+  line-height: 1.06; margin-bottom: 44px;
+  letter-spacing: -1px;
+}
+.light-title-sm { font-size: 58px; }
+.light-title-xs { font-size: 50px; }
+
+/* ============================
+   BULLETS
+   ============================ */
+.bullet-list { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+.bullet-list li {
+  font-size: 34px; font-weight: 700; color: #1a1a1a;
+  text-transform: uppercase;
+  display: flex; align-items: flex-start; gap: 18px; line-height: 1.25;
+}
+.bullet-list li::before {
+  content: "•"; color: #7B2FBE;
+  font-size: 38px; line-height: 1.1; flex-shrink: 0;
+}
+.bullet-list-sm li { font-size: 26px; gap: 14px; }
+.bullet-list-sm li::before { font-size: 30px; }
+
+/* ============================
+   CALLOUT BOX
+   ============================ */
+.callout-box {
+  border: 4px solid #7B2FBE !important;
+  border-radius: 18px; padding: 30px 44px; margin-top: 40px;
+}
+.callout-box p {
+  font-size: 30px; font-weight: 800; color: #1a1a1a;
+  text-transform: uppercase; line-height: 1.4;
+}
+
+/* ============================
+   LAYOUTS
+   ============================ */
+.split-layout   { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; flex: 1; }
+.split-layout-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 46px; flex: 1; }
+
+/* ============================
+   CARDS
+   ============================ */
+.card {
+  background: #fff !important;
+  border-radius: 18px; padding: 44px;
+  box-shadow: 0 6px 28px rgba(0,0,0,0.08);
+  display: flex; flex-direction: column; gap: 18px;
+}
+.card-tag {
+  display: inline-block;
+  background: #7B2FBE !important; color: #fff;
+  font-size: 17px; font-weight: 800; letter-spacing: 2px;
+  padding: 7px 18px; border-radius: 5px;
+  text-transform: uppercase; align-self: flex-start;
+}
+.card-tag-green { background: #4A7A4A !important; }
+.card-tag-cyan  { background: #0099A0 !important; }
+
+.card-title { font-size: 36px; font-weight: 900; color: #111; text-transform: uppercase; line-height: 1.2; }
+.card-body  { font-size: 24px; font-weight: 600; color: #555; text-transform: uppercase; line-height: 1.5; }
+
+/* ============================
+   META BOXES
+   ============================ */
+.meta-box {
+  background: #7B2FBE !important;
+  border-radius: 16px; padding: 30px 40px;
+  display: flex; align-items: center; gap: 28px;
+}
+.meta-value { font-size: 60px; font-weight: 900; color: #fff; white-space: nowrap; line-height: 1; }
+.meta-label { font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.88); text-transform: uppercase; line-height: 1.3; }
+
+/* ============================
+   SPLIT % BOXES
+   ============================ */
+.split-box  { display: flex; gap: 24px; }
+.split-item { flex: 1; padding: 44px 36px; border-radius: 18px; text-align: center; }
+.split-item-purple { background: #7B2FBE !important; color: #fff; }
+.split-item-dark   { background: #1a1a1a !important; color: #fff; }
+.split-percent { font-size: 120px; font-weight: 900; line-height: 1; }
+.split-label   { font-size: 24px; font-weight: 700; text-transform: uppercase; margin-top: 10px; opacity: 0.9; }
+
+/* ============================
+   EQUITY GRID
+   ============================ */
+.equity-item {
+  background: #fff !important;
+  border-radius: 16px; padding: 32px;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+.equity-percent { font-size: 70px; font-weight: 900; color: #7B2FBE; line-height: 1; }
+.equity-name    { font-size: 24px; font-weight: 800; color: #111; text-transform: uppercase; margin-top: 8px; }
+
+/* ============================
+   PEOPLE CARDS
+   ============================ */
+.person-card {
+  background: #fff !important;
+  border-radius: 18px; padding: 38px;
+  border-top: 7px solid #7B2FBE !important;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+}
+.person-name { font-size: 30px; font-weight: 900; color: #111; text-transform: uppercase; margin-bottom: 6px; }
+.person-area { font-size: 16px; font-weight: 800; color: #7B2FBE; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+.person-roles { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.person-roles li {
+  font-size: 26px; font-weight: 600; color: #555;
+  text-transform: uppercase; display: flex; align-items: flex-start; gap: 10px; line-height: 1.3;
+}
+.person-roles li::before { content: "→"; color: #7B2FBE; font-weight: 900; flex-shrink: 0; }
+
+/* ============================
+   TESE FLOW
+   ============================ */
+.tese-flow { display: flex; align-items: center; gap: 24px; }
+.tese-box {
+  background: #fff !important; border-radius: 16px;
+  padding: 28px 36px; flex: 1; text-align: center;
+  font-size: 28px; font-weight: 900; color: #111;
+  text-transform: uppercase; line-height: 1.25;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.09);
+}
+.tese-box span { font-size: 18px; font-weight: 600; color: #999; display: block; margin-top: 6px; text-transform: uppercase; }
+.tese-arrow { font-size: 52px; color: #7B2FBE; font-weight: 900; flex-shrink: 0; }
+
+/* ============================
+   GOVERNANCE
+   ============================ */
+.governance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; flex: 1; }
+.governance-card {
+  background: #fff !important; border-radius: 18px;
+  padding: 38px; box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+}
+.governance-card-title {
+  font-size: 24px; font-weight: 900; color: #7B2FBE;
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 2px solid #eee !important;
+}
+.gov-item {
+  font-size: 20px; font-weight: 600; color: #333;
+  text-transform: uppercase; padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0 !important;
+  display: flex; gap: 12px; align-items: flex-start; line-height: 1.4;
+}
+.gov-item::before { content: "▸"; color: #7B2FBE; flex-shrink: 0; }
+
+/* ============================
+   PRINT OVERRIDE
+   ============================ */
+@media print {
+  body { background: white; }
+  .slide { page-break-after: always; break-after: page; }
+  .slide:last-child { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==============================
+     SLIDE 1 — CAPA
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <div class="pitch-logo">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="22" r="16" fill="none" stroke="#F5A623" stroke-width="3.5"/>
+        <path d="M20 38 L32 58 L44 38" fill="none" stroke="#F5A623" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="32" cy="22" r="6" fill="#F5A623"/>
+        <circle cx="32" cy="22" r="2.5" fill="#0a0a0a"/>
+      </svg>
+      <div>
+        <span class="p-name">Pitch</span>
+        <span class="p-company">COMPANY</span>
+      </div>
+    </div>
+    <span class="slide-tag">ACELERAÇÃO DRA. MARIANA</span>
+    <h1 class="dark-title">PROPOSTA OFICIAL<br>DE SOCIEDADE E<br>ESTRUTURAÇÃO</h1>
+    <p class="dark-subtitle">GRUPO DO BEM &nbsp;·&nbsp; 3 EMPRESAS &nbsp;·&nbsp; 2026</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 2 — OBJETIVO
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">01 · OBJETIVO</span>
+    <h2 class="light-title">OBJETIVO DESTA PROPOSTA</h2>
+    <div class="split-layout">
+      <div>
+        <ul class="bullet-list">
+          <li>Estrutura clara de operação e participação</li>
+          <li>3 empresas estratégicas com papéis definidos</li>
+          <li>Foco total na execução e resultado</li>
+          <li>Plano de crescimento 3, 6 e 12 meses</li>
+        </ul>
+      </div>
+      <div>
+        <div class="card">
+          <span class="card-tag">PARTES ENVOLVIDAS</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:18px;">
+            <li>Pitch Company<br><span style="font-size:20px;font-weight:600;color:#999;text-transform:none;">(Davi Braga Mendonça e Maria Clara)</span></li>
+            <li>Dra. Mariana Villasboas</li>
+            <li>Bruno Villasboas</li>
+            <li>JA — Operação da Dra. Mariana</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 3 — POR QUE 3 EMPRESAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">02 · FOCO ESTRATÉGICO</span>
+    <h2 class="light-title">POR QUE COMEÇAR COM 3 EMPRESAS?</h2>
+    <div class="split-layout-3" style="align-items:stretch;">
+      <div class="card" style="border-top: 8px solid #7B2FBE; justify-content:center;">
+        <span class="card-tag">B2C</span>
+        <div class="card-title" style="font-size:44px;">Marca &<br>Comunidade</div>
+        <div class="card-body" style="font-size:26px;">Motor de audiência, confiança e vendas diretas para o ecossistema.</div>
+      </div>
+      <div class="card" style="border-top: 8px solid #4A7A4A; justify-content:center;">
+        <span class="card-tag card-tag-green">B2B</span>
+        <div class="card-title" style="font-size:44px;">Educação<br>Profissional</div>
+        <div class="card-body" style="font-size:26px;">Formações premium de R$5k–R$20k para profissionais da saúde.</div>
+      </div>
+      <div class="card" style="border-top: 8px solid #0099A0; justify-content:center;">
+        <span class="card-tag card-tag-cyan">D2C</span>
+        <div class="card-title" style="font-size:44px;">Produtos<br>Físicos</div>
+        <div class="card-body" style="font-size:26px;">E-commerce de suplementos e produtos integrativos com escala.</div>
+      </div>
+    </div>
+    <div class="callout-box">
+      <p>3 frentes com propósito único: mais concentração, mais objetivo, mais consistência — e resultado sólido que cresce junto no longo prazo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 4 — TESE CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <span class="slide-tag">TESE DO GRUPO</span>
+    <h1 class="dark-title">O ECOSSISTEMA<br>QUE TRANSFORMA<br>AUTORIDADE EM ATIVOS</h1>
+    <p class="dark-subtitle">BIG IDEA &nbsp;·&nbsp; GRUPO DO BEM</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 5 — TESE DETALHADA
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">03 · TESE DO GRUPO</span>
+    <h2 class="light-title light-title-sm">ECOSSISTEMA DE NEGÓCIOS INTEGRATIVOS</h2>
+    <div style="display:grid; grid-template-columns:1fr 70px 1fr; grid-template-rows:1fr 64px 1fr; flex:1; margin-bottom:28px;">
+      <!-- Linha 1 -->
+      <div class="tese-box" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:none;">CONTEÚDO<span>Gera Confiança</span></div>
+      <div class="tese-arrow" style="display:flex; align-items:center; justify-content:center;">→</div>
+      <div class="tese-box" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:none;">CONFIANÇA<span>Gera Vendas</span></div>
+      <!-- Setas verticais -->
+      <div class="tese-arrow" style="display:flex; align-items:center; justify-content:center; transform:rotate(90deg);">→</div>
+      <div></div>
+      <div class="tese-arrow" style="display:flex; align-items:center; justify-content:center; transform:rotate(90deg);">→</div>
+      <!-- Linha 2 -->
+      <div class="tese-box" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:none;">VENDAS<span>Financiam Expansão</span></div>
+      <div class="tese-arrow" style="display:flex; align-items:center; justify-content:center;">→</div>
+      <div class="tese-box" style="display:flex; flex-direction:column; justify-content:center; align-items:center; flex:none; background:#7B2FBE !important; color:#fff;">NOVOS ATIVOS<span style="color:rgba(255,255,255,0.7);">Crescimento</span></div>
+    </div>
+    <div class="callout-box" style="margin-top:0;">
+      <p>O objetivo do Grupo não é apenas vender produtos: é construir um sistema de crescimento com previsibilidade, qualidade e visão de longo prazo.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 6 — EMPRESA 1 CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <div class="company-badge">EMPRESA 01 &nbsp;·&nbsp; B2C</div>
+    <span class="slide-tag">COPRODUÇÃO</span>
+    <h1 class="dark-title">MARCA PESSOAL<br>DRA. MARIANA</h1>
+    <p class="dark-subtitle">Motor de Aquisição e Crescimento do Ecossistema</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 7 — EMPRESA 1: PRODUTOS E VALIDAÇÃO
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 1 · PRODUTOS E VALIDAÇÃO</span>
+    <div class="split-layout" style="flex:1; margin-top:16px;">
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="card" style="flex:none;">
+          <span class="card-tag">PRODUTO PRINCIPAL</span>
+          <div class="card-title" style="font-size:48px;">Comunidade do Bem</div>
+          <div class="card-body" style="font-size:30px; color:#7B2FBE; font-weight:800;">Ticket ~ R$ 1.000</div>
+        </div>
+        <div class="card" style="flex:1; gap:20px;">
+          <span class="card-tag">LOW TICKET / PERPÉTUOS</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:10px;">
+            <li>Guia SOS do Bem</li>
+            <li>Guia Imunidade do Bem</li>
+            <li>Guia de Suplementação</li>
+            <li>eBook Introdução Alimentar do Bem</li>
+          </ul>
+          <div style="border-top: 2px solid #eee; padding-top:18px;">
+            <span class="card-tag">BOLETO INTELIGENTE</span>
+            <p style="font-size:20px; font-weight:600; color:#555; text-transform:uppercase; margin-top:12px; line-height:1.4;">Boleto parcelado para facilitar compra e aumentar número de vendas.</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px;">
+              <div style="background:#f0f0f0; border-radius:10px; padding:14px 18px; text-align:center;">
+                <div style="font-size:15px; font-weight:800; color:#888; text-transform:uppercase;">Cartão</div>
+                <div style="font-size:28px; font-weight:900; color:#111;">R$ 997</div>
+              </div>
+              <div style="background:#7B2FBE; border-radius:10px; padding:14px 18px; text-align:center;">
+                <div style="font-size:15px; font-weight:800; color:rgba(255,255,255,0.75); text-transform:uppercase;">Boleto</div>
+                <div style="font-size:28px; font-weight:900; color:#fff;">R$ 1.397</div>
+              </div>
+            </div>
+            <p style="font-size:17px; font-weight:700; color:#7B2FBE; text-transform:uppercase; margin-top:12px; line-height:1.4;">TMB = Maior do Brasil + Antecipação de Boleto</p>
+            <p style="font-size:15px; font-weight:600; color:#888; text-transform:uppercase; margin-top:4px; line-height:1.4;">Aumenta ticket médio no boleto sem impactar fluxo de caixa</p>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:24px; justify-content:center;">
+        <p style="font-size:38px; font-weight:900; color:#111; text-transform:uppercase; margin-bottom:8px;">Validação comprovada</p>
+        <div class="meta-box" style="background:#7B2FBE !important;">
+          <div>
+            <div class="meta-value" style="font-size:80px;">R$ 100k+</div>
+            <div class="meta-label" style="font-size:26px;">Vendas da Comunidade do Bem</div>
+          </div>
+        </div>
+        <div class="meta-box" style="background:#1a1a1a !important;">
+          <div>
+            <div class="meta-value" style="font-size:80px;">R$ 130k</div>
+            <div class="meta-label" style="font-size:24px;">Faturamento total nos primeiros 6 meses</div>
+          </div>
+        </div>
+        <div class="meta-box" style="background:#0066CC !important;">
+          <div>
+            <div class="meta-value" style="font-size:80px;">R$ 30k</div>
+            <div class="meta-label" style="font-size:24px;">Em Anúncios no META ADS</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ==============================
+     SLIDE 9 — EMPRESA 1: METAS E CRESCIMENTO
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 1 · OBJETIVOS E CRESCIMENTO 2026</span>
+    <h2 class="light-title light-title-sm">METAS E CANAIS DE AQUISIÇÃO</h2>
+    <div style="display:grid; grid-template-columns:1fr 1.3fr 1.3fr; gap:28px; flex:1; align-items:stretch;">
+
+      <!-- METAS -->
+      <div style="display:flex; flex-direction:column; gap:20px;">
+        <div class="meta-box" style="background:#7B2FBE !important; flex:1;">
+          <div>
+            <div class="meta-value">100k a 200k</div>
+            <div class="meta-label">Seguidores até Dez/2026</div>
+          </div>
+        </div>
+        <div class="meta-box" style="background:#1a1a1a !important; flex:1;">
+          <div>
+            <div class="meta-value" style="font-size:52px;">500k a 1 MILHÃO</div>
+            <div class="meta-label">Meta de Faturamento Anual 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OBJETIVO -->
+      <div class="card" style="height:100%;">
+        <span class="card-tag">OBJETIVO</span>
+        <ul class="bullet-list bullet-list-sm" style="margin-top:16px; gap:18px;">
+          <li>Posicionar Dra. Mariana como referência nacional em saúde integrativa</li>
+          <li>Escalar audiência e receita com conteúdo + mídia paga</li>
+          <li>Lançar produtos evergreen com alta margem e baixo custo operacional</li>
+          <li>Construir comunidade engajada antes de expandir mercados</li>
+          <li>Gerar independência financeira e previsibilidade de caixa</li>
+        </ul>
+      </div>
+
+      <!-- CANAIS DE AQUISIÇÃO -->
+      <div class="card" style="height:100%;">
+        <span class="card-tag card-tag-green">CANAIS DE AQUISIÇÃO</span>
+        <ul class="bullet-list bullet-list-sm" style="margin-top:16px; gap:18px;">
+          <li>Instagram — Reels e conteúdo orgânico</li>
+          <li>META ADS — pelo menos R$ 15k/mês em tráfego</li>
+          <li>YouTube — conteúdo aprofundado</li>
+          <li>Email marketing e WhatsApp</li>
+          <li>Produtos perpétuos e aulas ao vivo 2x por mês</li>
+          <li>Parcerias e indicações estratégicas</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ==============================
+     SLIDE 10 — EMPRESA 2 CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <div class="company-badge">EMPRESA 02 &nbsp;·&nbsp; B2B</div>
+    <span class="slide-tag">EDUCAÇÃO PROFISSIONAL</span>
+    <h1 class="dark-title">INSTITUTO<br>INTEGRATIVO<br>DO BEM</h1>
+    <p class="dark-subtitle">Formações Premium para Profissionais da Saúde</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 11A — EMPRESA 2: PROPOSTA DE VALOR
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 2 · PROPOSTA DE VALOR</span>
+    <div class="split-layout" style="flex:1; margin-top:16px;">
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="card" style="flex:none;">
+          <span class="card-tag card-tag-green">PRODUTO PRINCIPAL</span>
+          <div class="card-title" style="font-size:44px;">Formações para Profissionais da Saúde</div>
+          <div class="card-body" style="font-size:30px; color:#4A7A4A; font-weight:800;">Ticket R$ 5.000 a R$ 20.000</div>
+        </div>
+        <div class="card" style="flex:1;">
+          <span class="card-tag card-tag-green">TIPOS DE OFERTA</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:14px;">
+            <li>Cursos especializados em saúde integrativa</li>
+            <li>Mentorias individuais e em grupo</li>
+            <li>Imersões presenciais e online</li>
+            <li>Pós-graduação (fase futura)</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:24px; justify-content:center;">
+        <p style="font-size:38px; font-weight:900; color:#111; text-transform:uppercase; margin-bottom:8px;">Público-alvo</p>
+        <div class="meta-box" style="background:#4A7A4A !important;">
+          <div>
+            <div class="meta-value" style="font-size:52px;">Profissionais da Saúde</div>
+            <div class="meta-label" style="font-size:22px;">Médicos, nutricionistas, terapeutas e afins</div>
+          </div>
+        </div>
+        <div class="callout-box" style="margin-top:0;">
+          <p>Público com demanda latente já presente no ecossistema B2C da Dra. Mariana</p>
+        </div>
+        <div class="meta-box" style="background:#1a1a1a !important;">
+          <div>
+            <div class="meta-value" style="font-size:52px;">Linguagem Técnica</div>
+            <div class="meta-label" style="font-size:22px;">Proposta e comunicação 100% exclusiva para o segmento</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 11B — EMPRESA 2: GO-TO-MARKET E METAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 2 · GO-TO-MARKET E METAS</span>
+    <h2 class="light-title light-title-sm">CANAIS DE AQUISIÇÃO E OBJETIVOS</h2>
+    <div class="split-layout" style="flex:1; margin-top:0;">
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        <div class="card" style="flex:none;">
+          <span class="card-tag card-tag-green">CANAIS DE AQUISIÇÃO</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:18px;">
+            <li>Social selling — abordagem direta e fechamento</li>
+            <li>Webinars técnicos para conversão e autoridade</li>
+            <li>Instagram próprio com linguagem formal/técnica</li>
+          </ul>
+        </div>
+        <div class="card" style="flex:1;">
+          <span class="card-tag">OBJETIVO</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:18px; margin-top:10px;">
+            <li>Ser o único Centro Educacional de Saúde Integrativa do Brasil com foco na Medicina do Bem</li>
+            <li>Formar uma nova geração de profissionais de saúde conscientes, humanos e técnicos</li>
+            <li>Criar o maior ecossistema de conhecimento em medicina integrativa do país</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:22px; justify-content:center;">
+        <p style="font-size:38px; font-weight:900; color:#111; text-transform:uppercase; margin-bottom:8px;">Metas</p>
+        <div class="meta-box" style="background:#4A7A4A !important;">
+          <div>
+            <div class="meta-value" style="font-size:72px;">R$ 100k</div>
+            <div class="meta-label" style="font-size:26px;">Meta primeiros 3 meses</div>
+          </div>
+        </div>
+        <div class="meta-box" style="background:#1a1a1a !important;">
+          <div>
+            <div class="meta-value" style="font-size:72px;">R$ 1M+</div>
+            <div class="meta-label" style="font-size:26px;">Meta em 12 meses</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 12 — EMPRESA 3 CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <div class="company-badge">EMPRESA 03 &nbsp;·&nbsp; D2C / E-COMMERCE</div>
+    <span class="slide-tag">PRODUTOS FÍSICOS</span>
+    <h1 class="dark-title">NATTUS<br>DO BEM</h1>
+    <p class="dark-subtitle">E-commerce de Suplementos e Produtos Integrativos</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 13A — EMPRESA 3: LINHA DE PRODUTOS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 3 · LINHA DE PRODUTOS</span>
+    <div class="split-layout" style="flex:1; margin-top:16px;">
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div class="card" style="flex:none;">
+          <span class="card-tag card-tag-cyan">PRODUTO PRINCIPAL</span>
+          <div class="card-title" style="font-size:44px;">Suplementos Integrativos</div>
+          <div class="card-body" style="font-size:30px; color:#0099A0; font-weight:800;">E-commerce D2C — Marca Própria</div>
+        </div>
+        <div class="card" style="flex:1;">
+          <span class="card-tag card-tag-cyan">CONSTRUÇÃO DE AUDIÊNCIA</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:14px;">
+            <li>Conteúdo educativo antes do produto físico</li>
+            <li>Influenciadoras e UGC para testes e escala</li>
+            <li>Suplementos integrativos como carro-chefe</li>
+            <li>Mapeamento regulatório desde o início</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:24px; justify-content:center;">
+        <p style="font-size:38px; font-weight:900; color:#111; text-transform:uppercase; margin-bottom:8px;">Operação</p>
+        <div class="meta-box" style="background:#0099A0 !important;">
+          <div>
+            <div class="meta-value" style="font-size:52px;">1 a 2 SKUs</div>
+            <div class="meta-label" style="font-size:22px;">Linha inicial para validação e testes</div>
+          </div>
+        </div>
+        <div class="callout-box" style="margin-top:0;">
+          <p>Estruturar fornecedores, logística e embalagem antes do lançamento</p>
+        </div>
+        <div class="meta-box" style="background:#1a1a1a !important;">
+          <div>
+            <div class="meta-value" style="font-size:52px;">R$ 200k+</div>
+            <div class="meta-label" style="font-size:22px;">Objetivo de faturamento com os primeiros produtos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 13B — EMPRESA 3: GO-TO-MARKET E METAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 3 · GO-TO-MARKET E METAS</span>
+    <h2 class="light-title light-title-sm">CANAIS DE ESCALA E OBJETIVOS</h2>
+    <div class="split-layout" style="flex:1; margin-top:0;">
+      <div style="display:flex; flex-direction:column; gap:22px;">
+        <div class="card" style="flex:none;">
+          <span class="card-tag card-tag-cyan">CANAIS DE ESCALA</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:18px;">
+            <li>Influenciadoras parceiras para testes e UGC</li>
+            <li>Conteúdo educativo integrativo como isca orgânica</li>
+            <li>Recompra como motor principal de crescimento</li>
+          </ul>
+        </div>
+        <div class="card" style="flex:1;">
+          <span class="card-tag card-tag-cyan">OBJETIVO</span>
+          <ul class="bullet-list bullet-list-sm" style="gap:18px; margin-top:10px;">
+            <li>Ser a marca número 1 de produtos integrativos que não fazem mal à saúde</li>
+            <li>Unir ciência e natureza para entregar resultados reais sem comprometer o organismo</li>
+            <li>Tornar a Nattus sinônimo de confiança e pureza no mercado de suplementos do Brasil</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:22px; justify-content:center;">
+        <p style="font-size:38px; font-weight:900; color:#111; text-transform:uppercase; margin-bottom:8px;">Meta</p>
+        <div class="meta-box" style="background:#0099A0 !important;">
+          <div>
+            <div class="meta-value" style="font-size:72px;">R$ 200k+</div>
+            <div class="meta-label" style="font-size:26px;">Objetivo com os primeiros produtos</div>
+          </div>
+        </div>
+        <div class="callout-box" style="margin-top:0;">
+          <p>Construção e validação da linha ao longo de 2025/2026</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE — GOVERNANÇA E GESTÃO CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <span class="slide-tag">ESTRUTURA INTERNA</span>
+    <h1 class="dark-title">GOVERNANÇA<br>E GESTÃO</h1>
+    <p class="dark-subtitle">Papéis &nbsp;·&nbsp; Rotinas &nbsp;·&nbsp; Regras de Decisão</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 14 — PAPÉIS CONSOLIDADOS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">04 · PAPÉIS DOS SÓCIOS</span>
+    <h2 class="light-title">VISÃO CONSOLIDADA</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:28px; flex:1;">
+      <div class="person-card">
+        <div class="person-name">Dra. Mariana</div>
+        <div class="person-area">Produto &amp; Autoridade</div>
+        <ul class="person-roles">
+          <li>Autoridade técnica e clínica</li>
+          <li>Gravação de conteúdo</li>
+          <li>Aulas e formações</li>
+          <li>Direção editorial</li>
+        </ul>
+      </div>
+      <div class="person-card">
+        <div class="person-name">Bruno</div>
+        <div class="person-area">Operação &amp; Governança</div>
+        <ul class="person-roles">
+          <li>Gestão macro</li>
+          <li>Organização interna</li>
+          <li>Burocracias e contratos</li>
+          <li>Sustentação operacional</li>
+        </ul>
+      </div>
+      <div class="person-card">
+        <div class="person-name">Maria Clara</div>
+        <div class="person-area">Gestão &amp; Pessoas</div>
+        <ul class="person-roles">
+          <li>Gestão do projeto</li>
+          <li>Comunicação e processos</li>
+          <li>Organização interna</li>
+          <li>Gestão de time</li>
+        </ul>
+      </div>
+      <div class="person-card">
+        <div class="person-name">Davi</div>
+        <div class="person-area">Marketing &amp; Growth</div>
+        <ul class="person-roles">
+          <li>Funis e estratégia</li>
+          <li>Ofertas e copywriting</li>
+          <li>Mídia paga</li>
+          <li>Métricas e crescimento</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 15 — GOVERNANÇA
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">05 · GOVERNANÇA</span>
+    <h2 class="light-title light-title-sm">ROTINAS E REGRAS DE DECISÃO</h2>
+    <div class="governance-grid" style="flex:1; margin-top:0;">
+      <div class="governance-card">
+        <div class="governance-card-title">Rotina de Gestão</div>
+        <div class="gov-item">Semanal (60 min): números + gargalos + prioridades</div>
+        <div class="gov-item">Mensal (2h): caixa, metas, contratações e campanhas</div>
+        <div class="gov-item">Trimestral: planejamento 90 dias + cortes e apostas</div>
+      </div>
+      <div class="governance-card">
+        <div class="governance-card-title">Autonomia por Área</div>
+        <div class="gov-item">Marketing &amp; Growth → Davi (autonomia operacional)</div>
+        <div class="gov-item">Operação &amp; Governança → Bruno (autonomia operacional)</div>
+        <div class="gov-item">Gestão &amp; Processos → Maria Clara</div>
+        <div class="gov-item">Produto &amp; Autoridade → Dra. Mariana</div>
+      </div>
+      <div class="governance-card">
+        <div class="governance-card-title">Regras de Decisão</div>
+        <div class="gov-item">Operacional: dono da área decide sozinho</div>
+        <div class="gov-item">Gastos acima do teto: mínimo 2 sócios aprovando</div>
+        <div class="gov-item">Mudanças estratégicas: 3 de 4 sócios devem aprovar</div>
+      </div>
+      <div class="governance-card">
+        <div class="governance-card-title">Comercial (Empresa 1)</div>
+        <div class="gov-item">50% Pitch Company (gestão do time)</div>
+        <div class="gov-item">50% JA / Operação Dra. Mariana</div>
+        <div class="gov-item">Custos e comissões detalhados em aditivo contratual</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 16 — PLANO CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <span class="slide-tag">ROADMAP · 2026</span>
+    <h1 class="dark-title">PLANO DE<br>CRESCIMENTO<br>3 / 6 / 12 MESES</h1>
+    <p class="dark-subtitle">0–90 &nbsp;·&nbsp; 91–180 &nbsp;·&nbsp; 181–365 dias</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 17 — FASE 1: 0-90 DIAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">FASE 1 · 0–90 DIAS</span>
+    <h2 class="light-title light-title-xs">"FOCO E MOTOR FUNCIONANDO"</h2>
+    <div class="split-layout-3" style="flex:1; align-items:stretch;">
+      <div class="card" style="border-top:8px solid #7B2FBE;">
+        <span class="card-tag">Empresa 1 · Coprodução</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Calendário perpétuo consolidado</li>
+          <li>2 eventos/mês (webinar + lançamento)</li>
+          <li>Otimizar esteira low ticket → comercial</li>
+          <li>Rotina de conteúdo diário</li>
+          <li>Melhorar conversão em todas as etapas</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #4A7A4A;">
+        <span class="card-tag card-tag-green">Empresa 2 · Instituto MVP</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Abrir CNPJ e estruturar empresa</li>
+          <li>Definir oferta #1 com promessa e preço</li>
+          <li>Montar lista de leads qualificados</li>
+          <li>Roteiro de social selling</li>
+          <li>Fechar primeiras vendas</li>
+          <li>Coletar casos e depoimentos</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #0099A0;">
+        <span class="card-tag card-tag-cyan">Empresa 3 · Nattus</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Definir linha inicial (1–2 SKUs)</li>
+          <li>Briefing de marca e fornecedores</li>
+          <li>Conteúdo educativo + pré-audiência</li>
+          <li>Mapear logística e requisitos regulatórios</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 18 — FASE 2: 91-180 DIAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">FASE 2 · 91–180 DIAS</span>
+    <h2 class="light-title light-title-xs">"ESCALA CONTROLADA"</h2>
+    <div class="split-layout-3" style="flex:1; align-items:stretch;">
+      <div class="card" style="border-top:8px solid #7B2FBE; justify-content:center; gap:24px;">
+        <span class="card-tag">Empresa 1 · Coprodução</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Aumentar previsibilidade mensal</li>
+          <li>Reduzir CAC sistematicamente</li>
+          <li>Funil perpétuo operando de forma estável</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #4A7A4A; justify-content:center; gap:24px;">
+        <span class="card-tag card-tag-green">Empresa 2 · Instituto</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Turmas recorrentes no ar</li>
+          <li>Webinar técnico estruturado</li>
+          <li>Playbook comercial documentado</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #0099A0; justify-content:center; gap:24px;">
+        <span class="card-tag card-tag-cyan">Empresa 3 · Nattus</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Lançar SKU #1</li>
+          <li>Testar UGC com influenciadoras</li>
+          <li>Validar taxa de recompra</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout-box">
+      <p>Transformar os primeiros resultados em processos repetíveis e escaláveis</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 19 — FASE 3: 181-365 DIAS
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">FASE 3 · 181–365 DIAS</span>
+    <h2 class="light-title light-title-xs">"MULTIPLICAR ATIVOS"</h2>
+    <div class="split-layout-3" style="flex:1; align-items:stretch;">
+      <div class="card" style="border-top:8px solid #7B2FBE; gap:24px;">
+        <span class="card-tag">Empresa 1 · Coprodução</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Livro físico da Dra. Mariana</li>
+          <li>Expansão para YouTube</li>
+          <li>Quiz + multicanal escalado</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #4A7A4A; gap:24px;">
+        <span class="card-tag card-tag-green">Empresa 2 · Instituto</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Produto principal estabilizado</li>
+          <li>Segunda oferta no ar</li>
+          <li>Parcerias para pós-graduação</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:8px solid #0099A0; gap:24px;">
+        <span class="card-tag card-tag-cyan">Empresa 3 · Nattus</span>
+        <ul class="bullet-list bullet-list-sm">
+          <li>SKU #2 e #3 no ar</li>
+          <li>Estrutura de influenciadores ativa</li>
+          <li>Base de recompra consolidada</li>
+        </ul>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:22px; margin-top:24px;">
+      <div class="meta-box" style="background:#7B2FBE !important;">
+        <div><div class="meta-value" style="font-size:52px;">R$ 1M+</div><div class="meta-label">Meta Empresa 1 · Anual</div></div>
+      </div>
+      <div class="meta-box" style="background:#4A7A4A !important;">
+        <div><div class="meta-value" style="font-size:52px;">R$ 1M+</div><div class="meta-label">Meta Empresa 2 · Anual</div></div>
+      </div>
+      <div class="meta-box" style="background:#0099A0 !important;">
+        <div><div class="meta-value" style="font-size:52px;">R$ 200k+</div><div class="meta-label">Meta Empresa 3 · Validação</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE — DIVISÃO DE RECEITA CAPA (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <span class="slide-tag">PROPOSTA DE NEGÓCIO</span>
+    <h1 class="dark-title">DIVISÃO<br>DE RECEITA</h1>
+    <p class="dark-subtitle">Empresa 1 &nbsp;·&nbsp; Empresa 2 &nbsp;·&nbsp; Empresa 3</p>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE — EMPRESA 1: COPRODUÇÃO DRA. MARIANA
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 1 · COPRODUÇÃO DRA. MARIANA</span>
+    <h2 class="light-title light-title-sm">DIVISÃO DA RECEITA BRUTA</h2>
+    <div class="split-box" style="flex:1; align-items:stretch;">
+      <div class="split-item" style="flex:7; display:flex; flex-direction:column; justify-content:center; background:#7B2FBE !important; border-radius:18px; position:relative; overflow:hidden; color:#fff;">
+        <div style="position:absolute; top:-60px; right:-60px; width:300px; height:300px; background:rgba(255,255,255,0.06); border-radius:50%;"></div>
+        <div style="font-size:140px; font-weight:900; color:#fff; line-height:1;">70%</div>
+        <div style="font-size:34px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:8px;">Dra. Mariana &amp; Bruno</div>
+        <div style="font-size:22px; color:rgba(255,255,255,0.85); margin-top:8px; font-weight:600; text-transform:uppercase;">JA / Operação — Protagonistas do Ecossistema</div>
+      </div>
+      <div class="split-item split-item-dark" style="flex:3; display:flex; flex-direction:column; justify-content:center;">
+        <div class="split-percent">30%</div>
+        <div class="split-label" style="font-size:28px;">Pitch Company</div>
+        <div style="font-size:20px; opacity:0.65; margin-top:8px;">(Davi + Maria Clara)</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:26px; margin-top:28px;">
+      <div class="card">
+        <div style="font-size:24px; font-weight:800; color:#7B2FBE; text-transform:uppercase; margin-bottom:14px;">Mudança de Modelo</div>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Modelo atual: R$ 6.000 fixo + 15%</li>
+          <li>Nova proposta: apenas coprodução</li>
+          <li>Retenção automática via plataforma</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div style="font-size:24px; font-weight:800; color:#7B2FBE; text-transform:uppercase; margin-bottom:14px;">Tráfego e Comercial</div>
+        <ul class="bullet-list bullet-list-sm">
+          <li>Tráfego pago: JA / Dra. Mariana + Bruno</li>
+          <li>Realocação do fixo anterior para mídia</li>
+          <li>Time comercial: 50% Pitch · 50% JA</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE — EMPRESA 2: INSTITUTO INTEGRATIVO DO BEM
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 2 · INSTITUTO INTEGRATIVO DO BEM</span>
+    <h2 class="light-title light-title-sm">DIVISÃO DE EQUITY</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:32px; flex:1; align-items:center;">
+      <div style="background:#7B2FBE !important; border-radius:18px; padding:48px 32px; text-align:center; box-shadow:0 8px 32px rgba(123,47,190,0.35); position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+        <div style="font-size:100px; font-weight:900; color:#fff; line-height:1;">25%</div>
+        <div style="font-size:30px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:8px;">Dra. Mariana</div>
+        <div style="font-size:18px; font-weight:700; color:rgba(255,255,255,0.7); text-transform:uppercase; margin-top:6px;">Autoridade &amp; Produto</div>
+      </div>
+      <div style="background:#7B2FBE !important; border-radius:18px; padding:48px 32px; text-align:center; box-shadow:0 8px 32px rgba(123,47,190,0.35); position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+        <div style="font-size:100px; font-weight:900; color:#fff; line-height:1;">25%</div>
+        <div style="font-size:30px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:8px;">Bruno</div>
+        <div style="font-size:18px; font-weight:700; color:rgba(255,255,255,0.7); text-transform:uppercase; margin-top:6px;">Operação &amp; Governança</div>
+      </div>
+      <div class="equity-item" style="border-top:6px solid #ccc; padding:48px 32px;">
+        <div class="equity-percent" style="font-size:100px; color:#555;">25%</div>
+        <div class="equity-name" style="font-size:28px; color:#444;">Davi</div>
+        <div style="font-size:18px; color:#666; font-weight:600; text-transform:uppercase; margin-top:6px;">Pitch Company</div>
+      </div>
+      <div class="equity-item" style="border-top:6px solid #ccc; padding:48px 32px;">
+        <div class="equity-percent" style="font-size:100px; color:#555;">25%</div>
+        <div class="equity-name" style="font-size:28px; color:#444;">Maria Clara</div>
+        <div style="font-size:18px; color:#666; font-weight:600; text-transform:uppercase; margin-top:6px;">Pitch Company</div>
+      </div>
+    </div>
+    <div class="callout-box">
+      <p>Parceria estratégica entre 4 sócios — cada um com papel essencial, responsabilidade clara e participação igualitária no crescimento</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE — EMPRESA 3: NATTUS DO BEM
+     ============================== -->
+<div class="slide slide-light">
+  <div class="light-grid"></div>
+  <div class="light-content">
+    <span class="section-tag">EMPRESA 3 · NATTUS DO BEM</span>
+    <h2 class="light-title light-title-sm">DIVISÃO DE EQUITY</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:32px; flex:1; align-items:center;">
+      <div style="background:#7B2FBE !important; border-radius:18px; padding:48px 32px; text-align:center; box-shadow:0 8px 32px rgba(123,47,190,0.35); position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+        <div style="font-size:100px; font-weight:900; color:#fff; line-height:1;">25%</div>
+        <div style="font-size:30px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:8px;">Dra. Mariana</div>
+        <div style="font-size:18px; font-weight:700; color:rgba(255,255,255,0.7); text-transform:uppercase; margin-top:6px;">Autoridade &amp; Produto</div>
+      </div>
+      <div style="background:#7B2FBE !important; border-radius:18px; padding:48px 32px; text-align:center; box-shadow:0 8px 32px rgba(123,47,190,0.35); position:relative; overflow:hidden;">
+        <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+        <div style="font-size:100px; font-weight:900; color:#fff; line-height:1;">25%</div>
+        <div style="font-size:30px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:8px;">Bruno</div>
+        <div style="font-size:18px; font-weight:700; color:rgba(255,255,255,0.7); text-transform:uppercase; margin-top:6px;">Operação &amp; Governança</div>
+      </div>
+      <div class="equity-item" style="border-top:6px solid #ccc; padding:48px 32px;">
+        <div class="equity-percent" style="font-size:100px; color:#555;">25%</div>
+        <div class="equity-name" style="font-size:28px; color:#444;">Davi</div>
+        <div style="font-size:18px; color:#666; font-weight:600; text-transform:uppercase; margin-top:6px;">Pitch Company</div>
+      </div>
+      <div class="equity-item" style="border-top:6px solid #ccc; padding:48px 32px;">
+        <div class="equity-percent" style="font-size:100px; color:#555;">25%</div>
+        <div class="equity-name" style="font-size:28px; color:#444;">Maria Clara</div>
+        <div style="font-size:18px; color:#666; font-weight:600; text-transform:uppercase; margin-top:6px;">Pitch Company</div>
+      </div>
+    </div>
+    <div class="callout-box">
+      <p>Recomendação: 25% cada para reduzir blocos e facilitar governança</p>
+    </div>
+  </div>
+</div>
+
+<!-- ==============================
+     SLIDE 20 — ENCERRAMENTO (Dark)
+     ============================== -->
+<div class="slide slide-dark">
+  <div class="blob-cyan"></div>
+  <div class="blob-purple"></div>
+  <div class="grid-overlay"></div>
+  <div class="dark-content">
+    <div class="pitch-logo" style="margin-bottom:64px;">
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="22" r="16" fill="none" stroke="#F5A623" stroke-width="3.5"/>
+        <path d="M20 38 L32 58 L44 38" fill="none" stroke="#F5A623" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="32" cy="22" r="6" fill="#F5A623"/>
+        <circle cx="32" cy="22" r="2.5" fill="#0a0a0a"/>
+      </svg>
+      <div>
+        <span class="p-name">Pitch</span>
+        <span class="p-company">COMPANY</span>
+      </div>
+    </div>
+    <span class="slide-tag">ACELERAÇÃO DRA. MARIANA &nbsp;·&nbsp; 2026</span>
+    <h1 class="dark-title">CONSTRUINDO<br>O GRUPO DO BEM</h1>
+    <p class="dark-subtitle">Autoridade &nbsp;·&nbsp; Escala &nbsp;·&nbsp; Impacto Real</p>
+  </div>
+</div>
+
+</body>
+</html>

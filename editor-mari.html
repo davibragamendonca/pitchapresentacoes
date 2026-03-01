@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor de Slides · Aula Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   EDITOR UI
+   ============================ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root { --primary:#637A51; --primary-dark:#4a6040; --teal:#4A8A80; --amber:#D4962A; --blue:#4A7AA0; --purple:#7B6B9A; --rose:#C0395B; }
+html, body { height:100%; font-family:'Montserrat',sans-serif; background:#1e1e1e; overflow:hidden; color:#222; }
+
+/* TOP BAR */
+.topbar { height:52px; background:#111; border-bottom:2px solid var(--primary); display:flex; align-items:center; justify-content:space-between; padding:0 20px; flex-shrink:0; }
+.topbar-brand { font-size:13px; font-weight:900; letter-spacing:3px; text-transform:uppercase; color:#fff; }
+.topbar-brand em { color:var(--primary); font-style:normal; }
+.topbar-actions { display:flex; gap:10px; }
+.btn { padding:7px 18px; border-radius:7px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; border:none; transition:opacity .15s; }
+.btn:hover { opacity:.82; }
+.btn-primary { background:var(--primary); color:#fff; }
+.btn-dark { background:#333; color:#fff; }
+.btn-back { background:transparent; color:#555; border:1px solid #333; }
+.btn-back:hover { background:#222; color:#fff; border-color:#555; }
+.draft-badge { display:none; font-size:10px; font-weight:800; letter-spacing:1px; color:#4A7A4A; background:rgba(74,122,74,.14); border:1px solid rgba(74,122,74,.35); padding:4px 12px; border-radius:20px; }
+.editor-toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(90px); background:#1c1c1c; border:1px solid rgba(99,122,81,.5); color:#fff; padding:12px 28px; border-radius:10px; font-size:13px; font-weight:700; box-shadow:0 8px 32px rgba(0,0,0,.5); z-index:2000; transition:transform .32s cubic-bezier(.34,1.56,.64,1); pointer-events:none; white-space:nowrap; }
+.editor-toast.show { transform:translateX(-50%) translateY(0); }
+
+/* LAYOUT */
+.layout { display:flex; height:calc(100vh - 52px); }
+
+/* SIDEBAR */
+.sidebar { width:215px; background:#141414; display:flex; flex-direction:column; border-right:1px solid #222; flex-shrink:0; }
+.sidebar-header { padding:14px 14px 10px; font-size:10px; font-weight:800; letter-spacing:2px; color:#555; text-transform:uppercase; border-bottom:1px solid #222; }
+.slide-list { flex:1; overflow-y:auto; padding:8px; }
+.slide-list::-webkit-scrollbar { width:4px; }
+.slide-list::-webkit-scrollbar-thumb { background:#333; border-radius:4px; }
+.slide-thumb { border-radius:8px; padding:10px 12px; margin-bottom:5px; cursor:pointer; border:2px solid transparent; transition:all .12s; }
+.slide-thumb:hover { background:#222; }
+.slide-thumb.active { border-color:var(--primary); background:#162210; }
+.slide-thumb-num { font-size:9px; font-weight:800; color:#444; letter-spacing:1px; margin-bottom:3px; }
+.slide-thumb-name { font-size:11px; font-weight:700; color:#bbb; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.slide-thumb-type { font-size:10px; color:#555; margin-top:2px; }
+.slide-thumb-ctrls { display:none; gap:4px; margin-top:8px; }
+.slide-thumb.active .slide-thumb-ctrls { display:flex; }
+.thumb-btn { flex:1; background:#2a2a2a; border:none; color:#888; font-size:10px; font-weight:700; padding:4px 6px; border-radius:5px; cursor:pointer; font-family:'Montserrat',sans-serif; }
+.thumb-btn:hover { background:#3a3a3a; color:#fff; }
+.thumb-btn.del:hover { background:#c0392b; color:#fff; }
+.sidebar-footer { padding:10px; border-top:1px solid #222; }
+.add-menu { background:#1e1e1e; border-radius:8px; overflow:hidden; margin-bottom:8px; display:none; }
+.add-menu.open { display:block; }
+.add-option { display:flex; align-items:center; gap:10px; padding:9px 12px; color:#aaa; font-size:11px; font-weight:700; cursor:pointer; border-bottom:1px solid #282828; }
+.add-option:last-child { border-bottom:none; }
+.add-option:hover { background:#2a2a2a; color:#fff; }
+.add-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.add-btn { width:100%; background:var(--primary); color:#fff; border:none; padding:9px; border-radius:8px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; }
+.add-btn:hover { background:var(--primary-dark); }
+
+/* FORM PANEL */
+.form-panel { flex:1; overflow-y:auto; padding:20px; background:#f4f4f4; }
+.form-panel::-webkit-scrollbar { width:6px; }
+.form-panel::-webkit-scrollbar-thumb { background:#ccc; border-radius:4px; }
+.form-card { background:#fff; border-radius:12px; padding:20px; margin-bottom:14px; box-shadow:0 2px 8px rgba(0,0,0,.06); }
+.form-card-title { font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#444; margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #f0f0f0; }
+.fg { margin-bottom:12px; }
+.fg:last-child { margin-bottom:0; }
+label { display:block; font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#999; margin-bottom:5px; }
+input[type="text"], textarea, select { width:100%; padding:9px 12px; border:2px solid #eee; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:13px; color:#222; background:#fafafa; transition:border-color .15s; }
+input[type="text"]:focus, textarea:focus, select:focus { outline:none; border-color:var(--primary); background:#fff; }
+textarea { resize:vertical; min-height:72px; line-height:1.5; }
+.hint { font-size:10px; color:#bbb; margin-top:4px; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.color-pick { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+.cp-btn { width:28px; height:28px; border-radius:6px; border:3px solid transparent; cursor:pointer; transition:transform .1s; }
+.cp-btn:hover { transform:scale(1.15); }
+.cp-btn.sel { border-color:#fff; outline:2px solid #333; outline-offset:1px; }
+.dyn-list { display:flex; flex-direction:column; gap:6px; }
+.dyn-row { display:flex; gap:6px; align-items:center; }
+.dyn-row input[type="text"] { flex:1; margin:0; }
+.rm-btn { width:28px; height:28px; border:none; background:#fee; color:#c0392b; border-radius:6px; cursor:pointer; font-size:14px; font-weight:900; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.rm-btn:hover { background:#c0392b; color:#fff; }
+.add-row-btn { margin-top:4px; width:100%; background:none; border:2px dashed #ddd; color:#bbb; padding:7px; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; cursor:pointer; }
+.add-row-btn:hover { border-color:var(--primary); color:var(--primary); }
+.sub-card { border:2px solid #eee; border-radius:10px; padding:14px; margin-bottom:8px; }
+.sub-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.sub-card-title { font-size:10px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:#888; }
+.no-slide-msg { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:#aaa; gap:10px; text-align:center; }
+.no-slide-msg .icon { font-size:40px; }
+.no-slide-msg p { font-size:13px; font-weight:700; }
+.no-slide-msg small { font-size:11px; color:#888; }
+
+/* PREVIEW PANEL */
+.preview-panel { width:548px; background:#1a1a1a; padding:20px; display:flex; flex-direction:column; flex-shrink:0; align-items:flex-start; overflow-y:auto; gap:14px; }
+.preview-label { font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#555; }
+.preview-wrap { width:508px; height:285.75px; border-radius:6px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.5); flex-shrink:0; background:#ccc; position:relative; }
+.preview-wrap iframe { width:1920px; height:1080px; border:none; transform:scale(0.26458); transform-origin:top left; display:block; }
+.preview-hint { font-size:10px; color:#444; line-height:1.6; }
+
+/* MODAL */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:1000; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal-box { background:#fff; border-radius:16px; width:720px; max-height:88vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.5); }
+.modal-head { background:#111; padding:18px 24px; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; border-bottom:2px solid var(--primary); }
+.modal-head-title { color:#fff; font-size:14px; font-weight:900; letter-spacing:2px; text-transform:uppercase; }
+.modal-close { background:none; border:none; color:#666; font-size:22px; cursor:pointer; line-height:1; padding:0 4px; }
+.modal-close:hover { color:#fff; }
+.modal-tabs { display:flex; border-bottom:2px solid #f0f0f0; flex-shrink:0; }
+.itab { flex:1; padding:12px; background:none; border:none; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; color:#aaa; cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-2px; text-transform:uppercase; letter-spacing:1px; }
+.itab.active { color:var(--primary); border-bottom-color:var(--primary); }
+.modal-body { flex:1; overflow-y:auto; padding:20px; }
+.modal-foot { padding:14px 20px; border-top:2px solid #f0f0f0; display:flex; justify-content:flex-end; gap:10px; flex-shrink:0; }
+.modal-btn { padding:9px 22px; border-radius:8px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:12px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; border:2px solid transparent; }
+.modal-btn-cancel { background:#fff; border-color:#eee; color:#666; }
+.modal-btn-cancel:hover { border-color:#ccc; }
+.modal-btn-go { background:var(--primary); color:#fff; border-color:var(--primary); }
+.modal-btn-go:hover { background:var(--primary-dark); }
+.dropzone { border:3px dashed #ddd; border-radius:12px; padding:48px 20px; text-align:center; cursor:pointer; transition:border-color .2s, background .2s; }
+.dropzone:hover, .dropzone.drag { border-color:var(--primary); background:#f4f8f2; }
+.dropzone-icon { font-size:44px; margin-bottom:10px; }
+.dropzone-text { font-size:14px; font-weight:700; color:#555; }
+.dropzone-sub  { font-size:12px; color:#aaa; margin-top:6px; }
+.file-status { margin-top:14px; font-size:13px; font-weight:700; text-align:center; color:#555; min-height:20px; }
+.format-guide { margin-top:14px; }
+.format-guide summary { font-size:11px; font-weight:800; color:var(--primary); cursor:pointer; letter-spacing:1px; text-transform:uppercase; user-select:none; }
+.format-guide pre { margin-top:10px; background:#f8f8f8; border:1px solid #eee; border-radius:8px; padding:14px; font-size:11px; line-height:1.9; color:#333; overflow-x:auto; white-space:pre-wrap; }
+#importText { width:100%; height:220px; font-family:'Courier New',monospace; font-size:12px; padding:12px; border:2px solid #eee; border-radius:8px; resize:vertical; line-height:1.7; color:#333; }
+#importText:focus { outline:none; border-color:var(--primary); }
+.modal-btn-ai { background:linear-gradient(135deg,var(--primary),var(--teal)); color:#fff; border:none; }
+.modal-btn-ai:hover:not(:disabled) { opacity:.88; }
+.modal-btn-ai:disabled { background:#999; cursor:not-allowed; }
+.api-section { padding:14px 20px; background:#fafafa; border-top:1px solid #eee; }
+.api-section summary { font-size:11px; font-weight:800; color:var(--primary); cursor:pointer; letter-spacing:1px; text-transform:uppercase; user-select:none; }
+.api-section-body { margin-top:10px; }
+.api-section-body p { font-size:11px; color:#888; margin-bottom:8px; line-height:1.6; }
+.api-row { display:flex; gap:8px; }
+.api-row input { flex:1; padding:8px 12px; border:2px solid #eee; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:12px; }
+.api-row input:focus { outline:none; border-color:var(--primary); }
+.api-save-btn { padding:8px 16px; border-radius:8px; border:none; background:var(--primary); color:#fff; font-family:'Montserrat',sans-serif; font-weight:800; font-size:11px; cursor:pointer; white-space:nowrap; }
+.api-save-btn:hover { background:var(--primary-dark); }
+#apiKeyStatus { font-size:11px; margin-top:6px; color:#888; min-height:16px; }
+.ai-badge { display:inline-block; background:linear-gradient(135deg,var(--primary),var(--teal)); color:#fff; font-size:9px; font-weight:900; padding:2px 7px; border-radius:20px; letter-spacing:1px; vertical-align:middle; margin-left:6px; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="btn btn-back" onclick="goHome()">← Início</button>
+    <span class="topbar-brand">AULA<em>·</em>BUILDER</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <span id="draftBadge" class="draft-badge">💾 Rascunho salvo</span>
+    <div class="topbar-actions">
+      <button class="btn btn-dark" onclick="newProject()">✚ Novo</button>
+      <button class="btn btn-dark" onclick="openImport()">📄 Importar Texto</button>
+      <button class="btn btn-dark" onclick="previewAll()">👁 Visualizar Tudo</button>
+      <button class="btn btn-primary" onclick="exportPresentation()">⬇ Exportar HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="sidebar-header">Slides</div>
+    <div class="slide-list" id="slideList"></div>
+    <div class="sidebar-footer">
+      <div class="add-menu" id="addMenu">
+        <div class="add-option" onclick="addSlide('capitulo')"><div class="add-dot" style="background:#637A51"></div>Capa / Capítulo</div>
+        <div class="add-option" onclick="addSlide('topicos')"><div class="add-dot" style="background:#4A8A80"></div>Tópicos / Bullets</div>
+        <div class="add-option" onclick="addSlide('colunas')"><div class="add-dot" style="background:#4A7AA0"></div>Grade de Cards</div>
+        <div class="add-option" onclick="addSlide('estudo')"><div class="add-dot" style="background:#C0395B"></div>Estudo em Destaque</div>
+        <div class="add-option" onclick="addSlide('imagem')"><div class="add-dot" style="background:#D4962A"></div>Foto + Conteúdo</div>
+        <div class="add-option" onclick="addSlide('tabela')"><div class="add-dot" style="background:#7B6B9A"></div>Tabela</div>
+      </div>
+      <button class="add-btn" onclick="toggleAddMenu()">+ Adicionar Slide</button>
+    </div>
+  </div>
+
+  <div class="form-panel" id="formPanel">
+    <div class="no-slide-msg">
+      <span class="icon">🌿</span>
+      <p>Selecione ou adicione um slide</p>
+      <small>Use "Adicionar Slide" à esquerda para começar</small>
+    </div>
+  </div>
+
+  <div class="preview-panel">
+    <div class="preview-label">Pré-visualização</div>
+    <div class="preview-wrap" id="previewWrap"></div>
+    <div class="preview-hint">
+      ✦ Edite os campos ao lado e o slide atualiza em tempo real.<br>
+      ✦ Use <strong style="color:#637A51">Exportar HTML</strong> para baixar e imprimir como PDF.<br>
+      ✦ Use <strong style="color:#aaa">Visualizar Tudo</strong> para ver todos os slides juntos.
+    </div>
+
+    <!-- LOGO GLOBAL -->
+    <div class="preview-label" style="margin-top:8px;">Logo Global</div>
+    <div style="background:#141414;border-radius:10px;padding:14px;width:508px;">
+      <div id="logoPreview" style="margin-bottom:10px;">
+        <div style="border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;color:#555;font-size:11px;font-weight:700;">Sem logo</div>
+      </div>
+      <input type="file" accept="image/*" id="logoFile" style="display:none" onchange="handleLogoUpload(this)">
+      <button class="btn btn-dark" style="width:100%;margin-bottom:0;" onclick="document.getElementById('logoFile').click()" id="logoUploadBtn">📁 Selecionar Logo</button>
+      <div id="logoSizeRow" style="display:none;margin-top:10px;">
+        <label style="font-size:10px;font-weight:800;letter-spacing:1px;color:#555;text-transform:uppercase;display:block;margin-bottom:5px;">Tamanho — <span id="logoSzLbl" style="color:#637A51;">120px</span></label>
+        <input type="range" min="40" max="320" step="10" value="120" id="logoSizeSlider"
+          oninput="updateLogoSize(+this.value)"
+          style="width:100%;accent-color:#637A51;cursor:pointer;">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#444;font-weight:700;margin-top:3px;"><span>40px</span><span>180px</span><span>320px</span></div>
+        <button class="btn btn-dark" style="width:100%;margin-top:8px;font-size:10px;background:#2a1a1a;color:#c0392b;" onclick="removeLogo()">✕ Remover Logo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL IMPORTAR -->
+<div id="importModal" class="modal-overlay" onclick="closeImportIfBg(event)">
+  <div class="modal-box">
+    <div class="modal-head">
+      <span class="modal-head-title">📄 Importar Conteúdo</span>
+      <button class="modal-close" onclick="closeImport()">✕</button>
+    </div>
+    <div id="fileBanner" style="display:none;background:#FFF3CD;border:1px solid #F0C040;border-radius:8px;padding:12px 16px;margin:0 0 4px;font-size:13px;color:#7A5800;line-height:1.5;">
+      ⚠️ <strong>Editor aberto via file://</strong> — o navegador bloqueia chamadas externas nesse modo.<br>
+      Para usar a IA, abra o editor via servidor HTTP:<br>
+      • <strong>VS Code:</strong> clique direito no arquivo → <em>Open with Live Server</em><br>
+      • <strong>Terminal:</strong> <code style="background:#f5e8b0;padding:1px 5px;border-radius:3px;">python -m http.server 8080</code> e acesse <code style="background:#f5e8b0;padding:1px 5px;border-radius:3px;">http://localhost:8080</code>
+    </div>
+    <div class="modal-tabs">
+      <button class="itab active" id="tab-paste" onclick="switchTab('paste')">✏️ Colar Texto</button>
+      <button class="itab" id="tab-file"  onclick="switchTab('file')">📁 Enviar Arquivo</button>
+    </div>
+    <div id="ipaste" class="modal-body">
+      <textarea id="importText" placeholder="Cole aqui o conteúdo da sua aula..."></textarea>
+      <details class="format-guide">
+        <summary>📖 Ver o formato de texto aceito</summary>
+        <pre># TÍTULO DA AULA (slide verde / capítulo)
+tag: MÓDULO 01
+badge: COMUNIDADE DO BEM
+numeral: I
+watermark: DNA
+sub: Subtítulo da aula
+
+## COMO AS VACINAS FUNCIONAM (slide de tópicos/bullets)
+sec: 1 — MECANISMO DE AÇÃO
+- Imunidade ativa: o organismo produz defesa após exposição.
+- Priming e booster: doses de reforço expandem memória imune.
+- Duração: depende da plataforma vacinal.
+
+## TIPOS DE VACINAS (slide de grade de cards)
+sec: CLASSIFICAÇÃO · TIPOS
+coluna: VIVAS | verde | Vivas Atenuadas | Ex.: sarampo, varicela
+coluna: INATIVADAS | teal | Inativadas | Ex.: hepatite B, HPV
+coluna: mRNA | amber | mRNA | Ex.: COVID-19, influenza
+coluna: CONJUGADAS | azul | Conjugadas | Ex.: pneumococo, meningococo
+
+## ALUMINIUM IN BRAIN TISSUE (slide de estudo em destaque)
+sec: ESTUDO DE DESTAQUE
+journal: Journal of Trace Elements
+year: 2018
+artigo: Aluminium in brain tissue in autism
+autores: Matthew Mold et al. — Keele University, UK
+achado: Valores extraordinários | rosa | Teores classificados como extraord. altos.
+achado: Onde foi encontrado | teal | Predominantemente em micróglia.
+achado: Cavalo de Troia | amber | Linfócitos transportam Al pela barreira hematoencefálica.
+achado: Dado numérico | azul | Média de 3,82 µg/g no lobo occipital.
+
+── Cores: verde · teal · amber · azul · roxo · rosa · preto ──</pre>
+      </details>
+    </div>
+    <div id="ifile" class="modal-body" style="display:none;">
+      <div class="dropzone" id="dropzone"
+        onclick="document.getElementById('fileInput').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="handleDrop(event)">
+        <div class="dropzone-icon">📄</div>
+        <div class="dropzone-text">Clique ou arraste seu arquivo aqui</div>
+        <div class="dropzone-sub">Suporta .txt e .docx (Word)</div>
+        <input type="file" id="fileInput" accept=".txt,.docx" style="display:none" onchange="handleFile(this.files[0])">
+      </div>
+      <div class="file-status" id="fileStatus"></div>
+    </div>
+    <details class="api-section" id="apiKeySection">
+      <summary>🔑 Configurar Claude AI <span class="ai-badge">IA</span></summary>
+      <div class="api-section-body">
+        <p>Cole sua API Key da Anthropic para gerar slides a partir de <strong>qualquer texto de aula</strong>, sem precisar seguir nenhum formato específico.</p>
+        <div class="api-row">
+          <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-...">
+          <button class="api-save-btn" onclick="saveApiKey()">Salvar</button>
+        </div>
+        <div id="apiKeyStatus"></div>
+      </div>
+    </details>
+    <div class="modal-foot">
+      <button class="modal-btn modal-btn-cancel" onclick="closeImport()">Cancelar</button>
+      <button class="modal-btn modal-btn-go" onclick="doImport()">📋 Formato Manual</button>
+      <button class="modal-btn modal-btn-ai" id="btnAI" onclick="doImportWithAI()">✨ Gerar com IA</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================
+// ESTADO
+// =============================================
+const state = { slides: [], active: -1, logo: { imageData: '', size: 120 } };
+
+const TYPE_LABELS = {
+  capitulo: 'Capa / Capítulo',
+  topicos:  'Tópicos / Bullets',
+  colunas:  'Grade de Cards',
+  estudo:   'Estudo em Destaque',
+  imagem:   'Foto + Conteúdo',
+  tabela:   'Tabela',
+};
+
+const COLOR_OPTIONS = [
+  { c:'#637A51', l:'Verde'       },
+  { c:'#3D5533', l:'Verde Escuro'},
+  { c:'#4A8A80', l:'Teal'        },
+  { c:'#D4962A', l:'Âmbar'       },
+  { c:'#4A7AA0', l:'Azul'        },
+  { c:'#7B6B9A', l:'Roxo'        },
+  { c:'#C0395B', l:'Rosa'        },
+  { c:'#2A2A27', l:'Escuro'      },
+];
+
+function defaultSlide(type) {
+  const id = Date.now() + Math.random();
+  if (type === 'capitulo') return { id, type, badge:'', tag:'MÓDULO 01', title:'TÍTULO\nDA AULA', subtitle:'Subtítulo descritivo', numeral:'', watermark:'' };
+  if (type === 'topicos') return { id, type,
+    sectionTag:'SEÇÃO · TEMA', title:'Título do\nslide aqui',
+    bullets:['Item 1', 'Item 2', 'Item 3', 'Item 4'],
+  };
+  if (type === 'colunas') return { id, type,
+    sectionTag:'CLASSIFICAÇÃO · TIPOS', title:'Título do Slide',
+    cols:[
+      { tag:'TIPO A', tagColor:'#637A51', title:'Título A', body:'Texto descritivo do conceito aqui.' },
+      { tag:'TIPO B', tagColor:'#4A8A80', title:'Título B', body:'Texto descritivo do conceito aqui.' },
+      { tag:'TIPO C', tagColor:'#D4962A', title:'Título C', body:'Texto descritivo do conceito aqui.' },
+      { tag:'TIPO D', tagColor:'#4A7AA0', title:'Título D', body:'Texto descritivo do conceito aqui.' },
+    ],
+  };
+  if (type === 'estudo') return { id, type,
+    sectionTag:'ESTUDO DE DESTAQUE',
+    journal:'Journal Name', year:'2024',
+    articleTitle:'Título do artigo científico aqui',
+    authors:'Autores — Universidade / Instituição',
+    cards:[
+      { color:'#C0395B', title:'Achado Principal', body:'Descrição do achado mais importante do estudo.' },
+      { color:'#4A8A80', title:'Segundo Achado',   body:'Descrição do segundo achado relevante.' },
+      { color:'#D4962A', title:'Terceiro Ponto',   body:'Terceiro dado ou conclusão relevante.' },
+      { color:'#4A7AA0', title:'Dado Numérico',    body:'Dado estatístico ou conclusão final.' },
+    ],
+  };
+  if (type === 'imagem') return { id, type,
+    sectionTag:'DESTAQUE · VISUAL', title:'TÍTULO DO\nSLIDE',
+    subtitle:'Subtítulo ou descrição curta',
+    bullets:['Item 1','Item 2','Item 3'],
+    imageData:'', imagePosition:'right', imageFit:'cover', theme:'light', imageSize:50, imagePad:0,
+    padH:80, padV:90, contentAlign:'left', contentValign:'center',
+  };
+  if (type === 'tabela') return { id, type,
+    sectionTag:'CALENDÁRIO NACIONAL DE VACINAÇÃO 2026',
+    title:'Vacinas da Criança',
+    subtitle:'(0 a 9 anos, 11 meses e 29 dias)',
+    caption:'Parte 1 · Nascimento → 3 meses',
+    headerColor:'#637A51',
+    columns:['IDADE','VACINA','DOSE','DOENÇAS EVITADAS'],
+    rows:[
+      { cells:['Ao nascer','BCG','1 dose','Formas graves de tuberculose e hanseníase'], highlight:true },
+      { cells:['','Hepatite B','1 dose','Hepatite B, hepatite D'], highlight:false },
+      { cells:['2 meses','Pentavalente (DTP + Hib + HB)','1ª dose','Difteria, tétano, coqueluche, infecções por H. influenzae'], highlight:true },
+      { cells:['','Poliomielite inativada — VIP','1ª dose','Poliomielite (paralisia infantil)'], highlight:false },
+      { cells:['','Pneumocócica 10-valente','1ª dose','Doenças pneumocócicas invasivas'], highlight:false },
+      { cells:['3 meses','Meningocócica C','1ª dose','Doenças meningocócicas pelo meningococo tipo C'], highlight:true },
+    ],
+  };
+}
+
+// =============================================
+// CSS DOS SLIDES — IDENTIDADE AULA DRA. MARI
+// =============================================
+function getSlideCSS() {
+  return `
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Lora', serif; background:#d8d0c4; }
+    .slide { width:1920px; height:1080px; position:relative; overflow:hidden; display:flex; align-items:stretch; page-break-after:always; }
+
+    /* === DARK SLIDE (verde-oliva) === */
+    .slide-dark { background:#637A51 !important; print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; }
+    .dark-content { position:relative; z-index:2; padding:100px 110px; display:flex; flex-direction:column; justify-content:center; gap:22px; flex:1; }
+    .dark-bar { width:55px; height:5px; background:rgba(255,255,255,.45); border-radius:2px; margin-bottom:6px; }
+    .slide-tag { font-size:17px; font-weight:500; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,.55); font-family:'Montserrat',sans-serif; }
+    .company-badge { display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.35); color:#fff; padding:8px 22px; border-radius:4px; font-size:16px; font-weight:600; letter-spacing:3px; text-transform:uppercase; width:fit-content; margin-bottom:4px; font-family:'Montserrat',sans-serif; }
+    .dark-title { font-size:96px; font-weight:700; line-height:1.06; color:#ffffff; }
+    .dark-title em { font-style:italic; }
+    .dark-subtitle { font-size:26px; font-weight:400; color:rgba(255,255,255,.62); font-family:'Montserrat',sans-serif; letter-spacing:1px; margin-top:2px; }
+    /* Decorativos */
+    .dark-numeral { position:absolute; left:100px; top:70px; font-size:240px; font-weight:700; color:rgba(0,0,0,.1); line-height:1; z-index:0; pointer-events:none; user-select:none; font-family:'Lora',serif; }
+    .dark-watermark { position:absolute; right:70px; bottom:40px; font-size:280px; font-weight:700; font-style:italic; color:rgba(255,255,255,.07); line-height:1; z-index:0; pointer-events:none; user-select:none; }
+
+    /* === LIGHT SLIDE (creme) === */
+    .slide-light { background:#F5EFE0 !important; print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; }
+    .light-content { position:relative; z-index:2; padding:68px 88px; display:flex; flex-direction:column; gap:30px; flex:1; min-height:0; }
+    .section-tag { font-size:14px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:#8A7A6A; font-family:'Montserrat',sans-serif; }
+    .light-title { font-size:76px; font-weight:700; line-height:1.08; color:#2A2A27; }
+    .light-title em { font-style:italic; }
+    .light-title-sm { font-size:56px; }
+
+    /* === CARDS (borda esquerda colorida) === */
+    .split-layout { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+    .card { background:#fff; border-radius:10px; padding:34px 30px; display:flex; flex-direction:column; gap:14px; border-left:5px solid #637A51; box-shadow:0 2px 14px rgba(0,0,0,.07); }
+    .card-tag { display:inline-block; font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#637A51; font-family:'Montserrat',sans-serif; width:fit-content; }
+    .card-title { font-size:34px; font-weight:700; line-height:1.15; color:#2A2A27; }
+    .card-body  { font-size:22px; font-weight:400; color:#5A5550; line-height:1.55; }
+
+    /* === BULLETS === */
+    .bullet-list { list-style:none; display:flex; flex-direction:column; gap:16px; }
+    .bullet-list li { font-size:24px; color:#2A2A27; padding-left:28px; position:relative; line-height:1.42; }
+    .bullet-list li::before { content:''; position:absolute; left:0; top:11px; width:10px; height:10px; border-radius:50%; background:#637A51; }
+    .bullet-list-sm li { font-size:21px; }
+    .img-bullets-center li { padding-left:0; }
+    .img-bullets-center li::before { display:none; }
+    .img-bullets-right li { padding-left:0; }
+    .img-bullets-right li::before { display:none; }
+
+    /* === META BOXES === */
+    .meta-box { border-radius:10px; padding:36px 44px; display:flex; align-items:center; print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; box-shadow:0 4px 16px rgba(0,0,0,.13); }
+    .meta-value { font-size:80px; font-weight:700; line-height:1; color:#fff; }
+    .meta-label { font-size:19px; font-weight:500; color:rgba(255,255,255,.78); margin-top:8px; font-family:'Montserrat',sans-serif; letter-spacing:1px; text-transform:uppercase; }
+
+    /* === CALLOUT === */
+    .callout-box { border-left:5px solid #637A51; background:rgba(99,122,81,.09); border-radius:0 10px 10px 0; padding:28px 36px; }
+    .callout-box p { font-size:26px; color:#2A2A27; line-height:1.5; }
+
+    /* === PERSON CARDS === */
+    .person-card { background:#fff; border-radius:10px; padding:32px 28px; display:flex; flex-direction:column; gap:10px; border-top:5px solid #637A51; box-shadow:0 2px 12px rgba(0,0,0,.07); }
+    .person-name { font-size:32px; font-weight:700; color:#2A2A27; }
+    .person-area { font-size:15px; font-weight:600; color:#637A51; text-transform:uppercase; letter-spacing:1.5px; font-family:'Montserrat',sans-serif; margin-top:2px; }
+    .person-roles { list-style:none; display:flex; flex-direction:column; gap:8px; margin-top:6px; }
+    .person-roles li { font-size:18px; color:#5A5550; padding-left:18px; position:relative; }
+    .person-roles li::before { content:'—'; position:absolute; left:0; color:#bbb; }
+
+    /* === IMAGE SLIDE === */
+    .img-layout { display:grid; height:100%; }
+    .img-col { position:relative; overflow:hidden; }
+    .img-el { width:100%; height:100%; object-fit:cover; display:block; }
+    .img-no-img { width:100%; height:100%; background:#c8c0b0; display:flex; align-items:center; justify-content:center; font-size:80px; }
+    .img-content { display:flex; flex-direction:column; gap:28px; overflow:hidden; }
+    .img-dark { background:#637A51; }
+    .img-dark .img-title { color:#fff; }
+    .img-dark .img-sub { color:rgba(255,255,255,.65); }
+    .img-dark .section-tag { color:rgba(255,255,255,.6); }
+    .img-dark .bullet-list li { color:rgba(255,255,255,.9); }
+    .img-dark .bullet-list li::before { background:rgba(255,255,255,.6) !important; }
+    .img-light { background:#F5EFE0; }
+    .img-light .img-title { color:#2A2A27; }
+    .img-light .img-sub { color:#5A5550; }
+    .img-title { font-size:68px; font-weight:700; line-height:1.05; }
+    .img-sub { font-size:24px; font-weight:400; line-height:1.45; }
+
+    /* === TOPICOS SLIDE === */
+    .topicos-content { position:relative; z-index:2; padding:80px 160px 80px 100px; display:flex; flex-direction:column; gap:38px; flex:1; }
+    .topicos-stripe { position:absolute; right:72px; top:50%; transform:translateY(-50%); width:14px; border-radius:7px; background:#637A51; height:56%; z-index:2; }
+
+    /* === TABLE SLIDE === */
+    .table-title-row { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; }
+    .table-caption { font-size:20px; font-weight:600; color:#8A7A6A; font-family:'Montserrat',sans-serif; white-space:nowrap; padding-bottom:8px; }
+    .slide-table { width:100%; border-collapse:collapse; font-family:'Montserrat',sans-serif; }
+    .slide-table thead th { color:#fff; font-size:16px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:18px 26px; text-align:left; print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; }
+    .slide-table tbody td { padding:15px 26px; font-size:19px; color:#2A2A27; border-bottom:1px solid #e4dccf; vertical-align:middle; line-height:1.4; background:#fff; }
+    .slide-table tbody tr:last-child td { border-bottom:none; }
+    .slide-table tbody tr:nth-child(even) td { background:#faf6ef; }
+    .slide-table .td-group { color:#fff !important; font-weight:700; text-align:center; font-size:20px; print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; }
+
+    /* === ESTUDO SLIDE === */
+    .estudo-featured { background:#fff; border-radius:10px; padding:28px 34px; border-left:6px solid #637A51; box-shadow:0 2px 14px rgba(0,0,0,.07); }
+    .estudo-journal-pill { display:inline-block; background:#637A51; color:#fff; font-size:11px; font-weight:700; letter-spacing:2px; padding:5px 16px; border-radius:20px; text-transform:uppercase; font-family:'Montserrat',sans-serif; margin-bottom:14px; }
+    .estudo-article-title { font-size:34px; font-weight:700; color:#2A2A27; line-height:1.2; }
+    .estudo-authors { font-size:17px; color:#8A7A6A; font-family:'Montserrat',sans-serif; margin-top:10px; }
+    .estudo-grid { display:grid; grid-template-columns:1fr 1fr; gap:22px; flex:1; min-height:0; }
+    .estudo-card { background:#fff; border-radius:10px; padding:26px 28px; border-left:5px solid #637A51; box-shadow:0 2px 10px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:12px; }
+    .estudo-card-title { font-size:26px; font-weight:700; color:#2A2A27; }
+    .estudo-card-body { font-size:19px; color:#5A5550; line-height:1.5; }
+  `;
+}
+
+// =============================================
+// GERADORES DE HTML DOS SLIDES
+// =============================================
+function renderCapituloSlide(s) {
+  return `<div class="slide slide-dark">
+    ${s.numeral ? `<div class="dark-numeral">${e(s.numeral)}</div>` : ''}
+    ${s.watermark ? `<div class="dark-watermark">${e(s.watermark)}</div>` : ''}
+    <div class="dark-content">
+      <div class="dark-bar"></div>
+      ${s.badge    ? `<div class="company-badge">${e(s.badge)}</div>` : ''}
+      ${s.tag      ? `<span class="slide-tag">${e(s.tag)}</span>` : ''}
+      <h1 class="dark-title">${e(s.title).replace(/\n/g,'<br>')}</h1>
+      ${s.subtitle ? `<p class="dark-subtitle">${e(s.subtitle)}</p>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderTopicosSlide(s) {
+  const bullets = s.bullets.filter(b=>b.trim()).map(b=>`<li>${e(b)}</li>`).join('');
+  return `<div class="slide slide-light" style="position:relative;">
+    <div class="topicos-stripe"></div>
+    <div class="topicos-content">
+      <span class="section-tag">${e(s.sectionTag)}</span>
+      <h2 class="light-title">${e(s.title).replace(/\n/g,'<br>')}</h2>
+      <ul class="bullet-list">${bullets}</ul>
+    </div>
+  </div>`;
+}
+
+function renderColunasSlide(s) {
+  const gridCols = s.cols.length <= 3 ? s.cols.length : s.cols.length <= 4 ? 2 : 3;
+  const cols = s.cols.map(c=>`
+    <div class="card" style="border-left-color:${c.tagColor};">
+      <span class="card-tag" style="color:${c.tagColor};">${e(c.tag)}</span>
+      <div class="card-title">${e(c.title)}</div>
+      <div class="card-body">${e(c.body||'')}</div>
+    </div>`).join('');
+  return `<div class="slide slide-light">
+    <div class="light-content">
+      <span class="section-tag">${e(s.sectionTag)}</span>
+      <h2 class="light-title light-title-sm">${e(s.title)}</h2>
+      <div style="display:grid;grid-template-columns:repeat(${gridCols},1fr);gap:24px;flex:1;">${cols}</div>
+    </div>
+  </div>`;
+}
+
+function renderEstudoSlide(s) {
+  const cards = s.cards.map(c=>`
+    <div class="estudo-card" style="border-left-color:${c.color};">
+      <div class="estudo-card-title">${e(c.title)}</div>
+      <div class="estudo-card-body">${e(c.body)}</div>
+    </div>`).join('');
+  return `<div class="slide slide-light">
+    <div class="light-content" style="gap:26px;">
+      <span class="section-tag">${e(s.sectionTag)}</span>
+      <div class="estudo-featured">
+        <span class="estudo-journal-pill">${e(s.journal)} · ${e(s.year)}</span>
+        <div class="estudo-article-title">${e(s.articleTitle)}</div>
+        <div class="estudo-authors">${e(s.authors)}</div>
+      </div>
+      <div class="estudo-grid">${cards}</div>
+    </div>
+  </div>`;
+}
+
+function renderImagemSlide(s) {
+  const isDark   = s.theme === 'dark';
+  const fit      = s.imageFit || 'cover';
+  const imgPct   = s.imageSize || 50;
+  const cntPct   = 100 - imgPct;
+  const cols     = s.imagePosition === 'left' ? imgPct+'% '+cntPct+'%' : cntPct+'% '+imgPct+'%';
+  const pH       = s.padH !== undefined ? s.padH : 80;
+  const pV       = s.padV !== undefined ? s.padV : 90;
+  const align    = s.contentAlign || 'left';
+  const valign   = s.contentValign || 'center';
+  const imgPad   = s.imagePad || 0;
+  const bulClass = align === 'center' ? 'bullet-list bullet-list-sm img-bullets-center'
+                 : align === 'right'  ? 'bullet-list bullet-list-sm img-bullets-right'
+                 : 'bullet-list bullet-list-sm';
+  const bullets  = (s.bullets||[]).filter(b=>b.trim()).map(b=>'<li>'+e(b)+'</li>').join('');
+  const imgHTML  = s.imageData
+    ? '<img class="img-el" src="'+s.imageData+'" style="object-fit:'+fit+';">'
+    : '<div class="img-no-img">🖼</div>';
+  const imgCol   = '<div class="img-col" style="padding:'+imgPad+'px;">'+imgHTML+'</div>';
+  const tagHTML  = s.sectionTag ? '<span class="section-tag">'+e(s.sectionTag)+'</span>' : '';
+  const titleHTML= '<h2 class="img-title">'+e(s.title).replace(/\n/g,'<br>')+'</h2>';
+  const subHTML  = s.subtitle ? '<p class="img-sub">'+e(s.subtitle)+'</p>' : '';
+  const bulHTML  = bullets ? '<ul class="'+bulClass+'">'+bullets+'</ul>' : '';
+  const contStyle= 'padding:'+pV+'px '+pH+'px;text-align:'+align+';justify-content:'+valign+';';
+  const contCol  = '<div class="img-content '+(isDark?'img-dark':'img-light')+'" style="'+contStyle+'">'+tagHTML+titleHTML+subHTML+bulHTML+'</div>';
+  const left     = s.imagePosition === 'left' ? imgCol : contCol;
+  const right    = s.imagePosition === 'left' ? contCol : imgCol;
+  return '<div class="slide '+(isDark?'slide-dark':'slide-light')+'">'
+    +'<div class="img-layout" style="grid-template-columns:'+cols+';">'+left+right+'</div></div>';
+}
+
+function renderTabelaSlide(s) {
+  const hColor = s.headerColor || '#637A51';
+  const thead = (s.columns||[]).map(c=>`<th style="background:${hColor} !important;">${e(c)}</th>`).join('');
+  const tbody = (s.rows||[]).map(r => {
+    const cells = (s.columns||[]).map((_,ci) => {
+      const val = (r.cells||[])[ci] || '';
+      if (ci===0 && r.highlight && val) return `<td class="td-group" style="background:${hColor} !important;">${e(val)}</td>`;
+      return `<td>${e(val)}</td>`;
+    }).join('');
+    return `<tr>${cells}</tr>`;
+  }).join('');
+  const subtitle = s.subtitle ? `<span style="font-size:26px;font-weight:400;font-style:normal;color:#8A7A6A;margin-left:10px;font-family:'Montserrat',sans-serif;">${e(s.subtitle)}</span>` : '';
+  const caption  = s.caption  ? `<div class="table-caption">${e(s.caption)}</div>` : '';
+  return `<div class="slide slide-light">
+    <div class="light-content" style="gap:20px;">
+      <span class="section-tag">${e(s.sectionTag)}</span>
+      <div class="table-title-row">
+        <h2 class="light-title light-title-sm" style="line-height:1.1;">${e(s.title)}${subtitle}</h2>
+        ${caption}
+      </div>
+      <div style="flex:1;overflow:hidden;">
+        <table class="slide-table">
+          <thead><tr>${thead}</tr></thead>
+          <tbody>${tbody}</tbody>
+        </table>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderSlideHTML(s) {
+  let html = '';
+  if (s.type==='capitulo') html = renderCapituloSlide(s);
+  else if (s.type==='topicos')  html = renderTopicosSlide(s);
+  else if (s.type==='colunas')  html = renderColunasSlide(s);
+  else if (s.type==='estudo')   html = renderEstudoSlide(s);
+  else if (s.type==='imagem')   html = renderImagemSlide(s);
+  else if (s.type==='tabela')   html = renderTabelaSlide(s);
+  if (state.logo && state.logo.imageData) {
+    const sz = state.logo.size || 120;
+    const logoTag = '<img src="'+state.logo.imageData+'" style="position:absolute;top:40px;right:50px;z-index:100;height:'+sz+'px;max-width:320px;object-fit:contain;pointer-events:none;">';
+    html = html.replace(/^(<div class="slide[^>]*>)/, '$1'+logoTag);
+  }
+  return html;
+}
+
+function buildDoc(slidesHTML) {
+  return `<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>${getSlideCSS()}
+      @media print { * { print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; } body { margin:0; background:white; } .slide { page-break-after:always; } }
+      body { margin:0; padding:0; background:#d8d0c4; }
+    </style>
+  </head><body>${slidesHTML}</body></html>`;
+}
+
+// =============================================
+// RENDER
+// =============================================
+function render() { renderSidebar(); renderForm(); renderPreview(); scheduleSave(); }
+
+function renderSidebar() {
+  const el = document.getElementById('slideList');
+  if (!state.slides.length) { el.innerHTML='<div style="color:#444;font-size:11px;text-align:center;padding:20px 10px;">Nenhum slide ainda</div>'; return; }
+  el.innerHTML = state.slides.map((s,i) => `
+    <div class="slide-thumb ${state.active===i?'active':''}" onclick="selectSlide(${i})">
+      <div class="slide-thumb-num">SLIDE ${i+1}</div>
+      <div class="slide-thumb-name">${getSlideTitle(s)}</div>
+      <div class="slide-thumb-type">${TYPE_LABELS[s.type]}</div>
+      <div class="slide-thumb-ctrls">
+        <button class="thumb-btn" onclick="event.stopPropagation();moveSlide(${i},-1)" ${i===0?'disabled':''}>↑</button>
+        <button class="thumb-btn" onclick="event.stopPropagation();moveSlide(${i},1)"  ${i===state.slides.length-1?'disabled':''}>↓</button>
+        <button class="thumb-btn del" onclick="event.stopPropagation();removeSlide(${i})">✕</button>
+      </div>
+    </div>`).join('');
+}
+
+function getSlideTitle(s) {
+  if (s.type==='capitulo') return s.title.split('\n')[0]||'Capítulo';
+  return s.title||TYPE_LABELS[s.type];
+}
+
+function renderPreview() {
+  const wrap = document.getElementById('previewWrap');
+  if (state.active<0 || !state.slides[state.active]) {
+    wrap.innerHTML='<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#444;font-family:Montserrat,sans-serif;font-size:18px;font-weight:700;">Selecione um slide</div>';
+    return;
+  }
+  const html = buildDoc(renderSlideHTML(state.slides[state.active]));
+  let iframe = wrap.querySelector('iframe');
+  if (!iframe) { iframe=document.createElement('iframe'); wrap.innerHTML=''; wrap.appendChild(iframe); }
+  iframe.srcdoc = html;
+}
+
+// =============================================
+// FORMULÁRIOS
+// =============================================
+function colorPicker(selected, fn) {
+  return `<div class="color-pick">${COLOR_OPTIONS.map(o=>`
+    <button class="cp-btn${o.c===selected?' sel':''}" style="background:${o.c}" title="${o.l}" data-color="${o.c}"
+      onclick="${fn};document.querySelectorAll('.color-pick button').forEach(b=>b.classList.remove('sel'));this.classList.add('sel')">
+    </button>`).join('')}</div>`;
+}
+
+function renderForm() {
+  const fp = document.getElementById('formPanel');
+  if (state.active<0) { fp.innerHTML=`<div class="no-slide-msg"><span class="icon">🌿</span><p>Selecione ou adicione um slide</p><small>Use "Adicionar Slide" à esquerda para começar</small></div>`; return; }
+  const s=state.slides[state.active], i=state.active;
+  let html='';
+
+  if (s.type==='capitulo') {
+    html=`<div class="form-card"><div class="form-card-title">🌿 Capa / Capítulo</div>
+      <div class="fg"><label>Badge (opcional)</label><input type="text" value="${esc(s.badge)}" oninput="upd(${i},'badge',this.value)" placeholder="Ex: COMUNIDADE DO BEM"></div>
+      <div class="fg"><label>Tag acima do título</label><input type="text" value="${esc(s.tag)}" oninput="upd(${i},'tag',this.value)" placeholder="Ex: MÓDULO 01"></div>
+      <div class="fg"><label>Título (Enter = nova linha)</label><textarea oninput="upd(${i},'title',this.value)">${esc(s.title)}</textarea></div>
+      <div class="fg"><label>Subtítulo</label><input type="text" value="${esc(s.subtitle)}" oninput="upd(${i},'subtitle',this.value)" placeholder="Ex: Fundamentos e aplicações"></div>
+      <div class="row2">
+        <div class="fg"><label>Numeral (ex: I, II, III)</label><input type="text" value="${esc(s.numeral||'')}" oninput="upd(${i},'numeral',this.value)" placeholder="III"></div>
+        <div class="fg"><label>Marca d'água (ex: Al, DNA)</label><input type="text" value="${esc(s.watermark||'')}" oninput="upd(${i},'watermark',this.value)" placeholder="Texto decorativo"></div>
+      </div>
+    </div>`;
+  }
+  else if (s.type==='topicos') {
+    const bulletsH = s.bullets.map((b,bi)=>`<div class="dyn-row"><input type="text" value="${esc(b)}" oninput="updBullet(${i},${bi},this.value)" placeholder="Item ${bi+1}"><button class="rm-btn" onclick="rmBullet(${i},${bi})">✕</button></div>`).join('');
+    html=`<div class="form-card"><div class="form-card-title">📋 Tópicos / Bullets</div>
+      <div class="fg"><label>Tag de Seção</label><input type="text" value="${esc(s.sectionTag)}" oninput="upd(${i},'sectionTag',this.value)"></div>
+      <div class="fg"><label>Título (Enter = nova linha)</label><textarea oninput="upd(${i},'title',this.value)">${esc(s.title)}</textarea></div>
+      <div class="fg"><label>Bullet Points</label><div class="dyn-list">${bulletsH}</div><button class="add-row-btn" onclick="addBullet(${i})">+ Adicionar item</button></div>
+    </div>`;
+  }
+  else if (s.type==='colunas') {
+    const colsH = s.cols.map((c,ci)=>`<div class="sub-card">
+      <div class="sub-card-header"><span class="sub-card-title">Card ${ci+1}</span>${s.cols.length>1?`<button class="rm-btn" onclick="rmCol(${i},${ci})">✕</button>`:''}</div>
+      <div class="fg"><label>Rótulo (ex: TIPO A)</label><input type="text" value="${esc(c.tag)}" oninput="updCol(${i},${ci},'tag',this.value)"></div>
+      <div class="fg"><label>Cor</label>${colorPicker(c.tagColor,`updColColor(${i},${ci},this)`)}</div>
+      <div class="fg"><label>Título do Card</label><input type="text" value="${esc(c.title)}" oninput="updCol(${i},${ci},'title',this.value)"></div>
+      <div class="fg"><label>Texto</label><textarea oninput="updCol(${i},${ci},'body',this.value)">${esc(c.body||'')}</textarea></div>
+    </div>`).join('');
+    html=`
+      <div class="form-card"><div class="form-card-title">📊 Informações do Slide</div>
+        <div class="fg"><label>Tag de Seção</label><input type="text" value="${esc(s.sectionTag)}" oninput="upd(${i},'sectionTag',this.value)"></div>
+        <div class="fg"><label>Título</label><input type="text" value="${esc(s.title)}" oninput="upd(${i},'title',this.value)"></div>
+        <p class="hint">Grade automática: 2–3 cards → colunas, 4 → 2×2, 5–6 → 2×3</p>
+      </div>
+      <div class="form-card"><div class="form-card-title">Cards (máx. 6)</div>
+        ${colsH}
+        ${s.cols.length<6?`<button class="add-row-btn" onclick="addCol(${i})">+ Adicionar card</button>`:''}
+      </div>`;
+  }
+  else if (s.type==='estudo') {
+    const cardsH = s.cards.map((c,ci)=>`<div class="sub-card">
+      <div class="sub-card-header"><span class="sub-card-title">Card ${ci+1}</span>${s.cards.length>1?`<button class="rm-btn" onclick="rmEstudoCard(${i},${ci})">✕</button>`:''}</div>
+      <div class="fg"><label>Cor da borda</label>${colorPicker(c.color,`updEstudoCardColor(${i},${ci},this)`)}</div>
+      <div class="fg"><label>Título</label><input type="text" value="${esc(c.title)}" oninput="updEstudoCard(${i},${ci},'title',this.value)"></div>
+      <div class="fg"><label>Texto</label><textarea oninput="updEstudoCard(${i},${ci},'body',this.value)">${esc(c.body||'')}</textarea></div>
+    </div>`).join('');
+    html=`
+      <div class="form-card"><div class="form-card-title">📰 Estudo em Destaque</div>
+        <div class="fg"><label>Tag de Seção</label><input type="text" value="${esc(s.sectionTag)}" oninput="upd(${i},'sectionTag',this.value)"></div>
+        <div class="row2">
+          <div class="fg"><label>Journal / Revista</label><input type="text" value="${esc(s.journal)}" oninput="upd(${i},'journal',this.value)" placeholder="Nature, NEJM..."></div>
+          <div class="fg"><label>Ano</label><input type="text" value="${esc(s.year)}" oninput="upd(${i},'year',this.value)" placeholder="2024"></div>
+        </div>
+        <div class="fg"><label>Título do Artigo</label><textarea oninput="upd(${i},'articleTitle',this.value)">${esc(s.articleTitle)}</textarea></div>
+        <div class="fg"><label>Autores / Instituição</label><input type="text" value="${esc(s.authors)}" oninput="upd(${i},'authors',this.value)" placeholder="Autores — Universidade"></div>
+      </div>
+      <div class="form-card"><div class="form-card-title">Cards de Achados (4 recomendados)</div>
+        ${cardsH}
+        ${s.cards.length<4?`<button class="add-row-btn" onclick="addEstudoCard(${i})">+ Adicionar card</button>`:''}
+      </div>`;
+  }
+  else if (s.type==='tabela') {
+    const colsH = s.columns.map((c,ci)=>`<div class="dyn-row"><input type="text" value="${esc(c)}" oninput="updTabelaCol(${i},${ci},this.value)" placeholder="Cabeçalho ${ci+1}"><button class="rm-btn" onclick="rmTabelaCol(${i},${ci})">✕</button></div>`).join('');
+    const rowsH = s.rows.map((r,ri)=>{
+      const cellsH = s.columns.map((_,ci)=>`<input type="text" value="${esc((r.cells||[])[ci]||'')}" oninput="updTabelaCell(${i},${ri},${ci},this.value)" placeholder="${esc(s.columns[ci]||'Col '+(ci+1))}" style="flex:1;min-width:0;">`).join('');
+      const hlStyle = (active)=>`padding:4px 10px;border-radius:6px;font-family:Montserrat,sans-serif;font-size:10px;font-weight:800;cursor:pointer;border:2px solid ${active?'#637A51':'#eee'};background:${active?'#637A51':'#fff'};color:${active?'#fff':'#999'};white-space:nowrap;`;
+      return `<div class="sub-card" style="margin-bottom:6px;">
+        <div class="sub-card-header">
+          <span class="sub-card-title">Linha ${ri+1}</span>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button style="${hlStyle(r.highlight)}" onclick="updTabelaRowHighlight(${i},${ri},${!r.highlight})">🟢 Destaque</button>
+            ${s.rows.length>1?`<button class="rm-btn" onclick="rmTabelaRow(${i},${ri})">✕</button>`:''}
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">${cellsH}</div>
+      </div>`;
+    }).join('');
+    html=`
+      <div class="form-card"><div class="form-card-title">🗓 Tabela</div>
+        <div class="fg"><label>Tag de Seção</label><input type="text" value="${esc(s.sectionTag)}" oninput="upd(${i},'sectionTag',this.value)"></div>
+        <div class="fg"><label>Título</label><input type="text" value="${esc(s.title)}" oninput="upd(${i},'title',this.value)"></div>
+        <div class="fg"><label>Subtítulo (ex: faixa etária)</label><input type="text" value="${esc(s.subtitle||'')}" oninput="upd(${i},'subtitle',this.value)" placeholder="(0 a 9 anos...)"></div>
+        <div class="fg"><label>Legenda direita (opcional)</label><input type="text" value="${esc(s.caption||'')}" oninput="upd(${i},'caption',this.value)" placeholder="Parte 1 · Nascimento → 3 meses"></div>
+        <div class="fg"><label>Cor do cabeçalho</label>${colorPicker(s.headerColor||'#637A51',`updColor(${i},'headerColor',this)`)}</div>
+      </div>
+      <div class="form-card"><div class="form-card-title">Colunas (cabeçalhos)</div>
+        <div class="dyn-list">${colsH}</div>
+        ${s.columns.length<6?`<button class="add-row-btn" onclick="addTabelaCol(${i})">+ Adicionar coluna</button>`:''}
+      </div>
+      <div class="form-card"><div class="form-card-title">Linhas <span style="font-size:9px;color:#bbb;font-weight:600;">🟢 destaca 1ª célula em verde</span></div>
+        ${rowsH}
+        <button class="add-row-btn" onclick="addTabelaRow(${i})">+ Adicionar linha</button>
+      </div>`;
+  }
+  else if (s.type==='imagem') {
+    const bulletsH = (s.bullets||[]).map((b,bi)=>`<div class="dyn-row"><input type="text" value="${esc(b)}" oninput="updBullet(${i},${bi},this.value)" placeholder="Item ${bi+1}"><button class="rm-btn" onclick="rmBullet(${i},${bi})">✕</button></div>`).join('');
+    const selBtn = (val,cur,lbl)=>`<button onclick="upd(${i},'${val[0]}','${val[1]}');renderForm();" style="flex:1;padding:7px;border-radius:7px;font-family:Montserrat,sans-serif;font-size:11px;font-weight:800;cursor:pointer;border:2px solid ${cur?'#637A51':'#eee'};background:${cur?'#f0f5ec':'#fff'};color:${cur?'#637A51':'#999'};">${lbl}</button>`;
+    const imgPreview = s.imageData
+      ? `<div style="margin-bottom:10px;border-radius:8px;overflow:hidden;"><img src="${s.imageData}" style="width:100%;height:130px;object-fit:cover;display:block;border-radius:8px;"></div>`
+      : `<div style="border:2px dashed #ddd;border-radius:8px;padding:24px;text-align:center;color:#bbb;font-size:12px;font-weight:700;margin-bottom:10px;">📷 Nenhuma imagem selecionada</div>`;
+    html=`
+      <div class="form-card"><div class="form-card-title">🖼 Informações do Slide</div>
+        <div class="fg">
+          <label>Tema do conteúdo</label>
+          <div style="display:flex;gap:8px;">${selBtn(['theme','light'],s.theme==='light','☀ Claro')}${selBtn(['theme','dark'],s.theme==='dark','🌿 Verde')}</div>
+        </div>
+        <div class="fg"><label>Tag de Seção</label><input type="text" value="${esc(s.sectionTag)}" oninput="upd(${i},'sectionTag',this.value)"></div>
+        <div class="fg"><label>Título (Enter = nova linha)</label><textarea oninput="upd(${i},'title',this.value)">${esc(s.title)}</textarea></div>
+        <div class="fg"><label>Subtítulo (opcional)</label><input type="text" value="${esc(s.subtitle||'')}" oninput="upd(${i},'subtitle',this.value)" placeholder="Descrição ou contexto"></div>
+      </div>
+      <div class="form-card"><div class="form-card-title">📸 Imagem</div>
+        ${imgPreview}
+        <div class="fg">
+          <input type="file" accept="image/*" id="imgFile${i}" style="display:none" onchange="handleSlideImg(${i},this)">
+          <button class="add-row-btn" onclick="document.getElementById('imgFile${i}').click()" style="border-style:solid;border-color:#637A51;color:#637A51;">${s.imageData?'🔄 Trocar Imagem':'📁 Selecionar Imagem'}</button>
+          ${s.imageData?`<button class="add-row-btn" onclick="removeSlideImg(${i})" style="margin-top:6px;color:#c0392b;border-color:#c0392b;">✕ Remover Imagem</button>`:''}
+        </div>
+        <div class="fg">
+          <label>Posição da imagem</label>
+          <div style="display:flex;gap:8px;">${selBtn(['imagePosition','left'],s.imagePosition==='left','← Esquerda')}${selBtn(['imagePosition','right'],s.imagePosition==='right','Direita →')}</div>
+        </div>
+        <div class="fg">
+          <label>Ajuste da imagem</label>
+          <div style="display:flex;gap:8px;">${selBtn(['imageFit','cover'],(s.imageFit||'cover')==='cover','Preencher')}${selBtn(['imageFit','contain'],(s.imageFit||'cover')==='contain','Ajustar')}</div>
+        </div>
+        <div class="fg">
+          <label>Tamanho da imagem — <strong id="imgSzLbl${i}" style="color:#637A51;">${s.imageSize||50}%</strong></label>
+          <input type="range" min="20" max="80" step="5" value="${s.imageSize||50}"
+            oninput="upd(${i},'imageSize',+this.value);document.getElementById('imgSzLbl${i}').textContent=this.value+'%';"
+            style="width:100%;accent-color:#637A51;cursor:pointer;margin-top:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#ccc;font-weight:700;margin-top:4px;"><span>20%</span><span>50%</span><span>80%</span></div>
+        </div>
+        <div class="fg">
+          <label>Espaçamento interno da imagem — <strong id="imgPadLbl${i}" style="color:#637A51;">${s.imagePad||0}px</strong></label>
+          <input type="range" min="0" max="200" step="10" value="${s.imagePad||0}"
+            oninput="upd(${i},'imagePad',+this.value);document.getElementById('imgPadLbl${i}').textContent=this.value+'px';"
+            style="width:100%;accent-color:#637A51;cursor:pointer;margin-top:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#ccc;font-weight:700;margin-top:4px;"><span>0px</span><span>100px</span><span>200px</span></div>
+        </div>
+      </div>
+      <div class="form-card"><div class="form-card-title">📐 Layout do Conteúdo</div>
+        <div class="fg">
+          <label>Alinhamento horizontal</label>
+          <div style="display:flex;gap:8px;">
+            ${selBtn(['contentAlign','left'],  (s.contentAlign||'left')==='left',  '← Esquerda')}
+            ${selBtn(['contentAlign','center'],(s.contentAlign||'left')==='center','Centro')}
+            ${selBtn(['contentAlign','right'], (s.contentAlign||'left')==='right', 'Direita →')}
+          </div>
+        </div>
+        <div class="fg">
+          <label>Alinhamento vertical</label>
+          <div style="display:flex;gap:8px;">
+            ${selBtn(['contentValign','flex-start'],(s.contentValign||'center')==='flex-start','↑ Topo')}
+            ${selBtn(['contentValign','center'],    (s.contentValign||'center')==='center',     '· Centro')}
+            ${selBtn(['contentValign','flex-end'],  (s.contentValign||'center')==='flex-end',   '↓ Base')}
+          </div>
+        </div>
+        <div class="fg">
+          <label>Espaçamento lateral — <strong id="padHLbl${i}" style="color:#637A51;">${s.padH!==undefined?s.padH:80}px</strong></label>
+          <input type="range" min="0" max="300" step="10" value="${s.padH!==undefined?s.padH:80}"
+            oninput="upd(${i},'padH',+this.value);document.getElementById('padHLbl${i}').textContent=this.value+'px';"
+            style="width:100%;accent-color:#637A51;cursor:pointer;margin-top:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#ccc;font-weight:700;margin-top:4px;"><span>0px</span><span>150px</span><span>300px</span></div>
+        </div>
+        <div class="fg">
+          <label>Espaçamento vertical — <strong id="padVLbl${i}" style="color:#637A51;">${s.padV!==undefined?s.padV:90}px</strong></label>
+          <input type="range" min="0" max="300" step="10" value="${s.padV!==undefined?s.padV:90}"
+            oninput="upd(${i},'padV',+this.value);document.getElementById('padVLbl${i}').textContent=this.value+'px';"
+            style="width:100%;accent-color:#637A51;cursor:pointer;margin-top:6px;">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:#ccc;font-weight:700;margin-top:4px;"><span>0px</span><span>150px</span><span>300px</span></div>
+        </div>
+      </div>
+      <div class="form-card"><div class="form-card-title">● Bullet Points</div>
+        <div class="dyn-list">${bulletsH}</div>
+        <button class="add-row-btn" onclick="addBullet(${i})">+ Adicionar item</button>
+      </div>`;
+  }
+  fp.innerHTML = html;
+}
+
+// =============================================
+// MUTAÇÕES DE ESTADO
+// =============================================
+function esc(v) { if(!v)return''; return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function e(v)   { if(!v)return''; return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function upd(i,k,v)           { state.slides[i][k]=v; renderSidebar(); renderPreview(); }
+function updColor(i,k,btn)    { state.slides[i][k]=btn.dataset.color; renderPreview(); }
+function updBullet(i,bi,v)    { state.slides[i].bullets[bi]=v; renderPreview(); }
+function addBullet(i)         { state.slides[i].bullets.push(''); render(); }
+function rmBullet(i,bi)       { state.slides[i].bullets.splice(bi,1); render(); }
+function updCol(i,ci,k,v)     { state.slides[i].cols[ci][k]=v; renderSidebar(); renderPreview(); }
+function updColColor(i,ci,btn){ state.slides[i].cols[ci].tagColor=btn.dataset.color; renderPreview(); }
+function addCol(i)            { state.slides[i].cols.push({tag:'NOVO',tagColor:'#637A51',title:'Título',body:''}); render(); }
+function rmCol(i,ci)          { state.slides[i].cols.splice(ci,1); render(); }
+function updEstudoCard(i,ci,k,v)      { state.slides[i].cards[ci][k]=v; renderPreview(); }
+function updEstudoCardColor(i,ci,btn) { state.slides[i].cards[ci].color=btn.dataset.color; renderPreview(); }
+function addEstudoCard(i)             { state.slides[i].cards.push({color:'#637A51',title:'Novo Card',body:''}); render(); }
+function rmEstudoCard(i,ci)           { state.slides[i].cards.splice(ci,1); render(); }
+
+function updTabelaCol(i,ci,v)          { state.slides[i].columns[ci]=v; renderPreview(); }
+function addTabelaCol(i)               { state.slides[i].columns.push('COLUNA'); state.slides[i].rows.forEach(r=>{if(!r.cells)r.cells=[];r.cells.push('');}); render(); }
+function rmTabelaCol(i,ci)             { state.slides[i].columns.splice(ci,1); state.slides[i].rows.forEach(r=>{if(r.cells)r.cells.splice(ci,1);}); render(); }
+function updTabelaCell(i,ri,ci,v)      { if(!state.slides[i].rows[ri].cells)state.slides[i].rows[ri].cells=[]; state.slides[i].rows[ri].cells[ci]=v; renderPreview(); }
+function updTabelaRowHighlight(i,ri,v) { state.slides[i].rows[ri].highlight=v; render(); }
+function addTabelaRow(i)               { state.slides[i].rows.push({cells:state.slides[i].columns.map(()=>''),highlight:false}); render(); }
+function rmTabelaRow(i,ri)             { state.slides[i].rows.splice(ri,1); render(); }
+
+function handleSlideImg(i,el){ const f=el.files[0]; if(!f) return; const r=new FileReader(); r.onload=ev=>{ state.slides[i].imageData=ev.target.result; renderForm(); renderPreview(); }; r.readAsDataURL(f); }
+function removeSlideImg(i)   { state.slides[i].imageData=''; renderForm(); renderPreview(); }
+
+// =============================================
+// LOGO GLOBAL
+// =============================================
+const LOGO_KEY = 'pb_logo_mari';
+
+function handleLogoUpload(el) {
+  const f = el.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    state.logo.imageData = ev.target.result;
+    saveLogoState();
+    renderLogoUI();
+    renderPreview();
+  };
+  r.readAsDataURL(f);
+}
+
+function removeLogo() {
+  state.logo.imageData = '';
+  saveLogoState();
+  renderLogoUI();
+  renderPreview();
+}
+
+function updateLogoSize(v) {
+  state.logo.size = v;
+  document.getElementById('logoSzLbl').textContent = v + 'px';
+  saveLogoState();
+  renderPreview();
+}
+
+function saveLogoState() {
+  try { localStorage.setItem(LOGO_KEY, JSON.stringify(state.logo)); } catch(ex) {}
+}
+
+function loadLogoState() {
+  try {
+    const raw = localStorage.getItem(LOGO_KEY);
+    if (raw) { const l = JSON.parse(raw); if (l) state.logo = l; }
+  } catch(ex) {}
+}
+
+function renderLogoUI() {
+  const preview  = document.getElementById('logoPreview');
+  const sizeRow  = document.getElementById('logoSizeRow');
+  const btn      = document.getElementById('logoUploadBtn');
+  if (!preview) return;
+  if (state.logo && state.logo.imageData) {
+    preview.innerHTML = '<img src="'+state.logo.imageData+'" style="max-width:100%;max-height:80px;border-radius:6px;object-fit:contain;display:block;">';
+    sizeRow.style.display = 'block';
+    const slider = document.getElementById('logoSizeSlider');
+    if (slider) slider.value = state.logo.size || 120;
+    document.getElementById('logoSzLbl').textContent = (state.logo.size || 120) + 'px';
+    btn.textContent = '🔄 Trocar Logo';
+  } else {
+    preview.innerHTML = '<div style="border:2px dashed #333;border-radius:8px;padding:16px;text-align:center;color:#555;font-size:11px;font-weight:700;">Sem logo</div>';
+    sizeRow.style.display = 'none';
+    btn.textContent = '📁 Selecionar Logo';
+  }
+}
+
+// =============================================
+// GERENCIAMENTO DE SLIDES
+// =============================================
+function addSlide(type) {
+  state.slides.push(defaultSlide(type));
+  state.active=state.slides.length-1;
+  document.getElementById('addMenu').classList.remove('open');
+  render();
+}
+function removeSlide(i) {
+  if(!confirm(`Remover Slide ${i+1}?`)) return;
+  state.slides.splice(i,1);
+  if(state.active>=state.slides.length) state.active=state.slides.length-1;
+  render();
+}
+function moveSlide(i,dir) {
+  const ni=i+dir;
+  if(ni<0||ni>=state.slides.length) return;
+  [state.slides[i],state.slides[ni]]=[state.slides[ni],state.slides[i]];
+  state.active=ni; render();
+}
+function selectSlide(i) {
+  state.active=i;
+  document.getElementById('addMenu').classList.remove('open');
+  render();
+}
+function toggleAddMenu() { document.getElementById('addMenu').classList.toggle('open'); }
+
+// =============================================
+// EXPORT / PREVIEW TOTAL
+// =============================================
+function exportPresentation() {
+  if(!state.slides.length){ alert('Adicione pelo menos um slide antes de exportar!'); return; }
+  const all = state.slides.map(s=>renderSlideHTML(s)).join('\n\n');
+  const html = buildDoc(all);
+  const name = prompt('Nome do arquivo de saída:','aula-dra-mari')||'aula-dra-mari';
+  const blob = new Blob([html],{type:'text/html'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href=url; a.download=`${name}.html`; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function previewAll() {
+  if(!state.slides.length){ alert('Adicione pelo menos um slide antes de visualizar!'); return; }
+  const all = state.slides.map(s=>renderSlideHTML(s)).join('\n\n');
+  const css = getSlideCSS();
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>${css} * { print-color-adjust:exact !important; -webkit-print-color-adjust:exact !important; } body { margin:0; background:#555; display:flex; flex-direction:column; align-items:center; gap:16px; padding:16px; } .slide { flex-shrink:0; box-shadow:0 8px 40px rgba(0,0,0,.4); }</style>
+    </head><body>${all}</body></html>`;
+  const blob=new Blob([html],{type:'text/html'});
+  window.open(URL.createObjectURL(blob),'_blank');
+}
+
+// =============================================
+// RASCUNHO AUTO-SAVE
+// =============================================
+const DRAFT_KEY = 'pb_draft_mari';
+let _draftTimer = null;
+
+function saveDraft() {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(state.slides));
+    const badge = document.getElementById('draftBadge');
+    badge.style.display = 'inline-block';
+    clearTimeout(badge._t);
+    badge._t = setTimeout(() => { badge.style.display = 'none'; }, 2500);
+  } catch(e) {}
+}
+
+function loadDraft() {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    if (!raw) return false;
+    const slides = JSON.parse(raw);
+    if (Array.isArray(slides) && slides.length) {
+      state.slides = slides;
+      state.active = 0;
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+
+function clearDraft() { localStorage.removeItem(DRAFT_KEY); }
+
+function scheduleSave() {
+  clearTimeout(_draftTimer);
+  _draftTimer = setTimeout(saveDraft, 800);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('editorToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function goHome() { saveDraft(); window.location.href = 'index.html'; }
+
+function newProject() {
+  if (!confirm('Isso irá limpar o rascunho atual e começar do zero. Continuar?')) return;
+  clearDraft();
+  state.slides = [];
+  state.active = -1;
+  const ex = defaultSlide('capitulo');
+  ex.badge = 'COMUNIDADE DO BEM';
+  ex.tag = 'MÓDULO 01';
+  ex.title = 'TÍTULO\nDA AULA';
+  ex.subtitle = 'Dra. Mariana Vilasboas · 2026';
+  state.slides.push(ex);
+  state.active = 0;
+  render();
+  showToast('✨ Novo projeto criado!');
+}
+
+// =============================================
+// IMPORTAR / PARSEAR
+// =============================================
+let _importTab = 'paste';
+let _pendingText = '';
+
+function openImport() {
+  document.getElementById('importModal').classList.add('open');
+  document.getElementById('importText').value = '';
+  document.getElementById('fileStatus').textContent = '';
+  _pendingText = '';
+  loadApiKey();
+  document.getElementById('fileBanner').style.display = location.protocol === 'file:' ? 'block' : 'none';
+}
+
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key.startsWith('sk-ant-')) { alert('API Key inválida. Deve começar com sk-ant-...'); return; }
+  localStorage.setItem('pb_apikey', key);
+  const st = document.getElementById('apiKeyStatus');
+  st.textContent = '✅ API Key salva com sucesso!';
+  st.style.color = '#4A7A4A';
+}
+
+function loadApiKey() {
+  const key = localStorage.getItem('pb_apikey') || '';
+  if (key) {
+    document.getElementById('apiKeyInput').value = key;
+    const st = document.getElementById('apiKeyStatus');
+    st.textContent = '✅ API Key configurada e pronta para uso';
+    st.style.color = '#4A7A4A';
+  }
+}
+
+async function doImportWithAI() {
+  const apiKey = localStorage.getItem('pb_apikey') || '';
+  if (!apiKey) {
+    document.getElementById('apiKeySection').open = true;
+    alert('Configure sua API Key da Anthropic primeiro (seção 🔑 abaixo).');
+    return;
+  }
+  const text = _importTab === 'paste'
+    ? document.getElementById('importText').value.trim()
+    : _pendingText.trim();
+  if (!text) { alert('Nenhum texto para processar!'); return; }
+
+  const btn = document.getElementById('btnAI');
+  btn.disabled = true;
+  btn.textContent = '⏳ Gerando slides...';
+
+  const system = `You are an educational presentation slide designer specialized in medical/health education content. Given any text content, create a structured educational presentation as a JSON array of slide objects.
+
+Return ONLY a valid JSON array. No markdown. No explanation. Just the JSON.
+
+Available slide types:
+
+1. CAPITULO - dark olive-green cover/chapter slide:
+{"type":"capitulo","badge":"COMUNIDADE DO BEM","tag":"MÓDULO 01","title":"MAIN TITLE\\nSECOND LINE","subtitle":"subtitle text","numeral":"I","watermark":"DNA"}
+
+2. TOPICOS - bullet list slide with section tag and title:
+{"type":"topicos","sectionTag":"1 — SECTION NAME","title":"Slide title here","bullets":["Bold term: description of first point","Bold term: description of second point","Bold term: third point","Fourth point"]}
+
+3. COLUNAS - card grid slide (2 to 6 cards, auto grid layout):
+{"type":"colunas","sectionTag":"CLASSIFICATION · TYPES","title":"Slide Title","cols":[{"tag":"TYPE A","tagColor":"#637A51","title":"Card Title","body":"Descriptive text for this card."},{"tag":"TYPE B","tagColor":"#4A8A80","title":"Card Title","body":"Descriptive text for this card."},{"tag":"TYPE C","tagColor":"#D4962A","title":"Card Title","body":"Descriptive text."},{"tag":"TYPE D","tagColor":"#4A7AA0","title":"Card Title","body":"Descriptive text."}]}
+
+4. ESTUDO - featured scientific study + 4 colored insight cards:
+{"type":"estudo","sectionTag":"ESTUDO DE DESTAQUE","journal":"Journal Name","year":"2024","articleTitle":"Full article title here","authors":"Authors — University, Country","cards":[{"color":"#C0395B","title":"Key Finding","body":"Description of the main finding."},{"color":"#4A8A80","title":"Second Point","body":"Second relevant finding."},{"color":"#D4962A","title":"Third Point","body":"Third data point."},{"color":"#4A7AA0","title":"Numeric Data","body":"Statistical result or conclusion."}]}
+
+5. IMAGEM - half photo half content slide:
+{"type":"imagem","sectionTag":"HIGHLIGHT","title":"SLIDE TITLE","subtitle":"description","bullets":["item 1","item 2"],"imageData":"","imagePosition":"right","imageFit":"cover","theme":"light","imageSize":50,"imagePad":0,"padH":80,"padV":90,"contentAlign":"left","contentValign":"center"}
+
+Colors: #637A51 (verde), #3D5533 (verde escuro), #4A8A80 (teal), #D4962A (âmbar), #4A7AA0 (azul), #7B6B9A (roxo), #C0395B (rosa), #2A2A27 (escuro)
+
+Design rules:
+- Always start with a "capitulo" cover slide
+- Add "capitulo" chapter slides between major sections (use roman numerals: I, II, III...)
+- Use watermark text related to the topic (e.g., "DNA", "RNA", "Al", "Fe")
+- Section tags format: "N — TOPIC NAME" for numbered sections
+- Use "colunas" for classification/types/categories (vary colors per card)
+- Use "topicos" for explanatory content with bullet points
+- Use "estudo" when referencing a specific scientific study or paper
+- Keep educational tone, clear and concise`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-allow-browser': 'true',
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4096,
+        system,
+        messages: [{ role: 'user', content: `Create an educational presentation from this content:\n\n${text}` }],
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Erro HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    const raw = data.content?.[0]?.text || '';
+    const match = raw.match(/\[[\s\S]*\]/);
+    if (!match) throw new Error('A IA não retornou um JSON válido. Tente novamente.');
+
+    const slides = JSON.parse(match[0]);
+    if (!Array.isArray(slides) || !slides.length) throw new Error('Nenhum slide foi gerado.');
+
+    slides.forEach(s => { s.id = Date.now() + Math.random(); });
+    state.slides.push(...slides);
+    if (state.active < 0) state.active = 0;
+    closeImport();
+    render();
+
+  } catch (err) {
+    let msg = err.message;
+    if (err instanceof TypeError && msg.toLowerCase().includes('fetch')) {
+      if (location.protocol === 'file:') {
+        msg = 'Arquivo aberto via file:// — o navegador bloqueia chamadas externas.\n\nAbra o editor via servidor HTTP:\n• VS Code: clique direito → "Open with Live Server"\n• Terminal: python -m http.server 8080\n  Acesse http://localhost:8080';
+      } else {
+        msg = 'Não foi possível conectar à API Anthropic.\n\nVerifique:\n• Conexão com a internet\n• API Key correta (começa com sk-ant-...)\n• Extensões do navegador (ad blockers, etc.)';
+      }
+    }
+    alert(`Erro ao gerar com IA:\n${msg}`);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✨ Gerar com IA';
+  }
+}
+
+function closeImport() { document.getElementById('importModal').classList.remove('open'); }
+function closeImportIfBg(e) { if(e.target===document.getElementById('importModal')) closeImport(); }
+function switchTab(t) {
+  _importTab = t;
+  document.getElementById('ipaste').style.display = t==='paste' ? 'block' : 'none';
+  document.getElementById('ifile').style.display  = t==='file'  ? 'block' : 'none';
+  document.getElementById('tab-paste').classList.toggle('active', t==='paste');
+  document.getElementById('tab-file').classList.toggle('active',  t==='file');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropzone').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFile(file);
+}
+
+function handleFile(file) {
+  if (!file) return;
+  const status = document.getElementById('fileStatus');
+  status.textContent = '⏳ Lendo arquivo...';
+  _pendingText = '';
+  if (file.name.endsWith('.txt')) {
+    const reader = new FileReader();
+    reader.onload = ev => { _pendingText = ev.target.result; status.textContent = `✅ "${file.name}" carregado! Clique em Gerar Slides.`; };
+    reader.onerror = () => { status.textContent = '❌ Erro ao ler o arquivo.'; };
+    reader.readAsText(file, 'UTF-8');
+  } else if (file.name.endsWith('.docx')) {
+    if (typeof mammoth === 'undefined') { status.textContent = '❌ Biblioteca de .docx não carregou.'; return; }
+    file.arrayBuffer().then(buf => {
+      mammoth.extractRawText({ arrayBuffer: buf })
+        .then(r => { _pendingText = r.value; status.textContent = `✅ "${file.name}" convertido! Clique em Gerar Slides.`; })
+        .catch(() => { status.textContent = '❌ Erro ao processar o .docx.'; });
+    });
+  } else {
+    status.textContent = '❌ Formato não suportado. Use .txt ou .docx.';
+  }
+}
+
+function doImport() {
+  const text = _importTab === 'paste'
+    ? document.getElementById('importText').value.trim()
+    : _pendingText.trim();
+  if (!text) { alert('Nenhum texto para importar!'); return; }
+  const slides = parseTextToSlides(text);
+  if (!slides.length) { alert('Nenhum slide encontrado. Verifique o formato do texto.'); return; }
+  state.slides.push(...slides);
+  if (state.active < 0) state.active = 0;
+  closeImport();
+  render();
+}
+
+function parseTextToSlides(text) {
+  const colorMap = { verde:'#637A51', 'verde escuro':'#3D5533', teal:'#4A8A80', amber:'#D4962A', azul:'#4A7AA0', roxo:'#7B6B9A', rosa:'#C0395B', preto:'#2A2A27', escuro:'#2A2A27' };
+  const resolveColor = raw => colorMap[(raw||'').trim().toLowerCase()] || '#637A51';
+  const rawBlocks = [];
+  let cur = null;
+  for (const rawLine of text.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    if (/^# /.test(line)) {
+      if (cur) rawBlocks.push(cur);
+      cur = { dark: true, title: line.slice(2).trim(), lines: [] };
+    } else if (/^## /.test(line)) {
+      if (cur) rawBlocks.push(cur);
+      cur = { dark: false, title: line.slice(3).trim(), lines: [] };
+    } else if (cur) {
+      cur.lines.push(line);
+    } else {
+      cur = { dark: true, title: line, lines: [] };
+    }
+  }
+  if (cur) rawBlocks.push(cur);
+
+  return rawBlocks.map(block => {
+    if (block.dark) {
+      const s = defaultSlide('capitulo');
+      s.title = block.title.toUpperCase();
+      for (const l of block.lines) {
+        if (/^tag:/i.test(l))            s.tag       = l.slice(4).trim();
+        else if (/^badge:/i.test(l))     s.badge     = l.slice(6).trim();
+        else if (/^sub/i.test(l))        s.subtitle  = l.split(':').slice(1).join(':').trim();
+        else if (/^numeral:/i.test(l))   s.numeral   = l.slice(8).trim();
+        else if (/^watermark:/i.test(l)) s.watermark = l.slice(10).trim();
+      }
+      return s;
+    }
+
+    const bulletLines = block.lines.filter(l => /^[-•*]/.test(l));
+    const colunaLines = block.lines.filter(l => /^coluna:/i.test(l));
+    const achadoLines = block.lines.filter(l => /^achado:/i.test(l));
+    let sectionTag = '';
+    for (const l of block.lines) {
+      if (/^sec:/i.test(l)) sectionTag = l.slice(4).trim();
+    }
+
+    // ESTUDO — quando há linhas "achado:" ou "journal:"
+    if (achadoLines.length > 0 || block.lines.some(l => /^journal:/i.test(l))) {
+      const s = defaultSlide('estudo');
+      s.title = block.title;
+      s.sectionTag = sectionTag || s.sectionTag;
+      s.cards = [];
+      for (const l of block.lines) {
+        if (/^journal:/i.test(l))  s.journal       = l.slice(8).trim();
+        if (/^year:/i.test(l))     s.year          = l.slice(5).trim();
+        if (/^artigo:/i.test(l))   s.articleTitle  = l.slice(7).trim();
+        if (/^autores:/i.test(l))  s.authors       = l.slice(8).trim();
+        if (/^achado:/i.test(l)) {
+          const parts = l.slice(7).trim().split('|');
+          s.cards.push({ color: resolveColor(parts[1]), title: (parts[0]||'Achado').trim(), body: (parts[2]||'').trim() });
+        }
+      }
+      if (!s.cards.length) s.cards = defaultSlide('estudo').cards;
+      return s;
+    }
+
+    // COLUNAS — quando há linhas "coluna:"
+    if (colunaLines.length > 0) {
+      const s = defaultSlide('colunas');
+      s.title = block.title;
+      s.sectionTag = sectionTag || s.sectionTag;
+      s.cols = [];
+      let curC = null;
+      for (const l of block.lines) {
+        if (/^coluna:/i.test(l)) {
+          if (curC) s.cols.push(curC);
+          const parts = l.slice(7).trim().split('|');
+          curC = { tag: (parts[0]||'TIPO').trim().toUpperCase(), tagColor: resolveColor(parts[1]), title: (parts[2]||'').trim(), body: (parts[3]||'').trim() };
+        } else if (/^[-•*]/.test(l) && curC) {
+          curC.body += (curC.body ? ' ' : '') + l.slice(1).trim();
+        }
+      }
+      if (curC) s.cols.push(curC);
+      if (!s.cols.length) s.cols = defaultSlide('colunas').cols;
+      return s;
+    }
+
+    // TOPICOS — padrão: bullets
+    const s = defaultSlide('topicos');
+    s.title = block.title;
+    s.sectionTag = sectionTag || s.sectionTag;
+    s.bullets = bulletLines.map(l => l.slice(1).trim()).filter(Boolean);
+    if (!s.bullets.length) s.bullets = ['Item 1', 'Item 2', 'Item 3'];
+    return s;
+  });
+}
+
+// =============================================
+// INIT — restaura rascunho ou cria exemplo
+// =============================================
+loadLogoState();
+const _hasDraft = loadDraft();
+if (!_hasDraft) {
+  const ex = defaultSlide('capitulo');
+  ex.badge = 'COMUNIDADE DO BEM';
+  ex.tag = 'MÓDULO 01';
+  ex.title = 'TÍTULO\nDA AULA';
+  ex.subtitle = 'Dra. Mariana Vilasboas · 2026';
+  ex.numeral = 'I';
+  ex.watermark = '✦';
+  state.slides.push(ex);
+  state.active = 0;
+}
+render();
+setTimeout(() => renderLogoUI(), 0);
+if (_hasDraft) setTimeout(() => showToast('📋 Rascunho restaurado!'), 300);
+</script>
+<div id="editorToast" class="editor-toast"></div>
+</body>
+</html>
