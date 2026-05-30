@@ -136,6 +136,8 @@
     /* ── HERO ── */
     .hero { padding: 90px 0 72px; text-align: center; }
     .hero .badge { margin-bottom: 24px; }
+    .mob-br { display: none; }
+
     .hero h1 {
       font-size: clamp(28px,4.5vw,52px); font-weight: 900; line-height: 1.12;
       letter-spacing: -1px; margin-bottom: 22px;
@@ -525,8 +527,8 @@
 
       /* Hero */
       .hero { padding: 44px 0 36px; }
-      .hero h1 { font-size: clamp(26px, 8vw, 40px); letter-spacing: -0.5px; line-height: 1.12; }
-      .hero h1 br { display: none; }
+      .hero h1 { font-size: clamp(26px, 8vw, 38px); letter-spacing: -0.5px; line-height: 1.15; }
+      .mob-br { display: inline; }
       .hero .sub { font-size: 14px; }
       .hero .sub br { display: none; }
       .hero-trust { font-size: 11px; line-height: 1.8; }
@@ -560,13 +562,12 @@
       .proto-card { padding: 14px 16px; }
       .proto-card ul { display: none; }
 
-      /* Cases virais: 1 coluna, mais altas */
+      /* Imagens completas sem corte */
       .shot-grid-3 { grid-template-columns: 1fr !important; gap: 10px; }
-      .shot-grid-3 .shot img { max-height: 380px; object-fit: cover; object-position: top; width: 100%; }
-      /* Depoimentos: 2 colunas, altura menor */
+      .shot img { max-height: none !important; object-fit: unset !important; width: 100%; height: auto; }
+      /* Depoimentos: 2 colunas */
       .depo-grid { grid-template-columns: repeat(2,1fr) !important; gap: 8px; }
       .depo-grid .shot.wide-depo { grid-column: span 2; }
-      .depo-grid .shot img { max-height: 240px; object-fit: cover; object-position: top; width: 100%; }
 
       /* Form */
       .form-box { padding: 24px 20px; border-radius: 14px; }
@@ -611,9 +612,11 @@
   <div class="wrap-sm">
     <div class="badge">🔬 Pitch Company · Diagnóstico 360</div>
     <h1>
-      Seu Instagram tem<br>
-      <em>sintomas de estagnação</em><br>
-      que você ainda não <strong>diagnosticou</strong>
+      Seu Instagram<br class="mob-br">
+      tem <em>Sintomas de<br class="mob-br">
+      Estagnação</em> que<br class="mob-br">
+      você ainda não<br class="mob-br">
+      <strong>Diagnosticou</strong>
     </h1>
     <p class="sub">
       Você é excelente no que faz — mas seu perfil digital não reflete isso.<br>
