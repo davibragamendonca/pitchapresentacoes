@@ -400,14 +400,14 @@
 <div class="screen" id="screen-results">
   <div class="res-header">
     <img src="logo-branco.svg" alt="Pitch Company">
-    <div class="res-badge">Diagnóstico de Presença Digital</div>
+    <div class="res-badge">Anamnese Digital</div>
     <h2 class="res-name" id="res-name">Seu Resultado</h2>
     <p class="res-sub" id="res-sub">Baseado nas suas respostas</p>
   </div>
 
   <div style="padding:0 20px;">
     <div class="score-card">
-      <p class="score-card-title">Índice de Maturidade Digital</p>
+      <p class="score-card-title">Resultado da Anamnese Digital</p>
       <div class="gauge-wrap">
         <svg class="gauge-svg" viewBox="0 0 160 160">
           <circle class="g-bg" cx="80" cy="80" r="66"/>
@@ -756,7 +756,7 @@ const ANALYSIS = {
 
 function buildResults(res) {
   const first=user.name.split(' ')[0];
-  document.getElementById('res-name').textContent=`Diagnóstico de ${first}`;
+  document.getElementById('res-name').textContent=`Anamnese Digital de ${first}`;
   document.getElementById('res-sub').textContent=`${user.ig?user.ig+' · ':''}Baseado nas suas ${Qs.length} respostas`;
   document.getElementById('score-desc').textContent=res.desc;
 
@@ -829,20 +829,20 @@ function buildResults(res) {
 
   // Dynamic CTA headline based on score
   const ctaData = [
-    { headline:'Seu diagnóstico revelou pontos críticos.<br>Cada mês sem ação é agenda perdida.',
-      sub:`Seu índice de ${res.score}/100 indica que há gaps urgentes a resolver. O Diagnóstico 360 vai te mostrar exatamente o que fazer — na sua especialidade, no seu mercado, no seu caso.` },
-    { headline:'Você está tentando crescer.<br>Mas ainda sem a estratégia certa.',
-      sub:`Com ${res.score}/100, você tem potencial muito maior do que está aproveitando. O Diagnóstico 360 vai transformar esforço em direção — com um plano que você pode executar a partir desta semana.` },
-    { headline:'Você tem uma base sólida.<br>Mas ainda está deixando pacientes na mesa.',
-      sub:`Seu índice de ${res.score}/100 mostra que você está no caminho certo — mas os gaps que identificamos são exatamente o que separa quem cresce de quem estagna. Vamos resolver isso juntos.` },
-    { headline:'Você está avançado.<br>Agora é hora de escalar de verdade.',
-      sub:`Com ${res.score}/100, você já tem uma presença digital diferenciada. O Diagnóstico 360 vai mostrar como multiplicar esses resultados com estratégia e execução de alto nível.` }
+    { headline:'Sua Anamnese revelou pontos críticos.<br>O próximo passo é o Diagnóstico 360.',
+      sub:`Com ${res.score}/100, sua presença digital tem gaps urgentes. A Anamnese nos mostrou o cenário — o Diagnóstico 360 é onde vamos a fundo no seu caso e entregamos o plano de ação completo.` },
+    { headline:'Você está tentando crescer.<br>O Diagnóstico 360 vai te dar o caminho.',
+      sub:`Com ${res.score}/100, sua Anamnese Digital indica potencial muito maior do que está sendo aproveitado. No Diagnóstico 360, analisamos seu caso por completo e prescrevemos o plano exato para chegar lá.` },
+    { headline:'Boa base. Mas sua Anamnese<br>revelou onde está o gargalo.',
+      sub:`${res.score}/100 é um bom ponto de partida — sua Anamnese apontou os gaps que estão segurando seu crescimento. O Diagnóstico 360 vai destrinchar cada um deles com você, individualmente.` },
+    { headline:'Você está avançado.<br>O Diagnóstico 360 vai te mostrar como escalar.',
+      sub:`Com ${res.score}/100, sua Anamnese confirma que você tem uma presença digital diferenciada. Agora é hora de ir fundo: o Diagnóstico 360 vai revelar como multiplicar esses resultados com estratégia de alto nível.` }
   ];
   const ctaLvl = res.score<=30?0:res.score<=55?1:res.score<=75?2:3;
   document.getElementById('cta-headline').innerHTML = ctaData[ctaLvl].headline;
   document.getElementById('cta-subtext').textContent = ctaData[ctaLvl].sub;
 
-  const msg=encodeURIComponent(`Olá! Acabei de fazer o Diagnóstico Digital da Pitch Company.\n\n📊 Índice de Maturidade: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
+  const msg=encodeURIComponent(`Olá! Acabei de fazer a Anamnese Digital da Pitch Company.\n\n📊 Resultado: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
   document.getElementById('btn-wa').href=`https://wa.me/55SEU_NUMERO?text=${msg}`;
 }
 
