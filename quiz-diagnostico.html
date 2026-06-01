@@ -3,13 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz · Diagnóstico Digital | Pitch Company</title>
+  <title>Diagnóstico Digital | Pitch Company</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --purple:   #7C3AED;
       --purple-l: #9333EA;
@@ -20,311 +19,267 @@
       --muted:    rgba(75,52,114,.5);
       --border:   rgba(124,58,237,.15);
       --border-l: rgba(124,58,237,.3);
-      --bg:       #FFFFFF;
     }
+    html,body { height:100%; }
+    body { font-family:'Inter',sans-serif; background:#fff; color:var(--text); min-height:100vh; }
 
-    html, body { height: 100%; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    .screen { display:none; flex-direction:column; min-height:100vh; }
+    .screen.active { display:flex; }
 
-    /* ── SCREENS ── */
-    .screen { display: none; flex-direction: column; min-height: 100vh; }
-    .screen.active { display: flex; }
-
-    /* ── PROGRESS ── */
-    #progress-wrap {
-      height: 4px; background: rgba(124,58,237,.1);
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    }
-    #progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--purple), var(--purple-l));
-      transition: width .4s ease;
-    }
+    #progress-wrap { height:4px; background:rgba(124,58,237,.1); position:fixed; top:0; left:0; right:0; z-index:100; }
+    #progress-fill { height:100%; background:linear-gradient(90deg,var(--purple),var(--purple-l)); transition:width .4s ease; }
 
     /* ── INTRO ── */
     #screen-intro {
-      align-items: center; justify-content: center;
-      text-align: center; padding: 60px 24px;
-      background: linear-gradient(160deg, #F5F3FF 0%, #FFFFFF 60%);
+      align-items:center; justify-content:center; text-align:center;
+      padding:60px 24px; background:linear-gradient(160deg,#F5F3FF 0%,#fff 60%);
     }
-    .intro-logo { height: 36px; margin-bottom: 36px; }
+    .intro-logo { height:36px; margin-bottom:36px; }
     .intro-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(124,58,237,.08); border: 1px solid var(--border-l);
-      color: var(--purple); font-size: 11px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 6px 14px; border-radius: 100px; margin-bottom: 24px;
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(124,58,237,.08); border:1px solid var(--border-l);
+      color:var(--purple); font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase;
+      padding:6px 14px; border-radius:100px; margin-bottom:24px;
     }
-    .intro-title {
-      font-size: clamp(28px, 7vw, 44px); font-weight: 900;
-      line-height: 1.12; margin-bottom: 16px; letter-spacing: -.5px;
-    }
-    .intro-title span { color: var(--purple); }
-    .intro-sub {
-      font-size: 16px; color: var(--text2); max-width: 380px;
-      line-height: 1.7; margin: 0 auto 32px;
-    }
-    .intro-meta {
-      display: flex; align-items: center; justify-content: center;
-      gap: 20px; margin-bottom: 36px; flex-wrap: wrap;
-    }
-    .intro-meta span { font-size: 13px; color: var(--muted); }
+    .intro-title { font-size:clamp(28px,7vw,44px); font-weight:900; line-height:1.12; margin-bottom:16px; letter-spacing:-.5px; }
+    .intro-title span { color:var(--purple); }
+    .intro-sub { font-size:16px; color:var(--text2); max-width:380px; line-height:1.7; margin:0 auto 32px; }
+    .intro-meta { display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:36px; flex-wrap:wrap; }
+    .intro-meta span { font-size:13px; color:var(--muted); }
     .btn-start {
-      display: inline-flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-d));
-      color: #fff; font-size: 16px; font-weight: 800;
-      padding: 18px 42px; border-radius: 100px; border: none;
-      cursor: pointer; transition: all .2s; font-family: 'Inter', sans-serif;
-      box-shadow: 0 8px 30px rgba(124,58,237,.35);
+      display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:16px; font-weight:800;
+      padding:18px 42px; border-radius:100px; border:none;
+      cursor:pointer; font-family:'Inter',sans-serif;
+      box-shadow:0 8px 30px rgba(124,58,237,.35); transition:all .2s;
     }
-    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(124,58,237,.45); }
+    .btn-start:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(124,58,237,.45); }
 
     /* ── QUIZ ── */
-    #screen-quiz { padding-top: 16px; }
-    .quiz-header {
-      padding: 20px 24px 0;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .quiz-header img { height: 22px; }
-    .q-progress-label { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: .5px; }
-    .quiz-content {
-      flex: 1; padding: 28px 24px 120px;
-      max-width: 560px; margin: 0 auto; width: 100%;
-    }
-    .q-label {
-      font-size: 12px; font-weight: 700; color: var(--purple);
-      letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px;
-    }
-    .q-question {
-      font-size: clamp(20px, 5vw, 26px); font-weight: 800;
-      line-height: 1.25; margin-bottom: 6px;
-    }
-    .q-note { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    #screen-quiz { padding-top:16px; }
+    .quiz-header { padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+    .quiz-header img { height:22px; }
+    .q-prog-label { font-size:12px; font-weight:600; color:var(--muted); }
+    .quiz-content { flex:1; padding:28px 24px 120px; max-width:560px; margin:0 auto; width:100%; }
+    .q-label { font-size:12px; font-weight:700; color:var(--purple); letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+    .q-question { font-size:clamp(20px,5vw,26px); font-weight:800; line-height:1.25; margin-bottom:6px; }
+    .q-note { font-size:13px; color:var(--muted); margin-bottom:28px; }
 
-    /* CHOICE OPTIONS */
-    .options-list { display: flex; flex-direction: column; gap: 10px; }
-    .option-btn {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 18px; background: #fff;
-      border: 1.5px solid var(--border); border-radius: 12px;
-      cursor: pointer; text-align: left;
-      font-family: 'Inter', sans-serif; font-size: 15px;
-      font-weight: 500; color: var(--text); width: 100%;
-      transition: all .15s;
+    .options-list { display:flex; flex-direction:column; gap:10px; }
+    .opt-btn {
+      display:flex; align-items:center; gap:14px;
+      padding:14px 18px; background:#fff;
+      border:1.5px solid var(--border); border-radius:12px;
+      cursor:pointer; text-align:left; font-family:'Inter',sans-serif;
+      font-size:15px; font-weight:500; color:var(--text); width:100%; transition:all .15s;
     }
-    .option-btn:hover { border-color: var(--purple); background: var(--purple-bg); }
-    .option-btn.selected {
-      border-color: var(--purple); background: var(--purple-bg);
-      color: var(--purple-d); font-weight: 600;
+    .opt-btn:hover { border-color:var(--purple); background:var(--purple-bg); }
+    .opt-btn.sel { border-color:var(--purple); background:var(--purple-bg); color:var(--purple-d); font-weight:600; }
+    .opt-circle {
+      width:22px; height:22px; border-radius:50%;
+      border:2px solid var(--border-l); flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; transition:all .15s;
     }
-    .opt-radio {
-      width: 22px; height: 22px; border-radius: 50%;
-      border: 2px solid var(--border-l); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all .15s;
-    }
-    .option-btn.selected .opt-radio {
-      border-color: var(--purple); background: var(--purple);
-    }
-    .opt-radio-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: #fff; display: none;
-    }
-    .option-btn.selected .opt-radio-dot { display: block; }
+    .opt-btn.sel .opt-circle { border-color:var(--purple); background:var(--purple); }
+    .opt-dot { width:8px; height:8px; border-radius:50%; background:#fff; display:none; }
+    .opt-btn.sel .opt-dot { display:block; }
 
-    /* TEXT INPUT */
     .q-textarea {
-      width: 100%; min-height: 130px; padding: 16px;
-      border: 1.5px solid var(--border); border-radius: 12px;
-      font-family: 'Inter', sans-serif; font-size: 15px;
-      color: var(--text); resize: none; line-height: 1.6;
-      transition: border-color .2s;
+      width:100%; min-height:130px; padding:16px;
+      border:1.5px solid var(--border); border-radius:12px;
+      font-family:'Inter',sans-serif; font-size:15px; color:var(--text);
+      resize:none; line-height:1.6; transition:border-color .2s;
     }
-    .q-textarea:focus { outline: none; border-color: var(--purple); }
-    .q-textarea::placeholder { color: var(--muted); }
-    .char-count { text-align: right; font-size: 11px; color: var(--muted); margin-top: 6px; }
+    .q-textarea:focus { outline:none; border-color:var(--purple); }
+    .q-textarea::placeholder { color:var(--muted); }
+    .char-count { text-align:right; font-size:11px; color:var(--muted); margin-top:6px; }
 
-    /* BOTTOM NAV */
     .quiz-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: rgba(255,255,255,.96); backdrop-filter: blur(8px);
-      border-top: 1px solid rgba(124,58,237,.08);
-      padding: 14px 24px; display: flex; gap: 12px; z-index: 50;
+      position:fixed; bottom:0; left:0; right:0;
+      background:rgba(255,255,255,.96); backdrop-filter:blur(8px);
+      border-top:1px solid rgba(124,58,237,.08);
+      padding:14px 24px; display:flex; gap:12px; z-index:50;
     }
     .btn-back {
-      display: flex; align-items: center; gap: 6px;
-      padding: 14px 20px; border-radius: 100px;
-      border: 1.5px solid var(--border); background: transparent;
-      color: var(--text2); font-size: 14px; font-weight: 600;
-      font-family: 'Inter', sans-serif; cursor: pointer; transition: all .15s;
+      display:flex; align-items:center; gap:6px;
+      padding:14px 20px; border-radius:100px;
+      border:1.5px solid var(--border); background:transparent;
+      color:var(--text2); font-size:14px; font-weight:600;
+      font-family:'Inter',sans-serif; cursor:pointer; transition:all .15s;
     }
-    .btn-back:hover { border-color: var(--purple); color: var(--purple); }
-    .btn-back:disabled { opacity: .3; pointer-events: none; }
+    .btn-back:hover { border-color:var(--purple); color:var(--purple); }
+    .btn-back:disabled { opacity:.3; pointer-events:none; }
     .btn-next {
-      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 14px 24px; border-radius: 100px; border: none;
-      background: linear-gradient(135deg, var(--purple), var(--purple-d));
-      color: #fff; font-size: 15px; font-weight: 700;
-      font-family: 'Inter', sans-serif; cursor: pointer; transition: all .2s;
-      box-shadow: 0 4px 20px rgba(124,58,237,.3);
+      flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+      padding:14px 24px; border-radius:100px; border:none;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:15px; font-weight:700;
+      font-family:'Inter',sans-serif; cursor:pointer; transition:all .2s;
+      box-shadow:0 4px 20px rgba(124,58,237,.3);
     }
-    .btn-next:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(124,58,237,.4); }
-    .btn-next:disabled { opacity: .4; pointer-events: none; box-shadow: none; transform: none; }
+    .btn-next:hover { transform:translateY(-1px); }
+    .btn-next:disabled { opacity:.4; pointer-events:none; box-shadow:none; transform:none; }
 
     /* ── CAPTURE ── */
-    #screen-capture {
-      align-items: center; justify-content: center;
-      padding: 48px 24px;
-    }
-    .capture-wrap { max-width: 420px; width: 100%; }
+    #screen-capture { align-items:center; justify-content:center; padding:48px 24px; }
+    .capture-wrap { max-width:420px; width:100%; }
     .capture-icon {
-      width: 64px; height: 64px;
-      background: linear-gradient(135deg, var(--purple), var(--purple-d));
-      border-radius: 20px; display: flex; align-items: center;
-      justify-content: center; font-size: 28px; margin: 0 auto 24px;
-      box-shadow: 0 8px 24px rgba(124,58,237,.3);
+      width:64px; height:64px; background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      border-radius:20px; display:flex; align-items:center; justify-content:center;
+      font-size:28px; margin:0 auto 24px; box-shadow:0 8px 24px rgba(124,58,237,.3);
     }
-    .capture-title { font-size: 26px; font-weight: 900; text-align: center; margin-bottom: 8px; }
-    .capture-sub { font-size: 14px; color: var(--text2); text-align: center; margin-bottom: 32px; line-height: 1.65; }
-    .cf-group { margin-bottom: 16px; }
-    .cf-label { display: block; font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: .8px; margin-bottom: 8px; }
+    .capture-title { font-size:26px; font-weight:900; text-align:center; margin-bottom:8px; }
+    .capture-sub { font-size:14px; color:var(--text2); text-align:center; margin-bottom:32px; line-height:1.65; }
+    .cf-group { margin-bottom:16px; }
+    .cf-label { display:block; font-size:11px; font-weight:700; color:var(--text2); text-transform:uppercase; letter-spacing:.8px; margin-bottom:8px; }
     .cf-input {
-      width: 100%; padding: 14px 16px;
-      border: 1.5px solid var(--border); border-radius: 10px;
-      font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text);
-      transition: border-color .2s;
+      width:100%; padding:14px 16px; border:1.5px solid var(--border);
+      border-radius:10px; font-family:'Inter',sans-serif; font-size:15px; color:var(--text); transition:border-color .2s;
     }
-    .cf-input:focus { outline: none; border-color: var(--purple); }
-    .cf-input::placeholder { color: var(--muted); }
+    .cf-input:focus { outline:none; border-color:var(--purple); }
+    .cf-input::placeholder { color:var(--muted); }
     .btn-reveal {
-      width: 100%; padding: 16px; border-radius: 100px; border: none;
-      background: linear-gradient(135deg, var(--purple), var(--purple-d));
-      color: #fff; font-size: 16px; font-weight: 800;
-      font-family: 'Inter', sans-serif; cursor: pointer; margin-top: 8px;
-      box-shadow: 0 6px 24px rgba(124,58,237,.35); transition: all .2s;
+      width:100%; padding:16px; border-radius:100px; border:none;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:16px; font-weight:800;
+      font-family:'Inter',sans-serif; cursor:pointer; margin-top:8px;
+      box-shadow:0 6px 24px rgba(124,58,237,.35); transition:all .2s;
     }
-    .btn-reveal:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(124,58,237,.45); }
-    .privacy { text-align: center; font-size: 11px; color: var(--muted); margin-top: 12px; }
+    .btn-reveal:hover { transform:translateY(-1px); }
+    .privacy { text-align:center; font-size:11px; color:var(--muted); margin-top:12px; }
 
     /* ── CALCULATING ── */
     #screen-calculating {
-      align-items: center; justify-content: center;
-      text-align: center; padding: 48px 24px;
-      background: linear-gradient(160deg, #F5F3FF 0%, #fff 60%);
+      align-items:center; justify-content:center; text-align:center; padding:48px 24px;
+      background:linear-gradient(160deg,#F5F3FF 0%,#fff 60%);
     }
     .calc-spinner {
-      width: 56px; height: 56px;
-      border: 3px solid rgba(124,58,237,.15); border-top-color: var(--purple);
-      border-radius: 50%; animation: spin 1s linear infinite;
-      margin: 0 auto 24px;
+      width:56px; height:56px; border:3px solid rgba(124,58,237,.15); border-top-color:var(--purple);
+      border-radius:50%; animation:spin 1s linear infinite; margin:0 auto 24px;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .calc-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    .calc-sub { font-size: 14px; color: var(--text2); margin-bottom: 32px; }
-    .calc-steps { display: flex; flex-direction: column; gap: 12px; max-width: 260px; text-align: left; }
-    .calc-step {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; color: var(--muted);
-      opacity: 0; transition: opacity .4s;
-    }
-    .calc-step.show { opacity: 1; color: var(--text2); }
-    .calc-step.done { color: var(--purple); font-weight: 600; }
-    .step-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--border-l); flex-shrink: 0; transition: background .4s;
-    }
-    .calc-step.done .step-dot { background: var(--purple); }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .calc-title { font-size:22px; font-weight:800; margin-bottom:8px; }
+    .calc-sub { font-size:14px; color:var(--text2); margin-bottom:32px; }
+    .calc-steps { display:flex; flex-direction:column; gap:12px; max-width:260px; text-align:left; }
+    .calc-step { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted); opacity:0; transition:opacity .4s; }
+    .calc-step.show { opacity:1; color:var(--text2); }
+    .calc-step.done { color:var(--purple); font-weight:600; }
+    .step-dot { width:8px; height:8px; border-radius:50%; background:var(--border-l); flex-shrink:0; transition:background .4s; }
+    .calc-step.done .step-dot { background:var(--purple); }
 
     /* ── RESULTS ── */
-    #screen-results { padding-bottom: 60px; }
+    #screen-results { padding-bottom:60px; }
     .res-header {
-      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-d) 100%);
-      padding: 48px 24px 72px; text-align: center; color: #fff;
+      background:linear-gradient(135deg,var(--purple) 0%,var(--purple-d) 100%);
+      padding:48px 24px 72px; text-align:center; color:#fff;
     }
-    .res-header img { height: 28px; margin-bottom: 24px; opacity: .95; }
+    .res-header img { height:28px; margin-bottom:24px; opacity:.95; }
     .res-badge {
-      display: inline-block;
-      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25);
-      color: rgba(255,255,255,.9); font-size: 11px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 5px 14px; border-radius: 100px; margin-bottom: 16px;
+      display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25);
+      color:rgba(255,255,255,.9); font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase; padding:5px 14px; border-radius:100px; margin-bottom:16px;
     }
-    .res-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
-    .res-sub { font-size: 14px; opacity: .75; }
+    .res-name { font-size:22px; font-weight:800; margin-bottom:4px; }
+    .res-sub { font-size:14px; opacity:.75; }
 
-    /* SCORE CARD */
     .score-card {
-      background: #fff; border-radius: 20px; padding: 32px 24px;
-      margin: -40px 20px 0; box-shadow: 0 8px 40px rgba(124,58,237,.15);
-      text-align: center; position: relative; z-index: 2;
+      background:#fff; border-radius:20px; padding:32px 24px;
+      margin:-40px 20px 0; box-shadow:0 8px 40px rgba(124,58,237,.15);
+      text-align:center; position:relative; z-index:2;
     }
-    .gauge-wrap { position: relative; width: 160px; height: 160px; margin: 0 auto 20px; }
-    .gauge-svg { width: 160px; height: 160px; transform: rotate(-90deg); }
-    .g-bg { fill: none; stroke: #EDE9FE; stroke-width: 12; }
-    .g-fill { fill: none; stroke-width: 12; stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
-    .gauge-center {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-    }
-    .g-num { font-size: 44px; font-weight: 900; line-height: 1; }
-    .g-max { font-size: 13px; color: var(--muted); }
-    .score-level {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 14px; font-weight: 700; padding: 5px 16px;
-      border-radius: 100px; margin-bottom: 12px;
-    }
-    .score-desc { font-size: 14px; color: var(--text2); line-height: 1.65; max-width: 320px; margin: 0 auto; }
+    .score-card-title { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:20px; }
+    .gauge-wrap { position:relative; width:160px; height:160px; margin:0 auto 20px; }
+    .gauge-svg { width:160px; height:160px; transform:rotate(-90deg); }
+    .g-bg { fill:none; stroke:#EDE9FE; stroke-width:12; }
+    .g-fill { fill:none; stroke-width:12; stroke-linecap:round; transition:stroke-dashoffset 1.5s ease; }
+    .gauge-center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .g-num { font-size:44px; font-weight:900; line-height:1; }
+    .g-max { font-size:13px; color:var(--muted); }
+    .score-level { display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:700; padding:5px 16px; border-radius:100px; margin-bottom:12px; }
+    .score-desc { font-size:14px; color:var(--text2); line-height:1.65; max-width:320px; margin:0 auto; }
 
-    /* CATEGORIES */
-    .cats { padding: 24px 20px; }
-    .cats-title { font-size: 16px; font-weight: 800; margin-bottom: 18px; }
-    .cat-item { margin-bottom: 20px; }
-    .cat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .cat-name { font-size: 14px; font-weight: 600; }
-    .cat-pct { font-size: 14px; font-weight: 700; }
-    .cat-track { height: 8px; background: #EDE9FE; border-radius: 100px; overflow: hidden; }
-    .cat-bar { height: 100%; border-radius: 100px; width: 0; transition: width 1.2s ease .4s; }
-    .cat-note { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.5; }
+    /* CATEGORY BARS */
+    .cats { padding:24px 20px; }
+    .cats-title { font-size:16px; font-weight:800; margin-bottom:18px; }
+    .cat-item { margin-bottom:20px; }
+    .cat-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .cat-name { font-size:14px; font-weight:600; }
+    .cat-pct { font-size:14px; font-weight:700; }
+    .cat-track { height:8px; background:#EDE9FE; border-radius:100px; overflow:hidden; }
+    .cat-bar { height:100%; border-radius:100px; width:0; transition:width 1.2s ease .4s; }
+    .cat-note { font-size:12px; color:var(--muted); margin-top:5px; line-height:1.5; }
 
-    /* CTA CARD */
-    .cta-wrap { padding: 4px 20px 20px; }
+    /* PERSONALIZED ANALYSIS SECTION */
+    .analysis-section { padding:0 20px 8px; }
+    .analysis-title { font-size:16px; font-weight:800; margin-bottom:16px; }
+    .analysis-card {
+      background:#FAFAFE; border:1px solid var(--border);
+      border-radius:14px; margin-bottom:14px; overflow:hidden;
+    }
+    .ac-header {
+      display:flex; align-items:center; gap:12px;
+      padding:16px 18px; cursor:pointer; user-select:none;
+    }
+    .ac-icon { font-size:20px; flex-shrink:0; }
+    .ac-title { font-size:14px; font-weight:700; flex:1; }
+    .ac-pct { font-size:13px; font-weight:700; padding:3px 10px; border-radius:100px; flex-shrink:0; }
+    .ac-chevron { font-size:12px; color:var(--muted); flex-shrink:0; transition:transform .25s; }
+    .ac-header.open .ac-chevron { transform:rotate(180deg); }
+    .ac-body { display:none; padding:0 18px 18px; }
+    .ac-body.open { display:block; }
+
+    .ac-situation {
+      background:#fff; border:1px solid var(--border);
+      border-radius:10px; padding:12px 14px; margin-bottom:14px;
+    }
+    .ac-sit-label { font-size:10px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .ac-sit-item { font-size:13px; color:var(--text2); margin-bottom:4px; line-height:1.4; }
+    .ac-sit-item:last-child { margin-bottom:0; }
+    .ac-sit-item b { color:var(--text); }
+
+    .ac-diag-label { font-size:10px; font-weight:700; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .ac-diag { font-size:13px; color:var(--text2); line-height:1.65; margin-bottom:14px; }
+
+    .ac-actions-label { font-size:10px; font-weight:700; color:var(--purple); letter-spacing:1px; text-transform:uppercase; margin-bottom:8px; }
+    .ac-actions { display:flex; flex-direction:column; gap:7px; }
+    .ac-action { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--text2); line-height:1.5; }
+    .ac-action::before { content:'→'; color:var(--purple); flex-shrink:0; font-weight:700; margin-top:1px; }
+
+    /* CTA */
+    .cta-wrap { padding:8px 20px 20px; }
     .cta-card {
-      background: linear-gradient(135deg, #F5F3FF, #EDE9FE);
-      border: 1px solid var(--border-l); border-radius: 16px; padding: 28px 24px;
+      background:linear-gradient(135deg,#F5F3FF,#EDE9FE);
+      border:1px solid var(--border-l); border-radius:16px; padding:28px 24px;
     }
-    .cta-card h3 { font-size: 20px; font-weight: 900; margin-bottom: 8px; }
-    .cta-card p { font-size: 14px; color: var(--text2); line-height: 1.65; margin-bottom: 20px; }
-    .cta-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-    .cta-item {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 13px; color: var(--text2);
-    }
+    .cta-card h3 { font-size:20px; font-weight:900; margin-bottom:8px; }
+    .cta-card p { font-size:14px; color:var(--text2); line-height:1.65; margin-bottom:20px; }
+    .cta-list { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
+    .cta-item { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text2); }
     .cta-item::before {
-      content: '✓'; width: 20px; height: 20px;
-      background: var(--purple); color: #fff; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; font-weight: 900; flex-shrink: 0;
+      content:'✓'; width:20px; height:20px; background:var(--purple);
+      color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-size:10px; font-weight:900; flex-shrink:0;
     }
     .btn-wa {
-      width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
-      padding: 16px; border-radius: 100px; border: none;
-      background: #25D366; color: #fff; font-size: 16px; font-weight: 800;
-      font-family: 'Inter', sans-serif; text-decoration: none; cursor: pointer;
-      box-shadow: 0 6px 24px rgba(37,211,102,.3); transition: all .2s;
+      width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:16px; border-radius:100px; border:none; background:#25D366; color:#fff;
+      font-size:16px; font-weight:800; font-family:'Inter',sans-serif;
+      text-decoration:none; box-shadow:0 6px 24px rgba(37,211,102,.3); transition:all .2s;
     }
-    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(37,211,102,.4); }
+    .btn-wa:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(37,211,102,.4); }
   </style>
 </head>
 <body>
-
 <div id="progress-wrap" style="display:none;"><div id="progress-fill" style="width:0%"></div></div>
 
-<!-- ══ INTRO ══ -->
+<!-- INTRO -->
 <div class="screen active" id="screen-intro">
   <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
-  <div class="intro-badge">🔬 Diagnóstico Digital Gratuito</div>
-  <h1 class="intro-title">Qual é o <span>score</span><br>do seu Instagram?</h1>
-  <p class="intro-sub">Responda 9 perguntas rápidas e descubra exatamente o que está travando seu crescimento no digital.</p>
+  <div class="intro-badge">🩺 Diagnóstico Digital Gratuito</div>
+  <h1 class="intro-title">Qual é o <span>nível</span> da sua<br>presença digital?</h1>
+  <p class="intro-sub">Responda 9 perguntas rápidas e descubra exatamente o que está impedindo você de atrair mais pacientes pelo Instagram.</p>
   <div class="intro-meta">
     <span>⏱️ 3 minutos</span>
     <span>📋 9 perguntas</span>
@@ -333,11 +288,11 @@
   <button class="btn-start" onclick="startQuiz()">Iniciar meu Diagnóstico →</button>
 </div>
 
-<!-- ══ QUIZ ══ -->
+<!-- QUIZ -->
 <div class="screen" id="screen-quiz">
   <div class="quiz-header">
     <img src="logo-roxo.svg" alt="Pitch Company">
-    <span class="q-progress-label" id="qlabel">Questão 1 de 9</span>
+    <span class="q-prog-label" id="qlabel">Questão 1 de 9</span>
   </div>
   <div class="quiz-content" id="qcontent"></div>
   <div class="quiz-nav">
@@ -346,16 +301,20 @@
   </div>
 </div>
 
-<!-- ══ CAPTURE ══ -->
+<!-- CAPTURE -->
 <div class="screen" id="screen-capture">
   <div class="capture-wrap">
     <div class="capture-icon">📊</div>
     <h2 class="capture-title">Quase lá!</h2>
-    <p class="capture-sub">Para liberar seu diagnóstico personalizado, informe seus dados abaixo.</p>
+    <p class="capture-sub">Para liberar seu diagnóstico personalizado, preencha os dados abaixo.</p>
     <form onsubmit="submitCapture(event)">
       <div class="cf-group">
         <label class="cf-label">Seu nome</label>
         <input class="cf-input" id="cap-name" type="text" placeholder="Dr. João Silva" required>
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">@ do seu Instagram</label>
+        <input class="cf-input" id="cap-ig" type="text" placeholder="@seuperfil">
       </div>
       <div class="cf-group">
         <label class="cf-label">WhatsApp</label>
@@ -367,35 +326,35 @@
   </div>
 </div>
 
-<!-- ══ CALCULATING ══ -->
+<!-- CALCULATING -->
 <div class="screen" id="screen-calculating">
   <div class="calc-spinner"></div>
   <h2 class="calc-title">Analisando suas respostas...</h2>
   <p class="calc-sub">Gerando seu diagnóstico personalizado</p>
   <div class="calc-steps">
     <div class="calc-step" id="cs1"><div class="step-dot"></div>Avaliando presença digital</div>
-    <div class="calc-step" id="cs2"><div class="step-dot"></div>Calculando score de conteúdo</div>
+    <div class="calc-step" id="cs2"><div class="step-dot"></div>Calculando nível de conteúdo</div>
     <div class="calc-step" id="cs3"><div class="step-dot"></div>Analisando funil de vendas</div>
     <div class="calc-step" id="cs4"><div class="step-dot"></div>Preparando recomendações</div>
   </div>
 </div>
 
-<!-- ══ RESULTS ══ -->
+<!-- RESULTS -->
 <div class="screen" id="screen-results">
   <div class="res-header">
     <img src="logo-branco.svg" alt="Pitch Company">
-    <div class="res-badge">Diagnóstico Digital</div>
+    <div class="res-badge">Diagnóstico de Presença Digital</div>
     <h2 class="res-name" id="res-name">Seu Resultado</h2>
-    <p class="res-sub">Baseado nas suas respostas</p>
+    <p class="res-sub" id="res-sub">Baseado nas suas respostas</p>
   </div>
 
   <div style="padding:0 20px;">
     <div class="score-card">
+      <p class="score-card-title">Índice de Maturidade Digital</p>
       <div class="gauge-wrap">
         <svg class="gauge-svg" viewBox="0 0 160 160">
           <circle class="g-bg" cx="80" cy="80" r="66"/>
-          <circle class="g-fill" id="g-circle" cx="80" cy="80" r="66"
-            stroke-dasharray="415" stroke-dashoffset="415"/>
+          <circle class="g-fill" id="g-circle" cx="80" cy="80" r="66" stroke-dasharray="415" stroke-dashoffset="415"/>
         </svg>
         <div class="gauge-center">
           <span class="g-num" id="g-num">0</span>
@@ -408,14 +367,14 @@
   </div>
 
   <div class="cats">
-    <h3 class="cats-title">Suas áreas de análise</h3>
+    <h3 class="cats-title">Visão geral por área</h3>
     <div class="cat-item">
       <div class="cat-row"><span class="cat-name">Conteúdo & Consistência</span><span class="cat-pct" id="pct-c">0%</span></div>
       <div class="cat-track"><div class="cat-bar" id="bar-c"></div></div>
       <p class="cat-note" id="note-c"></p>
     </div>
     <div class="cat-item">
-      <div class="cat-row"><span class="cat-name">Funil de Vendas</span><span class="cat-pct" id="pct-f">0%</span></div>
+      <div class="cat-row"><span class="cat-name">Estratégia de Captação</span><span class="cat-pct" id="pct-f">0%</span></div>
       <div class="cat-track"><div class="cat-bar" id="bar-f"></div></div>
       <p class="cat-note" id="note-f"></p>
     </div>
@@ -425,273 +384,333 @@
       <p class="cat-note" id="note-p"></p>
     </div>
     <div class="cat-item">
-      <div class="cat-row"><span class="cat-name">Análise & Crescimento</span><span class="cat-pct" id="pct-a">0%</span></div>
+      <div class="cat-row"><span class="cat-name">Crescimento & Análise</span><span class="cat-pct" id="pct-a">0%</span></div>
       <div class="cat-track"><div class="cat-bar" id="bar-a"></div></div>
       <p class="cat-note" id="note-a"></p>
     </div>
   </div>
 
+  <div class="analysis-section">
+    <h3 class="analysis-title">Análise personalizada</h3>
+    <div id="analysis-cards"></div>
+  </div>
+
   <div class="cta-wrap">
     <div class="cta-card">
-      <h3>Quer transformar esse score?</h3>
-      <p>O Diagnóstico 360 completo com especialistas da Pitch Company vai te mostrar exatamente o que fazer — com um plano de ação concreto.</p>
+      <h3>Quer transformar esse diagnóstico em resultados reais?</h3>
+      <p>O Diagnóstico 360 completo com especialistas da Pitch Company vai além dos números — você recebe um plano de ação concreto para executar.</p>
       <div class="cta-list">
         <div class="cta-item">Reunião estratégica com especialista</div>
-        <div class="cta-item">PDF completo de implementação</div>
+        <div class="cta-item">PDF completo de implementação personalizado</div>
         <div class="cta-item">30 dias de acompanhamento via WhatsApp</div>
         <div class="cta-item">Análise de concorrentes e funil ideal</div>
       </div>
-      <a class="btn-wa" id="btn-wa" href="#" target="_blank">
-        💬 Garantir meu Diagnóstico 360
-      </a>
+      <a class="btn-wa" id="btn-wa" href="#" target="_blank">💬 Quero meu Diagnóstico 360 completo</a>
     </div>
   </div>
 </div>
 
 <script>
 const Qs = [
-  {
-    id:1, type:'choice',
-    q:'Qual é a sua área de atuação?',
-    note:'Selecione a opção que melhor te descreve',
-    opts:['Médico(a)','Dentista','Psicólogo(a)','Nutricionista','Fisioterapeuta','Outro profissional de saúde'],
-    pts:[0,0,0,0,0,0], cat:null
-  },
-  {
-    id:2, type:'choice',
-    q:'Quantos seguidores você tem hoje no Instagram?',
+  { id:1, type:'choice', q:'Qual é a sua especialidade?', note:'Selecione a que melhor te descreve',
+    opts:['Médico(a) — Clínico Geral','Médico(a) — Especialista','Dentista','Psicólogo(a)','Nutricionista','Fisioterapeuta','Outro profissional de saúde'],
+    pts:[0,0,0,0,0,0,0], cat:null },
+  { id:2, type:'choice', q:'Quantos seguidores você tem hoje no Instagram?',
     opts:['Menos de 1.000','Entre 1.000 e 5.000','Entre 5.000 e 20.000','Mais de 20.000'],
-    pts:[5,15,25,35], cat:'a'
-  },
-  {
-    id:3, type:'choice',
-    q:'Com que frequência você posta conteúdo no Instagram?',
+    pts:[5,15,25,35], cat:'a' },
+  { id:3, type:'choice', q:'Com que frequência você publica conteúdo educativo sobre a sua especialidade?',
     opts:['Raramente ou nunca','1 a 2 vezes por semana','3 a 5 vezes por semana','Todos os dias'],
-    pts:[0,10,20,25], cat:'c'
-  },
-  {
-    id:4, type:'choice',
-    q:'Seu conteúdo gera consultas ou contatos de pacientes?',
-    opts:['Nunca acontece','Raramente','Às vezes sim','Sim, de forma consistente'],
-    pts:[0,10,20,30], cat:'c'
-  },
-  {
-    id:5, type:'text',
-    q:'Como você atrai novos pacientes hoje?',
-    note:'Escreva com suas próprias palavras',
-    ph:'Ex: Indicações de amigos, perfil no Instagram, Google Meu Negócio...',
-    cat:null
-  },
-  {
-    id:6, type:'choice',
-    q:'Você tem clareza sobre quem é seu paciente ideal?',
-    opts:['Não tenho clareza sobre isso','Tenho uma ideia vaga','Sei quem é, mas não comunico bem','Sei exatamente e comunico com clareza'],
-    pts:[0,10,18,25], cat:'p'
-  },
-  {
-    id:7, type:'choice',
-    q:'Você tem algum funil de vendas no digital?',
-    opts:['Não sei o que é um funil','Não tenho nenhum funil','Tenho algo, mas não funciona bem','Tenho e funciona bem'],
-    pts:[0,5,15,25], cat:'f'
-  },
-  {
-    id:8, type:'text',
-    q:'Qual é o seu maior desafio no digital hoje?',
-    note:'Seja honesto — isso nos ajuda a personalizar seu diagnóstico',
-    ph:'Ex: Não sei criar conteúdo, não consigo converter seguidores em pacientes...',
-    cat:null
-  },
-  {
-    id:9, type:'choice',
-    q:'Você acompanha as métricas do seu perfil regularmente?',
-    opts:['Nunca olho os números','Raramente dou uma olhada','Às vezes analiso','Sim, acompanho regularmente'],
-    pts:[0,5,12,20], cat:'a'
-  }
+    pts:[0,10,20,25], cat:'c' },
+  { id:4, type:'choice', q:'Seus posts geram contatos ou agendamentos de consultas?',
+    opts:['Nunca percebo isso','Raramente acontece','Às vezes sim','Sim, com frequência'],
+    pts:[0,10,20,30], cat:'c' },
+  { id:5, type:'text', q:'Como os seus pacientes te encontram hoje?', note:'Escreva com suas próprias palavras',
+    ph:'Ex: Indicação de colegas, Google, perfil no Instagram, Walk-in...', cat:null },
+  { id:6, type:'choice', q:'Você tem clareza sobre qual perfil de paciente quer atrair?',
+    opts:['Não tenho clareza','Tenho uma ideia vaga','Sei quem é, mas não comunico bem no perfil','Sei exatamente e comunico com clareza'],
+    pts:[0,10,18,25], cat:'p' },
+  { id:7, type:'choice', q:'Você usa alguma estratégia para converter seguidores em pacientes?',
+    opts:['Não tenho nenhuma estratégia','Posto e espero que me procurem','Tenho algum CTA, mas não funciona bem','Sim, tenho um fluxo que funciona'],
+    pts:[0,5,15,25], cat:'f' },
+  { id:8, type:'text', q:'Qual é o seu maior desafio no digital hoje?', note:'Seja honesto — isso personaliza seu diagnóstico',
+    ph:'Ex: Não sei criar conteúdo, não consigo converter seguidores em pacientes, não tenho tempo...', cat:null },
+  { id:9, type:'choice', q:'Você analisa o desempenho dos seus conteúdos regularmente?',
+    opts:['Nunca olho as métricas','Raramente verifico','Analiso às vezes','Sim, acompanho semanalmente'],
+    pts:[0,5,12,20], cat:'a' }
 ];
 
-let cur = 0, ans = {}, user = {};
+let cur=0, ans={}, user={};
+const COLORS = ['#EF4444','#F97316','#EAB308','#22C55E'];
 
 function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
 
 function startQuiz() {
-  document.getElementById('progress-wrap').style.display = 'block';
-  cur = 0; ans = {};
+  document.getElementById('progress-wrap').style.display='block';
+  cur=0; ans={};
   show('screen-quiz');
   render();
 }
 
 function render() {
-  const q = Qs[cur], total = Qs.length;
-  document.getElementById('progress-fill').style.width = (cur / total * 100) + '%';
-  document.getElementById('qlabel').textContent = `Questão ${cur+1} de ${total}`;
-  document.getElementById('btn-back').disabled = cur === 0;
-  const isLast = cur === total - 1;
-  document.getElementById('btn-next').textContent = isLast ? 'Ver resultado →' : 'Próxima →';
+  const q=Qs[cur], total=Qs.length;
+  document.getElementById('progress-fill').style.width=(cur/total*100)+'%';
+  document.getElementById('qlabel').textContent=`Questão ${cur+1} de ${total}`;
+  document.getElementById('btn-back').disabled=cur===0;
+  const isLast=cur===total-1;
+  document.getElementById('btn-next').textContent=isLast?'Ver meu diagnóstico →':'Próxima →';
+  document.getElementById('btn-next').disabled=(q.type==='text')?false:(ans[q.id]===undefined);
 
-  const hasAns = ans[q.id] !== undefined;
-  document.getElementById('btn-next').disabled = q.type === 'text' ? false : !hasAns;
-
-  let html = `<div class="q-label">Questão ${cur+1} de ${total}</div>
+  let html=`<div class="q-label">Questão ${cur+1} de ${total}</div>
     <h2 class="q-question">${q.q}</h2>
-    ${q.note ? `<p class="q-note">${q.note}</p>` : '<div style="height:20px"></div>'}`;
+    ${q.note?`<p class="q-note">${q.note}</p>`:'<div style="height:20px"></div>'}`;
 
-  if (q.type === 'choice') {
-    html += `<div class="options-list">`;
-    q.opts.forEach((o,i) => {
-      const sel = ans[q.id] === i;
-      html += `<button class="option-btn${sel?' selected':''}" onclick="pick(${q.id},${i})">
-        <div class="opt-radio"><div class="opt-radio-dot"></div></div>${o}
+  if(q.type==='choice') {
+    html+=`<div class="options-list">`;
+    q.opts.forEach((o,i)=>{
+      const sel=ans[q.id]===i;
+      html+=`<button class="opt-btn${sel?' sel':''}" onclick="pick(${q.id},${i})">
+        <div class="opt-circle"><div class="opt-dot"></div></div>${o}
       </button>`;
     });
-    html += `</div>`;
+    html+=`</div>`;
   } else {
-    const v = ans[q.id] || '';
-    html += `<textarea class="q-textarea" id="ta${q.id}" placeholder="${q.ph||'Escreva aqui...'}"
+    const v=ans[q.id]||'';
+    html+=`<textarea class="q-textarea" placeholder="${q.ph||'Escreva aqui...'}"
       oninput="onText(${q.id},this.value)" maxlength="300">${v}</textarea>
       <div class="char-count"><span id="cc${q.id}">${v.length}</span>/300</div>`;
   }
-
-  document.getElementById('qcontent').innerHTML = html;
+  document.getElementById('qcontent').innerHTML=html;
 }
 
-function pick(qid, i) {
-  ans[qid] = i;
-  document.getElementById('btn-next').disabled = false;
-  document.querySelectorAll('.option-btn').forEach((b,idx) => {
-    b.classList.toggle('selected', idx === i);
-  });
+function pick(qid,i) {
+  ans[qid]=i;
+  document.getElementById('btn-next').disabled=false;
+  document.querySelectorAll('.opt-btn').forEach((b,idx)=>b.classList.toggle('sel',idx===i));
 }
 
-function onText(qid, v) {
-  ans[qid] = v;
-  const cc = document.getElementById('cc'+qid);
-  if (cc) cc.textContent = v.length;
-}
-
-function next() {
-  if (cur < Qs.length - 1) { cur++; render(); }
-  else { show('screen-capture'); document.getElementById('progress-fill').style.width = '95%'; }
-}
-
-function prev() { if (cur > 0) { cur--; render(); } }
+function onText(qid,v) { ans[qid]=v; const cc=document.getElementById('cc'+qid); if(cc)cc.textContent=v.length; }
+function next() { cur<Qs.length-1?(cur++,render()):(show('screen-capture'),document.getElementById('progress-fill').style.width='95%'); }
+function prev() { cur>0&&(cur--,render()); }
 
 async function submitCapture(e) {
   e.preventDefault();
   user.name  = document.getElementById('cap-name').value;
+  user.ig    = document.getElementById('cap-ig').value;
   user.phone = document.getElementById('cap-phone').value;
   show('screen-calculating');
-  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-fill').style.width='100%';
 
-  const steps = ['cs1','cs2','cs3','cs4'];
-  for (let i = 0; i < steps.length; i++) {
+  for(let i=0;i<4;i++) {
     await sleep(650);
-    document.getElementById(steps[i]).classList.add('show');
-    if (i > 0) document.getElementById(steps[i-1]).classList.add('done');
+    document.getElementById('cs'+(i+1)).classList.add('show');
+    if(i>0) document.getElementById('cs'+i).classList.add('done');
   }
   await sleep(600);
 
-  const res = calcScore();
+  const res=calcScore();
 
   try {
-    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        nome: user.name, whatsapp: user.phone,
-        origem: 'Quiz Diagnóstico Digital',
-        score: res.score, nivel: res.level,
-        area: ans[1] !== undefined ? Qs[0].opts[ans[1]] : '',
-        como_atrai_pacientes: ans[5] || '',
-        maior_desafio: ans[8] || '',
-        categorias: res.cats,
-        data_envio: new Date().toISOString()
+    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        nome:user.name, instagram:user.ig, whatsapp:user.phone,
+        origem:'Quiz Diagnóstico Digital',
+        indice_maturidade:res.score, nivel:res.level,
+        especialidade:ans[1]!==undefined?Qs[0].opts[ans[1]]:'',
+        como_atrai_pacientes:ans[5]||'', maior_desafio:ans[8]||'',
+        categorias:res.cats, data_envio:new Date().toISOString()
       })
     });
-  } catch(err) { console.error(err); }
+  } catch(err){console.error(err);}
 
   buildResults(res);
   show('screen-results');
 }
 
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
 
 function calcScore() {
-  let total = 0;
-  let raw = { c:0, f:0, p:0, a:0 };
-  Qs.forEach(q => {
-    if (q.type==='choice' && q.cat && ans[q.id]!==undefined)
-      raw[q.cat] += q.pts[ans[q.id]], total += q.pts[ans[q.id]];
+  let total=0, raw={c:0,f:0,p:0,a:0};
+  Qs.forEach(q=>{
+    if(q.type==='choice'&&q.cat&&ans[q.id]!==undefined)
+      { raw[q.cat]+=q.pts[ans[q.id]]; total+=q.pts[ans[q.id]]; }
   });
-  const score = Math.round(total / 160 * 100);
-  const cats = {
-    c: Math.round(raw.c / 55 * 100),
-    f: Math.round(raw.f / 25 * 100),
-    p: Math.round(raw.p / 25 * 100),
-    a: Math.round(raw.a / 55 * 100)
+  const score=Math.round(total/160*100);
+  const cats={
+    c:Math.round(raw.c/55*100),
+    f:Math.round(raw.f/25*100),
+    p:Math.round(raw.p/25*100),
+    a:Math.round(raw.a/55*100)
   };
-  let level, color, desc;
-  if (score <= 30)      { level='🔴 Crítico';         color='#EF4444'; desc='Seu perfil digital precisa de atenção urgente. Há gaps fundamentais que estão bloqueando seu crescimento e afastando pacientes em potencial.'; }
-  else if (score <= 55) { level='🟠 Em Desenvolvimento'; color='#F97316'; desc='Você está tentando crescer, mas sem uma estratégia clara. Há muito potencial inexplorado — o momento de agir é agora.'; }
-  else if (score <= 75) { level='🟡 Intermediário';    color='#EAB308'; desc='Você está no caminho certo, mas ainda tem gaps que limitam seu crescimento. Com os ajustes certos, você pode escalar muito mais rápido.'; }
-  else                  { level='🟢 Avançado';         color='#22C55E'; desc='Você tem uma base sólida! Com otimizações estratégicas e um funil bem estruturado, seu potencial de crescimento é enorme.'; }
-  return { score, level, color, desc, cats };
+  let level,color,desc;
+  if(score<=30)      {level='🔴 Presença Crítica';    color='#EF4444'; desc='Seu perfil digital precisa de atenção urgente. Pacientes estão buscando sua especialidade online agora — e encontrando outros profissionais menos qualificados.';}
+  else if(score<=55) {level='🟠 Em Desenvolvimento';  color='#F97316'; desc='Você está tentando crescer no digital, mas sem uma estratégia clara. Há muito potencial inexplorado — cada mês sem ação é agenda perdida.';}
+  else if(score<=75) {level='🟡 Nível Intermediário'; color='#EAB308'; desc='Você tem uma base, mas existem gaps importantes que limitam sua conversão. Com os ajustes certos, sua agenda pode escalar muito mais rápido.';}
+  else               {level='🟢 Nível Avançado';      color='#22C55E'; desc='Você tem uma presença digital sólida. O próximo passo é escalar com estratégia e começar a multiplicar sua captação de pacientes.';}
+  return {score,level,color,desc,cats};
 }
+
+// ── ANALYSIS DATA ──
+const ANALYSIS = {
+  c: {
+    icon:'📱', title:'Conteúdo & Consistência',
+    situations: [
+      q=>{ const q3=Qs[2].opts[ans[3]]; const q4=Qs[3].opts[ans[4]]; return [`Frequência: <b>"${q3||'—'}"</b>`,`Geração de consultas: <b>"${q4||'—'}"</b>`]; },
+    ],
+    levels: [
+      { diag:'Seu perfil está praticamente inativo. Para um profissional de saúde, o Instagram precisa funcionar como vitrine 24/7. Pacientes pesquisam sua especialidade online antes de escolher um médico — se você não aparece, o concorrente ocupa esse espaço.',
+        acoes:['Defina 2 dias fixos por semana para publicar conteúdo educativo da sua especialidade — a consistência é mais importante que a perfeição','Comece com Reels de 30-60 segundos respondendo dúvidas frequentes dos seus pacientes','Adicione um link na bio direcionando para agendamento online ou contato direto pelo WhatsApp'] },
+      { diag:'Você está postando, mas a frequência ainda não é suficiente para o algoritmo do Instagram te recomendar para novos usuários. Médicos que educam sua audiência consistentemente constroem autoridade e reduzem a dependência de indicações.',
+        acoes:['Aumente para 3-4 posts semanais — esse é o mínimo para o Instagram começar a te recomendar organicamente','Varie os formatos: Reels educativos, carrosséis com dicas clínicas e stories diários de bastidores do consultório','Inclua depoimentos de pacientes satisfeitos (com autorização) — prova social é o gatilho de conversão mais forte para médicos'] },
+      { diag:'Sua consistência já é um diferencial. Você está gerando alguns resultados, mas o próximo nível exige transformar engajamento em agendamentos — isso requer estratégia de funil integrada ao conteúdo, não apenas publicar com mais frequência.',
+        acoes:['Crie um conteúdo âncora de alto valor (ex: vídeo respondendo as 5 maiores dúvidas da sua especialidade)','Monitore quais formatos geram mais mensagens e duplique essa aposta','Adicione CTAs específicos em cada post: "Me chame no direct", "Link na bio para agendamento", "Deixa sua dúvida nos comentários"'] },
+      { diag:'Excelente presença! Você tem consistência e está gerando resultados. Agora é hora de escalar com inteligência: amplificar seus melhores conteúdos com tráfego pago e criar um sistema de captação automático.',
+        acoes:['Experimente tráfego pago para amplificar os conteúdos que já performam bem organicamente','Crie uma sequência de stories de boas-vindas para novos seguidores — guie-os do "descoberta" ao "agendamento"','Considere desenvolver um material digital gratuito para capturar leads qualificados'] }
+    ]
+  },
+  f: {
+    icon:'🎯', title:'Estratégia de Captação',
+    situations: [
+      q=>{ const q7=Qs[6].opts[ans[7]]; const q5=ans[5]; return [`Estratégia atual: <b>"${q7||'—'}"</b>`, q5?`Como atrai pacientes hoje: <b>"${q5}"</b>`:null].filter(Boolean); }
+    ],
+    levels: [
+      { diag:'Você não tem nenhuma estratégia estruturada de captação digital. Isso significa que seu crescimento depende 100% de indicações e do acaso. Para um profissional de saúde que quer escalar a agenda, isso é o maior gargalo a resolver.',
+        acoes:['Comece criando um CTA claro em todos os posts: diga exatamente o que o seguidor deve fazer para marcar uma consulta','Adicione o link de agendamento na bio e mencione isso nos conteúdos ("link na bio para agendar")','Responda todos os comentários e DMs nos primeiros 60 minutos após publicar — isso é o que mais aumenta o alcance orgânico'] },
+      { diag:'Você posta mas não guia o seguidor para uma ação. No digital médico, quem não faz uma chamada para ação clara perde pacientes que estavam prontos para agendar. O seguidor precisa saber exatamente o próximo passo.',
+        acoes:['Em todo post, adicione um CTA direto no texto e nos stories de repost','Crie um link na bio organizado com opções claras: "Agendar consulta", "Tirar dúvida" e "Saiba mais sobre mim"','Teste a estratégia de "consulta de dúvida rápida pelo direct" para aquecer leads antes do agendamento formal'] },
+      { diag:'Você já tem alguma intenção de captação, mas o fluxo ainda tem furos. Geralmente o problema está na jornada: o paciente se interessa pelo conteúdo, mas não sabe exatamente como avançar para o agendamento.',
+        acoes:['Mapeie a jornada completa: desde o primeiro post que o paciente vê até o agendamento — identifique onde as pessoas "caem"','Crie um "funil de DM": quando alguém manda mensagem, tenha uma resposta padronizada que qualifica e direciona para agendamento','Teste ofertas de entrada de baixo atrito (ex: uma consulta de avaliação com preço especial)'] },
+      { diag:'Você tem um fluxo de captação funcionando. O próximo passo é automatizar e escalar para que seu sistema trabalhe por você enquanto você atende pacientes.',
+        acoes:['Implemente automações de resposta no direct para qualificar leads 24/7','Crie uma campanha de tráfego pago segmentada para sua especialidade na sua cidade','Desenvolva um programa de indicação estruturado para pacientes satisfeitos'] }
+    ]
+  },
+  p: {
+    icon:'🏥', title:'Posicionamento & Nicho',
+    situations: [
+      q=>{ const q6=Qs[5].opts[ans[6]]; const q1=ans[1]!==undefined?Qs[0].opts[ans[1]]:null; return [`Clareza sobre paciente ideal: <b>"${q6||'—'}"</b>`, q1?`Especialidade: <b>${q1}</b>`:null].filter(Boolean); }
+    ],
+    levels: [
+      { diag:'Sem clareza de nicho, seu conteúdo tenta falar com todo mundo e não conecta com ninguém. Para médicos no digital, a especificidade é o que gera autoridade: o especialista em algo específico é percebido como mais confiável do que o especialista em tudo.',
+        acoes:['Defina com precisão: qual é a principal transformação que você proporciona ao seu paciente?','Escolha 1-2 temas centrais para seu conteúdo que reflitam sua especialidade e o perfil de paciente que você quer atrair','Revise sua bio: ela deve dizer em 1 frase quem você ajuda e como'] },
+      { diag:'Você tem uma ideia do seu público, mas isso não está se refletindo claramente no seu perfil. Um seguidor que chega na sua página pela primeira vez deve entender em 3 segundos se você é a pessoa certa para ele.',
+        acoes:['Reescreva sua bio com a fórmula: [Especialidade] | [Quem você ajuda] | [Principal resultado] | [CTA]','Crie uma série de conteúdos que fale diretamente com as dores e dúvidas do seu paciente ideal','Analise seus 5 melhores posts: eles atraem o perfil de paciente que você quer? Se não, mude o tema'] },
+      { diag:'Você sabe quem é seu paciente ideal, mas essa clareza não está sendo comunicada com a força necessária no digital. A consistência na mensagem é o que transforma seguidores em pacientes fiéis e indicações espontâneas.',
+        acoes:['Padronize a linguagem dos seus posts para sempre se conectar com as dores específicas do seu paciente ideal','Use histórias reais (com autorização) de pacientes que passaram pelo problema que você resolve','Crie conteúdos do tipo "Para quem é para mim" — deixa explícito o perfil de paciente que você atende'] },
+      { diag:'Seu posicionamento é sólido. Você sabe quem é seu paciente ideal e comunica isso com clareza. O próximo passo é tornar sua autoridade ainda mais evidente com conteúdos de profundidade técnica e prova social consistente.',
+        acoes:['Desenvolva casos clínicos (sem identificação) que demonstrem sua expertise de forma prática','Faça parcerias estratégicas com profissionais complementares para ampliar seu alcance no nicho','Posicione-se como referência na mídia: podcasts, lives com outros especialistas, artigos de divulgação científica'] }
+    ]
+  },
+  a: {
+    icon:'📈', title:'Crescimento & Análise',
+    situations: [
+      q=>{ const q2=Qs[1].opts[ans[2]]; const q9=Qs[8].opts[ans[9]]; return [`Seguidores atuais: <b>${q2||'—'}</b>`,`Análise de métricas: <b>"${q9||'—'}"</b>`]; }
+    ],
+    levels: [
+      { diag:'Sem acompanhar os números, você está trabalhando no escuro. Não dá para crescer no digital sem entender o que funciona e o que não funciona no seu perfil. Métricas não são apenas números — são o GPS do seu crescimento.',
+        acoes:['Todo domingo, passe 10 minutos verificando quais posts tiveram mais alcance e engajamento na semana','Observe o padrão: quais temas e formatos geraram mais mensagens e seguidores novos?','Instale o Google Analytics no seu link de agendamento para saber quantos visitantes vieram do Instagram'] },
+      { diag:'Você olha os números às vezes, mas sem consistência. O crescimento sustentável no digital exige um ciclo de análise-aprendizado-ajuste semanal. Médicos que fazem isso crescem de 2 a 3 vezes mais rápido do que quem posta sem acompanhar.',
+        acoes:['Defina uma rotina semanal de 15 minutos para analisar as métricas do Instagram (alcance, salvamentos, compartilhamentos, cliques na bio)','Foque especialmente em "salvamentos" e "compartilhamentos" — são os indicadores mais fortes de conteúdo com potencial de crescimento','Faça um teste A/B simples: poste 2 tipos diferentes de conteúdo na mesma semana e veja qual performa melhor'] },
+      { diag:'Você já analisa seus dados com alguma regularidade, o que é um diferencial claro. O próximo nível é usar esses dados para tomar decisões mais rápidas e criar um ciclo de crescimento acelerado.',
+        acoes:['Crie uma planilha simples de acompanhamento: alcance, seguidores novos, cliques na bio e mensagens recebidas por semana','Identifique seu "conteúdo unicórnio" — aquele que performou 3x acima da média — e explore esse tema em profundidade','Monitore a relação entre posts específicos e agendamentos: qual conteúdo gera mais consultas?'] },
+      { diag:'Você acompanha suas métricas regularmente e isso é um diferencial competitivo real. Poucos profissionais de saúde fazem isso com consistência. O próximo passo é usar esses dados para tomar decisões de investimento em tráfego pago com segurança.',
+        acoes:['Crie um dashboard simples com seus KPIs principais para visualizar a evolução mês a mês','Use os dados de posts orgânicos para identificar quais conteúdos vale a pena impulsionar com anúncios','Estabeleça metas mensais mensuráveis: X novos seguidores, Y agendamentos via Instagram, Z mensagens no direct'] }
+    ]
+  }
+};
 
 function buildResults(res) {
-  const first = user.name.split(' ')[0];
-  document.getElementById('res-name').textContent = `Diagnóstico de ${first}`;
-  document.getElementById('score-desc').textContent = res.desc;
+  const first=user.name.split(' ')[0];
+  document.getElementById('res-name').textContent=`Diagnóstico de ${first}`;
+  document.getElementById('res-sub').textContent=`${user.ig?user.ig+' · ':''}Baseado nas suas ${Qs.length} respostas`;
+  document.getElementById('score-desc').textContent=res.desc;
 
-  // Level badge
-  const lel = document.getElementById('score-level');
-  lel.textContent = res.level;
-  lel.style.cssText = `background:${res.color}15;color:${res.color};border:1px solid ${res.color}30;`;
+  const lel=document.getElementById('score-level');
+  lel.textContent=res.level;
+  lel.style.cssText=`background:${res.color}15;color:${res.color};border:1px solid ${res.color}30;`;
 
-  // Gauge
-  const circle = document.getElementById('g-circle');
-  circle.style.stroke = res.color;
-  setTimeout(() => { circle.style.strokeDashoffset = 415 - (res.score/100*415); }, 150);
-  animNum('g-num', 0, res.score, 1500);
+  const circle=document.getElementById('g-circle');
+  circle.style.stroke=res.color;
+  setTimeout(()=>{ circle.style.strokeDashoffset=415-(res.score/100*415); },150);
+  animNum('g-num',0,res.score,1500);
 
   // Category bars
-  const notes = {
-    c: ['Você quase não posta. A consistência é o primeiro passo para qualquer resultado.','Frequência abaixo do ideal. Aumentar a consistência vai acelerar o crescimento.','Bom ritmo! Agora foque em converter esse conteúdo em consultas.','Excelente consistência! Optimize a conversão para extrair mais resultados.'],
-    f: ['Você não tem funil. Está deixando dinheiro na mesa todos os dias.','Sem funil, seus esforços no digital raramente se convertem em clientes.','Você tem algo, mas precisa otimizar. Um diagnóstico completo vai identificar o gargalo.','Ótimo! Agora é hora de escalar e testar novas etapas do funil.'],
-    p: ['Sem clareza de nicho, seu conteúdo não atrai nem converte o cliente certo.','Uma definição mais clara do paciente ideal pode multiplicar seus resultados.','Você sabe quem é, mas precisa comunicar isso com mais clareza no perfil.','Excelente posicionamento! Você sabe quem quer atingir e comunica isso bem.'],
-    a: ['Sem dados você está no escuro. Não dá para melhorar o que não se mede.','Acompanhar métricas regularmente é essencial para tomar decisões melhores.','Você acompanha alguns dados. Aprofunde a análise para acelerar os resultados.','Ótimo! Você usa dados para guiar decisões. Isso é diferencial competitivo.']
+  const catNotes={
+    c:['Presença mínima — consistência é urgente','Frequência abaixo do ideal para crescer','Bom ritmo — foque na conversão','Excelente consistência — hora de escalar'],
+    f:['Sem estratégia de captação definida','Captação passiva — precisa de estrutura','CTA existe, mas o fluxo tem furos','Fluxo de captação funcionando bem'],
+    p:['Sem clareza de nicho comunicada','Paciente ideal vago — redefina o foco','Sabe quem é, mas não comunica bem','Posicionamento claro e diferenciado'],
+    a:['Sem análise — crescimento no escuro','Análise esporádica — crie uma rotina','Análise parcial — aprofunde os dados','Tomada de decisão baseada em dados']
   };
-  const colors = ['#EF4444','#F97316','#EAB308','#22C55E'];
-  const map = { c:'c', f:'f', p:'p', a:'a' };
-
-  Object.entries(map).forEach(([key, sfx]) => {
-    const pct = res.cats[key];
-    const lvl = pct<=25?0:pct<=50?1:pct<=75?2:3;
-    const col = colors[lvl];
-    document.getElementById(`pct-${sfx}`).textContent = pct + '%';
-    document.getElementById(`pct-${sfx}`).style.color = col;
-    document.getElementById(`note-${sfx}`).textContent = notes[key][lvl];
-    const bar = document.getElementById(`bar-${sfx}`);
-    bar.style.background = col;
-    setTimeout(() => { bar.style.width = pct + '%'; }, 400);
+  const ids=['c','f','p','a'];
+  ids.forEach(k=>{
+    const pct=res.cats[k];
+    const lvl=pct<=25?0:pct<=50?1:pct<=75?2:3;
+    const col=COLORS[lvl];
+    document.getElementById(`pct-${k}`).textContent=pct+'%';
+    document.getElementById(`pct-${k}`).style.color=col;
+    document.getElementById(`note-${k}`).textContent=catNotes[k][lvl];
+    const bar=document.getElementById(`bar-${k}`);
+    bar.style.background=col;
+    setTimeout(()=>{ bar.style.width=pct+'%'; },400);
   });
 
+  // Analysis cards
+  let html='';
+  ids.forEach(k=>{
+    const pct=res.cats[k];
+    const lvl=pct<=25?0:pct<=50?1:pct<=75?2:3;
+    const col=COLORS[lvl];
+    const data=ANALYSIS[k];
+    const sits=data.situations[0]();
+    const info=data.levels[lvl];
+    const cardId=`ac-${k}`;
+
+    html+=`<div class="analysis-card">
+      <div class="ac-header" onclick="toggleAC('${cardId}',this)" id="hdr-${cardId}">
+        <span class="ac-icon">${data.icon}</span>
+        <span class="ac-title">${data.title}</span>
+        <span class="ac-pct" style="background:${col}15;color:${col};border:1px solid ${col}30;">${pct}%</span>
+        <span class="ac-chevron">▼</span>
+      </div>
+      <div class="ac-body" id="${cardId}">
+        <div class="ac-situation">
+          <div class="ac-sit-label">Suas respostas</div>
+          ${sits.map(s=>`<div class="ac-sit-item">→ ${s}</div>`).join('')}
+        </div>
+        <div class="ac-diag-label">Diagnóstico</div>
+        <p class="ac-diag">${info.diag}</p>
+        <div class="ac-actions-label">O que fazer agora</div>
+        <div class="ac-actions">${info.acoes.map(a=>`<div class="ac-action">${a}</div>`).join('')}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('analysis-cards').innerHTML=html;
+  // Open first card
+  document.getElementById('ac-c').classList.add('open');
+  document.getElementById('hdr-ac-c').classList.add('open');
+
   // WhatsApp
-  const area = ans[1]!==undefined ? Qs[0].opts[ans[1]] : '';
-  const msg = encodeURIComponent(`Olá! Acabei de fazer o Quiz Diagnóstico Digital da Pitch Company.\n\n📊 Score: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
-  document.getElementById('btn-wa').href = `https://wa.me/55SEU_NUMERO?text=${msg}`;
+  const area=ans[1]!==undefined?Qs[0].opts[ans[1]]:'';
+  const msg=encodeURIComponent(`Olá! Acabei de fazer o Diagnóstico Digital da Pitch Company.\n\n📊 Índice de Maturidade: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
+  document.getElementById('btn-wa').href=`https://wa.me/55SEU_NUMERO?text=${msg}`;
 }
 
-function animNum(id, from, to, dur) {
-  const el = document.getElementById(id);
-  const t0 = performance.now();
-  (function tick(now) {
-    const p = Math.min((now-t0)/dur, 1);
-    el.textContent = Math.round(from + (to-from) * (1-Math.pow(1-p,3)));
-    if (p < 1) requestAnimationFrame(tick);
+function toggleAC(id,hdr) {
+  const body=document.getElementById(id);
+  const open=body.classList.toggle('open');
+  hdr.classList.toggle('open',open);
+}
+
+function animNum(id,from,to,dur) {
+  const el=document.getElementById(id);
+  const t0=performance.now();
+  (function tick(now){
+    const p=Math.min((now-t0)/dur,1);
+    el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));
+    if(p<1)requestAnimationFrame(tick);
   })(t0);
 }
 </script>
