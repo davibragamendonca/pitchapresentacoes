@@ -292,23 +292,16 @@
     .testimonials-section .ts-sub {
       font-size:13px; color:var(--text2); text-align:center; margin-bottom:24px;
     }
-    .ts-grid {
-      display:grid; grid-template-columns:1fr 1fr; gap:12px;
+    .ts-masonry {
+      columns:2; column-gap:8px;
     }
     .ts-item {
+      break-inside:avoid; margin-bottom:8px;
       background:var(--card); border-radius:12px; overflow:hidden;
       box-shadow:0 2px 12px rgba(0,0,0,.18);
     }
     .ts-item img {
       width:100%; height:auto; display:block;
-    }
-    .ts-item.ts-full {
-      grid-column:1/-1;
-    }
-    .ts-placeholder {
-      width:100%; aspect-ratio:4/5; background:var(--purple-bg);
-      display:flex; align-items:center; justify-content:center;
-      font-size:12px; color:var(--text2); text-align:center; padding:12px;
     }
     .ts-cases-title { margin-top:36px; }
 
@@ -481,30 +474,30 @@
       </div>
     </div>
   </div>
-</div>
 
-<div class="testimonials-section">
-  <h2>O que dizem quem já fez</h2>
-  <p class="ts-sub">Resultados reais de profissionais de saúde</p>
-  <div class="ts-grid">
-    <div class="ts-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento Franciaine" /></div>
-    <div class="ts-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento Daniela" /></div>
-    <div class="ts-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento Giu" /></div>
-    <div class="ts-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento Mariana" /></div>
-    <div class="ts-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento Michele" /></div>
-    <div class="ts-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento Taína" /></div>
-    <div class="ts-item ts-full"><img src="depo/anonimo.jpg.jpeg" alt="Depoimento" /></div>
-  </div>
+  <div class="testimonials-section">
+    <h2>O que dizem quem já fez</h2>
+    <p class="ts-sub">Resultados reais de profissionais de saúde</p>
+    <div class="ts-masonry">
+      <div class="ts-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento Franciaine" /></div>
+      <div class="ts-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento Daniela" /></div>
+      <div class="ts-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento Giu" /></div>
+      <div class="ts-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento Mariana" /></div>
+      <div class="ts-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento Michele" /></div>
+      <div class="ts-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento Taína" /></div>
+      <div class="ts-item"><img src="depo/anonimo.jpg.jpeg" alt="Depoimento" /></div>
+    </div>
 
-  <h2 class="ts-cases-title">Resultados dos nossos clientes</h2>
-  <p class="ts-sub">Cases reais de crescimento e performance</p>
-  <div class="ts-grid">
-    <div class="ts-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado viral" /></div>
-    <div class="ts-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado viral" /></div>
-    <div class="ts-item"><img src="cases/viral-3.jpg.jpeg" alt="Resultado viral" /></div>
-    <div class="ts-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado ROAS" /></div>
-    <div class="ts-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado ROAS" /></div>
-    <div class="ts-item"><img src="cases/roas-3.jpg.jpeg" alt="Resultado ROAS" /></div>
+    <h2 class="ts-cases-title">Resultados dos nossos clientes</h2>
+    <p class="ts-sub">Cases reais de crescimento e performance</p>
+    <div class="ts-masonry">
+      <div class="ts-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/viral-3.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado ROAS" /></div>
+      <div class="ts-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado ROAS" /></div>
+      <div class="ts-item"><img src="cases/roas-3.jpg.jpeg" alt="Resultado ROAS" /></div>
+    </div>
   </div>
 </div>
 
