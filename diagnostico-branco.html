@@ -979,25 +979,40 @@
 </footer>
 
 <script>
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    const name      = document.getElementById('name').value;
-    const specialty = document.getElementById('specialty').value;
-    const instagram = document.getElementById('instagram').value;
-    const whatsapp  = document.getElementById('whatsapp').value;
-    const followers = document.getElementById('followers').value;
 
-    const msg = encodeURIComponent(
-      `Olá! Quero solicitar meu Diagnóstico 360.\n\n` +
-      `Nome: ${name}\n` +
-      `Especialidade: ${specialty}\n` +
-      `Instagram: ${instagram}\n` +
-      `WhatsApp: ${whatsapp}\n` +
-      `Seguidores: ${followers}`
-    );
+    const btn = document.querySelector('#leadForm .fbtn');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
 
-    // Substitua SEU_NUMERO pelo número WhatsApp da Pitch Company (somente dígitos, com DDI 55)
-    window.open(`https://wa.me/55SEU_NUMERO?text=${msg}`, '_blank');
+    const payload = {
+      nome:          document.getElementById('name').value,
+      especialidade: document.getElementById('specialty').value,
+      instagram:     document.getElementById('instagram').value,
+      whatsapp:      document.getElementById('whatsapp').value,
+      seguidores:    document.getElementById('followers').value,
+      origem:        'Diagnóstico 360 — Landing Page Branca',
+      data_envio:    new Date().toISOString()
+    };
+
+    try {
+      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) {
+      console.error('Webhook error:', err);
+    }
+
+    document.getElementById('leadForm').innerHTML = `
+      <div style="text-align:center;padding:24px 0;">
+        <div style="font-size:48px;margin-bottom:16px;">✅</div>
+        <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;color:var(--text);">Solicitação enviada!</h3>
+        <p style="font-size:14px;color:var(--text2);line-height:1.6;">Nossa equipe entrará em contato<br>em até 24h pelo WhatsApp.</p>
+      </div>
+    `;
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
