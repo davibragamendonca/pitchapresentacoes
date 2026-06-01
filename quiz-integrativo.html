@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anamnese Digital | Saúde Integrativa | Pitch Company</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --purple:   #7C3AED;
+      --purple-l: #9333EA;
+      --purple-d: #5B21B6;
+      --purple-bg:#F5F3FF;
+      --text:     #1C0B3D;
+      --text2:    #4B3472;
+      --muted:    rgba(75,52,114,.5);
+      --border:   rgba(124,58,237,.15);
+      --border-l: rgba(124,58,237,.3);
+    }
+    html,body { height:100%; }
+    body { font-family:'Inter',sans-serif; background:#fff; color:var(--text); min-height:100vh; }
+
+    .screen { display:none; flex-direction:column; min-height:100vh; }
+    .screen.active { display:flex; }
+
+    #progress-wrap { height:4px; background:rgba(124,58,237,.1); position:fixed; top:0; left:0; right:0; z-index:100; }
+    #progress-fill { height:100%; background:linear-gradient(90deg,var(--purple),var(--purple-l)); transition:width .4s ease; }
+
+    /* ── INTRO ── */
+    #screen-intro {
+      align-items:center; justify-content:center; text-align:center;
+      padding:60px 24px; background:linear-gradient(160deg,#F5F3FF 0%,#fff 60%);
+    }
+    .intro-logo { height:36px; margin-bottom:36px; }
+    .intro-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      background:rgba(124,58,237,.08); border:1px solid var(--border-l);
+      color:var(--purple); font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase;
+      padding:6px 14px; border-radius:100px; margin-bottom:24px;
+    }
+    .intro-title { font-size:clamp(28px,7vw,44px); font-weight:900; line-height:1.12; margin-bottom:16px; letter-spacing:-.5px; }
+    .intro-title span { color:var(--purple); }
+    .intro-sub { font-size:16px; color:var(--text2); max-width:380px; line-height:1.7; margin:0 auto 32px; }
+    .intro-meta { display:flex; align-items:center; justify-content:center; gap:20px; margin-bottom:36px; flex-wrap:wrap; }
+    .intro-meta span { font-size:13px; color:var(--muted); }
+    .btn-start {
+      display:inline-flex; align-items:center; gap:10px;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:16px; font-weight:800;
+      padding:18px 42px; border-radius:100px; border:none;
+      cursor:pointer; font-family:'Inter',sans-serif;
+      box-shadow:0 8px 30px rgba(124,58,237,.35); transition:all .2s;
+    }
+    .btn-start:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(124,58,237,.45); }
+
+    /* ── QUIZ ── */
+    #screen-quiz { padding-top:16px; }
+    .quiz-header { padding:20px 24px 0; display:flex; align-items:center; justify-content:space-between; }
+    .quiz-header img { height:22px; }
+    .q-prog-label { font-size:12px; font-weight:600; color:var(--muted); }
+    .quiz-content { flex:1; padding:28px 24px 120px; max-width:560px; margin:0 auto; width:100%; }
+    .q-label { font-size:12px; font-weight:700; color:var(--purple); letter-spacing:1px; text-transform:uppercase; margin-bottom:14px; }
+    .q-question { font-size:clamp(20px,5vw,26px); font-weight:800; line-height:1.25; margin-bottom:6px; }
+    .q-note { font-size:13px; color:var(--muted); margin-bottom:28px; }
+
+    .options-list { display:flex; flex-direction:column; gap:10px; }
+    .opt-btn {
+      display:flex; align-items:center; gap:14px;
+      padding:14px 18px; background:#fff;
+      border:1.5px solid var(--border); border-radius:12px;
+      cursor:pointer; text-align:left; font-family:'Inter',sans-serif;
+      font-size:15px; font-weight:500; color:var(--text); width:100%; transition:all .15s;
+    }
+    .opt-btn:hover { border-color:var(--purple); background:var(--purple-bg); }
+    .opt-btn.sel { border-color:var(--purple); background:var(--purple-bg); color:var(--purple-d); font-weight:600; }
+    .opt-circle {
+      width:22px; height:22px; border-radius:50%;
+      border:2px solid var(--border-l); flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; transition:all .15s;
+    }
+    .opt-btn.sel .opt-circle { border-color:var(--purple); background:var(--purple); }
+    .opt-dot { width:8px; height:8px; border-radius:50%; background:#fff; display:none; }
+    .opt-btn.sel .opt-dot { display:block; }
+
+    .q-textarea {
+      width:100%; min-height:130px; padding:16px;
+      border:1.5px solid var(--border); border-radius:12px;
+      font-family:'Inter',sans-serif; font-size:15px; color:var(--text);
+      resize:none; line-height:1.6; transition:border-color .2s;
+    }
+    .q-textarea:focus { outline:none; border-color:var(--purple); }
+    .q-textarea::placeholder { color:var(--muted); }
+    .char-count { text-align:right; font-size:11px; color:var(--muted); margin-top:6px; }
+
+    .quiz-nav {
+      position:fixed; bottom:0; left:0; right:0;
+      display:flex; gap:12px; padding:16px 20px;
+      background:rgba(255,255,255,.95); backdrop-filter:blur(8px);
+      border-top:1px solid var(--border);
+    }
+    .btn-back {
+      flex:0 0 auto; padding:14px 20px; border-radius:100px;
+      border:1.5px solid var(--border-l); background:#fff;
+      color:var(--text2); font-size:14px; font-weight:600;
+      cursor:pointer; font-family:'Inter',sans-serif; transition:all .15s;
+    }
+    .btn-back:disabled { opacity:.35; cursor:default; }
+    .btn-next {
+      flex:1; padding:14px; border-radius:100px; border:none;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:15px; font-weight:800;
+      cursor:pointer; font-family:'Inter',sans-serif;
+      box-shadow:0 4px 20px rgba(124,58,237,.3); transition:all .2s;
+    }
+    .btn-next:disabled { opacity:.45; cursor:default; box-shadow:none; }
+
+    /* ── CAPTURE ── */
+    #screen-capture { align-items:center; justify-content:center; padding:40px 24px; }
+    .capture-wrap { width:100%; max-width:420px; }
+    .capture-icon { font-size:48px; text-align:center; margin-bottom:20px; }
+    .capture-title { font-size:26px; font-weight:900; text-align:center; margin-bottom:8px; }
+    .capture-sub { font-size:15px; color:var(--text2); text-align:center; margin-bottom:32px; line-height:1.6; }
+    .cf-group { margin-bottom:16px; }
+    .cf-label { display:block; font-size:12px; font-weight:700; color:var(--text2); margin-bottom:6px; letter-spacing:.5px; text-transform:uppercase; }
+    .cf-input {
+      width:100%; padding:14px 16px; border:1.5px solid var(--border);
+      border-radius:12px; font-family:'Inter',sans-serif; font-size:15px;
+      color:var(--text); transition:border-color .2s;
+    }
+    .cf-input:focus { outline:none; border-color:var(--purple); }
+    .btn-reveal {
+      width:100%; padding:17px; border-radius:100px; border:none;
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      color:#fff; font-size:16px; font-weight:800;
+      cursor:pointer; font-family:'Inter',sans-serif;
+      box-shadow:0 6px 24px rgba(124,58,237,.35); margin-top:8px;
+    }
+    .privacy { font-size:12px; color:var(--muted); text-align:center; margin-top:12px; }
+
+    /* ── CALCULATING ── */
+    #screen-calculating { align-items:center; justify-content:center; padding:60px 24px; gap:20px; }
+    .calc-spinner {
+      width:52px; height:52px; border-radius:50%;
+      border:4px solid var(--purple-bg);
+      border-top-color:var(--purple);
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .calc-title { font-size:22px; font-weight:800; text-align:center; }
+    .calc-sub { font-size:14px; color:var(--text2); text-align:center; }
+    .calc-steps { display:flex; flex-direction:column; gap:12px; margin-top:8px; }
+    .calc-step {
+      display:flex; align-items:center; gap:12px;
+      font-size:14px; color:var(--muted); opacity:.4; transition:opacity .4s;
+    }
+    .calc-step.show { opacity:1; color:var(--text2); }
+    .calc-step.done { opacity:1; color:var(--purple); }
+    .step-dot {
+      width:8px; height:8px; border-radius:50%;
+      background:currentColor; flex-shrink:0;
+    }
+
+    /* ── RESULTS ── */
+    #screen-results { padding-bottom:60px; }
+    .res-header {
+      background:linear-gradient(135deg,var(--purple) 0%,var(--purple-d) 100%);
+      padding:48px 24px 72px; text-align:center; color:#fff;
+      display:flex; flex-direction:column; align-items:center;
+    }
+    .res-header img { height:28px; margin-bottom:24px; opacity:.95; }
+    .res-badge {
+      display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.25);
+      color:rgba(255,255,255,.9); font-size:11px; font-weight:700;
+      letter-spacing:1.5px; text-transform:uppercase; padding:5px 14px; border-radius:100px; margin-bottom:16px;
+    }
+    .res-name { font-size:22px; font-weight:800; margin-bottom:4px; }
+    .res-sub { font-size:14px; opacity:.75; }
+
+    .score-card {
+      background:#fff; border-radius:20px; padding:32px 24px;
+      margin:-40px 20px 0; box-shadow:0 4px 32px rgba(124,58,237,.12);
+      border:1px solid var(--border);
+    }
+    .score-card-title { font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; text-align:center; margin-bottom:24px; }
+    .gauge-wrap { position:relative; width:160px; height:160px; margin:0 auto 20px; }
+    .gauge-svg { width:100%; height:100%; transform:rotate(-90deg); }
+    .g-bg { fill:none; stroke:var(--purple-bg); stroke-width:14; }
+    .g-fill { fill:none; stroke:var(--purple); stroke-width:14; stroke-linecap:round; transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1); }
+    .gauge-center { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .g-num { font-size:42px; font-weight:900; line-height:1; }
+    .g-max { font-size:14px; color:var(--muted); font-weight:600; }
+    .score-level {
+      display:inline-block; font-size:13px; font-weight:700;
+      padding:5px 14px; border-radius:100px; margin:0 auto 12px;
+    }
+    .score-desc { font-size:14px; color:var(--text2); line-height:1.65; text-align:center; }
+
+    .cats { padding:24px 20px 0; }
+    .cats-title { font-size:16px; font-weight:800; margin-bottom:16px; }
+    .cat-item { margin-bottom:18px; }
+    .cat-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .cat-name { font-size:13px; font-weight:600; }
+    .cat-pct { font-size:13px; font-weight:800; }
+    .cat-track { height:6px; background:var(--purple-bg); border-radius:100px; overflow:hidden; margin-bottom:5px; }
+    .cat-bar { height:100%; width:0; border-radius:100px; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+    .cat-note { font-size:11px; color:var(--muted); }
+
+    .analysis-section { padding:24px 20px 0; }
+    .analysis-title { font-size:16px; font-weight:800; margin-bottom:14px; }
+    .analysis-card { background:#fff; border:1.5px solid var(--border); border-radius:16px; margin-bottom:12px; overflow:hidden; }
+    .ac-header {
+      display:flex; align-items:center; gap:12px; padding:16px;
+      cursor:pointer; user-select:none;
+    }
+    .ac-icon { font-size:20px; flex-shrink:0; }
+    .ac-title { flex:1; font-size:14px; font-weight:700; }
+    .ac-pct { font-size:12px; font-weight:700; padding:3px 10px; border-radius:100px; }
+    .ac-chevron { font-size:10px; color:var(--muted); transition:transform .25s; }
+    .ac-header.open .ac-chevron { transform:rotate(180deg); }
+    .ac-body { display:none; padding:0 16px 16px; }
+    .ac-body.open { display:block; }
+    .ac-situation { background:var(--purple-bg); border-radius:10px; padding:12px; margin-bottom:14px; }
+    .ac-sit-label { font-size:10px; font-weight:700; color:var(--purple); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .ac-sit-item { font-size:13px; color:var(--text2); line-height:1.5; margin-bottom:4px; }
+    .ac-diag-label { font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+    .ac-diag { font-size:14px; color:var(--text2); line-height:1.7; margin-bottom:14px; }
+    .ac-actions-label { font-size:11px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+    .ac-actions { display:flex; flex-direction:column; gap:10px; }
+    .ac-action {
+      font-size:13px; color:var(--text); line-height:1.55;
+      padding:10px 12px; background:var(--purple-bg);
+      border-radius:8px; border-left:3px solid var(--purple);
+    }
+
+    /* CTA */
+    .cta-wrap { padding:8px 20px 20px; }
+    .cta-scarcity {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      font-size:11px; font-weight:800; color:var(--purple);
+      letter-spacing:1px; text-transform:uppercase; margin-bottom:14px;
+    }
+    .dot-red { width:7px; height:7px; border-radius:50%; background:#EF4444; flex-shrink:0; animation:blink2 1.5s infinite; }
+    @keyframes blink2 { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+
+    .cta-card {
+      background:#fff; border:1.5px solid var(--border-l);
+      border-radius:20px; overflow:hidden;
+      box-shadow:0 4px 32px rgba(124,58,237,.1);
+    }
+    .cta-top {
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      padding:28px 24px; color:#fff; text-align:center;
+    }
+    .cta-top h3 { font-size:22px; font-weight:900; line-height:1.25; margin-bottom:10px; }
+    .cta-top p { font-size:14px; opacity:.85; line-height:1.65; max-width:340px; margin:0 auto; }
+    .cta-body { padding:24px; }
+
+    .cta-delivers { display:flex; flex-direction:column; gap:14px; margin-bottom:22px; }
+    .cd-item { display:flex; align-items:center; gap:12px; }
+    .cd-icon {
+      width:40px; height:40px; border-radius:10px;
+      background:var(--purple-bg); display:flex; align-items:center;
+      justify-content:center; font-size:18px; flex-shrink:0;
+    }
+    .cd-text { flex:1; text-align:left; }
+    .cd-text strong { display:block; font-size:14px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .cd-text span { font-size:12px; color:var(--text2); line-height:1.4; }
+
+    .testimonials-section {
+      width:100%; max-width:480px; margin:0 auto 40px; padding:0 16px;
+    }
+    .testimonials-section h2 {
+      font-size:20px; font-weight:800; color:var(--text); text-align:center;
+      margin-bottom:6px; line-height:1.3;
+    }
+    .testimonials-section .ts-sub {
+      font-size:13px; color:var(--text2); text-align:center; margin-bottom:24px;
+    }
+    .ts-masonry {
+      columns:2; column-gap:8px;
+    }
+    .ts-item {
+      break-inside:avoid; margin-bottom:8px;
+      background:var(--purple-bg); border-radius:12px; overflow:hidden;
+      box-shadow:0 2px 12px rgba(0,0,0,.18);
+    }
+    .ts-item img {
+      width:100%; height:auto; display:block;
+    }
+    .ts-cases-title { margin-top:36px; }
+
+    @keyframes shine {
+      0% { background-position:200% center; }
+      100% { background-position:-200% center; }
+    }
+    .btn-wa {
+      width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+      padding:18px; border-radius:100px; border:none;
+      background:linear-gradient(270deg, #00C853, #00E676, #1de982, #00C853);
+      background-size:300% auto;
+      animation:shine 4s linear infinite;
+      color:#fff; font-size:16px; font-weight:800; font-family:'Inter',sans-serif;
+      text-decoration:none; letter-spacing:.3px;
+      box-shadow:0 6px 28px rgba(0,200,83,.55), 0 2px 8px rgba(0,200,83,.3);
+      transition:transform .2s, box-shadow .2s;
+    }
+    .btn-wa:hover {
+      transform:translateY(-2px);
+      box-shadow:0 10px 36px rgba(0,200,83,.65), 0 4px 12px rgba(0,200,83,.35);
+    }
+    .cta-fine { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+  </style>
+</head>
+<body>
+<div id="progress-wrap" style="display:none;"><div id="progress-fill" style="width:0%"></div></div>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
+  <div class="intro-badge">🌿 Anamnese Digital Gratuita</div>
+  <h1 class="intro-title">Você transforma vidas no consultório.<br>E no <span>digital</span>?</h1>
+  <p class="intro-sub">Responda 11 perguntas e descubra como se tornar autoridade online — e criar renda além dos atendimentos.</p>
+  <div class="intro-meta">
+    <span>⏱️ 5 minutos</span>
+    <span>📋 11 perguntas</span>
+    <span>🎯 100% gratuito</span>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">Iniciar minha Anamnese →</button>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-header">
+    <img src="logo-roxo.svg" alt="Pitch Company">
+    <span class="q-prog-label" id="qlabel">Questão 1 de 11</span>
+  </div>
+  <div class="quiz-content" id="qcontent"></div>
+  <div class="quiz-nav">
+    <button class="btn-back" id="btn-back" onclick="prev()" disabled>← Voltar</button>
+    <button class="btn-next" id="btn-next" onclick="next()" disabled>Próxima →</button>
+  </div>
+</div>
+
+<!-- CAPTURE -->
+<div class="screen" id="screen-capture">
+  <div class="capture-wrap">
+    <div class="capture-icon">🌿</div>
+    <h2 class="capture-title">Quase lá!</h2>
+    <p class="capture-sub">Para liberar sua Anamnese personalizada, preencha os dados abaixo.</p>
+    <form onsubmit="submitCapture(event)">
+      <div class="cf-group">
+        <label class="cf-label">Seu nome</label>
+        <input class="cf-input" id="cap-name" type="text" placeholder="Ana Silva" required>
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">@ do seu Instagram</label>
+        <input class="cf-input" id="cap-ig" type="text" placeholder="@seuperfil">
+      </div>
+      <div class="cf-group">
+        <label class="cf-label">WhatsApp</label>
+        <input class="cf-input" id="cap-phone" type="tel" placeholder="(11) 99999-9999" required>
+      </div>
+      <button type="submit" class="btn-reveal">Ver minha Anamnese 🌿</button>
+      <p class="privacy">🔒 Seus dados estão protegidos. Não enviamos spam.</p>
+    </form>
+  </div>
+</div>
+
+<!-- CALCULATING -->
+<div class="screen" id="screen-calculating">
+  <div class="calc-spinner"></div>
+  <h2 class="calc-title">Analisando suas respostas...</h2>
+  <p class="calc-sub">Gerando sua Anamnese Digital personalizada</p>
+  <div class="calc-steps">
+    <div class="calc-step" id="cs1"><div class="step-dot"></div>Avaliando presença digital</div>
+    <div class="calc-step" id="cs2"><div class="step-dot"></div>Calculando nível de conteúdo</div>
+    <div class="calc-step" id="cs3"><div class="step-dot"></div>Analisando potencial de expansão digital</div>
+    <div class="calc-step" id="cs4"><div class="step-dot"></div>Preparando recomendações</div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="screen-results">
+  <div class="res-header">
+    <img src="logo-branco.svg" alt="Pitch Company">
+    <div class="res-badge">Anamnese Digital</div>
+    <h2 class="res-name" id="res-name">Seu Resultado</h2>
+    <p class="res-sub" id="res-sub">Baseado nas suas respostas</p>
+  </div>
+
+  <div style="padding:0 20px;">
+    <div class="score-card">
+      <p class="score-card-title">Resultado da Anamnese Digital</p>
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" viewBox="0 0 160 160">
+          <circle class="g-bg" cx="80" cy="80" r="66"/>
+          <circle class="g-fill" id="g-circle" cx="80" cy="80" r="66" stroke-dasharray="415" stroke-dashoffset="415"/>
+        </svg>
+        <div class="gauge-center">
+          <span class="g-num" id="g-num">0</span>
+          <span class="g-max">/100</span>
+        </div>
+      </div>
+      <div class="score-level" id="score-level"></div>
+      <p class="score-desc" id="score-desc"></p>
+    </div>
+  </div>
+
+  <div class="cats">
+    <h3 class="cats-title">Visão geral por área</h3>
+    <div class="cat-item">
+      <div class="cat-row"><span class="cat-name">Conteúdo & Consistência</span><span class="cat-pct" id="pct-c">0%</span></div>
+      <div class="cat-track"><div class="cat-bar" id="bar-c"></div></div>
+      <p class="cat-note" id="note-c"></p>
+    </div>
+    <div class="cat-item">
+      <div class="cat-row"><span class="cat-name">Estratégia de Captação</span><span class="cat-pct" id="pct-f">0%</span></div>
+      <div class="cat-track"><div class="cat-bar" id="bar-f"></div></div>
+      <p class="cat-note" id="note-f"></p>
+    </div>
+    <div class="cat-item">
+      <div class="cat-row"><span class="cat-name">Posicionamento & Nicho</span><span class="cat-pct" id="pct-p">0%</span></div>
+      <div class="cat-track"><div class="cat-bar" id="bar-p"></div></div>
+      <p class="cat-note" id="note-p"></p>
+    </div>
+    <div class="cat-item">
+      <div class="cat-row"><span class="cat-name">Crescimento & Análise</span><span class="cat-pct" id="pct-a">0%</span></div>
+      <div class="cat-track"><div class="cat-bar" id="bar-a"></div></div>
+      <p class="cat-note" id="note-a"></p>
+    </div>
+    <div class="cat-item">
+      <div class="cat-row"><span class="cat-name">Expansão Digital</span><span class="cat-pct" id="pct-i">0%</span></div>
+      <div class="cat-track"><div class="cat-bar" id="bar-i"></div></div>
+      <p class="cat-note" id="note-i"></p>
+    </div>
+  </div>
+
+  <div class="analysis-section">
+    <h3 class="analysis-title">Análise personalizada</h3>
+    <div id="analysis-cards"></div>
+  </div>
+
+  <div class="cta-wrap">
+    <div class="cta-scarcity">
+      <span class="dot-red"></span>
+      APENAS 5 VAGAS DISPONÍVEIS POR MÊS
+    </div>
+    <div class="cta-card">
+      <div class="cta-top">
+        <h3 id="cta-headline">Você viu onde está.<br>Agora veja onde pode chegar.</h3>
+        <p id="cta-subtext">O Diagnóstico 360 vai além da Anamnese — é uma imersão real e individual no seu caso, com especialistas que conhecem a saúde integrativa e o mercado digital.</p>
+      </div>
+      <div class="cta-body">
+        <div class="cta-delivers">
+          <div class="cd-item">
+            <div class="cd-icon">🔍</div>
+            <div class="cd-text">
+              <strong>Reunião de Pesquisa e Alinhamento</strong>
+              <span>1 hora de consultoria para entender mercado, nicho, desejos e objetivos</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">📊</div>
+            <div class="cd-text">
+              <strong>Reunião de Apresentação do Diagnóstico</strong>
+              <span>2 horas de consultoria apresentando o Diagnóstico + Plano de Ação de 30 dias</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">🤝</div>
+            <div class="cd-text">
+              <strong>Reunião 1:1 com especialista</strong>
+              <span>Individual, focada no seu caso — não uma consultoria em grupo ou gravação genérica</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">🔬</div>
+            <div class="cd-text">
+              <strong>Análise real do seu perfil</strong>
+              <span>Estudamos seu Instagram, seus concorrentes e o mercado da sua especialidade</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">📄</div>
+            <div class="cd-text">
+              <strong>PDF com plano de ação detalhado</strong>
+              <span>Cada passo documentado para você executar com clareza total na semana seguinte</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">💬</div>
+            <div class="cd-text">
+              <strong>30 dias de acompanhamento</strong>
+              <span>Grupo exclusivo no WhatsApp para garantir que você não trave na execução</span>
+            </div>
+          </div>
+        </div>
+
+        <a class="btn-wa" id="btn-wa" href="#" target="_blank">
+          💬 Quero meu Diagnóstico 360 completo →
+        </a>
+        <p class="cta-fine">30 dias de Acompanhamento &nbsp;·&nbsp; Sem Contrato</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="testimonials-section">
+    <h2>O que dizem quem já fez</h2>
+    <p class="ts-sub">Resultados reais de profissionais de saúde</p>
+    <div class="ts-masonry">
+      <div class="ts-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento Franciaine" /></div>
+      <div class="ts-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento Daniela" /></div>
+      <div class="ts-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento Giu" /></div>
+      <div class="ts-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento Mariana" /></div>
+      <div class="ts-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento Michele" /></div>
+      <div class="ts-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento Taína" /></div>
+      <div class="ts-item"><img src="depo/anonimo.jpg.jpeg" alt="Depoimento" /></div>
+    </div>
+
+    <h2 class="ts-cases-title">Resultados dos nossos clientes</h2>
+    <p class="ts-sub">Cases reais de crescimento e performance</p>
+    <div class="ts-masonry">
+      <div class="ts-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/viral-3.jpg.jpeg" alt="Resultado viral" /></div>
+      <div class="ts-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado ROAS" /></div>
+      <div class="ts-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado ROAS" /></div>
+      <div class="ts-item"><img src="cases/roas-3.jpg.jpeg" alt="Resultado ROAS" /></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const Qs = [
+  { id:1, type:'choice', q:'Qual é a sua área de atuação?', note:'Selecione a que melhor te descreve',
+    opts:['Medicina Integrativa / Funcional','Nutrição Funcional','Naturopatia','Acupuntura / Medicina Tradicional Chinesa','Psicologia / Psicoterapia Integrativa','Terapias Holísticas','Outro profissional da saúde integrativa'],
+    pts:[0,0,0,0,0,0,0], cat:null },
+  { id:2, type:'choice', q:'Quantos seguidores você tem hoje no Instagram?',
+    opts:['Menos de 1.000','Entre 1.000 e 5.000','Entre 5.000 e 20.000','Mais de 20.000'],
+    pts:[5,15,25,35], cat:'a' },
+  { id:3, type:'choice', q:'Com que frequência você publica conteúdo educativo sobre a sua área?',
+    opts:['Raramente ou nunca','1 a 2 vezes por semana','3 a 5 vezes por semana','Todos os dias'],
+    pts:[0,10,20,25], cat:'c' },
+  { id:4, type:'choice', q:'Seus posts geram contatos ou agendamentos de atendimentos?',
+    opts:['Nunca percebo isso','Raramente acontece','Às vezes sim','Sim, com frequência'],
+    pts:[0,10,20,30], cat:'c' },
+  { id:5, type:'text', q:'Como as pessoas te encontram hoje?', note:'Escreva com suas próprias palavras',
+    ph:'Ex: Indicação de colegas, Google, perfil no Instagram, eventos e palestras...', cat:null },
+  { id:6, type:'choice', q:'Você tem clareza sobre qual perfil de pessoa quer atrair?',
+    opts:['Não tenho clareza','Tenho uma ideia vaga','Sei quem é, mas não comunico bem no perfil','Sei exatamente e comunico com clareza'],
+    pts:[0,10,18,25], cat:'p' },
+  { id:7, type:'choice', q:'Você usa alguma estratégia para converter seguidores em clientes?',
+    opts:['Não tenho nenhuma estratégia','Posto e espero que me procurem','Tenho algum CTA, mas não funciona bem','Sim, tenho um fluxo que funciona'],
+    pts:[0,5,15,25], cat:'f' },
+  { id:8, type:'text', q:'Qual é o seu maior desafio no digital hoje?', note:'Seja honesto — isso personaliza sua Anamnese',
+    ph:'Ex: Não sei criar conteúdo, não consigo converter seguidores em clientes, não tenho tempo...', cat:null },
+  { id:9, type:'choice', q:'Você analisa o desempenho dos seus conteúdos regularmente?',
+    opts:['Nunca olho as métricas','Raramente verifico','Analiso às vezes','Sim, acompanho semanalmente'],
+    pts:[0,5,12,20], cat:'a' },
+  { id:10, type:'choice', q:'Como você imagina sua principal fonte de renda daqui a 2 anos?',
+    note:'Seja honesto — isso nos ajuda a entender seu objetivo',
+    opts:['Quero uma agenda cheia de atendimentos presenciais','Quero equilibrar atendimentos com sessões online','Quero criar produtos digitais além dos atendimentos','Quero uma operação digital que funcione além da minha presença'],
+    pts:[0,10,20,30], cat:'i' },
+  { id:11, type:'choice', q:'Você já pensou em criar um produto digital — curso, mentoria, ebook ou consultoria online?',
+    opts:['Nunca pensei nisso','Pensei, mas não sei por onde começar','Estou planejando lançar algo em breve','Já tenho um produto digital rodando'],
+    pts:[0,5,15,25], cat:'i' }
+];
+
+let cur=0, ans={}, user={};
+const COLORS = ['#EF4444','#F97316','#EAB308','#22C55E'];
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function startQuiz() {
+  document.getElementById('progress-wrap').style.display='block';
+  cur=0; ans={};
+  show('screen-quiz');
+  render();
+}
+
+function render() {
+  const q=Qs[cur], total=Qs.length;
+  document.getElementById('progress-fill').style.width=(cur/total*100)+'%';
+  document.getElementById('qlabel').textContent=`Questão ${cur+1} de ${total}`;
+  document.getElementById('btn-back').disabled=cur===0;
+  const isLast=cur===total-1;
+  document.getElementById('btn-next').textContent=isLast?'Ver minha Anamnese →':'Próxima →';
+  document.getElementById('btn-next').disabled=(q.type==='text')?false:(ans[q.id]===undefined);
+
+  let html=`<div class="q-label">Questão ${cur+1} de ${total}</div>
+    <h2 class="q-question">${q.q}</h2>
+    ${q.note?`<p class="q-note">${q.note}</p>`:'<div style="height:20px"></div>'}`;
+
+  if(q.type==='choice') {
+    html+=`<div class="options-list">`;
+    q.opts.forEach((o,i)=>{
+      const sel=ans[q.id]===i;
+      html+=`<button class="opt-btn${sel?' sel':''}" onclick="pick(${q.id},${i})">
+        <div class="opt-circle"><div class="opt-dot"></div></div>${o}
+      </button>`;
+    });
+    html+=`</div>`;
+  } else {
+    const v=ans[q.id]||'';
+    html+=`<textarea class="q-textarea" placeholder="${q.ph||'Escreva aqui...'}"
+      oninput="onText(${q.id},this.value)" maxlength="300">${v}</textarea>
+      <div class="char-count"><span id="cc${q.id}">${v.length}</span>/300</div>`;
+  }
+  document.getElementById('qcontent').innerHTML=html;
+}
+
+function pick(qid,i) {
+  ans[qid]=i;
+  document.getElementById('btn-next').disabled=false;
+  document.querySelectorAll('.opt-btn').forEach((b,idx)=>b.classList.toggle('sel',idx===i));
+}
+
+function onText(qid,v) { ans[qid]=v; const cc=document.getElementById('cc'+qid); if(cc)cc.textContent=v.length; }
+function next() { cur<Qs.length-1?(cur++,render()):(show('screen-capture'),document.getElementById('progress-fill').style.width='95%'); }
+function prev() { cur>0&&(cur--,render()); }
+
+async function submitCapture(e) {
+  e.preventDefault();
+  user.name  = document.getElementById('cap-name').value;
+  user.ig    = document.getElementById('cap-ig').value;
+  user.phone = document.getElementById('cap-phone').value;
+  show('screen-calculating');
+  document.getElementById('progress-fill').style.width='100%';
+
+  for(let i=0;i<4;i++) {
+    await sleep(650);
+    document.getElementById('cs'+(i+1)).classList.add('show');
+    if(i>0) document.getElementById('cs'+i).classList.add('done');
+  }
+  await sleep(600);
+
+  const res=calcScore();
+
+  try {
+    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-saude-integrativa',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        nome:user.name, instagram:user.ig, whatsapp:user.phone,
+        origem:'Quiz Anamnese Digital — Saúde Integrativa',
+        indice_maturidade:res.score, nivel:res.level,
+        especialidade:ans[1]!==undefined?Qs[0].opts[ans[1]]:'',
+        como_atrai_clientes:ans[5]||'', maior_desafio:ans[8]||'',
+        objetivo_renda:ans[10]!==undefined?Qs[9].opts[ans[10]]:'',
+        intencao_infoproduto:ans[11]!==undefined?Qs[10].opts[ans[11]]:'',
+        categorias:res.cats, data_envio:new Date().toISOString()
+      })
+    });
+  } catch(err){console.error(err);}
+
+  buildResults(res);
+  show('screen-results');
+}
+
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+
+function calcScore() {
+  let total=0, raw={c:0,f:0,p:0,a:0,i:0};
+  Qs.forEach(q=>{
+    if(q.type==='choice'&&q.cat&&ans[q.id]!==undefined)
+      { raw[q.cat]+=q.pts[ans[q.id]]; total+=q.pts[ans[q.id]]; }
+  });
+  const score=Math.round(total/215*100);
+  const cats={
+    c:Math.round(raw.c/55*100),
+    f:Math.round(raw.f/25*100),
+    p:Math.round(raw.p/25*100),
+    a:Math.round(raw.a/55*100),
+    i:Math.round(raw.i/55*100)
+  };
+  let level,color,desc;
+  if(score<=30)      {level='🔴 Presença Crítica';    color='#EF4444'; desc='Seu perfil digital precisa de atenção urgente. Pessoas buscam saúde integrativa online agora — e estão encontrando outros profissionais menos qualificados do que você.';}
+  else if(score<=55) {level='🟠 Em Desenvolvimento';  color='#F97316'; desc='Você está tentando crescer no digital, mas sem uma estratégia clara. O mercado de saúde integrativa está em expansão — e quem não ocupa seu espaço agora vai chegar tarde.';}
+  else if(score<=75) {level='🟡 Nível Intermediário'; color='#EAB308'; desc='Você tem uma base, mas existem gaps que limitam seu crescimento e sua expansão para o digital. Com os ajustes certos, você pode escalar sua renda muito além dos atendimentos.';}
+  else               {level='🟢 Nível Avançado';      color='#22C55E'; desc='Você tem uma presença digital sólida. O próximo passo é escalar com estratégia — e estruturar sua operação digital para faturar além da sua agenda.';}
+  return {score,level,color,desc,cats};
+}
+
+// ── ANALYSIS DATA ──
+const ANALYSIS = {
+  c: {
+    icon:'📱', title:'Conteúdo & Consistência',
+    situations: [
+      q=>{ const q3=Qs[2].opts[ans[3]]; const q4=Qs[3].opts[ans[4]]; return [`Frequência: <b>"${q3||'—'}"</b>`,`Geração de atendimentos: <b>"${q4||'—'}"</b>`]; },
+    ],
+    levels: [
+      { diag:'Seu perfil está praticamente inativo. Para um profissional de saúde integrativa, o Instagram é a vitrine mais poderosa que existe — as pessoas buscam sua abordagem online antes de qualquer coisa. Se você não aparece, outro profissional ocupa esse espaço.',
+        acoes:['Defina 2 dias fixos por semana para publicar conteúdo educativo da sua área — consistência vale mais do que perfeição','Comece com Reels de 30-60 segundos respondendo as dúvidas mais frequentes dos seus pacientes','Adicione um link na bio direcionando para agendamento online ou contato direto pelo WhatsApp'] },
+      { diag:'Você está postando, mas a frequência ainda não é suficiente para o algoritmo te recomendar para novas pessoas. Profissionais de saúde integrativa que educam sua audiência consistentemente constroem autoridade e reduzem a dependência de indicações.',
+        acoes:['Aumente para 3-4 posts semanais — esse é o mínimo para o Instagram começar a te recomendar organicamente','Varie os formatos: Reels educativos, carrosséis com dicas da sua abordagem e stories de bastidores do seu trabalho','Inclua depoimentos de clientes satisfeitos (com autorização) — prova social é o gatilho de conversão mais forte'] },
+      { diag:'Sua consistência já é um diferencial. Você está gerando alguns resultados, mas o próximo nível exige transformar engajamento em atendimentos e — para quem tem esse objetivo — em vendas de infoprodutos.',
+        acoes:['Crie um conteúdo âncora de alto valor (ex: vídeo explicando sua abordagem e como ela transforma resultados)','Monitore quais formatos geram mais mensagens e duplique essa aposta','Adicione CTAs específicos em cada post: "Me chame no direct", "Link na bio para agendar", "Deixa sua dúvida nos comentários"'] },
+      { diag:'Excelente presença! Você tem consistência e está gerando resultados. Agora é hora de escalar: amplificar os melhores conteúdos com tráfego pago e criar um sistema que vende — seja atendimentos ou infoprodutos — enquanto você dorme.',
+        acoes:['Experimente tráfego pago para amplificar os conteúdos que já performam bem organicamente','Crie uma sequência de stories de boas-vindas para novos seguidores — guie-os do "descoberta" ao "compra"','Desenvolva um material digital gratuito para capturar leads qualificados e construir sua lista'] }
+    ]
+  },
+  f: {
+    icon:'🎯', title:'Estratégia de Captação',
+    situations: [
+      q=>{ const q7=Qs[6].opts[ans[7]]; const q5=ans[5]; return [`Estratégia atual: <b>"${q7||'—'}"</b>`, q5?`Como atrai hoje: <b>"${q5}"</b>`:null].filter(Boolean); }
+    ],
+    levels: [
+      { diag:'Você não tem nenhuma estratégia estruturada de captação digital. Isso significa que seu crescimento depende 100% de indicações e do acaso. Para quem quer construir uma operação digital além dos atendimentos, isso é o primeiro gargalo a resolver.',
+        acoes:['Comece criando um CTA claro em todos os posts: diga exatamente o que a pessoa deve fazer para te contratar','Adicione o link de agendamento ou contato na bio e mencione isso nos conteúdos','Responda todos os comentários e DMs nos primeiros 60 minutos após publicar — isso aumenta drasticamente o alcance orgânico'] },
+      { diag:'Você posta mas não guia a pessoa para uma ação. No digital de saúde integrativa, quem não faz uma chamada para ação clara perde clientes que estavam prontos para contratar. A pessoa precisa saber exatamente o próximo passo.',
+        acoes:['Em todo post, adicione um CTA direto no texto e nos stories de repost','Crie um link na bio organizado com opções claras: "Agendar atendimento", "Tirar dúvida" e "Conheça minha abordagem"','Teste a estratégia de "conversa rápida pelo direct" para aquecer leads antes do fechamento formal'] },
+      { diag:'Você já tem alguma intenção de captação, mas o fluxo ainda tem furos. Geralmente o problema está na jornada: a pessoa se interessa pelo conteúdo, mas não sabe como avançar para o atendimento — ou para comprar um produto digital.',
+        acoes:['Mapeie a jornada completa: desde o primeiro post que a pessoa vê até o fechamento — identifique onde elas "caem"','Crie um "funil de DM": quando alguém manda mensagem, tenha uma resposta que qualifica e direciona para o próximo passo','Considere uma oferta de entrada de baixo atrito (ex: uma consultoria de avaliação ou uma masterclass paga)'] },
+      { diag:'Você tem um fluxo de captação funcionando. O próximo passo é automatizar e escalar para que seu sistema trabalhe por você — seja vendendo atendimentos ou infoprodutos.',
+        acoes:['Implemente automações de resposta no direct para qualificar leads 24/7','Crie uma campanha de tráfego pago segmentada para sua área e seu público ideal','Estruture uma escada de produtos: gratuito → low ticket → atendimento / infoproduto principal → mentoria'] }
+    ]
+  },
+  p: {
+    icon:'🌿', title:'Posicionamento & Nicho',
+    situations: [
+      q=>{ const q6=Qs[5].opts[ans[6]]; const q1=ans[1]!==undefined?Qs[0].opts[ans[1]]:null; return [`Clareza sobre público ideal: <b>"${q6||'—'}"</b>`, q1?`Área de atuação: <b>${q1}</b>`:null].filter(Boolean); }
+    ],
+    levels: [
+      { diag:'Sem clareza de nicho, seu conteúdo tenta falar com todo mundo e não conecta com ninguém. Na saúde integrativa, a especificidade é o que gera autoridade: quem domina um tema específico é percebido como muito mais confiável.',
+        acoes:['Defina com precisão: qual é a principal transformação que você proporciona para quem te contrata?','Escolha 1-2 temas centrais para seu conteúdo que reflitam sua abordagem e o perfil de cliente que você quer atrair','Revise sua bio: ela deve dizer em 1 frase quem você ajuda e como'] },
+      { diag:'Você tem uma ideia do seu público, mas isso não está se refletindo claramente no perfil. Quem chega na sua página pela primeira vez deve entender em 3 segundos se você é a pessoa certa para ele.',
+        acoes:['Reescreva sua bio com a fórmula: [Área] | [Quem você ajuda] | [Principal resultado] | [CTA]','Crie uma série de conteúdos que fale diretamente com as dores e desejos do seu cliente ideal','Analise seus 5 melhores posts: eles atraem quem você quer? Se não, mude o tema'] },
+      { diag:'Você sabe quem é seu cliente ideal, mas essa clareza não está sendo comunicada com a força necessária no digital. Consistência na mensagem é o que transforma seguidores em clientes fiéis e referências espontâneas.',
+        acoes:['Padronize a linguagem dos posts para sempre se conectar com as dores específicas do seu público ideal','Use histórias reais de transformação (com autorização) de clientes que passaram pelo que você resolve','Crie conteúdos do tipo "Isso é para você se..." — deixe explícito o perfil de quem você atende'] },
+      { diag:'Seu posicionamento é sólido. Você sabe quem é seu cliente ideal e comunica isso com clareza. O próximo passo é aprofundar sua autoridade e usar isso como base para escalar — incluindo infoprodutos e mentorias.',
+        acoes:['Desenvolva casos de transformação (sem identificação) que demonstrem sua expertise de forma prática','Faça parcerias estratégicas com profissionais complementares para ampliar seu alcance no nicho','Posicione-se como referência na mídia: podcasts, lives com outros especialistas, artigos de divulgação'] }
+    ]
+  },
+  a: {
+    icon:'📈', title:'Crescimento & Análise',
+    situations: [
+      q=>{ const q2=Qs[1].opts[ans[2]]; const q9=Qs[8].opts[ans[9]]; return [`Seguidores atuais: <b>${q2||'—'}</b>`,`Análise de métricas: <b>"${q9||'—'}"</b>`]; }
+    ],
+    levels: [
+      { diag:'Sem acompanhar os números, você está trabalhando no escuro. Não dá para crescer no digital — e muito menos lançar um infoproduto — sem entender o que funciona no seu perfil. Métricas são o GPS do seu crescimento.',
+        acoes:['Todo domingo, passe 10 minutos verificando quais posts tiveram mais alcance e engajamento na semana','Observe o padrão: quais temas e formatos geraram mais mensagens e novos seguidores?','Instale o Google Analytics no seu link de contato ou vendas para saber quantos visitantes vieram do Instagram'] },
+      { diag:'Você olha os números às vezes, mas sem consistência. Crescimento sustentável — e lançamentos de infoprodutos bem-sucedidos — dependem de um ciclo de análise-aprendizado-ajuste semanal.',
+        acoes:['Defina uma rotina semanal de 15 minutos para analisar as métricas do Instagram (alcance, salvamentos, compartilhamentos, cliques na bio)','Foque especialmente em "salvamentos" e "compartilhamentos" — são os melhores indicadores de conteúdo com potencial de crescimento','Faça um teste A/B simples: poste 2 tipos diferentes de conteúdo na mesma semana e compare'] },
+      { diag:'Você já analisa seus dados com alguma regularidade — isso é um diferencial real. O próximo nível é usar esses dados para acelerar o crescimento e tomar decisões mais seguras antes de um lançamento.',
+        acoes:['Crie uma planilha simples: alcance, novos seguidores, cliques na bio e mensagens recebidas por semana','Identifique seu "conteúdo unicórnio" — o que performou 3x acima da média — e explore esse tema em profundidade','Monitore quais conteúdos específicos geram mais mensagens no direct: esses temas são os mais valiosos para um infoproduto'] },
+      { diag:'Você acompanha suas métricas regularmente — isso é um diferencial competitivo raro. O próximo passo é usar esses dados para decisões de investimento em tráfego pago e para validar seus infoprodutos antes de lançar.',
+        acoes:['Crie um dashboard simples com seus KPIs principais para visualizar a evolução mês a mês','Use os dados de posts orgânicos para identificar quais conteúdos vale a pena impulsionar com anúncios','Estabeleça metas mensais mensuráveis: X novos seguidores, Y atendimentos via Instagram, Z vendas do infoproduto'] }
+    ]
+  },
+  i: {
+    icon:'🚀', title:'Expansão Digital',
+    situations: [
+      q=>{ const q10=Qs[9]?.opts[ans[10]]; const q11=Qs[10]?.opts[ans[11]]; return [`Objetivo de renda: <b>"${q10||'—'}"</b>`,`Intenção de infoproduto: <b>"${q11||'—'}"</b>`]; }
+    ],
+    levels: [
+      { diag:'Ainda não há intenção de expandir para o digital além dos atendimentos. Isso é comum — mas saiba que profissionais de saúde integrativa têm um dos maiores potenciais de monetização digital do mercado. Seu conhecimento pode impactar muito mais pessoas do que um consultório permite.',
+        acoes:['Comece acompanhando 2-3 criadores de saúde integrativa que já vendem digital — observe como constroem autoridade antes de lançar','Faça este exercício: o que você explica para seus clientes todos os dias que outras pessoas pagariam para aprender?','Registre as perguntas mais frequentes dos seus clientes — essa lista já é o esqueleto do seu primeiro infoproduto'] },
+      { diag:'Você já percebe o potencial do digital, mas ainda está travado na execução. Profissionais de saúde integrativa têm uma das maiores taxas de conversão do mercado de infoprodutos — sua credibilidade já está construída, falta só a estratégia de lançamento.',
+        acoes:['Escolha um produto mínimo viável: uma masterclass de 2 horas sobre seu tema mais recorrente já é um ponto de entrada poderoso','Construa sua lista de contatos (e-mail ou WhatsApp) — é o ativo digital mais valioso antes de qualquer lançamento','Estude a escada de produtos: gratuito → low ticket → infoproduto principal → mentoria / imersão'] },
+      { diag:'Você está no momento perfeito: tem clareza do que quer e está se preparando para lançar. O maior erro agora seria esperar mais. Profissionais que lançam cedo — mesmo com imperfeições — chegam na frente de quem espera o momento ideal.',
+        acoes:['Defina sua data de lançamento e trabalhe de trás para frente — 30 dias é suficiente para um primeiro lançamento simples','Crie uma lista de espera antes do lançamento para validar o interesse sem esforço adicional','Comece a falar sobre o produto nos stories agora — os primeiros compradores geralmente já te seguem há meses'] },
+      { diag:'Você já tem tração no digital — isso é raro e muito valioso. O próximo passo é escalar o que funciona e estruturar uma esteira de produtos que trabalhe por você 24/7, sem depender da sua presença constante.',
+        acoes:['Analise qual produto tem melhor margem e custo de aquisição — invista mais em tráfego pago nessa direção','Crie uma esteira de upsell: quem compra o infoproduto é o lead mais quente para sua mentoria ou imersão','Considere co-criações com profissionais complementares para expandir o alcance sem aumentar o esforço'] }
+    ]
+  }
+};
+
+function buildResults(res) {
+  const first=user.name.split(' ')[0];
+  document.getElementById('res-name').textContent=`Anamnese Digital de ${first}`;
+  document.getElementById('res-sub').textContent=`${user.ig?user.ig+' · ':''}Baseado nas suas ${Qs.length} respostas`;
+  document.getElementById('score-desc').textContent=res.desc;
+
+  const lel=document.getElementById('score-level');
+  lel.textContent=res.level;
+  lel.style.cssText=`background:${res.color}15;color:${res.color};border:1px solid ${res.color}30;`;
+
+  const circle=document.getElementById('g-circle');
+  circle.style.stroke=res.color;
+  setTimeout(()=>{ circle.style.strokeDashoffset=415-(res.score/100*415); },150);
+  animNum('g-num',0,res.score,1500);
+
+  // Category bars
+  const catNotes={
+    c:['Presença mínima — consistência é urgente','Frequência abaixo do ideal para crescer','Bom ritmo — foque na conversão','Excelente consistência — hora de escalar'],
+    f:['Sem estratégia de captação definida','Captação passiva — precisa de estrutura','CTA existe, mas o fluxo tem furos','Fluxo de captação funcionando bem'],
+    p:['Sem clareza de nicho comunicada','Público ideal vago — redefina o foco','Sabe quem é, mas não comunica bem','Posicionamento claro e diferenciado'],
+    a:['Sem análise — crescimento no escuro','Análise esporádica — crie uma rotina','Análise parcial — aprofunde os dados','Tomada de decisão baseada em dados'],
+    i:['Sem visão de expansão digital','Potencial percebido — falta execução','Em fase de preparação para lançar','Já opera no digital — hora de escalar']
+  };
+  const ids=['c','f','p','a','i'];
+  ids.forEach(k=>{
+    const pct=res.cats[k];
+    const lvl=pct<=25?0:pct<=50?1:pct<=75?2:3;
+    const col=COLORS[lvl];
+    document.getElementById(`pct-${k}`).textContent=pct+'%';
+    document.getElementById(`pct-${k}`).style.color=col;
+    document.getElementById(`note-${k}`).textContent=catNotes[k][lvl];
+    const bar=document.getElementById(`bar-${k}`);
+    bar.style.background=col;
+    setTimeout(()=>{ bar.style.width=pct+'%'; },400);
+  });
+
+  // Analysis cards
+  let html='';
+  ids.forEach(k=>{
+    const pct=res.cats[k];
+    const lvl=pct<=25?0:pct<=50?1:pct<=75?2:3;
+    const col=COLORS[lvl];
+    const data=ANALYSIS[k];
+    const sits=data.situations[0]();
+    const info=data.levels[lvl];
+    const cardId=`ac-${k}`;
+
+    html+=`<div class="analysis-card">
+      <div class="ac-header" onclick="toggleAC('${cardId}',this)" id="hdr-${cardId}">
+        <span class="ac-icon">${data.icon}</span>
+        <span class="ac-title">${data.title}</span>
+        <span class="ac-pct" style="background:${col}15;color:${col};border:1px solid ${col}30;">${pct}%</span>
+        <span class="ac-chevron">▼</span>
+      </div>
+      <div class="ac-body" id="${cardId}">
+        <div class="ac-situation">
+          <div class="ac-sit-label">Suas respostas</div>
+          ${sits.map(s=>`<div class="ac-sit-item">→ ${s}</div>`).join('')}
+        </div>
+        <div class="ac-diag-label">Diagnóstico</div>
+        <p class="ac-diag">${info.diag}</p>
+        <div class="ac-actions-label">O que fazer agora</div>
+        <div class="ac-actions">${info.acoes.map(a=>`<div class="ac-action">${a}</div>`).join('')}</div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('analysis-cards').innerHTML=html;
+  document.getElementById('ac-c').classList.add('open');
+  document.getElementById('hdr-ac-c').classList.add('open');
+
+  // Dynamic CTA
+  const area=ans[1]!==undefined?Qs[0].opts[ans[1]]:'';
+  const ctaData = [
+    { headline:'Sua Anamnese revelou pontos críticos.<br>O próximo passo é o Diagnóstico 360.',
+      sub:`Com ${res.score}/100, sua presença digital e expansão têm gaps urgentes. A Anamnese mostrou o cenário — o Diagnóstico 360 é onde vamos a fundo no seu caso e entregamos o plano de ação completo.` },
+    { headline:'Você está tentando crescer.<br>O Diagnóstico 360 vai te dar o caminho.',
+      sub:`Com ${res.score}/100, sua Anamnese indica potencial muito maior do que está sendo aproveitado — tanto em atendimentos quanto em digital. No Diagnóstico 360, prescrevemos o plano exato para chegar lá.` },
+    { headline:'Boa base. Mas sua Anamnese<br>revelou onde está o gargalo.',
+      sub:`${res.score}/100 é um bom ponto de partida — sua Anamnese apontou os gaps que estão segurando seu crescimento e sua expansão digital. O Diagnóstico 360 vai destrinchar cada um individualmente.` },
+    { headline:'Você está avançado.<br>O Diagnóstico 360 vai te mostrar como escalar.',
+      sub:`Com ${res.score}/100, sua Anamnese confirma que você tem uma presença diferenciada. Agora é hora de ir fundo: o Diagnóstico 360 vai revelar como multiplicar seus resultados — e estruturar sua operação digital.` }
+  ];
+  const ctaLvl = res.score<=30?0:res.score<=55?1:res.score<=75?2:3;
+  document.getElementById('cta-headline').innerHTML = ctaData[ctaLvl].headline;
+  document.getElementById('cta-subtext').textContent = ctaData[ctaLvl].sub;
+
+  const msg=encodeURIComponent(`Olá! Acabei de fazer a Anamnese Digital da Pitch Company — Saúde Integrativa.\n\n📊 Resultado: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🌿 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
+  document.getElementById('btn-wa').href=`https://wa.me/55SEU_NUMERO?text=${msg}`;
+}
+
+function toggleAC(id,hdr) {
+  const body=document.getElementById(id);
+  const open=body.classList.toggle('open');
+  hdr.classList.toggle('open',open);
+}
+
+function animNum(id,from,to,dur) {
+  const el=document.getElementById(id);
+  const t0=performance.now();
+  (function tick(now){
+    const p=Math.min((now-t0)/dur,1);
+    el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));
+    if(p<1)requestAnimationFrame(tick);
+  })(t0);
+}
+</script>
+</body>
+</html>
