@@ -249,26 +249,54 @@
 
     /* CTA */
     .cta-wrap { padding:8px 20px 20px; }
+
+    .cta-scarcity {
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      background:rgba(239,68,68,.07); border:1px solid rgba(239,68,68,.2);
+      color:#DC2626; font-size:11px; font-weight:700; letter-spacing:.5px;
+      padding:9px 16px; border-radius:8px; margin-bottom:14px; text-align:center;
+    }
+    @keyframes blink2 { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .dot-red { width:7px; height:7px; border-radius:50%; background:#EF4444; flex-shrink:0; animation:blink2 1.5s infinite; }
+
     .cta-card {
-      background:linear-gradient(135deg,#F5F3FF,#EDE9FE);
-      border:1px solid var(--border-l); border-radius:16px; padding:28px 24px;
+      background:#fff; border:1.5px solid var(--border-l);
+      border-radius:20px; overflow:hidden;
+      box-shadow:0 4px 32px rgba(124,58,237,.1);
     }
-    .cta-card h3 { font-size:20px; font-weight:900; margin-bottom:8px; }
-    .cta-card p { font-size:14px; color:var(--text2); line-height:1.65; margin-bottom:20px; }
-    .cta-list { display:flex; flex-direction:column; gap:10px; margin-bottom:24px; }
-    .cta-item { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text2); }
-    .cta-item::before {
-      content:'✓'; width:20px; height:20px; background:var(--purple);
-      color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center;
-      font-size:10px; font-weight:900; flex-shrink:0;
+    .cta-top {
+      background:linear-gradient(135deg,var(--purple),var(--purple-d));
+      padding:28px 24px; color:#fff; text-align:center;
     }
+    .cta-top h3 { font-size:22px; font-weight:900; line-height:1.25; margin-bottom:10px; }
+    .cta-top p { font-size:14px; opacity:.85; line-height:1.65; max-width:340px; margin:0 auto; }
+    .cta-body { padding:24px; }
+
+    .cta-delivers { display:flex; flex-direction:column; gap:14px; margin-bottom:22px; }
+    .cd-item { display:flex; align-items:flex-start; gap:12px; }
+    .cd-icon {
+      width:40px; height:40px; border-radius:10px;
+      background:var(--purple-bg); display:flex; align-items:center;
+      justify-content:center; font-size:18px; flex-shrink:0;
+    }
+    .cd-text strong { display:block; font-size:14px; font-weight:700; color:var(--text); margin-bottom:2px; }
+    .cd-text span { font-size:12px; color:var(--text2); line-height:1.4; }
+
+    .cta-quote {
+      background:var(--purple-bg); border-left:3px solid var(--purple);
+      border-radius:0 8px 8px 0; padding:12px 14px; margin-bottom:20px;
+    }
+    .cta-quote p { font-size:13px; color:var(--text2); line-height:1.6; font-style:italic; margin-bottom:6px; }
+    .cta-quote span { font-size:11px; font-weight:700; color:var(--purple); }
+
     .btn-wa {
       width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
-      padding:16px; border-radius:100px; border:none; background:#25D366; color:#fff;
+      padding:17px; border-radius:100px; border:none; background:#25D366; color:#fff;
       font-size:16px; font-weight:800; font-family:'Inter',sans-serif;
       text-decoration:none; box-shadow:0 6px 24px rgba(37,211,102,.3); transition:all .2s;
     }
     .btn-wa:hover { transform:translateY(-1px); box-shadow:0 8px 30px rgba(37,211,102,.4); }
+    .cta-fine { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
   </style>
 </head>
 <body>
@@ -396,16 +424,57 @@
   </div>
 
   <div class="cta-wrap">
+    <div class="cta-scarcity">
+      <span class="dot-red"></span>
+      APENAS 5 VAGAS DISPONÍVEIS POR MÊS
+    </div>
     <div class="cta-card">
-      <h3>Quer transformar esse diagnóstico em resultados reais?</h3>
-      <p>O Diagnóstico 360 completo com especialistas da Pitch Company vai além dos números — você recebe um plano de ação concreto para executar.</p>
-      <div class="cta-list">
-        <div class="cta-item">Reunião estratégica com especialista</div>
-        <div class="cta-item">PDF completo de implementação personalizado</div>
-        <div class="cta-item">30 dias de acompanhamento via WhatsApp</div>
-        <div class="cta-item">Análise de concorrentes e funil ideal</div>
+      <div class="cta-top">
+        <h3 id="cta-headline">Você viu onde está.<br>Agora veja onde pode chegar.</h3>
+        <p id="cta-subtext">O Diagnóstico 360 vai além do quiz — é uma imersão real e individual no seu caso, com especialistas que conhecem o mercado de saúde.</p>
       </div>
-      <a class="btn-wa" id="btn-wa" href="#" target="_blank">💬 Quero meu Diagnóstico 360 completo</a>
+      <div class="cta-body">
+        <div class="cta-delivers">
+          <div class="cd-item">
+            <div class="cd-icon">🤝</div>
+            <div class="cd-text">
+              <strong>Reunião 1:1 com especialista</strong>
+              <span>Individual, focada no seu caso — não uma consultoria em grupo ou gravação genérica</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">🔬</div>
+            <div class="cd-text">
+              <strong>Análise real do seu perfil</strong>
+              <span>Estudamos seu Instagram, seus concorrentes e o mercado da sua especialidade</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">📄</div>
+            <div class="cd-text">
+              <strong>PDF com plano de ação detalhado</strong>
+              <span>Cada passo documentado para você executar com clareza total na semana seguinte</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <div class="cd-icon">💬</div>
+            <div class="cd-text">
+              <strong>30 dias de acompanhamento</strong>
+              <span>Grupo exclusivo no WhatsApp para garantir que você não trave na execução</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cta-quote">
+          <p>"O diagnóstico foi uma validação do que está bom e do que ainda precisa melhorar. E vindo de quem entende do nicho e de marketing, estou muito feliz com esse investimento."</p>
+          <span>— Franciaine C., profissional de saúde</span>
+        </div>
+
+        <a class="btn-wa" id="btn-wa" href="#" target="_blank">
+          💬 Quero meu Diagnóstico 360 completo →
+        </a>
+        <p class="cta-fine">Sem contrato de longo prazo · Resultado em até 30 dias</p>
+      </div>
     </div>
   </div>
 </div>
@@ -694,6 +763,22 @@ function buildResults(res) {
 
   // WhatsApp
   const area=ans[1]!==undefined?Qs[0].opts[ans[1]]:'';
+
+  // Dynamic CTA headline based on score
+  const ctaData = [
+    { headline:'Seu diagnóstico revelou pontos críticos.<br>Cada mês sem ação é agenda perdida.',
+      sub:`Seu índice de ${res.score}/100 indica que há gaps urgentes a resolver. O Diagnóstico 360 vai te mostrar exatamente o que fazer — na sua especialidade, no seu mercado, no seu caso.` },
+    { headline:'Você está tentando crescer.<br>Mas ainda sem a estratégia certa.',
+      sub:`Com ${res.score}/100, você tem potencial muito maior do que está aproveitando. O Diagnóstico 360 vai transformar esforço em direção — com um plano que você pode executar a partir desta semana.` },
+    { headline:'Você tem uma base sólida.<br>Mas ainda está deixando pacientes na mesa.',
+      sub:`Seu índice de ${res.score}/100 mostra que você está no caminho certo — mas os gaps que identificamos são exatamente o que separa quem cresce de quem estagna. Vamos resolver isso juntos.` },
+    { headline:'Você está avançado.<br>Agora é hora de escalar de verdade.',
+      sub:`Com ${res.score}/100, você já tem uma presença digital diferenciada. O Diagnóstico 360 vai mostrar como multiplicar esses resultados com estratégia e execução de alto nível.` }
+  ];
+  const ctaLvl = res.score<=30?0:res.score<=55?1:res.score<=75?2:3;
+  document.getElementById('cta-headline').innerHTML = ctaData[ctaLvl].headline;
+  document.getElementById('cta-subtext').textContent = ctaData[ctaLvl].sub;
+
   const msg=encodeURIComponent(`Olá! Acabei de fazer o Diagnóstico Digital da Pitch Company.\n\n📊 Índice de Maturidade: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
   document.getElementById('btn-wa').href=`https://wa.me/55SEU_NUMERO?text=${msg}`;
 }
