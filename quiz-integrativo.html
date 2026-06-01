@@ -293,6 +293,56 @@
     }
     .ts-cases-title { margin-top:36px; }
 
+    /* ── PARA QUEM É ── */
+    .quiz-forwho { padding:32px 20px; border-top:1px solid var(--border); }
+    .quiz-forwho h2, .quiz-steps h2, .quiz-faq h2 {
+      font-size:20px; font-weight:800; text-align:center; margin-bottom:20px;
+    }
+    .quiz-forwho h2 span, .quiz-steps h2 span, .quiz-faq h2 span { color:var(--purple); }
+    .fw-cols { display:flex; flex-direction:column; gap:14px; }
+    .fw-yes {
+      background:#F0FDF4; border:1.5px solid #86EFAC;
+      border-radius:14px; padding:20px;
+    }
+    .fw-no {
+      background:#FFF5F5; border:1.5px solid #FCA5A5;
+      border-radius:14px; padding:20px;
+    }
+    .fw-yes h3 { font-size:14px; font-weight:800; color:#15803D; margin-bottom:12px; }
+    .fw-no  h3 { font-size:14px; font-weight:800; color:#DC2626; margin-bottom:12px; }
+    .fw-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+    .fw-list li { font-size:13px; color:var(--text2); line-height:1.5; display:flex; gap:8px; }
+
+    /* ── COMO COMEÇAR ── */
+    .quiz-steps { padding:32px 20px; border-top:1px solid var(--border); }
+    .qs-grid { display:flex; flex-direction:column; gap:14px; }
+    .qs-step { display:flex; align-items:flex-start; gap:14px; }
+    .qs-num {
+      width:44px; height:44px; border-radius:50%; flex-shrink:0;
+      background:var(--purple-bg); border:1.5px solid var(--border-l);
+      display:flex; align-items:center; justify-content:center;
+      font-size:18px; font-weight:900; color:var(--purple);
+    }
+    .qs-step h4 { font-size:14px; font-weight:700; color:var(--text); margin-bottom:3px; }
+    .qs-step p  { font-size:13px; color:var(--text2); line-height:1.5; }
+
+    /* ── FAQ ── */
+    .quiz-faq { padding:32px 20px; border-top:1px solid var(--border); }
+    .qf-list { display:flex; flex-direction:column; gap:8px; }
+    .qf-item {
+      background:#fff; border:1.5px solid var(--border);
+      border-radius:12px; overflow:hidden; transition:border-color .2s;
+    }
+    .qf-item[open] { border-color:var(--border-l); }
+    .qf-item summary {
+      padding:15px 18px; font-size:14px; font-weight:600; color:var(--text);
+      cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:12px;
+    }
+    .qf-item summary::-webkit-details-marker { display:none; }
+    .qf-item summary::after { content:'+'; font-size:20px; color:var(--purple); font-weight:300; flex-shrink:0; transition:transform .2s; }
+    .qf-item[open] summary::after { transform:rotate(45deg); }
+    .qf-item p { padding:0 18px 16px; font-size:13px; color:var(--text2); line-height:1.65; }
+
     @keyframes shine {
       0% { background-position:200% center; }
       100% { background-position:-200% center; }
@@ -505,6 +555,80 @@
         </a>
         <p class="cta-fine">30 dias de Acompanhamento &nbsp;·&nbsp; Sem Contrato</p>
       </div>
+    </div>
+  </div>
+
+  <!-- PARA QUEM É -->
+  <div class="quiz-forwho">
+    <h2>O Diagnóstico 360 é <span>para você?</span></h2>
+    <div class="fw-cols">
+      <div class="fw-yes">
+        <h3>✅ É para você se...</h3>
+        <ul class="fw-list">
+          <li>✓ Você é profissional de saúde que quer crescer no digital e ser referência no seu nicho</li>
+          <li>✓ Você tem autoridade mas não sabe como posicionar isso no Instagram</li>
+          <li>✓ Você quer atrair clientes pelo digital e criar renda além dos atendimentos</li>
+          <li>✓ Você está cansado de postar sem resultado e quer entender o que há de errado</li>
+          <li>✓ Você pensa em lançar um infoproduto mas não sabe por onde começar</li>
+          <li>✓ Você está pronto para executar um plano com suporte especializado</li>
+        </ul>
+      </div>
+      <div class="fw-no">
+        <h3>❌ Não é para você se...</h3>
+        <ul class="fw-list">
+          <li>✗ Você busca resultados imediatos sem nenhuma implementação</li>
+          <li>✗ Você não está disposto a receber feedback honesto sobre seu perfil</li>
+          <li>✗ Você não tem interesse em construir presença digital sólida e duradoura</li>
+          <li>✗ Você quer apenas seguidores sem pensar em conversão ou monetização</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMO COMEÇAR -->
+  <div class="quiz-steps">
+    <h2>Como <span>começar</span></h2>
+    <div class="qs-grid">
+      <div class="qs-step">
+        <div class="qs-num">1</div>
+        <div>
+          <h4>Clique no botão do WhatsApp</h4>
+          <p>Fale com nossa equipe agora. Leva menos de 1 minuto e nossa equipe responde em até 24h.</p>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-num">2</div>
+        <div>
+          <h4>Reunião estratégica inicial</h4>
+          <p>Primeira conversa para entender seu caso, nicho, objetivos e funil atual em detalhes.</p>
+        </div>
+      </div>
+      <div class="qs-step">
+        <div class="qs-num">3</div>
+        <div>
+          <h4>Receba seu Diagnóstico 360</h4>
+          <p>Em até 30 dias, análise completa e plano de ação concreto nas suas mãos — pronto para executar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="quiz-faq">
+    <h2>Perguntas <span>frequentes</span></h2>
+    <div class="qf-list">
+      <details class="qf-item">
+        <summary>Preciso ter muitos seguidores para contratar?</summary>
+        <p>Não. O diagnóstico é eficaz independente do tamanho do perfil. Muitos profissionais que nos procuram estão na fase de construção e precisam exatamente de uma base estratégica sólida para crescer com consistência.</p>
+      </details>
+      <details class="qf-item">
+        <summary>O diagnóstico é genérico ou personalizado para mim?</summary>
+        <p>100% personalizado. Tudo começa com uma reunião estratégica onde nossa equipe entende seu nicho, sua audiência, seus produtos e sua realidade. O diagnóstico e o plano de ação são construídos especificamente para você — não existe template genérico.</p>
+      </details>
+      <details class="qf-item">
+        <summary>Quanto tempo dura o processo completo?</summary>
+        <p>O Diagnóstico 360 tem duração total de 30 dias — incluindo análise interna, entrega da apresentação em PDF e acompanhamento via WhatsApp para execução do plano de ação.</p>
+      </details>
     </div>
   </div>
 
