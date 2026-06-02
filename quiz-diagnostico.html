@@ -977,7 +977,7 @@ function buildResults(res) {
   document.getElementById('cta-subtext').textContent = ctaData[ctaLvl].sub;
 
   const msg=encodeURIComponent(`Olá! Acabei de fazer a Anamnese Digital da Pitch Company.\n\n📊 Resultado: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
-  const waUrl=`https://wa.me/55SEU_NUMERO?text=${msg}`;
+  const waUrl=`https://wa.me/5512988037941?text=${msg}`;
   document.querySelectorAll('.btn-wa').forEach(btn=>btn.href=waUrl);
 }
 
