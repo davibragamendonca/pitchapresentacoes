@@ -778,7 +778,7 @@ async function submitCapture(e) {
   const res=calcScore();
 
   try {
-    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-saude-integrativa',{
+    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/quiz-anamnese-integrativos',{
       method:'POST', headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         nome:user.name, instagram:user.ig, whatsapp:user.phone,
