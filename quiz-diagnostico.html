@@ -356,6 +356,7 @@
     .qf-item summary::after { content:'+'; font-size:20px; color:var(--purple); font-weight:300; flex-shrink:0; transition:transform .2s; }
     .qf-item[open] summary::after { transform:rotate(45deg); }
     .qf-item p { padding:0 18px 16px; font-size:13px; color:var(--text2); line-height:1.65; }
+    .sec-btn-wrap { padding:24px 0 8px; }
 
     @keyframes shine {
       0% { background-position:200% center; }
@@ -639,6 +640,10 @@
         <p>O Diagnóstico 360 tem duração total de 30 dias — incluindo análise interna, entrega da apresentação em PDF e acompanhamento via WhatsApp para execução do plano de ação.</p>
       </details>
     </div>
+    <div class="sec-btn-wrap">
+      <a class="btn-wa" href="#" target="_blank">Quero meu Diagnóstico 360 completo →</a>
+      <p class="cta-fine">30 dias de Acompanhamento &nbsp;·&nbsp; Sem Contrato</p>
+    </div>
   </div>
 
   <div class="testimonials-section">
@@ -663,6 +668,10 @@
       <div class="ts-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado ROAS" /></div>
       <div class="ts-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado ROAS" /></div>
       <div class="ts-item"><img src="cases/roas-3.jpg.jpeg" alt="Resultado ROAS" /></div>
+    </div>
+    <div class="sec-btn-wrap">
+      <a class="btn-wa" href="#" target="_blank">Quero meu Diagnóstico 360 completo →</a>
+      <p class="cta-fine">30 dias de Acompanhamento &nbsp;·&nbsp; Sem Contrato</p>
     </div>
   </div>
 </div>
@@ -968,7 +977,8 @@ function buildResults(res) {
   document.getElementById('cta-subtext').textContent = ctaData[ctaLvl].sub;
 
   const msg=encodeURIComponent(`Olá! Acabei de fazer a Anamnese Digital da Pitch Company.\n\n📊 Resultado: ${res.score}/100 — ${res.level}\n👤 ${user.name}\n${user.ig?'📸 '+user.ig+'\n':''}📱 ${user.phone}\n🩺 ${area}\n\nQuero garantir meu Diagnóstico 360 completo!`);
-  document.getElementById('btn-wa').href=`https://wa.me/55SEU_NUMERO?text=${msg}`;
+  const waUrl=`https://wa.me/55SEU_NUMERO?text=${msg}`;
+  document.querySelectorAll('.btn-wa').forEach(btn=>btn.href=waUrl);
 }
 
 function toggleAC(id,hdr) {
