@@ -784,10 +784,17 @@ async function submitCapture(e) {
         nome:user.name, instagram:user.ig, whatsapp:user.phone,
         origem:'Quiz Anamnese Digital — Saúde Integrativa',
         indice_maturidade:res.score, nivel:res.level,
-        especialidade:ans[1]!==undefined?Qs[0].opts[ans[1]]:'',
-        como_atrai_clientes:ans[5]||'', maior_desafio:ans[8]||'',
-        objetivo_renda:ans[10]!==undefined?Qs[9].opts[ans[10]]:'',
-        intencao_infoproduto:ans[11]!==undefined?Qs[10].opts[ans[11]]:'',
+        especialidade:           ans[1]!==undefined?Qs[0].opts[ans[1]]:'',
+        seguidores:              ans[2]!==undefined?Qs[1].opts[ans[2]]:'',
+        frequencia_conteudo:     ans[3]!==undefined?Qs[2].opts[ans[3]]:'',
+        posts_geram_atendimentos:ans[4]!==undefined?Qs[3].opts[ans[4]]:'',
+        como_atrai_clientes:     ans[5]||'',
+        clareza_publico:         ans[6]!==undefined?Qs[5].opts[ans[6]]:'',
+        estrategia_captacao:     ans[7]!==undefined?Qs[6].opts[ans[7]]:'',
+        maior_desafio:           ans[8]||'',
+        analisa_metricas:        ans[9]!==undefined?Qs[8].opts[ans[9]]:'',
+        objetivo_renda:          ans[10]!==undefined?Qs[9].opts[ans[10]]:'',
+        intencao_infoproduto:    ans[11]!==undefined?Qs[10].opts[ans[11]]:'',
         categorias:res.cats, data_envio:new Date().toISOString()
       })
     });
