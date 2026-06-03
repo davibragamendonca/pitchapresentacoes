@@ -143,19 +143,39 @@
     .cta-logo-wrap img{height:34px;}
 
     .cta-main-card{margin:0 16px 16px;background:white;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.06);}
-    .cta-card-top{background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border-bottom:1px solid #BBF7D0;padding:16px 16px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
-    .cta-step{font-size:12px;font-weight:700;color:#15803D;margin-bottom:4px;}
-    .cta-title{font-size:19px;font-weight:900;color:var(--text);}
-    .cta-wlogo{width:34px;height:34px;background:white;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .cta-card-top{background:linear-gradient(135deg,var(--purple),#5B21B6);border-bottom:1px solid rgba(124,58,237,.3);padding:20px 20px 16px;text-align:center;}
+    .cta-step{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+    .cta-title{font-size:20px;font-weight:900;color:#fff;line-height:1.25;}
+    .cta-title-sub{font-size:13px;color:rgba(255,255,255,.75);margin-top:6px;line-height:1.5;}
 
-    .cta-consult{margin:14px 16px 12px;display:flex;align-items:center;gap:12px;background:#F9FAFB;border:1px solid var(--border);border-radius:12px;padding:12px 14px;}
-    .cta-consult-av{width:44px;height:44px;border-radius:50%;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-    .cta-consult-name{font-size:14px;font-weight:700;}
-    .cta-consult-type{font-size:12px;color:var(--text2);}
+    .cta-delivers{padding:20px 20px 4px;display:flex;flex-direction:column;gap:16px;}
+    .cd-item{display:flex;align-items:flex-start;gap:12px;}
+    .cd-icon-wrap{width:38px;height:38px;border-radius:10px;background:var(--purple-bg);border:1px solid rgba(124,58,237,.15);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+    .cd-info strong{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+    .cd-info span{font-size:12px;color:var(--text2);line-height:1.4;}
 
-    .cta-checks{padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px;}
-    .cta-chk{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;}
-    .cta-chk::before{content:'✓';width:22px;height:22px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:11px;font-weight:800;flex-shrink:0;}
+    /* forwho, faq, testimonials */
+    .ia-forwho,.ia-faq,.ia-testi{padding:28px 16px;}
+    .ia-section-title{font-size:19px;font-weight:800;text-align:center;margin-bottom:6px;}
+    .ia-section-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;}
+    .ia-fw-yes{background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:18px;margin-bottom:12px;}
+    .ia-fw-no{background:#FFF5F5;border:1.5px solid #FCA5A5;border-radius:14px;padding:18px;}
+    .ia-fw-yes h3{font-size:13px;font-weight:800;color:#15803D;margin-bottom:10px;}
+    .ia-fw-no h3{font-size:13px;font-weight:800;color:#DC2626;margin-bottom:10px;}
+    .ia-fw-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .ia-fw-list li{font-size:13px;color:var(--text2);line-height:1.5;display:flex;gap:8px;}
+    .ia-faq-list{display:flex;flex-direction:column;gap:8px;}
+    .ia-fi{background:white;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;}
+    .ia-fi[open]{border-color:rgba(124,58,237,.4);}
+    .ia-fi summary{padding:14px 16px;font-size:14px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .ia-fi summary::-webkit-details-marker{display:none;}
+    .ia-fi summary::after{content:'+';font-size:20px;color:var(--purple);font-weight:300;flex-shrink:0;transition:transform .2s;}
+    .ia-fi[open] summary::after{transform:rotate(45deg);}
+    .ia-fi p{padding:0 16px 14px;font-size:13px;color:var(--text2);line-height:1.65;}
+    .ia-testi-masonry{columns:2;column-gap:8px;}
+    .ia-testi-item{break-inside:avoid;margin-bottom:8px;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+    .ia-testi-item img{width:100%;height:auto;display:block;}
+    .ia-cases-title{font-size:17px;font-weight:800;text-align:center;margin:28px 0 16px;}
 
     .cta-text{text-align:center;font-size:13px;color:var(--text2);padding:4px 20px 20px;line-height:1.75;}
     .cta-text b{color:var(--text);}
@@ -359,24 +379,53 @@
 
   <div class="cta-main-card">
     <div class="cta-card-top">
-      <div>
-        <div class="cta-step">📋 Seu próximo passo!</div>
-        <div class="cta-title">Diagnóstico 360 Personalizado</div>
-      </div>
-      <div class="cta-wlogo">🏥</div>
+      <div class="cta-step">📋 Seu próximo passo</div>
+      <div class="cta-title">Diagnóstico 360 Personalizado</div>
+      <p class="cta-title-sub">Uma imersão real e individual no seu caso, com especialistas que conhecem o mercado de saúde.</p>
     </div>
-    <div class="cta-consult">
-      <div class="cta-consult-av">🧑‍💼</div>
-      <div>
-        <div class="cta-consult-name">Consultoria com Especialista</div>
-        <div class="cta-consult-type">Videochamada — 3h de imersão personalizada</div>
+    <div class="cta-delivers">
+      <div class="cd-item">
+        <div class="cd-icon-wrap">🔍</div>
+        <div class="cd-info">
+          <strong>Reunião de Pesquisa e Alinhamento</strong>
+          <span>1 hora de consultoria para entender mercado, nicho, desejos e objetivos</span>
+        </div>
       </div>
-    </div>
-    <div class="cta-checks">
-      <div class="cta-chk">Análise profunda da sua Anamnese Digital</div>
-      <div class="cta-chk">Plano de ação para destravar seu crescimento</div>
-      <div class="cta-chk">Estratégia de infoproduto e monetização digital</div>
-      <div class="cta-chk">30 dias de acompanhamento via WhatsApp</div>
+      <div class="cd-item">
+        <div class="cd-icon-wrap">📊</div>
+        <div class="cd-info">
+          <strong>Reunião de Apresentação do Diagnóstico</strong>
+          <span>2 horas de consultoria apresentando o Diagnóstico + Plano de Ação de 30 dias</span>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon-wrap">🤝</div>
+        <div class="cd-info">
+          <strong>Reunião 1:1 com especialista</strong>
+          <span>Individual, focada no seu caso — não uma consultoria em grupo ou gravação genérica</span>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon-wrap">🔬</div>
+        <div class="cd-info">
+          <strong>Análise real do seu perfil</strong>
+          <span>Estudamos seu Instagram, seus concorrentes e o mercado da sua especialidade</span>
+        </div>
+      </div>
+      <div class="cd-item">
+        <div class="cd-icon-wrap">📄</div>
+        <div class="cd-info">
+          <strong>PDF com plano de ação detalhado</strong>
+          <span>Cada passo documentado para você executar com clareza total na semana seguinte</span>
+        </div>
+      </div>
+      <div class="cd-item" style="padding-bottom:4px;">
+        <div class="cd-icon-wrap">💬</div>
+        <div class="cd-info">
+          <strong>30 dias de acompanhamento</strong>
+          <span>Grupo exclusivo no WhatsApp para garantir que você não trave na execução</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -388,6 +437,75 @@
   <a class="btn-wa-g" id="btn-wa-cta" href="https://wa.me/5512988037941" target="_blank">
     AGENDAR DIAGNÓSTICO 360 →
   </a>
+
+  <!-- PARA QUEM É -->
+  <div class="ia-forwho">
+    <h2 class="ia-section-title">O Diagnóstico 360 é <span style="color:var(--purple)">para você?</span></h2>
+    <p class="ia-section-sub">Veja se você é o perfil certo antes de clicar</p>
+    <div class="ia-fw-yes">
+      <h3>✅ É para você se...</h3>
+      <ul class="ia-fw-list">
+        <li>✓ Você é profissional de saúde que quer crescer no digital e ser referência no nicho</li>
+        <li>✓ Você tem autoridade mas não sabe como posicionar isso no Instagram</li>
+        <li>✓ Você quer atrair clientes pelo digital e criar renda além dos atendimentos</li>
+        <li>✓ Você pensa em lançar um infoproduto mas não sabe por onde começar</li>
+        <li>✓ Você está pronto para executar um plano com suporte especializado</li>
+      </ul>
+    </div>
+    <div class="ia-fw-no">
+      <h3>❌ Não é para você se...</h3>
+      <ul class="ia-fw-list">
+        <li>✗ Você busca resultados imediatos sem nenhuma implementação</li>
+        <li>✗ Você não está disposto a receber feedback honesto sobre seu perfil</li>
+        <li>✗ Você não tem interesse em construir presença digital sólida e duradoura</li>
+        <li>✗ Você quer apenas seguidores sem pensar em conversão ou monetização</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="ia-faq" style="padding-top:0;">
+    <h2 class="ia-section-title">Perguntas <span style="color:var(--purple)">frequentes</span></h2>
+    <p class="ia-section-sub">Tire suas dúvidas antes de avançar</p>
+    <div class="ia-faq-list">
+      <details class="ia-fi">
+        <summary>Preciso ter muitos seguidores para contratar?</summary>
+        <p>Não. O diagnóstico é eficaz independente do tamanho do perfil. Muitos profissionais que nos procuram estão na fase de construção e precisam exatamente de uma base estratégica sólida para crescer com consistência.</p>
+      </details>
+      <details class="ia-fi">
+        <summary>O diagnóstico é genérico ou personalizado para mim?</summary>
+        <p>100% personalizado. Tudo começa com uma reunião estratégica onde nossa equipe entende seu nicho, sua audiência e sua realidade. O diagnóstico e o plano de ação são construídos especificamente para você — não existe template genérico.</p>
+      </details>
+      <details class="ia-fi">
+        <summary>Quanto tempo dura o processo completo?</summary>
+        <p>O Diagnóstico 360 tem duração total de 30 dias — incluindo análise interna, entrega da apresentação em PDF e acompanhamento via WhatsApp para execução do plano de ação.</p>
+      </details>
+    </div>
+  </div>
+
+  <!-- DEPOIMENTOS -->
+  <div class="ia-testi" style="padding-top:0;">
+    <h2 class="ia-section-title">O que dizem <span style="color:var(--purple)">quem já fez</span></h2>
+    <p class="ia-section-sub">Resultados reais de profissionais de saúde</p>
+    <div class="ia-testi-masonry">
+      <div class="ia-testi-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento"></div>
+    </div>
+    <div class="ia-cases-title">Resultados dos nossos clientes</div>
+    <div class="ia-testi-masonry">
+      <div class="ia-testi-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado"></div>
+    </div>
+    <div style="padding:20px 0 8px;">
+      <a class="btn-wa-g" href="#" id="btn-wa-bottom" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
+    </div>
+  </div>
 
   <p class="cta-duvida">Dúvidas? <a href="https://wa.me/5512988037941" target="_blank">Fale com a gente no WhatsApp.</a></p>
   <div class="page-footer">Criado por Pitch Company · Todos os Direitos Reservados © 2026</div>
@@ -763,7 +881,7 @@ function buildResults(sc) {
   // CTA WhatsApp
   const msg = encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese Digital com IA, quero garantir o meu diagnóstico 360 personalizado!!`);
   const waUrl = `https://wa.me/5512988037941?text=${msg}`;
-  document.getElementById('btn-wa-cta').href = waUrl;
+  document.querySelectorAll('#btn-wa-cta, #btn-wa-bottom').forEach(b => b.href = waUrl);
 
   // CTA text
   document.getElementById('cta-body-text').innerHTML =
