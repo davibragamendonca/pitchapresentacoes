@@ -356,7 +356,7 @@
     <h3>Diagnóstico Geral</h3>
     <p>Avaliação dos principais pilares da sua presença digital.</p>
     <div class="radar-canvas-wrap">
-      <canvas id="c-results" width="280" height="280"></canvas>
+      <canvas id="c-results" width="320" height="320"></canvas>
     </div>
   </div>
 
@@ -858,7 +858,7 @@ function buildResults(sc) {
   // Results radar
   setTimeout(() => {
     const ctx = document.getElementById('c-results').getContext('2d');
-    drawRadarChart(ctx, sc.dims, DIM_NAMES, '#7C3AED', true);
+    drawRadarChart(ctx, sc.dims, DIM_NAMES, getRadarColor(sc.avg), true);
   }, 300);
 
   // Score items
@@ -891,11 +891,20 @@ function buildResults(sc) {
 
 function showCta() { show('s-cta'); window.scrollTo(0,0); }
 
+// ── RADAR COLOR based on avg score ──
+function getRadarColor(avg) {
+  if (avg <= 3.5) return '#EF4444';
+  if (avg <= 5.5) return '#F97316';
+  if (avg <= 7)   return '#EAB308';
+  if (avg <= 8.5) return '#22C55E';
+  return '#7C3AED';
+}
+
 // ── RADAR CHART ──
 function drawRadarChart(ctx, data, labels, color, showLabels) {
   const W = ctx.canvas.width, H = ctx.canvas.height;
   const cx = W/2, cy = H/2;
-  const r  = Math.min(cx, cy) - (showLabels ? 36 : 20);
+  const r  = Math.min(cx, cy) - (showLabels ? 44 : 20);
   const n  = data.length;
   const step = (2*Math.PI) / n;
 
@@ -936,7 +945,7 @@ function drawRadarChart(ctx, data, labels, color, showLabels) {
     i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
   });
   ctx.closePath();
-  ctx.fillStyle = color + '25';
+  ctx.fillStyle = color + '28';
   ctx.fill();
   ctx.strokeStyle = color;
   ctx.lineWidth = 2;
@@ -953,17 +962,18 @@ function drawRadarChart(ctx, data, labels, color, showLabels) {
     ctx.fill();
   });
 
-  // Labels
+  // Labels — smart alignment so nothing gets cut
   if (showLabels && labels.length) {
+    ctx.font = '600 10px Inter, sans-serif';
     labels.forEach((label, i) => {
       const a = i*step - Math.PI/2;
-      const x = cx + (r+22)*Math.cos(a);
-      const y = cy + (r+22)*Math.sin(a);
+      const lx = cx + (r+26)*Math.cos(a);
+      const ly = cy + (r+26)*Math.sin(a);
+      const cosA = Math.cos(a), sinA = Math.sin(a);
       ctx.fillStyle = '#374151';
-      ctx.font = '500 10px Inter, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(label, x, y);
+      ctx.textAlign   = cosA >  0.4 ? 'left'   : cosA < -0.4 ? 'right'  : 'center';
+      ctx.textBaseline = sinA >  0.4 ? 'top'    : sinA < -0.4 ? 'bottom' : 'middle';
+      ctx.fillText(label, lx, ly);
     });
   }
 }
