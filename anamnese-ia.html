@@ -356,7 +356,7 @@
     <h3>Diagnóstico Geral</h3>
     <p>Avaliação dos principais pilares da sua presença digital.</p>
     <div class="radar-canvas-wrap">
-      <canvas id="c-results" width="320" height="320"></canvas>
+      <canvas id="c-results" width="500" height="500" style="max-width:100%;height:auto;display:block;margin:0 auto;"></canvas>
     </div>
   </div>
 
@@ -847,11 +847,12 @@ function buildResults(sc) {
   document.getElementById('mat-thumb').style.left = sc.matPos + '%';
   document.getElementById('mat-desc').textContent = sc.matDesc;
 
-  // Results radar
+  // Results radar — animated, labeled pills, per-dimension colors
+  const RADAR_LABELS = ['Conteúdo','Captação','Posição','Consist.','Monetiz.','Autoridade','Estratégia','Escala'];
   setTimeout(() => {
     const ctx = document.getElementById('c-results').getContext('2d');
-    drawRadarChart(ctx, sc.dims, DIM_NAMES, getRadarColor(sc.avg), true);
-  }, 300);
+    drawRadarChart(ctx, sc.dims, RADAR_LABELS, getRadarColor(sc.avg), true, true);
+  }, 400);
 
   // Score items
   let html = '';
@@ -883,7 +884,7 @@ function buildResults(sc) {
 
 function showCta() { show('s-cta'); window.scrollTo(0,0); }
 
-// ── RADAR COLOR based on avg score ──
+// ── RADAR COLORS ──
 function getRadarColor(avg) {
   if (avg <= 3.5) return '#EF4444';
   if (avg <= 5.5) return '#F97316';
@@ -891,82 +892,141 @@ function getRadarColor(avg) {
   if (avg <= 8.5) return '#22C55E';
   return '#7C3AED';
 }
+function dimColor(s) {
+  if (s <= 3) return '#EF4444';
+  if (s <= 5) return '#F97316';
+  if (s <= 7) return '#EAB308';
+  return '#22C55E';
+}
 
-// ── RADAR CHART ──
-function drawRadarChart(ctx, data, labels, color, showLabels) {
+// ── RADAR CHART with animation ──
+function drawRadarChart(ctx, data, labels, primaryColor, showLabels, doAnimate) {
   const W = ctx.canvas.width, H = ctx.canvas.height;
   const cx = W/2, cy = H/2;
-  const r  = Math.min(cx, cy) - (showLabels ? 44 : 20);
+  const r  = Math.min(cx, cy) - (showLabels ? 80 : 24);
   const n  = data.length;
   const step = (2*Math.PI) / n;
 
-  ctx.clearRect(0, 0, W, H);
+  function _draw(animData, final, showPills) {
+    ctx.clearRect(0, 0, W, H);
 
-  // Grid rings
-  for (let ring = 2; ring <= 10; ring += 2) {
-    ctx.beginPath();
-    for (let i = 0; i <= n; i++) {
-      const a = i*step - Math.PI/2;
-      const x = cx + (ring/10)*r*Math.cos(a);
-      const y = cy + (ring/10)*r*Math.sin(a);
-      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    // Dashed grid rings
+    ctx.setLineDash([4, 5]);
+    for (let ring = 2; ring <= 10; ring += 2) {
+      ctx.beginPath();
+      for (let i = 0; i <= n; i++) {
+        const a = i*step - Math.PI/2;
+        const x = cx + (ring/10)*r*Math.cos(a);
+        const y = cy + (ring/10)*r*Math.sin(a);
+        i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = ring===10 ? '#D1D5DB' : '#EBEBEB';
+      ctx.lineWidth = 1;
+      ctx.stroke();
     }
-    ctx.closePath();
-    ctx.strokeStyle = '#E5E7EB';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-
-  // Axes
-  for (let i = 0; i < n; i++) {
-    const a = i*step - Math.PI/2;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + r*Math.cos(a), cy + r*Math.sin(a));
-    ctx.strokeStyle = '#E5E7EB';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-
-  // Data polygon
-  ctx.beginPath();
-  data.forEach((d, i) => {
-    const a = i*step - Math.PI/2;
-    const x = cx + (d/10)*r*Math.cos(a);
-    const y = cy + (d/10)*r*Math.sin(a);
-    i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-  });
-  ctx.closePath();
-  ctx.fillStyle = color + '28';
-  ctx.fill();
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // Dots
-  data.forEach((d, i) => {
-    const a = i*step - Math.PI/2;
-    const x = cx + (d/10)*r*Math.cos(a);
-    const y = cy + (d/10)*r*Math.sin(a);
-    ctx.beginPath();
-    ctx.arc(x, y, 4, 0, 2*Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
-  });
-
-  // Labels — smart alignment so nothing gets cut
-  if (showLabels && labels.length) {
-    ctx.font = '600 10px Inter, sans-serif';
-    labels.forEach((label, i) => {
+    // Dashed axes
+    for (let i = 0; i < n; i++) {
       const a = i*step - Math.PI/2;
-      const lx = cx + (r+26)*Math.cos(a);
-      const ly = cy + (r+26)*Math.sin(a);
-      const cosA = Math.cos(a), sinA = Math.sin(a);
-      ctx.fillStyle = '#374151';
-      ctx.textAlign   = cosA >  0.4 ? 'left'   : cosA < -0.4 ? 'right'  : 'center';
-      ctx.textBaseline = sinA >  0.4 ? 'top'    : sinA < -0.4 ? 'bottom' : 'middle';
-      ctx.fillText(label, lx, ly);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r*Math.cos(a), cy + r*Math.sin(a));
+      ctx.strokeStyle = '#E0E0E0';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+
+    // Colored triangular slices
+    for (let i = 0; i < n; i++) {
+      const j = (i+1) % n;
+      const a1 = i*step - Math.PI/2;
+      const a2 = j*step - Math.PI/2;
+      const avgScore = (data[i] + data[j]) / 2;
+      const col = dimColor(avgScore);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + (animData[i]/10)*r*Math.cos(a1), cy + (animData[i]/10)*r*Math.sin(a1));
+      ctx.lineTo(cx + (animData[j]/10)*r*Math.cos(a2), cy + (animData[j]/10)*r*Math.sin(a2));
+      ctx.closePath();
+      ctx.fillStyle = col + '28';
+      ctx.fill();
+      ctx.strokeStyle = col + '90';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
+
+    // Colored dots per dimension
+    animData.forEach((d, i) => {
+      const a = i*step - Math.PI/2;
+      const x = cx + (d/10)*r*Math.cos(a);
+      const y = cy + (d/10)*r*Math.sin(a);
+      const col = dimColor(data[i]);
+      ctx.beginPath();
+      ctx.arc(x, y, 6, 0, 2*Math.PI);
+      ctx.fillStyle = col;
+      ctx.fill();
+      ctx.strokeStyle = '#fff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
     });
+
+    // Label pills (only when animation done)
+    if (showLabels && labels.length && showPills) {
+      ctx.font = 'bold 18px Inter, sans-serif';
+      const px = 16, py = 8, bRadius = 8;
+      labels.forEach((label, i) => {
+        const a = i*step - Math.PI/2;
+        const cosA = Math.cos(a), sinA = Math.sin(a);
+        const lx = cx + (r+46)*cosA;
+        const ly = cy + (r+46)*sinA;
+        const col = dimColor(data[i]);
+
+        ctx.textAlign   = cosA >  0.4 ? 'left' : cosA < -0.4 ? 'right' : 'center';
+        ctx.textBaseline = sinA >  0.4 ? 'top'  : sinA < -0.4 ? 'bottom' : 'middle';
+
+        const tw = ctx.measureText(label).width;
+        const bw = tw + px*2, bh = 28;
+        let bx = cosA > 0.4 ? lx - px : cosA < -0.4 ? lx - tw - px : lx - tw/2 - px;
+        let by = sinA > 0.4 ? ly : sinA < -0.4 ? ly - bh : ly - bh/2;
+
+        // Pill background
+        ctx.beginPath();
+        ctx.moveTo(bx+bRadius, by);
+        ctx.lineTo(bx+bw-bRadius, by);
+        ctx.arcTo(bx+bw, by, bx+bw, by+bRadius, bRadius);
+        ctx.lineTo(bx+bw, by+bh-bRadius);
+        ctx.arcTo(bx+bw, by+bh, bx+bw-bRadius, by+bh, bRadius);
+        ctx.lineTo(bx+bRadius, by+bh);
+        ctx.arcTo(bx, by+bh, bx, by+bh-bRadius, bRadius);
+        ctx.lineTo(bx, by+bRadius);
+        ctx.arcTo(bx, by, bx+bRadius, by, bRadius);
+        ctx.closePath();
+        ctx.fillStyle = col + '18';
+        ctx.fill();
+        ctx.strokeStyle = col + '70';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Label text
+        ctx.fillStyle = col;
+        ctx.fillText(label, lx, ly);
+      });
+    }
+  }
+
+  if (doAnimate) {
+    const dur = 1400;
+    const t0 = performance.now();
+    function frame(now) {
+      const p = Math.min((now-t0)/dur, 1);
+      const ease = 1 - Math.pow(1-p, 3);
+      _draw(data.map(d => d*ease), data, p >= 1);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  } else {
+    _draw(data, data, true);
   }
 }
 
