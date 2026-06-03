@@ -125,7 +125,8 @@
     .mat-desc{margin-top:12px;font-size:13px;color:var(--text2);line-height:1.65;}
 
     /* Radar canvas */
-    .radar-canvas-wrap{display:flex;align-items:center;justify-content:center;padding:8px 0;}
+    .radar-canvas-wrap{position:relative;padding:8px 0;overflow:visible;}
+    .radar-label{position:absolute;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;line-height:1.4;}
 
     /* Score items */
     .score-item{background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:0 16px 10px;}
@@ -355,7 +356,7 @@
   <div class="res-card" style="padding-bottom:8px;">
     <h3>Diagnóstico Geral</h3>
     <p>Avaliação dos principais pilares da sua presença digital.</p>
-    <div class="radar-canvas-wrap">
+    <div class="radar-canvas-wrap" id="results-radar-wrap">
       <canvas id="c-results" width="500" height="500" style="max-width:100%;height:auto;display:block;margin:0 auto;"></canvas>
     </div>
   </div>
@@ -847,11 +848,13 @@ function buildResults(sc) {
   document.getElementById('mat-thumb').style.left = sc.matPos + '%';
   document.getElementById('mat-desc').textContent = sc.matDesc;
 
-  // Results radar — animated, labeled pills, per-dimension colors
-  const RADAR_LABELS = ['Conteúdo','Captação','Posição','Consist.','Monetiz.','Autoridade','Estratégia','Escala'];
+  // Results radar — animated, per-dimension colors, HTML labels
+  const RADAR_LABELS = ['Conteúdo','Captação','Posicionamento','Consistência','Monetização','Autoridade','Estratégia','Escalabilidade'];
   setTimeout(() => {
     const ctx = document.getElementById('c-results').getContext('2d');
-    drawRadarChart(ctx, sc.dims, RADAR_LABELS, getRadarColor(sc.avg), true, true);
+    drawRadarChart(ctx, sc.dims, [], getRadarColor(sc.avg), false, true, () => {
+      positionRadarLabels('results-radar-wrap', sc.dims, RADAR_LABELS);
+    });
   }, 400);
 
   // Score items
@@ -900,7 +903,7 @@ function dimColor(s) {
 }
 
 // ── RADAR CHART with animation ──
-function drawRadarChart(ctx, data, labels, primaryColor, showLabels, doAnimate) {
+function drawRadarChart(ctx, data, labels, primaryColor, showLabels, doAnimate, onComplete) {
   const W = ctx.canvas.width, H = ctx.canvas.height;
   const cx = W/2, cy = H/2;
   const r  = Math.min(cx, cy) - (showLabels ? 80 : 24);
@@ -971,48 +974,6 @@ function drawRadarChart(ctx, data, labels, primaryColor, showLabels, doAnimate) 
       ctx.stroke();
     });
 
-    // Label pills (only when animation done)
-    if (showLabels && labels.length && showPills) {
-      ctx.font = 'bold 18px Inter, sans-serif';
-      const px = 16, py = 8, bRadius = 8;
-      labels.forEach((label, i) => {
-        const a = i*step - Math.PI/2;
-        const cosA = Math.cos(a), sinA = Math.sin(a);
-        const lx = cx + (r+46)*cosA;
-        const ly = cy + (r+46)*sinA;
-        const col = dimColor(data[i]);
-
-        ctx.textAlign   = cosA >  0.4 ? 'left' : cosA < -0.4 ? 'right' : 'center';
-        ctx.textBaseline = sinA >  0.4 ? 'top'  : sinA < -0.4 ? 'bottom' : 'middle';
-
-        const tw = ctx.measureText(label).width;
-        const bw = tw + px*2, bh = 28;
-        let bx = cosA > 0.4 ? lx - px : cosA < -0.4 ? lx - tw - px : lx - tw/2 - px;
-        let by = sinA > 0.4 ? ly : sinA < -0.4 ? ly - bh : ly - bh/2;
-
-        // Pill background
-        ctx.beginPath();
-        ctx.moveTo(bx+bRadius, by);
-        ctx.lineTo(bx+bw-bRadius, by);
-        ctx.arcTo(bx+bw, by, bx+bw, by+bRadius, bRadius);
-        ctx.lineTo(bx+bw, by+bh-bRadius);
-        ctx.arcTo(bx+bw, by+bh, bx+bw-bRadius, by+bh, bRadius);
-        ctx.lineTo(bx+bRadius, by+bh);
-        ctx.arcTo(bx, by+bh, bx, by+bh-bRadius, bRadius);
-        ctx.lineTo(bx, by+bRadius);
-        ctx.arcTo(bx, by, bx+bRadius, by, bRadius);
-        ctx.closePath();
-        ctx.fillStyle = col + '18';
-        ctx.fill();
-        ctx.strokeStyle = col + '70';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        // Label text
-        ctx.fillStyle = col;
-        ctx.fillText(label, lx, ly);
-      });
-    }
   }
 
   if (doAnimate) {
@@ -1023,11 +984,48 @@ function drawRadarChart(ctx, data, labels, primaryColor, showLabels, doAnimate) 
       const ease = 1 - Math.pow(1-p, 3);
       _draw(data.map(d => d*ease), data, p >= 1);
       if (p < 1) requestAnimationFrame(frame);
+      else if (onComplete) onComplete();
     }
     requestAnimationFrame(frame);
   } else {
     _draw(data, data, true);
+    if (onComplete) onComplete();
   }
+}
+
+// ── HTML RADAR LABELS ──
+function positionRadarLabels(wrapperId, dims, labels) {
+  const wrap = document.getElementById(wrapperId);
+  if (!wrap) return;
+  wrap.querySelectorAll('.radar-label').forEach(el => el.remove());
+
+  const canvas = wrap.querySelector('canvas');
+  const cw = canvas.offsetWidth;
+  const ch = canvas.offsetHeight;
+  const cx = cw / 2, cy = ch / 2;
+  const scale = cw / 500;
+  const r = (250 - 80) * scale;
+  const offset = 46 * scale;
+  const n = labels.length;
+  const step = (2 * Math.PI) / n;
+
+  labels.forEach((label, i) => {
+    const a = i * step - Math.PI / 2;
+    const cosA = Math.cos(a), sinA = Math.sin(a);
+    const lx = cx + (r + offset) * cosA;
+    const ly = cy + (r + offset) * sinA;
+    const col = dimColor(dims[i]);
+
+    const tx = cosA > 0.4 ? '0%' : cosA < -0.4 ? '-100%' : '-50%';
+    const ty = sinA > 0.4 ? '0%' : sinA < -0.4 ? '-100%' : '-50%';
+
+    const el = document.createElement('div');
+    el.className = 'radar-label';
+    el.textContent = label;
+    el.style.cssText = `left:${lx}px;top:${ly}px;transform:translate(${tx},${ty});` +
+      `background:${col}18;border:1.5px solid ${col}70;color:${col};`;
+    wrap.appendChild(el);
+  });
 }
 
 function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
