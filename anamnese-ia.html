@@ -197,13 +197,13 @@
     <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
     <div class="intro-badge">🌿 Anamnese Digital Gratuita</div>
     <h1 class="intro-h1">Você transforma vidas no consultório.<br>Mas e no <span style="color:var(--purple)">digital</span>?</h1>
-    <p style="font-size:15px;color:var(--text2);max-width:340px;margin:0 auto 28px;line-height:1.7;">Responda 11 perguntas rápidas e descubra exatamente o que está impedindo você de vender e impactar mais vidas pelo Instagram.</p>
+    <p style="font-size:15px;color:var(--text2);max-width:340px;margin:0 auto 28px;line-height:1.7;">Responda 14 perguntas rápidas e descubra exatamente o que está impedindo você de vender e impactar mais vidas pelo Instagram.</p>
   </div>
   <div class="intro-cards">
     <div class="intro-card">
       <div class="ic-num">#01</div>
       <h3>Faça sua Anamnese</h3>
-      <p>Em menos de 3 minutos, você responde sobre seu cenário atual e nossa IA estima onde você está perdendo oportunidades de crescimento e monetização.</p>
+      <p>Em menos de 5 minutos, você responde sobre seu cenário atual e nossa IA estima onde você está perdendo oportunidades de crescimento e monetização.</p>
       <div class="ic-preview">
         <svg width="180" height="110" viewBox="0 0 180 110">
           <g transform="translate(90,55)">
@@ -515,75 +515,46 @@
 <script>
 // ── QUESTIONS ──
 const Qs = [
-  { id:1, type:'single', title:'Área de atuação.', sub:'Selecione a que melhor te descreve',
-    opts:[
-      {e:'🌿',t:'Medicina Integrativa / Funcional'},
-      {e:'🥗',t:'Nutrição Funcional'},
-      {e:'🦷',t:'Dentista / Odontologista'},
-      {e:'🫀',t:'Cardiologista / Medicina Especializada'},
-      {e:'🌸',t:'Dermatologista'},
-      {e:'🧠',t:'Psicologia / Psicoterapia'},
-      {e:'🔄',t:'Outro profissional da saúde'}
-    ]
+  { id:1,  type:'single',   title:'Área de atuação.',                      sub:'Selecione a que melhor te descreve',
+    opts:[{e:'🌿',t:'Medicina Integrativa / Funcional'},{e:'🥗',t:'Nutrição Funcional'},{e:'🦷',t:'Dentista / Odontologista'},{e:'🫀',t:'Cardiologista / Medicina Especializada'},{e:'🌸',t:'Dermatologista'},{e:'🧠',t:'Psicologia / Psicoterapia'},{e:'🔄',t:'Outro profissional da saúde'}]
   },
-  { id:2, type:'single', title:'Atendimentos mensais.', sub:'Quantos atendimentos você faz em média por mês?',
-    opts:[
-      {e:'🌱',t:'Menos de 20 atendimentos'},
-      {e:'📋',t:'Entre 20 e 50 atendimentos'},
-      {e:'📊',t:'Entre 50 e 100 atendimentos'},
-      {e:'🏆',t:'Entre 100 e 200 atendimentos'},
-      {e:'🔥',t:'Mais de 200 atendimentos'}
-    ]
+  { id:2,  type:'single',   title:'Seguidores no Instagram.',               sub:'Quantos seguidores você tem hoje?',
+    opts:[{e:'🌱',t:'Menos de 1.000'},{e:'📊',t:'Entre 1.000 e 5.000'},{e:'📈',t:'Entre 5.000 e 20.000'},{e:'🔥',t:'Mais de 20.000'}]
   },
-  { id:3, type:'single', title:'Faturamento mensal.', sub:'Qual é o seu faturamento mensal atual (atendimentos + digital)?',
-    opts:[
-      {e:'🔵',t:'Menos de R$10.000'},
-      {e:'📊',t:'Entre R$10.000 e R$25.000'},
-      {e:'💚',t:'Entre R$25.000 e R$50.000'},
-      {e:'💰',t:'Entre R$50.000 e R$100.000'},
-      {e:'🏦',t:'Entre R$100.000 e R$300.000'},
-      {e:'🔥',t:'Mais de R$300.000'}
-    ]
+  { id:3,  type:'single',   title:'Atendimentos mensais.',                  sub:'Quantos atendimentos você faz em média por mês?',
+    opts:[{e:'🌱',t:'Menos de 20 atendimentos'},{e:'📋',t:'Entre 20 e 50 atendimentos'},{e:'📊',t:'Entre 50 e 100 atendimentos'},{e:'🏆',t:'Entre 100 e 200 atendimentos'},{e:'🔥',t:'Mais de 200 atendimentos'}]
   },
-  { id:4, type:'single', title:'Investimento em marketing.', sub:'Quanto você investe em <b>MARKETING DIGITAL</b> por mês?',
-    opts:[
-      {e:'🚫',t:'Não invisto em marketing digital'},
-      {e:'💸',t:'Até R$500'},
-      {e:'📊',t:'Entre R$500 e R$2.000'},
-      {e:'💰',t:'Entre R$2.000 e R$10.000'},
-      {e:'🌟',t:'Entre R$10.000 e R$30.000'},
-      {e:'⭐',t:'Mais de R$30.000'}
-    ]
+  { id:4,  type:'single',   title:'Faturamento mensal.',                    sub:'Qual é o seu faturamento mensal atual (atendimentos + digital)?',
+    opts:[{e:'🔵',t:'Menos de R$10.000'},{e:'📊',t:'Entre R$10.000 e R$25.000'},{e:'💚',t:'Entre R$25.000 e R$50.000'},{e:'💰',t:'Entre R$50.000 e R$100.000'},{e:'🏦',t:'Entre R$100.000 e R$300.000'},{e:'🔥',t:'Mais de R$300.000'}]
   },
-  { id:5, type:'single', title:'Frequência de conteúdo.', sub:'Com que frequência você publica conteúdo no Instagram?',
-    opts:[
-      {e:'🚫',t:'Raramente ou nunca'},
-      {e:'📅',t:'1 a 2 vezes por semana'},
-      {e:'📊',t:'3 a 5 vezes por semana'},
-      {e:'🔥',t:'Todos os dias'}
-    ]
+  { id:5,  type:'single',   title:'Investimento em marketing.',             sub:'Quanto você investe em <b>MARKETING DIGITAL</b> por mês?',
+    opts:[{e:'🚫',t:'Não invisto em marketing digital'},{e:'💸',t:'Até R$500'},{e:'📊',t:'Entre R$500 e R$2.000'},{e:'💰',t:'Entre R$2.000 e R$10.000'},{e:'🌟',t:'Entre R$10.000 e R$30.000'},{e:'⭐',t:'Mais de R$30.000'}]
   },
-  { id:6, type:'single', title:'Objetivo no digital.', sub:'Qual é o seu principal objetivo no Instagram hoje?',
-    opts:[
-      {e:'👥',t:'Atrair mais pacientes para o consultório'},
-      {e:'🏅',t:'Me tornar referência reconhecida no meu nicho'},
-      {e:'📚',t:'Lançar um infoproduto (curso, mentoria, ebook)'},
-      {e:'🚀',t:'Escalar minha receita além dos atendimentos'}
-    ]
+  { id:6,  type:'single',   title:'Frequência de conteúdo.',                sub:'Com que frequência você publica conteúdo no Instagram?',
+    opts:[{e:'🚫',t:'Raramente ou nunca'},{e:'📅',t:'1 a 2 vezes por semana'},{e:'📊',t:'3 a 5 vezes por semana'},{e:'🔥',t:'Todos os dias'}]
   },
-  { id:7, type:'multi', title:'Estratégias que você usa.', sub:'Selecione todas as estratégias que você aplica hoje',
-    opts:[
-      {e:'🎯',t:'Tráfego Pago'},
-      {e:'🎬',t:'Reels e Vídeos'},
-      {e:'📧',t:'E-mail Marketing'},
-      {e:'📱',t:'Stories Diários'},
-      {e:'📲',t:'WhatsApp Business'},
-      {e:'🔍',t:'Blog e SEO'},
-      {e:'🤝',t:'Parcerias e Influenciadores'},
-      {e:'✋',t:'Nenhuma dessas'}
-    ]
+  { id:7,  type:'single',   title:'Objetivo no digital.',                   sub:'Qual é o seu principal objetivo no Instagram hoje?',
+    opts:[{e:'👥',t:'Atrair mais pacientes para o consultório'},{e:'🏅',t:'Me tornar referência reconhecida no meu nicho'},{e:'📚',t:'Lançar um infoproduto (curso, mentoria, ebook)'},{e:'🚀',t:'Escalar minha receita além dos atendimentos'}]
   },
-  { id:8, type:'text', title:'Seu @ no Instagram.', sub:'A nossa IA vai avaliar seu perfil digital',
+  { id:8,  type:'single',   title:'Clareza sobre seu público.',             sub:'Você tem clareza sobre qual perfil de pessoa quer atrair?',
+    opts:[{e:'❓',t:'Não tenho clareza'},{e:'💭',t:'Tenho uma ideia vaga'},{e:'🎯',t:'Sei quem é, mas não comunico bem no perfil'},{e:'✅',t:'Sei exatamente e comunico com clareza'}]
+  },
+  { id:9,  type:'textarea', title:'Como as pessoas te encontram hoje?',     sub:'Escreva com suas próprias palavras',
+    ph:'Ex: Indicação de colegas, Google, perfil no Instagram, eventos e palestras...'
+  },
+  { id:10, type:'textarea', title:'Qual é o seu maior desafio no digital hoje?', sub:'Seja honesto — isso personaliza sua Anamnese',
+    ph:'Ex: Não sei criar conteúdo, não consigo converter seguidores em clientes, não tenho tempo...'
+  },
+  { id:11, type:'multi',    title:'Estratégias que você usa.',              sub:'Selecione todas as estratégias que você aplica hoje',
+    opts:[{e:'🎯',t:'Tráfego Pago'},{e:'🎬',t:'Reels e Vídeos'},{e:'📧',t:'E-mail Marketing'},{e:'📱',t:'Stories Diários'},{e:'📲',t:'WhatsApp Business'},{e:'🔍',t:'Blog e SEO'},{e:'🤝',t:'Parcerias e Influenciadores'},{e:'✋',t:'Nenhuma dessas'}]
+  },
+  { id:12, type:'single',   title:'Fonte de renda daqui 2 anos.',           sub:'Seja honesto — isso nos ajuda a entender seu objetivo',
+    opts:[{e:'🏥',t:'Quero uma agenda cheia de atendimentos presenciais'},{e:'💻',t:'Quero equilibrar atendimentos com sessões online'},{e:'📚',t:'Quero criar produtos digitais além dos atendimentos'},{e:'🚀',t:'Quero uma operação digital que funcione além da minha presença'}]
+  },
+  { id:13, type:'single',   title:'Produto digital.',                       sub:'Você já pensou em criar um produto digital — curso, mentoria, ebook ou consultoria online?',
+    opts:[{e:'❌',t:'Nunca pensei nisso'},{e:'💭',t:'Pensei, mas não sei por onde começar'},{e:'📅',t:'Estou planejando lançar algo em breve'},{e:'✅',t:'Já tenho um produto digital rodando'}]
+  },
+  { id:14, type:'text',     title:'Seu @ no Instagram.',                    sub:'A nossa IA vai avaliar seu perfil digital',
     ph:'seuhandle'
   }
 ];
@@ -640,6 +611,13 @@ function render() {
       html += `<button class="chip${sel?' sel':''}" onclick="toggleChip(${i})">${o.e} ${o.t}</button>`;
     });
     html += '</div>';
+  } else if (q.type === 'textarea') {
+    const v = ans[q.id] || '';
+    document.getElementById('btn-nx').disabled = false;
+    html += `<textarea class="txt-inp" style="min-height:130px;padding:16px;resize:none;display:block;width:100%;"
+      placeholder="${q.ph||'Escreva aqui...'}" maxlength="300"
+      oninput="ans[${q.id}]=this.value;var cc=document.getElementById('cc${q.id}');if(cc)cc.textContent=this.value.length">${v}</textarea>
+      <div style="text-align:right;font-size:11px;color:#9CA3AF;margin-top:6px;"><span id="cc${q.id}">${v.length}</span>/300</div>`;
   } else if (q.type === 'text') {
     const v = ans[q.id] || '';
     document.getElementById('btn-nx').disabled = false;
@@ -720,7 +698,7 @@ async function submitCapture(e) {
   user.name  = document.getElementById('cap-name').value;
   user.email = document.getElementById('cap-email').value;
   user.phone = document.getElementById('cap-phone').value;
-  user.ig    = ans[8] || '';
+  user.ig    = ans[14] || '';
 
   show('s-loading');
   drawAnimatedRadar('c-loading');
@@ -737,12 +715,18 @@ async function submitCapture(e) {
         instagram_quiz: user.ig,
         origem: 'Anamnese Digital com IA',
         especialidade:       ans[1]!==undefined?Qs[0].opts[ans[1]].t:'',
-        atendimentos_mes:    ans[2]!==undefined?Qs[1].opts[ans[2]].t:'',
-        faturamento_mensal:  ans[3]!==undefined?Qs[2].opts[ans[3]].t:'',
-        invest_marketing:    ans[4]!==undefined?Qs[3].opts[ans[4]].t:'',
-        freq_conteudo:       ans[5]!==undefined?Qs[4].opts[ans[5]].t:'',
-        objetivo_digital:    ans[6]!==undefined?Qs[5].opts[ans[6]].t:'',
-        estrategias:         multiSel.filter(i=>i!==7).map(i=>Qs[6].opts[i].t).join(', ')||'Nenhuma',
+        seguidores:          ans[2]!==undefined?Qs[1].opts[ans[2]].t:'',
+        atendimentos_mes:    ans[3]!==undefined?Qs[2].opts[ans[3]].t:'',
+        faturamento_mensal:  ans[4]!==undefined?Qs[3].opts[ans[4]].t:'',
+        invest_marketing:    ans[5]!==undefined?Qs[4].opts[ans[5]].t:'',
+        freq_conteudo:       ans[6]!==undefined?Qs[5].opts[ans[6]].t:'',
+        objetivo_digital:    ans[7]!==undefined?Qs[6].opts[ans[7]].t:'',
+        clareza_publico:     ans[8]!==undefined?Qs[7].opts[ans[8]].t:'',
+        como_atrai:          ans[9]||'',
+        maior_desafio:       ans[10]||'',
+        estrategias:         multiSel.filter(i=>i!==7).map(i=>Qs[10].opts[i].t).join(', ')||'Nenhuma',
+        renda_futura:        ans[12]!==undefined?Qs[11].opts[ans[12]].t:'',
+        produto_digital:     ans[13]!==undefined?Qs[12].opts[ans[13]].t:'',
         potencial_mensal:    scores.potencial,
         nivel_maturidade:    scores.matLevel,
         dimensoes:           scores.dims,
@@ -760,11 +744,15 @@ async function submitCapture(e) {
 
 // ── SCORE CALCULATION ──
 function calcScores() {
-  const q2 = ans[2] !== undefined ? ans[2] : 0;
-  const q3 = ans[3] !== undefined ? ans[3] : 0;
-  const q4 = ans[4] !== undefined ? ans[4] : 0;
-  const q5 = ans[5] !== undefined ? ans[5] : 0;
-  const q6 = ans[6] !== undefined ? ans[6] : 0;
+  const seguidores  = ans[2]  !== undefined ? ans[2]  : 0;
+  const atendimentos= ans[3]  !== undefined ? ans[3]  : 0;
+  const faturamento = ans[4]  !== undefined ? ans[4]  : 0;
+  const investimento= ans[5]  !== undefined ? ans[5]  : 0;
+  const frequencia  = ans[6]  !== undefined ? ans[6]  : 0;
+  const objetivo    = ans[7]  !== undefined ? ans[7]  : 0;
+  const clareza     = ans[8]  !== undefined ? ans[8]  : 0;
+  const rendaFutura = ans[12] !== undefined ? ans[12] : 0;
+  const prodDigital = ans[13] !== undefined ? ans[13] : 0;
 
   const hasTrafego    = multiSel.includes(0);
   const hasReels      = multiSel.includes(1);
@@ -775,6 +763,7 @@ function calcScores() {
   const hasNenhuma    = multiSel.includes(7);
   const stratCount    = hasNenhuma ? 0 : multiSel.filter(i => i !== 7).length;
 
+  const segS   = [2,4,6,9];
   const atendS = [2,4,6,8,9];
   const fatS   = [2,3,5,7,8,9];
   const invS   = [1,2,4,6,8,9];
@@ -782,22 +771,25 @@ function calcScores() {
   const freqK  = [1,4,7,9];
   const objP   = [4,6,7,8];
   const objE   = [3,5,7,9];
+  const clarezaS = [1,4,7,9];
+  const rendaS = [1,3,6,9];
+  const prodS  = [0,2,5,8];
   const fatMid = [7500,17500,37500,75000,200000,400000];
 
-  const conteudo      = Math.min(10, Math.round(freqC[q5] + (hasReels?1:0) + (hasBlog?.5:0)));
-  const captacao      = Math.min(10, Math.round(invS[q4]  + (hasTrafego?1:0) + (hasEmail?.5:0)));
-  const posicionamento= Math.min(10, Math.round(objP[q6]  + (hasParcerias?.5:0)));
-  const consistencia  = Math.min(10, Math.round(freqK[q5] + (hasStories?1:0)));
-  const monetizacao   = Math.min(10, Math.round(fatS[q3]  + (q6>=2?1:0)));
-  const autoridade    = Math.min(10, Math.round(atendS[q2]+ (fatS[q3]>=5?.5:0)));
-  const estrategia    = Math.min(10, Math.max(1, Math.round(stratCount*1.5 + invS[q4]*.3)));
-  const escalabilidade= Math.min(10, Math.round(objE[q6]  + (hasTrafego?.5:0)));
+  const conteudo      = Math.min(10, Math.round(freqC[frequencia] + (hasReels?1:0) + (hasBlog?.5:0)));
+  const captacao      = Math.min(10, Math.round(invS[investimento] + (hasTrafego?1:0) + (hasEmail?.5:0)));
+  const posicionamento= Math.min(10, Math.round((objP[objetivo] + clarezaS[clareza]) / 2 + (hasParcerias?.5:0)));
+  const consistencia  = Math.min(10, Math.round(freqK[frequencia] + (hasStories?1:0)));
+  const monetizacao   = Math.min(10, Math.round(fatS[faturamento] + rendaS[rendaFutura]*.3 + prodS[prodDigital]*.2));
+  const autoridade    = Math.min(10, Math.round(atendS[atendimentos]*.6 + segS[seguidores]*.4 + (fatS[faturamento]>=5?.5:0)));
+  const estrategia    = Math.min(10, Math.max(1, Math.round(stratCount*1.5 + invS[investimento]*.3)));
+  const escalabilidade= Math.min(10, Math.round((objE[objetivo] + rendaS[rendaFutura] + prodS[prodDigital]) / 3 * 1.5));
 
   const dims = [conteudo,captacao,posicionamento,consistencia,monetizacao,autoridade,estrategia,escalabilidade];
   const avg = dims.reduce((a,b)=>a+b,0)/8;
 
   const perdaF = Math.max(0.05, (10-avg)/10*0.5);
-  const potencial = Math.round(fatMid[q3]*perdaF/500)*500;
+  const potencial = Math.round(fatMid[faturamento]*perdaF/500)*500;
 
   let matLevel, matPos, matDesc;
   if (avg<=3)      { matLevel='Iniciante';         matPos=8;  matDesc='Você está no começo da jornada digital. Há muito espaço para crescer — e as oportunidades mais simples ainda não foram aproveitadas.'; }
