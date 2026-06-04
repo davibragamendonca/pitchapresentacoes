@@ -467,7 +467,7 @@ async function submitCapture(e){
   show('s-loading');drawAnimatedRadar('c-loading');
   const scores=calcScores();
   try{
-    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/quiz-anamnese-integrativos',{
+    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/quiz-anamnese-funil',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         nome:user.name,email:user.email,whatsapp:user.phone,
