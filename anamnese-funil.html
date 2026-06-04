@@ -463,6 +463,8 @@ function drawAnimatedRadar(canvasId){
   animate();
 }
 
+function getCookie(n){const m=document.cookie.match(new RegExp('(^| )'+n+'=([^;]+)'));return m?m[2]:'';}
+function getFbc(){const c=getCookie('_fbc');if(c)return c;const p=new URLSearchParams(window.location.search).get('fbclid');return p?`fb.1.${Date.now()}.${p}`:''}
 async function sha256(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
 async function trackLead(name,email,phone){if(typeof fbq!=='function')return;try{const em=await sha256(email.toLowerCase().trim());const ph=await sha256(phone.replace(/\D/g,''));const fn=await sha256(name.split(' ')[0].toLowerCase().trim());fbq('init','2464454597399812',{em,ph,fn});fbq('track','Lead');}catch(err){try{fbq('track','Lead');}catch(e){}}}
 
@@ -495,6 +497,10 @@ async function submitCapture(e){
         potencial_mensal:    scores.potencial,
         nivel_maturidade:    scores.matLevel,
         dimensoes:           scores.dims,
+        fbp:                 getCookie('_fbp'),
+        fbc:                 getFbc(),
+        user_agent:          navigator.userAgent,
+        page_url:            window.location.href,
         data_envio:          new Date().toISOString()
       })
     });
