@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Anamnese de Funil Digital | Pitch Company</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#F9FAFB;--white:#FFFFFF;--text:#111827;--text2:#6B7280;
+      --border:#E5E7EB;--purple:#7C3AED;--purple-bg:#F5F3FF;
+      --green:#22C55E;--red:#EF4444;--orange:#F97316;--yellow:#EAB308;
+    }
+    html,body{height:100%;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;max-width:480px;margin:0 auto;}
+    #prog-wrap{position:fixed;top:0;left:0;right:0;height:6px;background:#E5E7EB;z-index:200;display:none;max-width:480px;margin:0 auto;}
+    #prog-fill{height:100%;background:#111827;transition:width .4s ease;width:0;}
+    .screen{display:none;flex-direction:column;min-height:100vh;}
+    .screen.active{display:flex;}
+
+    /* INTRO */
+    #s-intro{background:white;padding-bottom:110px;}
+    .intro-top{padding:32px 20px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+    .intro-logo{height:38px;margin-bottom:24px;display:block;}
+    .intro-badge{display:inline-flex;align-items:center;gap:8px;background:var(--purple-bg);border:1px solid rgba(124,58,237,.3);padding:6px 16px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--purple);margin-bottom:22px;}
+    .intro-h1{font-size:clamp(26px,7vw,38px);font-weight:900;line-height:1.15;color:var(--text);margin-bottom:16px;padding:0 4px;}
+    .intro-sub{font-size:15px;color:var(--text2);max-width:340px;margin:0 auto 28px;line-height:1.7;}
+    .intro-cards{padding:0 16px;display:flex;flex-direction:column;gap:14px;}
+    .intro-card{background:white;border:1px solid var(--border);border-radius:16px;padding:18px 18px 18px;}
+    .ic-num{display:inline-block;background:#111827;color:white;font-size:11px;font-weight:800;padding:3px 10px;border-radius:6px;margin-bottom:10px;}
+    .intro-card h3{font-size:15px;font-weight:800;margin-bottom:6px;}
+    .intro-card p{font-size:13px;color:var(--text2);line-height:1.6;}
+    .intro-cta-fixed{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:14px 16px;background:white;border-top:1px solid var(--border);}
+    .btn-dark{width:100%;padding:17px;background:linear-gradient(135deg,var(--purple),#5B21B6);color:white;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;transition:all .2s;box-shadow:0 6px 24px rgba(124,58,237,.35);}
+    .btn-dark:hover{box-shadow:0 8px 32px rgba(124,58,237,.5);transform:translateY(-1px);}
+    .btn-dark:disabled{background:#D1D5DB;box-shadow:none;cursor:default;}
+    .btn-arr{width:30px;height:30px;background:rgba(255,255,255,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+
+    /* QUIZ */
+    .qhdr{background:white;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;flex-direction:column;align-items:center;gap:3px;position:sticky;top:6px;z-index:100;}
+    .qhdr-back{position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:22px;cursor:pointer;color:var(--text2);padding:4px 8px;}
+    .qhdr-icon{width:42px;height:42px;background:var(--purple-bg);border:1px solid rgba(124,58,237,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;position:relative;}
+    .qhdr-dot{position:absolute;bottom:2px;right:2px;width:10px;height:10px;background:var(--green);border-radius:50%;border:2px solid white;}
+    .qhdr-title{font-size:13px;font-weight:700;}
+    .qhdr-badge{font-size:11px;background:var(--purple-bg);color:var(--purple);padding:2px 10px;border-radius:100px;font-weight:600;}
+    #s-quiz{background:var(--bg);padding-top:6px;}
+    .qbody{padding:26px 16px 120px;}
+    .q-title{font-size:clamp(21px,5.5vw,27px);font-weight:900;line-height:1.2;margin-bottom:6px;}
+    .q-sub{font-size:14px;color:var(--text2);margin-bottom:26px;}
+    .opt{width:100%;background:white;border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;color:var(--text);text-align:left;margin-bottom:10px;transition:all .15s;}
+    .opt:hover{border-color:#9CA3AF;}
+    .opt.sel{border-color:#111827;border-width:2px;background:#F9FAFB;}
+    .opt-e{font-size:20px;flex-shrink:0;}
+    .opt-t{flex:1;}
+    .opt-c{color:#9CA3AF;font-size:15px;flex-shrink:0;}
+    .opt.sel .opt-c{color:#111827;}
+    .txt-inp{width:100%;min-height:130px;padding:16px;background:white;border:1.5px solid var(--border);border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;color:var(--text);resize:none;display:block;transition:border-color .2s;}
+    .txt-inp:focus{outline:none;border-color:#111827;}
+    .txt-inp::placeholder{color:#D1D5DB;}
+    .qnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 16px;background:white;border-top:1px solid var(--border);display:flex;gap:10px;z-index:100;}
+    .btn-bk{padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;background:white;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
+    .btn-nx{flex:1;padding:14px;background:#111827;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;}
+    .btn-nx:disabled{background:#D1D5DB;cursor:default;}
+
+    /* ANALYZING / LOADING */
+    #s-analyzing,#s-loading{background:white;align-items:center;justify-content:center;gap:4px;}
+    .radar-wrap{margin:32px auto 16px;}
+    .loading-label{font-size:14px;color:var(--text2);text-align:center;margin-top:4px;}
+
+    /* CAPTURE */
+    #s-capture{background:white;}
+    .cap-body{padding:40px 20px 110px;flex:1;}
+    .cap-icon{font-size:44px;text-align:center;margin-bottom:18px;}
+    .cap-title{font-size:24px;font-weight:900;margin-bottom:8px;}
+    .cap-sub{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:28px;}
+    .cf-g{margin-bottom:16px;}
+    .cf-l{display:block;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;}
+    .cf-i{width:100%;padding:14px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;font-size:15px;font-family:'Inter',sans-serif;color:var(--text);}
+    .cf-i:focus{outline:none;border-color:var(--purple);}
+    .cap-privacy{text-align:center;font-size:12px;color:var(--text2);margin-top:12px;}
+
+    /* RESULTS */
+    #s-results{background:var(--bg);}
+    .res-qhdr{background:white;border-bottom:1px solid var(--border);padding:12px 16px;text-align:center;}
+    .res-qhdr-title{font-size:13px;font-weight:700;}
+    .res-qhdr-badge{font-size:11px;background:var(--purple-bg);color:var(--purple);padding:2px 10px;border-radius:100px;font-weight:600;}
+
+    /* Profile badge */
+    .profile-box{margin:16px;border-radius:14px;padding:18px;border:2px solid;}
+    .profile-box.construcao{background:#EFF6FF;border-color:#93C5FD;}
+    .profile-box.expansao{background:#F5F3FF;border-color:#C4B5FD;}
+    .profile-tag{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:10px;}
+    .profile-tag.construcao{background:#DBEAFE;color:#1D4ED8;}
+    .profile-tag.expansao{background:#EDE9FE;color:#6D28D9;}
+    .profile-box h3{font-size:17px;font-weight:900;margin-bottom:6px;}
+    .profile-box p{font-size:13px;line-height:1.65;color:var(--text2);}
+
+    .money-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:14px;padding:16px;margin:0 16px 16px;text-align:center;}
+    .money-txt{font-size:14px;color:#991B1B;line-height:1.65;}
+    .money-txt strong{font-size:20px;font-weight:900;display:block;margin-top:4px;color:#7F1D1D;}
+
+    .res-card{background:white;border-radius:16px;padding:20px;margin:0 16px 14px;}
+    .res-card h3{font-size:16px;font-weight:800;margin-bottom:4px;}
+    .res-card p{font-size:13px;color:var(--text2);margin-bottom:14px;}
+    .mat-track{position:relative;height:8px;background:linear-gradient(90deg,#EF4444,#F97316 33%,#EAB308 66%,#22C55E);border-radius:100px;margin-bottom:8px;}
+    .mat-thumb{position:absolute;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;background:white;border:3px solid #374151;border-radius:50%;}
+    .mat-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--text2);}
+    .mat-desc{margin-top:12px;font-size:13px;color:var(--text2);line-height:1.65;}
+    .radar-canvas-wrap{position:relative;padding:8px 0;overflow:visible;}
+    .radar-label{position:absolute;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;line-height:1.4;}
+    .score-item{background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:0 16px 10px;}
+    .score-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+    .score-name{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
+    .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+    .sbadge{font-size:13px;font-weight:800;padding:3px 12px;border-radius:100px;}
+    .score-desc{font-size:12px;color:var(--text2);line-height:1.55;}
+    .res-footer{text-align:center;font-size:14px;color:var(--text2);line-height:1.7;padding:4px 20px 20px;}
+
+    /* CTA */
+    #s-cta{background:var(--bg);padding-bottom:40px;}
+    .cta-logo-wrap{padding:24px;text-align:center;}
+    .cta-logo-wrap img{height:34px;}
+    .cta-main-card{margin:0 16px 16px;background:white;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 24px rgba(0,0,0,.06);}
+    .cta-card-top{background:linear-gradient(135deg,var(--purple),#5B21B6);padding:20px 20px 16px;text-align:center;}
+    .cta-step{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;}
+    .cta-title{font-size:20px;font-weight:900;color:#fff;line-height:1.25;}
+    .cta-title-sub{font-size:13px;color:rgba(255,255,255,.75);margin-top:6px;line-height:1.5;}
+    .cta-delivers{padding:20px 20px 4px;display:flex;flex-direction:column;gap:16px;}
+    .cd-item{display:flex;align-items:flex-start;gap:12px;}
+    .cd-icon-wrap{width:38px;height:38px;border-radius:10px;background:var(--purple-bg);border:1px solid rgba(124,58,237,.15);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+    .cd-info strong{display:block;font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+    .cd-info span{font-size:12px;color:var(--text2);line-height:1.4;}
+    .cta-text{text-align:center;font-size:13px;color:var(--text2);padding:4px 20px 20px;line-height:1.75;}
+    .cta-text b{color:var(--text);}
+
+    .ia-forwho,.ia-faq,.ia-testi{padding:28px 16px;}
+    .ia-section-title{font-size:19px;font-weight:800;text-align:center;margin-bottom:6px;}
+    .ia-section-sub{font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;}
+    .ia-fw-yes{background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:14px;padding:18px;margin-bottom:12px;}
+    .ia-fw-no{background:#FFF5F5;border:1.5px solid #FCA5A5;border-radius:14px;padding:18px;}
+    .ia-fw-yes h3{font-size:13px;font-weight:800;color:#15803D;margin-bottom:10px;}
+    .ia-fw-no h3{font-size:13px;font-weight:800;color:#DC2626;margin-bottom:10px;}
+    .ia-fw-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+    .ia-fw-list li{font-size:13px;color:var(--text2);line-height:1.5;display:flex;gap:8px;}
+    .ia-faq-list{display:flex;flex-direction:column;gap:8px;}
+    .ia-fi{background:white;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;}
+    .ia-fi[open]{border-color:rgba(124,58,237,.4);}
+    .ia-fi summary{padding:14px 16px;font-size:14px;font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .ia-fi summary::-webkit-details-marker{display:none;}
+    .ia-fi summary::after{content:'+';font-size:20px;color:var(--purple);font-weight:300;flex-shrink:0;transition:transform .2s;}
+    .ia-fi[open] summary::after{transform:rotate(45deg);}
+    .ia-fi p{padding:0 16px 14px;font-size:13px;color:var(--text2);line-height:1.65;}
+    .ia-testi-masonry{columns:2;column-gap:8px;}
+    .ia-testi-item{break-inside:avoid;margin-bottom:8px;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.12);}
+    .ia-testi-item img{width:100%;height:auto;display:block;}
+    .ia-cases-title{font-size:17px;font-weight:800;text-align:center;margin:28px 0 16px;}
+
+    @keyframes shine{0%{background-position:200% center;}100%{background-position:-200% center;}}
+    .btn-wa-g{display:flex;align-items:center;justify-content:center;gap:10px;width:calc(100% - 32px);margin:0 16px 14px;padding:17px;background:linear-gradient(270deg,#00C853,#00E676,#1de982,#00C853);background-size:300% auto;animation:shine 4s linear infinite;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:'Inter',sans-serif;letter-spacing:.5px;text-transform:uppercase;color:white;text-decoration:none;cursor:pointer;box-shadow:0 6px 28px rgba(0,200,83,.55);}
+    .cta-duvida{text-align:center;font-size:13px;color:var(--text2);}
+    .cta-duvida a{color:var(--purple);font-weight:600;text-decoration:underline;}
+    .page-footer{text-align:center;padding:20px 16px;font-size:11px;color:#9CA3AF;}
+  </style>
+</head>
+<body>
+<div id="prog-wrap"><div id="prog-fill"></div></div>
+
+<!-- INTRO -->
+<div class="screen active" id="s-intro">
+  <div class="intro-top">
+    <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
+    <div class="intro-badge">🚀 Anamnese de Funil Digital</div>
+    <h1 class="intro-h1">Você transforma vidas no consultório.<br>Hora de escalar isso no <span style="color:var(--purple)">digital</span>.</h1>
+    <p class="intro-sub">Responda 11 perguntas e descubra seu perfil digital — e o que você precisa para levar sua missão além do consultório.</p>
+  </div>
+  <div class="intro-cards">
+    <div class="intro-card">
+      <div class="ic-num">#01</div>
+      <h3>Descubra seu Perfil Digital</h3>
+      <p>Em menos de 5 minutos, nossa análise identifica se você está no momento de Construção ou Expansão — e o que fazer em cada cenário.</p>
+    </div>
+    <div class="intro-card">
+      <div class="ic-num">#02</div>
+      <h3>Receba seu Plano de Ação</h3>
+      <p>Garanta e agende o seu Diagnóstico 360 para uma consultoria de 30 dias completa sobre seu caso — análise do perfil, concorrentes e um plano de ação personalizado para você executar.</p>
+    </div>
+  </div>
+  <div class="intro-cta-fixed">
+    <button class="btn-dark" onclick="startQuiz()">INICIAR MINHA ANAMNESE <span class="btn-arr">›</span></button>
+  </div>
+  <div class="page-footer">Criado por Pitch Company · Todos os Direitos Reservados © 2026</div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="s-quiz">
+  <div style="height:6px;"></div>
+  <div class="qhdr">
+    <button class="qhdr-back" id="btn-bk" onclick="prev()">‹</button>
+    <div class="qhdr-icon">🚀<div class="qhdr-dot"></div></div>
+    <div class="qhdr-title">Anamnese de Funil Digital</div>
+    <div class="qhdr-badge">IA Express</div>
+  </div>
+  <div class="qbody" id="qbody"></div>
+  <div class="qnav">
+    <button class="btn-bk" id="btn-bk2" onclick="prev()">‹ Voltar</button>
+    <button class="btn-nx" id="btn-nx" onclick="next()" disabled>Próxima →</button>
+  </div>
+</div>
+
+<!-- ANALYZING -->
+<div class="screen" id="s-analyzing">
+  <div class="qhdr">
+    <div class="qhdr-icon">🚀<div class="qhdr-dot"></div></div>
+    <div class="qhdr-title">Anamnese de Funil Digital</div>
+    <div class="qhdr-badge">IA Express</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="radar-wrap"><canvas id="c-analyzing" width="220" height="220"></canvas></div>
+    <div class="loading-label" id="analyzing-label">Analisando seu perfil...</div>
+  </div>
+  <div class="page-footer">Criado por Pitch Company</div>
+</div>
+
+<!-- CAPTURE -->
+<div class="screen" id="s-capture">
+  <div class="qhdr">
+    <div class="qhdr-icon">🚀<div class="qhdr-dot"></div></div>
+    <div class="qhdr-title">Anamnese de Funil Digital</div>
+    <div class="qhdr-badge">IA Express</div>
+  </div>
+  <div class="cap-body">
+    <div class="cap-icon">📊</div>
+    <h2 class="cap-title">Análise concluída.</h2>
+    <p class="cap-sub">Insira seus dados para liberar seu perfil digital e descobrir o que você precisa para escalar no digital.</p>
+    <form onsubmit="submitCapture(event)">
+      <div class="cf-g"><label class="cf-l">Nome</label><input class="cf-i" id="cap-name" type="text" placeholder="Dr. João Silva" required></div>
+      <div class="cf-g"><label class="cf-l">E-mail</label><input class="cf-i" id="cap-email" type="email" placeholder="joao@email.com" required></div>
+      <div class="cf-g"><label class="cf-l">WhatsApp</label><input class="cf-i" id="cap-phone" type="tel" placeholder="(12) 99999-9999" required></div>
+      <div class="intro-cta-fixed">
+        <button type="submit" class="btn-dark">LIBERAR MEU PERFIL <span class="btn-arr">›</span></button>
+        <p class="cap-privacy" style="margin-top:8px;">🔒 Seus dados estão 100% seguros.</p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="s-loading">
+  <div class="qhdr">
+    <div class="qhdr-icon">🚀<div class="qhdr-dot"></div></div>
+    <div class="qhdr-title">Anamnese de Funil Digital</div>
+    <div class="qhdr-badge">IA Express</div>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="radar-wrap"><canvas id="c-loading" width="220" height="220"></canvas></div>
+    <div class="loading-label">Identificando seu perfil...</div>
+  </div>
+  <div class="page-footer">Criado por Pitch Company</div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="s-results">
+  <div class="res-qhdr">
+    <img src="logo-roxo.svg" style="height:24px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;">
+    <div class="res-qhdr-title" id="res-title">Seu Perfil Digital</div>
+    <div class="res-qhdr-badge">Anamnese de Funil Digital</div>
+  </div>
+
+  <!-- Profile badge (injected) -->
+  <div id="profile-box-wrap"></div>
+
+  <div class="money-box">
+    <p class="money-txt">Você está deixando aproximadamente<strong id="res-money">R$ 0</strong>de potencial digital na mesa todos os meses.</p>
+  </div>
+
+  <div class="res-card">
+    <h3>Nível de Maturidade Digital</h3>
+    <p>Como está sua presença e funil digital hoje.</p>
+    <div class="mat-track"><div class="mat-thumb" id="mat-thumb" style="left:10%;"></div></div>
+    <div class="mat-labels"><span>Iniciante</span><span>Intermediário</span><span>Avançado</span></div>
+    <p class="mat-desc" id="mat-desc"></p>
+  </div>
+
+  <div class="res-card" style="padding-bottom:8px;">
+    <h3>Diagnóstico do Funil</h3>
+    <p>Avaliação dos pilares do seu funil de vendas digital.</p>
+    <div class="radar-canvas-wrap" id="results-radar-wrap">
+      <canvas id="c-results" width="500" height="500" style="max-width:100%;height:auto;display:block;margin:0 auto;"></canvas>
+    </div>
+  </div>
+
+  <div id="score-items"></div>
+  <div class="res-footer" id="res-footer-txt"></div>
+  <div style="padding:0 16px 16px;">
+    <button class="btn-dark" onclick="showCta()" style="border-radius:14px;">PRÓXIMO PASSO <span class="btn-arr">›</span></button>
+  </div>
+  <div class="page-footer">Criado por Pitch Company</div>
+</div>
+
+<!-- CTA -->
+<div class="screen" id="s-cta">
+  <div class="cta-logo-wrap"><img src="logo-roxo.svg" alt="Pitch Company"></div>
+  <div class="cta-main-card">
+    <div class="cta-card-top">
+      <div class="cta-step">📋 Seu próximo passo</div>
+      <div class="cta-title">Diagnóstico 360 Personalizado</div>
+      <p class="cta-title-sub">Uma imersão real e individual no seu caso, focada no seu perfil e no seu momento.</p>
+    </div>
+    <div class="cta-delivers">
+      <div class="cd-item"><div class="cd-icon-wrap">🔍</div><div class="cd-info"><strong>Reunião de Pesquisa e Alinhamento</strong><span>1 hora de consultoria para entender mercado, nicho, desejos e objetivos</span></div></div>
+      <div class="cd-item"><div class="cd-icon-wrap">📊</div><div class="cd-info"><strong>Reunião de Apresentação do Diagnóstico</strong><span>2 horas de consultoria apresentando o Diagnóstico + Plano de Ação de 30 dias</span></div></div>
+      <div class="cd-item"><div class="cd-icon-wrap">🤝</div><div class="cd-info"><strong>Reunião 1:1 com especialista</strong><span>Individual, focada no seu caso — não uma consultoria em grupo ou gravação genérica</span></div></div>
+      <div class="cd-item"><div class="cd-icon-wrap">🔬</div><div class="cd-info"><strong>Análise real do seu perfil</strong><span>Estudamos seu Instagram, seus concorrentes e o mercado da sua especialidade</span></div></div>
+      <div class="cd-item"><div class="cd-icon-wrap">📄</div><div class="cd-info"><strong>PDF com plano de ação detalhado</strong><span>Cada passo documentado para você executar com clareza total na semana seguinte</span></div></div>
+      <div class="cd-item" style="padding-bottom:4px;"><div class="cd-icon-wrap">💬</div><div class="cd-info"><strong>30 dias de acompanhamento</strong><span>Grupo exclusivo no WhatsApp para garantir que você não trave na execução</span></div></div>
+    </div>
+  </div>
+  <p class="cta-text" id="cta-body-text">Seu perfil foi identificado.<br><b>Toque abaixo e garanta sua vaga no Diagnóstico 360.</b></p>
+  <a class="btn-wa-g" id="btn-wa-cta" href="https://wa.me/5512988037941" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
+
+  <div class="ia-forwho">
+    <h2 class="ia-section-title">O Diagnóstico 360 é <span style="color:var(--purple)">para você?</span></h2>
+    <p class="ia-section-sub">Veja se você é o perfil certo antes de clicar</p>
+    <div class="ia-fw-yes">
+      <h3>✅ É para você se...</h3>
+      <ul class="ia-fw-list">
+        <li>✓ Você é profissional de saúde que quer crescer no digital e ser referência no nicho</li>
+        <li>✓ Você quer criar renda além dos atendimentos com infoprodutos ou mentorias</li>
+        <li>✓ Você está cansado de postar sem resultado e quer entender o que há de errado</li>
+        <li>✓ Você quer um plano claro de funil e lançamento para executar com suporte</li>
+      </ul>
+    </div>
+    <div class="ia-fw-no">
+      <h3>❌ Não é para você se...</h3>
+      <ul class="ia-fw-list">
+        <li>✗ Você busca resultados imediatos sem nenhuma implementação</li>
+        <li>✗ Você não está disposto a receber feedback honesto sobre seu perfil</li>
+        <li>✗ Você quer apenas seguidores sem pensar em conversão ou monetização</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ia-faq" style="padding-top:0;">
+    <h2 class="ia-section-title">Perguntas <span style="color:var(--purple)">frequentes</span></h2>
+    <p class="ia-section-sub">Tire suas dúvidas antes de avançar</p>
+    <div class="ia-faq-list">
+      <details class="ia-fi"><summary>Preciso ter muitos seguidores para contratar?</summary><p>Não. O diagnóstico é eficaz independente do tamanho do perfil. Trabalhamos com profissionais em diferentes momentos — de quem está construindo até quem já quer escalar.</p></details>
+      <details class="ia-fi"><summary>O diagnóstico foca em infoproduto ou captação de pacientes?</summary><p>Nos dois — ele é personalizado para o seu perfil. Quem está no perfil Expansão recebe estratégia de infoproduto e funil de vendas. Quem está em Construção recebe estratégia de posicionamento e captação.</p></details>
+      <details class="ia-fi"><summary>Quanto tempo dura o processo completo?</summary><p>O Diagnóstico 360 tem duração total de 30 dias — incluindo as reuniões, entrega do PDF e acompanhamento via WhatsApp para execução do plano.</p></details>
+    </div>
+  </div>
+
+  <div class="ia-testi" style="padding-top:0;">
+    <h2 class="ia-section-title">O que dizem <span style="color:var(--purple)">quem já fez</span></h2>
+    <p class="ia-section-sub">Resultados reais de profissionais de saúde</p>
+    <div class="ia-testi-masonry">
+      <div class="ia-testi-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento"></div>
+      <div class="ia-testi-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento"></div>
+    </div>
+    <div class="ia-cases-title">Resultados dos nossos clientes</div>
+    <div class="ia-testi-masonry">
+      <div class="ia-testi-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado"></div>
+      <div class="ia-testi-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado"></div>
+    </div>
+    <div style="padding:20px 0 8px;">
+      <a class="btn-wa-g" id="btn-wa-bottom" href="https://wa.me/5512988037941" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
+    </div>
+  </div>
+
+  <p class="cta-duvida">Dúvidas? <a href="https://wa.me/5512988037941" target="_blank">Fale com a gente no WhatsApp.</a></p>
+  <div class="page-footer">Criado por Pitch Company · Todos os Direitos Reservados © 2026</div>
+</div>
+
+<script>
+const Qs = [
+  // BLOCO 1 — Perfil e momento atual
+  { id:1, type:'single', title:'Qual é a sua especialidade?', sub:'Selecione a que melhor te descreve',
+    opts:[{e:'🌿',t:'Medicina Integrativa / Funcional'},{e:'🍎',t:'Nutrologia / Nutrição Funcional'},{e:'🧠',t:'Psiquiatria / Psicologia'},{e:'👶',t:'Pediatria / Medicina da Família'},{e:'🔄',t:'Outra especialidade'}]
+  },
+  { id:2, type:'single', title:'Sua situação financeira hoje.', sub:'Como você descreveria sua situação financeira no consultório?',
+    opts:[{e:'🌱',t:'Ainda estou construindo minha carteira de pacientes'},{e:'📊',t:'Tenho uma agenda razoável mas quero crescer'},{e:'🔥',t:'Minha agenda está cheia e quero criar outras fontes de renda'},{e:'📉',t:'Já faturei bem mas estou estagnado'}]
+  },
+  { id:3, type:'single', title:'Sua presença no Instagram.', sub:'Como está seu perfil hoje?',
+    opts:[{e:'🚫',t:'Não tenho perfil ainda'},{e:'📱',t:'Tenho mas posto raramente'},{e:'🔶',t:'Posto com alguma frequência mas sem estratégia clara'},{e:'📊',t:'Posto regularmente mas não converto em pacientes ou vendas'}]
+  },
+  // BLOCO 2 — Objetivo digital
+  { id:4, type:'single', title:'Seu principal objetivo no digital.', sub:'O que você mais quer conquistar no digital agora?',
+    opts:[{e:'👥',t:'Atrair mais pacientes para o consultório'},{e:'🏅',t:'Construir autoridade e ser referência no meu nicho'},{e:'📚',t:'Lançar um infoproduto, curso ou mentoria'},{e:'💰',t:'Criar uma renda além dos atendimentos presenciais'},{e:'🚀',t:'Todos os anteriores'}]
+  },
+  { id:5, type:'single', title:'Seu infoproduto.', sub:'Você já tem algum produto digital ou ideia em mente?',
+    opts:[{e:'❌',t:'Não pensei nisso ainda'},{e:'💭',t:'Tenho a ideia mas não sei por onde começar'},{e:'📋',t:'Já tentei mas não saiu do papel'},{e:'✅',t:'Já tenho e quero escalar'}]
+  },
+  { id:6, type:'single', title:'O que está te travando.', sub:'O que você acha que está impedindo sua evolução no digital?',
+    opts:[{e:'❓',t:'Não sei o que postar ou como me posicionar'},{e:'📉',t:'Posto mas não tenho engajamento nem seguidores'},{e:'🎯',t:'Tenho audiência mas não converto em pacientes ou vendas'},{e:'📦',t:'Não sei como transformar meu conhecimento em produto'},{e:'⏰',t:'Falta de tempo e consistência'}]
+  },
+  // BLOCO 3 — Posicionamento e conteúdo
+  { id:7, type:'single', title:'Seu posicionamento hoje.', sub:'Como você se sente em relação ao seu posicionamento?',
+    opts:[{e:'❓',t:'Não sei bem o que me diferencia dos outros profissionais'},{e:'💭',t:'Sei o que faço mas não consigo comunicar isso claramente'},{e:'🔶',t:'Tenho um posicionamento mas ele não atrai o paciente certo'},{e:'✅',t:'Me sinto bem posicionado mas quero refinar'}]
+  },
+  { id:8, type:'single', title:'Frequência de conteúdo.', sub:'Com que frequência você produz conteúdo no Instagram?',
+    opts:[{e:'🚫',t:'Nunca ou quase nunca'},{e:'📅',t:'1 a 2 vezes por semana'},{e:'📊',t:'3 a 4 vezes por semana'},{e:'🔥',t:'Todos os dias'}]
+  },
+  { id:9, type:'single', title:'Clareza sobre seu cliente ideal.', sub:'Você tem clareza de quem é o seu paciente ou cliente ideal?',
+    opts:[{e:'❓',t:'Não tenho clareza nenhuma'},{e:'💭',t:'Tenho uma ideia mas é vaga'},{e:'🎯',t:'Sei quem é mas não sei como falar com ele no digital'},{e:'✅',t:'Tenho clareza total'}]
+  },
+  // BLOCO 4 — Funil e conversão
+  { id:10, type:'single', title:'Suas conversões no Instagram.', sub:'Você já teve alguma venda ou conversão pelo Instagram?',
+    opts:[{e:'❌',t:'Nunca'},{e:'🔶',t:'Já tive indicações por lá mas raramente'},{e:'📊',t:'Sim, mas de forma inconsistente'},{e:'✅',t:'Sim, tenho um fluxo constante'}]
+  },
+  { id:11, type:'single', title:'O que você mais precisa agora.', sub:'Para avançar no digital, o que você precisa primeiro?',
+    opts:[{e:'🗺️',t:'Um plano claro de onde começar'},{e:'🎯',t:'Entender como me posicionar e o que falar'},{e:'🔄',t:'Aprender a transformar seguidores em pacientes ou clientes'},{e:'📦',t:'Estruturar e lançar um produto digital'},{e:'🚀',t:'Tudo isso junto'}]
+  }
+];
+
+let cur=0, ans={}, user={};
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function startQuiz(){document.getElementById('prog-wrap').style.display='block';cur=0;render();show('s-quiz');}
+function updateProgress(){const pct=(cur/Qs.length)*100;document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('btn-bk').disabled=cur===0;document.getElementById('btn-bk2').disabled=cur===0;}
+
+function render(){
+  updateProgress();
+  const q=Qs[cur];const isLast=cur===Qs.length-1;
+  document.getElementById('btn-nx').textContent=isLast?'Ver meu Perfil →':'Próxima →';
+  let html=`<div class="q-title">${q.title}</div><p class="q-sub">${q.sub||''}</p>`;
+  if(q.type==='single'){
+    document.getElementById('btn-nx').disabled=ans[q.id]===undefined;
+    q.opts.forEach((o,i)=>{
+      const sel=ans[q.id]===i;
+      html+=`<button class="opt${sel?' sel':''}" onclick="pick(${q.id},${i})"><span class="opt-e">${o.e}</span><span class="opt-t">${o.t}</span><span class="opt-c">›</span></button>`;
+    });
+  }
+  document.getElementById('qbody').innerHTML=html;
+}
+
+function pick(qid,i){ans[qid]=i;document.getElementById('btn-nx').disabled=false;document.querySelectorAll('.opt').forEach((b,idx)=>b.classList.toggle('sel',idx===i));setTimeout(()=>next(),220);}
+function next(){cur<Qs.length-1?(cur++,render()):startAnalyzing();}
+function prev(){cur>0&&(cur--,render());}
+
+function startAnalyzing(){
+  show('s-analyzing');document.getElementById('prog-fill').style.width='95%';
+  drawAnimatedRadar('c-analyzing');
+  const labels=['Mapeando seu perfil...','Identificando gargalos...','Calculando potencial...','Determinando seu perfil...'];
+  let li=0;
+  const iv=setInterval(()=>{li++;if(li<labels.length)document.getElementById('analyzing-label').textContent=labels[li];},800);
+  setTimeout(()=>{clearInterval(iv);show('s-capture');},3500);
+}
+
+function drawAnimatedRadar(canvasId){
+  const c=document.getElementById(canvasId),ctx=c.getContext('2d'),n=8;let t=0;
+  const animate=()=>{t+=0.04;const vals=Array.from({length:n},(_,i)=>3+4*Math.abs(Math.sin(t+i*0.8)));drawRadarChart(ctx,vals,[],'#7C3AED',false,false);requestAnimationFrame(animate);};
+  animate();
+}
+
+async function submitCapture(e){
+  e.preventDefault();
+  user.name=document.getElementById('cap-name').value;
+  user.email=document.getElementById('cap-email').value;
+  user.phone=document.getElementById('cap-phone').value;
+  show('s-loading');drawAnimatedRadar('c-loading');
+  const scores=calcScores();
+  try{
+    await fetch('https://webhook.dev.pitchcompany.com.br/webhook/quiz-anamnese-integrativos',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        nome:user.name,email:user.email,whatsapp:user.phone,
+        origem:'Anamnese Funil Digital',
+        especialidade:       ans[1]!==undefined?Qs[0].opts[ans[1]].t:'',
+        situacao_financeira: ans[2]!==undefined?Qs[1].opts[ans[2]].t:'',
+        presenca_instagram:  ans[3]!==undefined?Qs[2].opts[ans[3]].t:'',
+        objetivo_digital:    ans[4]!==undefined?Qs[3].opts[ans[4]].t:'',
+        infoproduto:         ans[5]!==undefined?Qs[4].opts[ans[5]].t:'',
+        principal_trava:     ans[6]!==undefined?Qs[5].opts[ans[6]].t:'',
+        posicionamento:      ans[7]!==undefined?Qs[6].opts[ans[7]].t:'',
+        freq_conteudo:       ans[8]!==undefined?Qs[7].opts[ans[8]].t:'',
+        clareza_cliente:     ans[9]!==undefined?Qs[8].opts[ans[9]].t:'',
+        conversao:           ans[10]!==undefined?Qs[9].opts[ans[10]].t:'',
+        necessidade_agora:   ans[11]!==undefined?Qs[10].opts[ans[11]].t:'',
+        perfil:              scores.profile,
+        potencial_mensal:    scores.potencial,
+        nivel_maturidade:    scores.matLevel,
+        dimensoes:           scores.dims,
+        data_envio:          new Date().toISOString()
+      })
+    });
+  }catch(err){console.error(err);}
+  setTimeout(()=>{buildResults(scores);show('s-results');document.getElementById('prog-fill').style.width='100%';},2500);
+}
+
+function calcScores(){
+  const q2 = ans[2]  !== undefined ? ans[2]  : 0;
+  const q3 = ans[3]  !== undefined ? ans[3]  : 0;
+  const q4 = ans[4]  !== undefined ? ans[4]  : 0;
+  const q5 = ans[5]  !== undefined ? ans[5]  : 0;
+  const q7 = ans[7]  !== undefined ? ans[7]  : 0;
+  const q8 = ans[8]  !== undefined ? ans[8]  : 0;
+  const q9 = ans[9]  !== undefined ? ans[9]  : 0;
+  const q10 = ans[10] !== undefined ? ans[10] : 0;
+  const q11 = ans[11] !== undefined ? ans[11] : 0;
+
+  // Dimensões do radar (8)
+  const presenca      = Math.min(10,[1,3,5,7][q3]);
+  const posicionamento= Math.min(10,[2,4,6,8][q7]);
+  const conteudo      = Math.min(10,[1,3,6,8][q8]);
+  const audiencia     = Math.min(10,[1,4,7,9][q9]);
+  const infoproduto   = Math.min(10,[1,3,5,9][q5]);
+  const conversao     = Math.min(10,[1,3,6,9][q10]);
+  const estrategia    = Math.min(10,[3,5,7,8,9][Math.min(q4,4)]);
+  const potencialFin  = Math.min(10,[3,5,7,6][q2]);
+
+  const dims=[presenca,posicionamento,conteudo,audiencia,infoproduto,conversao,estrategia,potencialFin];
+  const avg=dims.reduce((a,b)=>a+b,0)/8;
+
+  // Perfil: Expansão se alto potencial financeiro + objetivo de escala + infoproduto avançado
+  const expansaoIndicators = [0,1,3,2][q2] + [0,1,3,3,3][Math.min(q4,4)] + [0,1,2,3][q5];
+  const profile = expansaoIndicators >= 5 ? 'B' : 'A';
+
+  // Potencial
+  const finBase=[4000,10000,35000,20000];
+  const perdaF=Math.max(0.1,(10-avg)/10*0.6);
+  const potencial=Math.round(finBase[q2]*perdaF/500)*500;
+
+  let matLevel,matPos,matDesc;
+  if(avg<=3)     {matLevel='🔴 Iniciante';       matPos=8;  matDesc='Você ainda está na fase inicial da presença digital. As oportunidades mais simples não foram aproveitadas — e isso está custando crescimento.';}
+  else if(avg<=5){matLevel='🟠 Em Construção';   matPos=32; matDesc='Você tem presença mas sem uma estratégia clara. Há potencial real para crescer — o que falta é direção e execução estruturada.';}
+  else if(avg<=7){matLevel='🟡 Intermediário';   matPos=60; matDesc='Você tem base e consistência, mas gaps no funil e no produto digital estão limitando seu crescimento e sua monetização.';}
+  else           {matLevel='🟢 Pronto para Escalar'; matPos=85; matDesc='Você tem uma base sólida. O próximo passo é estruturar seu funil de vendas e lançar ou escalar seus produtos digitais.';}
+
+  return{dims,avg,potencial,matLevel,matPos,matDesc,profile};
+}
+
+const DIM_NAMES=['Presença','Posicionamento','Conteúdo','Audiência','Infoproduto','Conversão','Estratégia','Potencial'];
+const DIM_DESCS=[
+  ['Você praticamente não existe no digital. Sem presença ativa, nenhuma outra estratégia funciona.','Você está presente mas sem consistência. O algoritmo pune quem desaparece e recompensa quem aparece.','Você tem presença, mas ainda não é suficiente para ser reconhecido como referência no seu nicho.','Excelente presença! Você está no radar do algoritmo e do seu público. Hora de converter isso em resultado.'],
+  ['Sem clareza de diferenciação, você fala com todo mundo e não conecta com ninguém — e isso custa vendas.','Você sabe o que faz mas não consegue comunicar isso de forma clara no digital.','Você tem posicionamento mas ele não está atraindo o perfil certo de cliente ou paciente.','Ótimo posicionamento! Você é percebido como referência. Hora de usar isso para monetizar em escala.'],
+  ['Você praticamente não produz conteúdo. Sem conteúdo, não há audiência — e sem audiência, não há vendas.','Você posta pouco. A frequência ainda não é suficiente para construir a autoridade que vende.','Boa produção de conteúdo! Agora falta estratégia para transformar esse conteúdo em conversões.','Excelente frequência! Você alimenta o algoritmo e a audiência. Agora é otimizar para conversão.'],
+  ['Você não tem clareza de quem quer atingir. Isso compromete cada post, cada oferta, cada campanha.','Você tem uma ideia do público mas ela é vaga — isso torna o conteúdo e as ofertas genéricos.','Você sabe quem é mas não sabe como falar com essa pessoa no digital. O gap está na comunicação.','Clareza total de audiência! Isso é raro e poderoso. Use para criar ofertas que convertem alto.'],
+  ['Você ainda não pensou em produto digital. Isso significa que toda sua renda depende do seu tempo — sem escala.','Você tem a ideia mas não saiu do papel. O potencial existe, falta estrutura e um plano de execução.','Você tentou mas travou. O problema geralmente está no posicionamento, no funil ou na estratégia de lançamento.','Você já tem produto rodando! Agora é escalar com funil pago, upsell e automação.'],
+  ['Seus esforços no digital nunca geraram uma venda. Há um gap no funil que precisa ser identificado e corrigido.','Você já teve resultados pontuais mas sem consistência. Falta um sistema — não esforço.','Você converte às vezes, mas sem previsibilidade. Um funil estruturado vai transformar isso.','Você tem um fluxo constante de conversões — isso é raro. Hora de escalar com tráfego pago.'],
+  ['Você não tem estratégia definida para o digital. Sem estratégia, qualquer ação é um tiro no escuro.','Você tem objetivos mas não um caminho claro. Isso leva a tentativas desconectadas e resultados inconsistentes.','Você tem uma estratégia básica. Falta integrar melhor os canais e criar um funil completo.','Boa visão estratégica! Você sabe para onde vai — agora é executar com mais velocidade e precisão.'],
+  ['Seu momento financeiro atual limita seus investimentos digitais. A estratégia precisa ser enxuta e eficiente.','Você tem potencial financeiro para investir no digital, mas ainda não estruturou isso de forma estratégica.','Você tem capacidade financeira e de agenda para dar um salto. O timing está certo para agir.','Você está em um momento ideal — agenda cheia, caixa forte. Hora de criar fontes de renda que não dependam só da sua presença.']
+];
+
+function scoreColor(s){return s<=3?'#EF4444':s<=5?'#F97316':s<=7?'#EAB308':'#22C55E';}
+function getRadarColor(avg){if(avg<=3.5)return'#EF4444';if(avg<=5.5)return'#F97316';if(avg<=7)return'#EAB308';if(avg<=8.5)return'#22C55E';return'#7C3AED';}
+function dimColor(s){return s<=3?'#EF4444':s<=5?'#F97316':s<=7?'#EAB308':'#22C55E';}
+
+function buildResults(sc){
+  const first=user.name.split(' ')[0];
+  document.getElementById('res-title').textContent=`Perfil Digital de ${first}`;
+  document.getElementById('res-money').textContent='R$ '+sc.potencial.toLocaleString('pt-BR');
+  document.getElementById('mat-thumb').style.left=sc.matPos+'%';
+  document.getElementById('mat-desc').textContent=sc.matDesc;
+
+  // Profile box
+  const isExpansao = sc.profile === 'B';
+  document.getElementById('profile-box-wrap').innerHTML=`
+    <div class="profile-box ${isExpansao?'expansao':'construcao'}">
+      <div class="profile-tag ${isExpansao?'expansao':'construcao'}">${isExpansao?'🚀 Perfil: Expansão':'🏗️ Perfil: Construção'}</div>
+      <h3>${isExpansao?`${first}, você está pronto para escalar.`:`${first}, você está na fase de construção.`}</h3>
+      <p>${isExpansao
+        ?'Você já tem uma base sólida de atendimentos. Seu próximo passo é estruturar seu funil de vendas digital, lançar ou escalar seus infoprodutos e criar uma operação que funciona além da sua presença.'
+        :'Você está construindo sua presença digital. Seu foco agora é posicionamento, consistência de conteúdo e captação de pacientes. Com a base certa, o lançamento de infoprodutos vem logo depois.'
+      }</p>
+    </div>`;
+
+  // Radar
+  const RADAR_LABELS=['Presença','Posicion.','Conteúdo','Audiência','Infoprod.','Conversão','Estratégia','Potencial'];
+  setTimeout(()=>{
+    const ctx=document.getElementById('c-results').getContext('2d');
+    drawRadarChart(ctx,sc.dims,[],getRadarColor(sc.avg),false,true,()=>{
+      positionRadarLabels('results-radar-wrap',sc.dims,RADAR_LABELS);
+    });
+  },400);
+
+  // Score items
+  let html='';
+  sc.dims.forEach((d,i)=>{
+    const col=scoreColor(d);const lv=d<=3?0:d<=5?1:d<=7?2:3;
+    html+=`<div class="score-item"><div class="score-top"><div class="score-name"><div class="sdot" style="background:${col}"></div>${DIM_NAMES[i]}</div><div class="sbadge" style="background:${col}20;color:${col}">${d}/10</div></div><p class="score-desc">${DIM_DESCS[i][lv]}</p></div>`;
+  });
+  document.getElementById('score-items').innerHTML=html;
+  document.getElementById('res-footer-txt').textContent=`Seu perfil foi identificado: ${isExpansao?'Expansão':'Construção'}. O Diagnóstico 360 vai te mostrar exatamente o plano certo para o seu momento.`;
+
+  // CTA
+  const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese de Funil Digital. Meu perfil é ${isExpansao?'Expansão':'Construção'} — quero garantir o meu Diagnóstico 360!`);
+  const waUrl=`https://wa.me/5512988037941?text=${msg}`;
+  document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom').forEach(b=>b.href=waUrl);
+  document.getElementById('cta-body-text').innerHTML=isExpansao
+    ?`Seu perfil <b>Expansão</b> indica que você tem tudo para escalar. O Diagnóstico 360 vai estruturar seu funil e lançamento com um plano personalizado para o seu caso.`
+    :`Seu perfil <b>Construção</b> tem potencial real. O Diagnóstico 360 vai te dar o plano exato para construir base, autoridade e começar a converter digitalmente.`;
+}
+
+function showCta(){show('s-cta');window.scrollTo(0,0);}
+
+function drawRadarChart(ctx,data,labels,primaryColor,showLabels,doAnimate,onComplete){
+  const W=ctx.canvas.width,H=ctx.canvas.height,cx=W/2,cy=H/2;
+  const r=Math.min(cx,cy)-(showLabels?80:24);
+  const n=data.length,step=(2*Math.PI)/n;
+  function _draw(animData){
+    ctx.clearRect(0,0,W,H);
+    ctx.setLineDash([4,5]);
+    for(let ring=2;ring<=10;ring+=2){
+      ctx.beginPath();
+      for(let i=0;i<=n;i++){const a=i*step-Math.PI/2;const x=cx+(ring/10)*r*Math.cos(a);const y=cy+(ring/10)*r*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+      ctx.closePath();ctx.strokeStyle=ring===10?'#D1D5DB':'#EBEBEB';ctx.lineWidth=1;ctx.stroke();
+    }
+    for(let i=0;i<n;i++){const a=i*step-Math.PI/2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));ctx.strokeStyle='#E0E0E0';ctx.lineWidth=1;ctx.stroke();}
+    ctx.setLineDash([]);
+    for(let i=0;i<n;i++){
+      const j=(i+1)%n,a1=i*step-Math.PI/2,a2=j*step-Math.PI/2;
+      const col=dimColor((data[i]+data[j])/2);
+      ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+(animData[i]/10)*r*Math.cos(a1),cy+(animData[i]/10)*r*Math.sin(a1));ctx.lineTo(cx+(animData[j]/10)*r*Math.cos(a2),cy+(animData[j]/10)*r*Math.sin(a2));
+      ctx.closePath();ctx.fillStyle=col+'28';ctx.fill();ctx.strokeStyle=col+'90';ctx.lineWidth=1.5;ctx.stroke();
+    }
+    animData.forEach((d,i)=>{
+      const a=i*step-Math.PI/2,x=cx+(d/10)*r*Math.cos(a),y=cy+(d/10)*r*Math.sin(a),col=dimColor(data[i]);
+      ctx.beginPath();ctx.arc(x,y,6,0,2*Math.PI);ctx.fillStyle=col;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+    });
+  }
+  if(doAnimate){
+    const dur=1400,t0=performance.now();
+    function frame(now){const p=Math.min((now-t0)/dur,1);const ease=1-Math.pow(1-p,3);_draw(data.map(d=>d*ease));if(p<1)requestAnimationFrame(frame);else if(onComplete)onComplete();}
+    requestAnimationFrame(frame);
+  }else{_draw(data);if(onComplete)onComplete();}
+}
+
+function positionRadarLabels(wrapperId,dims,labels){
+  const wrap=document.getElementById(wrapperId);if(!wrap)return;
+  wrap.querySelectorAll('.radar-label').forEach(el=>el.remove());
+  const canvas=wrap.querySelector('canvas'),cw=canvas.offsetWidth,ch=canvas.offsetHeight;
+  const cx=cw/2,cy=ch/2,scale=cw/500,r=(250-80)*scale,offset=46*scale;
+  const n=labels.length,step=(2*Math.PI)/n;
+  labels.forEach((label,i)=>{
+    const a=i*step-Math.PI/2,cosA=Math.cos(a),sinA=Math.sin(a);
+    const lx=cx+(r+offset)*cosA,ly=cy+(r+offset)*sinA,col=dimColor(dims[i]);
+    const tx=cosA>0.4?'0%':cosA<-0.4?'-100%':'-50%',ty=sinA>0.4?'0%':sinA<-0.4?'-100%':'-50%';
+    const el=document.createElement('div');el.className='radar-label';el.textContent=label;
+    el.style.cssText=`left:${lx}px;top:${ly}px;transform:translate(${tx},${ty});background:${col}18;border:1.5px solid ${col}70;color:${col};`;
+    wrap.appendChild(el);
+  });
+}
+</script>
+</body>
+</html>
