@@ -464,7 +464,7 @@ function drawAnimatedRadar(canvasId){
 }
 
 async function sha256(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
-async function trackLead(name,email,phone){try{const em=await sha256(email.toLowerCase().trim());const ph=await sha256(phone.replace(/\D/g,''));const fn=await sha256(name.split(' ')[0].toLowerCase().trim());fbq('init','2464454597399812',{em,ph,fn});fbq('track','Lead');}catch(err){fbq('track','Lead');}}
+async function trackLead(name,email,phone){if(typeof fbq!=='function')return;try{const em=await sha256(email.toLowerCase().trim());const ph=await sha256(phone.replace(/\D/g,''));const fn=await sha256(name.split(' ')[0].toLowerCase().trim());fbq('init','2464454597399812',{em,ph,fn});fbq('track','Lead');}catch(err){try{fbq('track','Lead');}catch(e){}}}
 
 async function submitCapture(e){
   e.preventDefault();
