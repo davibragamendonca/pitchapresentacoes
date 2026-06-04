@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Diagnóstico Digital | Pitch Company</title>
+  <title>Anamnese Digital | Pitch Company</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -160,14 +160,14 @@
 <div class="screen active" id="s-intro">
   <div class="intro-top">
     <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
-    <div class="intro-badge">🩺 Diagnóstico Digital Gratuito</div>
+    <div class="intro-badge">🩺 Anamnese Digital Gratuita</div>
     <h1 class="intro-h1">Você é referência no consultório.<br>Mas e no <span style="color:var(--purple)">digital</span>?</h1>
     <p class="intro-sub">Responda 9 perguntas e descubra exatamente o que está impedindo você de atrair mais pacientes pelo Instagram.</p>
   </div>
   <div class="intro-cards">
     <div class="intro-card">
       <div class="ic-num">#01</div>
-      <h3>Faça seu Diagnóstico Digital</h3>
+      <h3>Faça sua Anamnese Digital</h3>
       <p>Em menos de 3 minutos, você informa seu cenário atual e nossa análise revela onde você está perdendo pacientes para concorrentes menos qualificados.</p>
       <div class="ic-preview">
         <svg width="180" height="110" viewBox="0 0 180 110">
@@ -214,7 +214,7 @@
   <div class="qhdr" id="qhdr">
     <button class="qhdr-back" id="btn-bk" onclick="prev()">‹</button>
     <div class="qhdr-icon">🩺<div class="qhdr-dot"></div></div>
-    <div class="qhdr-title">Diagnóstico Digital</div>
+    <div class="qhdr-title">Anamnese Digital</div>
     <div class="qhdr-badge">Análise Personalizada</div>
   </div>
   <div class="qbody" id="qbody"></div>
@@ -228,7 +228,7 @@
 <div class="screen" id="s-analyzing">
   <div class="qhdr">
     <div class="qhdr-icon">🩺<div class="qhdr-dot"></div></div>
-    <div class="qhdr-title">Diagnóstico Digital</div>
+    <div class="qhdr-title">Anamnese Digital</div>
     <div class="qhdr-badge">Análise Personalizada</div>
   </div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
@@ -244,7 +244,7 @@
 <div class="screen" id="s-capture">
   <div class="qhdr">
     <div class="qhdr-icon">🩺<div class="qhdr-dot"></div></div>
-    <div class="qhdr-title">Diagnóstico Digital</div>
+    <div class="qhdr-title">Anamnese Digital</div>
     <div class="qhdr-badge">Análise Personalizada</div>
   </div>
   <div class="cap-body">
@@ -267,7 +267,7 @@
 <div class="screen" id="s-loading">
   <div class="qhdr">
     <div class="qhdr-icon">🩺<div class="qhdr-dot"></div></div>
-    <div class="qhdr-title">Diagnóstico Digital</div>
+    <div class="qhdr-title">Anamnese Digital</div>
     <div class="qhdr-badge">Análise Personalizada</div>
   </div>
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
@@ -281,7 +281,7 @@
 <div class="screen" id="s-results">
   <div class="res-qhdr">
     <img src="logo-roxo.svg" style="height:24px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;">
-    <div class="res-qhdr-title" id="res-title">Diagnóstico Digital</div>
+    <div class="res-qhdr-title" id="res-title">Anamnese Digital</div>
     <div class="res-qhdr-badge">Análise Personalizada</div>
   </div>
   <div class="money-box">
@@ -486,7 +486,7 @@ async function submitCapture(e){
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         nome:user.name,email:user.email,whatsapp:user.phone,
-        origem:'Diagnóstico Digital',
+        origem:'Anamnese Digital',
         especialidade:   ans[1]!==undefined?Qs[0].opts[ans[1]].t:'',
         seguidores:      ans[2]!==undefined?Qs[1].opts[ans[2]].t:'',
         freq_conteudo:   ans[3]!==undefined?Qs[2].opts[ans[3]].t:'',
@@ -583,7 +583,7 @@ function buildResults(sc){
   document.getElementById('score-items').innerHTML=html;
   document.getElementById('res-footer-txt').textContent='Seu Diagnóstico revelou onde estão os gaps. Toque abaixo e veja como o Diagnóstico 360 vai resolver isso com você, individualmente.';
 
-  const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer o meu Diagnóstico Digital, quero garantir o meu diagnóstico 360 personalizado!!`);
+  const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese Digital, quero garantir o meu diagnóstico 360 personalizado!!`);
   const waUrl=`https://wa.me/5512988037941?text=${msg}`;
   document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom').forEach(b=>b.href=waUrl);
   document.getElementById('cta-body-text').innerHTML=`Seu Diagnóstico revelou <b>R$ ${sc.potencial.toLocaleString('pt-BR')}/mês de potencial de captação não aproveitado</b>.<br>O Diagnóstico 360 vai mostrar exatamente como capturar esse valor.`;
