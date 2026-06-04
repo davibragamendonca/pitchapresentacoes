@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Anamnese de Funil Digital | Pitch Company</title>
+  <!-- Meta Pixel Code -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2464454597399812');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -459,11 +463,15 @@ function drawAnimatedRadar(canvasId){
   animate();
 }
 
+async function sha256(str){const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+async function trackLead(name,email,phone){try{const em=await sha256(email.toLowerCase().trim());const ph=await sha256(phone.replace(/\D/g,''));const fn=await sha256(name.split(' ')[0].toLowerCase().trim());fbq('init','2464454597399812',{em,ph,fn});fbq('track','Lead');}catch(err){fbq('track','Lead');}}
+
 async function submitCapture(e){
   e.preventDefault();
   user.name=document.getElementById('cap-name').value;
   user.email=document.getElementById('cap-email').value;
   user.phone=document.getElementById('cap-phone').value;
+  trackLead(user.name,user.email,user.phone);
   show('s-loading');drawAnimatedRadar('c-loading');
   const scores=calcScores();
   try{
