@@ -129,8 +129,8 @@
     .mat-desc{margin-top:12px;font-size:13px;color:var(--text2);line-height:1.65;}
 
     /* Radar canvas */
-    .radar-canvas-wrap{position:relative;padding:12px 68px;overflow:visible;}
-    .radar-label{position:absolute;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:normal;max-width:80px;text-align:center;pointer-events:none;line-height:1.4;}
+    .radar-canvas-wrap{position:relative;padding:12px 32px;overflow:visible;}
+    .radar-label{position:absolute;font-size:10px;font-weight:700;padding:3px 8px;border-radius:7px;white-space:nowrap;pointer-events:none;line-height:1.4;}
 
     /* Score items */
     .score-item{background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:0 16px 10px;}
@@ -857,11 +857,14 @@ function buildResults(sc) {
   document.getElementById('mat-desc').textContent = sc.matDesc;
 
   // Results radar — animated, per-dimension colors, HTML labels
-  const RADAR_LABELS = ['Conteúdo','Captação','Posicionamento','Consistência','Monetização','Autoridade','Estratégia','Escalabilidade'];
+  // 6 dims: Conteúdo[0], Captação[1], Autoridade[5], Posicionamento[2], Monetização[4], Estratégia[6]
+  // Visual order (60° steps from top): Conteúdo top, Posicionamento bottom, short words on sides
+  const RADAR_LABELS = ['Conteúdo','Captação','Autoridade','Posicionamento','Monetização','Estratégia'];
+  const dims6 = [sc.dims[0], sc.dims[1], sc.dims[5], sc.dims[2], sc.dims[4], sc.dims[6]];
   setTimeout(() => {
     const ctx = document.getElementById('c-results').getContext('2d');
-    drawRadarChart(ctx, sc.dims, [], getRadarColor(sc.avg), false, true, () => {
-      positionRadarLabels('results-radar-wrap', sc.dims, RADAR_LABELS);
+    drawRadarChart(ctx, dims6, [], getRadarColor(sc.avg), false, true, () => {
+      positionRadarLabels('results-radar-wrap', dims6, RADAR_LABELS);
     });
   }, 400);
 
