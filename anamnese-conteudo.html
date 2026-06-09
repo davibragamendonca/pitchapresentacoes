@@ -129,8 +129,8 @@
     .mat-desc{margin-top:12px;font-size:13px;color:var(--text2);line-height:1.65;}
 
     /* Radar canvas */
-    .radar-canvas-wrap{position:relative;padding:8px 0;overflow:visible;}
-    .radar-label{position:absolute;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;line-height:1.4;}
+    .radar-canvas-wrap{position:relative;padding:12px 68px;overflow:visible;}
+    .radar-label{position:absolute;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;white-space:normal;max-width:80px;text-align:center;pointer-events:none;line-height:1.4;}
 
     /* Score items */
     .score-item{background:white;border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:0 16px 10px;}
@@ -1020,8 +1020,8 @@ function positionRadarLabels(wrapperId, dims, labels) {
   labels.forEach((label, i) => {
     const a = i * step - Math.PI / 2;
     const cosA = Math.cos(a), sinA = Math.sin(a);
-    const lx = cx + (r + offset) * cosA;
-    const ly = cy + (r + offset) * sinA;
+    const lx = canvas.offsetLeft + cx + (r + offset) * cosA;
+    const ly = canvas.offsetTop  + cy + (r + offset) * sinA;
     const col = dimColor(dims[i]);
 
     const tx = cosA > 0.4 ? '0%' : cosA < -0.4 ? '-100%' : '-50%';
