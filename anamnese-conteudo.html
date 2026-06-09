@@ -797,8 +797,8 @@ function calcScores() {
   const dims = [conteudo,captacao,posicionamento,consistencia,monetizacao,autoridade,estrategia,escalabilidade];
   const avg = dims.reduce((a,b)=>a+b,0)/8;
 
-  const perdaF = Math.max(0.05, (10-avg)/10*0.5);
-  const potencial = Math.round(fatMid[faturamento]*perdaF/500)*500;
+  const perdaF = Math.max(0.05, (10-avg)/10*0.65);
+  const potencial = Math.round(fatMid[faturamento]*perdaF*1.38);
 
   let matLevel, matPos, matDesc;
   if (avg<=3)      { matLevel='Iniciante';         matPos=8;  matDesc='Você está no começo da jornada digital. Há muito espaço para crescer — e as oportunidades mais simples ainda não foram aproveitadas.'; }
@@ -849,10 +849,21 @@ const DIM_DESCS = [
 function scoreColor(s) { return s<=3?'#EF4444':s<=5?'#F97316':s<=7?'#EAB308':'#22C55E'; }
 function scoreLevel(s) { return s<=3?0:s<=5?1:s<=7?2:3; }
 
+function animateCounter(el, target, duration) {
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = 'R$ ' + Math.round(ease * target).toLocaleString('pt-BR');
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 function buildResults(sc) {
   const first = user.name.split(' ')[0];
   document.getElementById('res-title').textContent = `Análise de ${first}.`;
-  document.getElementById('res-money').textContent = 'R$ ' + sc.potencial.toLocaleString('pt-BR');
+  animateCounter(document.getElementById('res-money'), sc.potencial, 1800);
   document.getElementById('mat-thumb').style.left = sc.matPos + '%';
   document.getElementById('mat-desc').textContent = sc.matDesc;
 
