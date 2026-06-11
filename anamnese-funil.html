@@ -424,6 +424,8 @@ const Qs = [
 ];
 
 let cur=0, ans={}, user={};
+const _sp=new URLSearchParams(window.location.search);
+const utms={utm_source:_sp.get('utm_source')||'',utm_campaign:_sp.get('utm_campaign')||'',utm_content:_sp.get('utm_content')||'',utm_medium:_sp.get('utm_medium')||''};
 
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 function startQuiz(){document.getElementById('prog-wrap').style.display='block';cur=0;render();show('s-quiz');}
@@ -497,6 +499,10 @@ async function submitCapture(e){
         potencial_mensal:    scores.potencial,
         nivel_maturidade:    scores.matLevel,
         dimensoes:           scores.dims,
+        utm_source:          utms.utm_source,
+        utm_campaign:        utms.utm_campaign,
+        utm_content:         utms.utm_content,
+        utm_medium:          utms.utm_medium,
         fbp:                 getCookie('_fbp'),
         fbc:                 getFbc(),
         user_agent:          navigator.userAgent,
