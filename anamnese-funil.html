@@ -59,9 +59,14 @@
     .opt-t{flex:1;}
     .opt-c{color:#9CA3AF;font-size:15px;flex-shrink:0;}
     .opt.sel .opt-c{color:#111827;}
-    .txt-inp{width:100%;min-height:130px;padding:16px;background:white;border:1.5px solid var(--border);border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;color:var(--text);resize:none;display:block;transition:border-color .2s;}
-    .txt-inp:focus{outline:none;border-color:#111827;}
+    .chips{display:flex;flex-wrap:wrap;gap:10px;}
+    .chip{padding:10px 16px;border:1.5px solid var(--border);border-radius:100px;background:white;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all .15s;}
+    .chip.sel{border-color:#111827;border-width:2px;background:#F9FAFB;}
+    .txt-wrap{display:flex;align-items:center;gap:0;border:1.5px solid var(--border);border-radius:12px;overflow:hidden;background:white;margin-bottom:8px;}
+    .txt-prefix{padding:14px 12px 14px 16px;font-size:15px;font-weight:700;color:var(--text2);background:#F3F4F6;border-right:1px solid var(--border);}
+    .txt-inp{flex:1;padding:14px 16px;background:white;border:none;font-family:'Inter',sans-serif;font-size:15px;color:var(--text);outline:none;}
     .txt-inp::placeholder{color:#D1D5DB;}
+    .txt-hint{font-size:12px;color:var(--text2);text-align:center;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;}
     .qnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 16px;background:white;border-top:1px solid var(--border);display:flex;gap:10px;z-index:100;}
     .btn-bk{padding:14px 18px;border:1.5px solid var(--border);border-radius:12px;background:white;color:var(--text2);font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
     .btn-nx{flex:1;padding:14px;background:#111827;color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;}
@@ -402,42 +407,34 @@
 <script>
 const Qs = [
   // BLOCO 1 — Perfil e momento atual
-  { id:1, type:'single', title:'Qual é a sua especialidade?', sub:'Selecione a que melhor te descreve',
+  { id:1,  type:'single', title:'Qual é a sua especialidade?', sub:'Selecione a que melhor te descreve',
     opts:[{e:'🌿',t:'Medicina Integrativa / Funcional'},{e:'🥗',t:'Nutrição Funcional'},{e:'🦷',t:'Dentista / Odontologista'},{e:'🫀',t:'Cardiologista / Medicina Especializada'},{e:'🌸',t:'Dermatologista'},{e:'🧠',t:'Psicologia / Psicoterapia'},{e:'🔄',t:'Outro profissional da saúde'}]
   },
-  { id:2, type:'single', title:'Sua situação financeira hoje.', sub:'Como você descreveria sua situação financeira no consultório?',
-    opts:[{e:'🌱',t:'Ainda estou construindo minha carteira de pacientes'},{e:'📊',t:'Tenho uma agenda razoável mas quero crescer'},{e:'🔥',t:'Minha agenda está cheia e quero criar outras fontes de renda'},{e:'📉',t:'Já faturei bem mas estou estagnado'}]
-  },
-  { id:3, type:'single', title:'Sua presença no Instagram.', sub:'Como está seu perfil hoje?',
+  { id:3,  type:'single', title:'Sua presença no Instagram.', sub:'Como está seu perfil hoje?',
     opts:[{e:'🚫',t:'Não tenho perfil ainda'},{e:'📱',t:'Tenho mas posto raramente'},{e:'🔶',t:'Posto com alguma frequência mas sem estratégia clara'},{e:'📊',t:'Posto regularmente mas não converto em pacientes ou vendas'}]
   },
   // BLOCO 2 — Objetivo digital
-  { id:4, type:'single', title:'Seu principal objetivo no digital.', sub:'O que você mais quer conquistar no digital agora?',
+  { id:4,  type:'single', title:'Seu principal objetivo no digital.', sub:'O que você mais quer conquistar no digital agora?',
     opts:[{e:'👥',t:'Atrair mais pacientes para o consultório'},{e:'🏅',t:'Construir autoridade e ser referência no meu nicho'},{e:'📚',t:'Lançar um infoproduto, curso ou mentoria'},{e:'💰',t:'Criar uma renda além dos atendimentos presenciais'},{e:'🚀',t:'Todos os anteriores'}]
   },
-  { id:5, type:'single', title:'Seu infoproduto.', sub:'Você já tem algum produto digital ou ideia em mente?',
+  { id:5,  type:'single', title:'Seu infoproduto.', sub:'Você já tem algum produto digital ou ideia em mente?',
     opts:[{e:'❌',t:'Não pensei nisso ainda'},{e:'💭',t:'Tenho a ideia mas não sei por onde começar'},{e:'📋',t:'Já tentei mas não saiu do papel'},{e:'✅',t:'Já tenho e quero escalar'}]
   },
-  { id:6, type:'single', title:'O que está te travando.', sub:'O que você acha que está impedindo sua evolução no digital?',
+  { id:6,  type:'single', title:'O que está te travando.', sub:'O que você acha que está impedindo sua evolução no digital?',
     opts:[{e:'❓',t:'Não sei o que postar ou como me posicionar'},{e:'📉',t:'Posto mas não tenho engajamento nem seguidores'},{e:'🎯',t:'Tenho audiência mas não converto em pacientes ou vendas'},{e:'📦',t:'Não sei como transformar meu conhecimento em produto'},{e:'⏰',t:'Falta de tempo e consistência'}]
   },
   // BLOCO 3 — Posicionamento e conteúdo
-  { id:7, type:'single', title:'Seu posicionamento hoje.', sub:'Como você se sente em relação ao seu posicionamento?',
+  { id:7,  type:'single', title:'Seu posicionamento hoje.', sub:'Como você se sente em relação ao seu posicionamento?',
     opts:[{e:'❓',t:'Não sei bem o que me diferencia dos outros profissionais'},{e:'💭',t:'Sei o que faço mas não consigo comunicar isso claramente'},{e:'🔶',t:'Tenho um posicionamento mas ele não atrai o paciente certo'},{e:'✅',t:'Me sinto bem posicionado mas quero refinar'}]
   },
-  { id:8, type:'single', title:'Frequência de conteúdo.', sub:'Com que frequência você produz conteúdo no Instagram?',
+  { id:8,  type:'single', title:'Frequência de conteúdo.', sub:'Com que frequência você produz conteúdo no Instagram?',
     opts:[{e:'🚫',t:'Nunca ou quase nunca'},{e:'📅',t:'1 a 2 vezes por semana'},{e:'📊',t:'3 a 4 vezes por semana'},{e:'🔥',t:'Todos os dias'}]
-  },
-  { id:9, type:'single', title:'Clareza sobre seu cliente ideal.', sub:'Você tem clareza de quem é o seu paciente ou cliente ideal?',
-    opts:[{e:'❓',t:'Não tenho clareza nenhuma'},{e:'💭',t:'Tenho uma ideia mas é vaga'},{e:'🎯',t:'Sei quem é mas não sei como falar com ele no digital'},{e:'✅',t:'Tenho clareza total'}]
   },
   // BLOCO 4 — Funil e conversão
   { id:10, type:'single', title:'Suas conversões no Instagram.', sub:'Você já teve alguma venda ou conversão pelo Instagram?',
     opts:[{e:'❌',t:'Nunca'},{e:'🔶',t:'Já tive indicações por lá mas raramente'},{e:'📊',t:'Sim, mas de forma inconsistente'},{e:'✅',t:'Sim, tenho um fluxo constante'}]
   },
-  { id:11, type:'single', title:'O que você mais precisa agora.', sub:'Para avançar no digital, o que você precisa primeiro?',
-    opts:[{e:'🗺️',t:'Um plano claro de onde começar'},{e:'🎯',t:'Entender como me posicionar e o que falar'},{e:'🔄',t:'Aprender a transformar seguidores em pacientes ou clientes'},{e:'📦',t:'Estruturar e lançar um produto digital'},{e:'🚀',t:'Tudo isso junto'}]
-  },
+  // BLOCO 5 — Dados quantitativos
   { id:12, type:'single', title:'Seguidores no Instagram.', sub:'Quantos seguidores você tem hoje?',
     opts:[{e:'🌱',t:'Menos de 1.000'},{e:'📊',t:'Entre 1.000 e 5.000'},{e:'📈',t:'Entre 5.000 e 20.000'},{e:'🔥',t:'Mais de 20.000'}]
   },
@@ -449,10 +446,17 @@ const Qs = [
   },
   { id:15, type:'single', title:'Investimento em marketing.', sub:'Quanto você investe em <b>MARKETING DIGITAL</b> por mês?',
     opts:[{e:'🚫',t:'Não invisto em marketing digital'},{e:'💸',t:'Até R$500'},{e:'📊',t:'Entre R$500 e R$2.000'},{e:'💰',t:'Entre R$2.000 e R$10.000'},{e:'🌟',t:'Entre R$10.000 e R$30.000'},{e:'⭐',t:'Mais de R$30.000'}]
+  },
+  // BLOCO 6 — Estratégias e perfil social
+  { id:16, type:'multi', title:'Estratégias que você usa.', sub:'Selecione todas as estratégias que você aplica hoje',
+    opts:[{e:'🎯',t:'Tráfego Pago'},{e:'🎬',t:'Reels e Vídeos'},{e:'📧',t:'E-mail Marketing'},{e:'📱',t:'Stories Diários'},{e:'📲',t:'WhatsApp Business'},{e:'🔍',t:'Blog e SEO'},{e:'🤝',t:'Parcerias e Influenciadores'},{e:'✋',t:'Nenhuma dessas'}]
+  },
+  { id:17, type:'text',  title:'Seu @ no Instagram.', sub:'Vamos analisar seu perfil para personalizar ainda mais sua Anamnese',
+    ph:'seuperfil (sem @)'
   }
 ];
 
-let cur=0, ans={}, user={};
+let cur=0, ans={}, user={}, multiSel=[];
 const _sp=new URLSearchParams(window.location.search);
 const utms={utm_source:_sp.get('utm_source')||'',utm_campaign:_sp.get('utm_campaign')||'',utm_content:_sp.get('utm_content')||'',utm_medium:_sp.get('utm_medium')||''};
 
@@ -471,11 +475,34 @@ function render(){
       const sel=ans[q.id]===i;
       html+=`<button class="opt${sel?' sel':''}" onclick="pick(${q.id},${i})"><span class="opt-e">${o.e}</span><span class="opt-t">${o.t}</span><span class="opt-c">›</span></button>`;
     });
+  } else if(q.type==='multi'){
+    document.getElementById('btn-nx').disabled=false;
+    html+='<div class="chips">';
+    q.opts.forEach((o,i)=>{
+      const sel=multiSel.includes(i);
+      html+=`<button class="chip${sel?' sel':''}" onclick="toggleChip(${i})">${o.e} ${o.t}</button>`;
+    });
+    html+='</div>';
+  } else if(q.type==='text'){
+    const v=ans[q.id]||'';
+    document.getElementById('btn-nx').disabled=false;
+    html+=`<div class="txt-wrap">
+      <span class="txt-prefix">@</span>
+      <input class="txt-inp" id="txt-ig" placeholder="${q.ph}" value="${v}"
+        oninput="ans[${q.id}]=this.value">
+    </div>
+    <div class="txt-hint">⚠️ Insira seu @ para a IA analisar seu perfil.</div>`;
   }
   document.getElementById('qbody').innerHTML=html;
 }
 
 function pick(qid,i){ans[qid]=i;document.getElementById('btn-nx').disabled=false;document.querySelectorAll('.opt').forEach((b,idx)=>b.classList.toggle('sel',idx===i));setTimeout(()=>next(),220);}
+function toggleChip(i){
+  const noneIdx=7;
+  if(i===noneIdx){multiSel=multiSel.includes(noneIdx)?[]:[noneIdx];}
+  else{multiSel=multiSel.filter(x=>x!==noneIdx);if(multiSel.includes(i))multiSel=multiSel.filter(x=>x!==i);else multiSel.push(i);}
+  render();
+}
 function next(){cur<Qs.length-1?(cur++,render()):startAnalyzing();}
 function prev(){cur>0&&(cur--,render());}
 
@@ -514,20 +541,19 @@ async function submitCapture(e){
         nome:user.name,email:user.email,whatsapp:user.phone,
         origem:'Anamnese Funil Digital',
         especialidade:       ans[1]!==undefined?Qs[0].opts[ans[1]].t:'',
-        situacao_financeira: ans[2]!==undefined?Qs[1].opts[ans[2]].t:'',
-        presenca_instagram:  ans[3]!==undefined?Qs[2].opts[ans[3]].t:'',
-        objetivo_digital:    ans[4]!==undefined?Qs[3].opts[ans[4]].t:'',
-        infoproduto:         ans[5]!==undefined?Qs[4].opts[ans[5]].t:'',
-        principal_trava:     ans[6]!==undefined?Qs[5].opts[ans[6]].t:'',
-        posicionamento:      ans[7]!==undefined?Qs[6].opts[ans[7]].t:'',
-        freq_conteudo:       ans[8]!==undefined?Qs[7].opts[ans[8]].t:'',
-        clareza_cliente:     ans[9]!==undefined?Qs[8].opts[ans[9]].t:'',
-        conversao:           ans[10]!==undefined?Qs[9].opts[ans[10]].t:'',
-        necessidade_agora:   ans[11]!==undefined?Qs[10].opts[ans[11]].t:'',
-        seguidores:          ans[12]!==undefined?Qs[11].opts[ans[12]].t:'',
-        atendimentos_mes:    ans[13]!==undefined?Qs[12].opts[ans[13]].t:'',
-        faturamento_mensal:  ans[14]!==undefined?Qs[13].opts[ans[14]].t:'',
-        invest_marketing:    ans[15]!==undefined?Qs[14].opts[ans[15]].t:'',
+        presenca_instagram:  ans[3]!==undefined?Qs[1].opts[ans[3]].t:'',
+        objetivo_digital:    ans[4]!==undefined?Qs[2].opts[ans[4]].t:'',
+        infoproduto:         ans[5]!==undefined?Qs[3].opts[ans[5]].t:'',
+        principal_trava:     ans[6]!==undefined?Qs[4].opts[ans[6]].t:'',
+        posicionamento:      ans[7]!==undefined?Qs[5].opts[ans[7]].t:'',
+        freq_conteudo:       ans[8]!==undefined?Qs[6].opts[ans[8]].t:'',
+        conversao:           ans[10]!==undefined?Qs[7].opts[ans[10]].t:'',
+        seguidores:          ans[12]!==undefined?Qs[8].opts[ans[12]].t:'',
+        atendimentos_mes:    ans[13]!==undefined?Qs[9].opts[ans[13]].t:'',
+        faturamento_mensal:  ans[14]!==undefined?Qs[10].opts[ans[14]].t:'',
+        invest_marketing:    ans[15]!==undefined?Qs[11].opts[ans[15]].t:'',
+        estrategias:         multiSel.filter(i=>i!==7).map(i=>Qs[12].opts[i].t).join(', ')||'Nenhuma',
+        instagram_quiz:      ans[17]||'',
         perfil:              scores.profile,
         potencial_mensal:    scores.potencial,
         nivel_maturidade:    scores.matLevel,
@@ -548,19 +574,18 @@ async function submitCapture(e){
 }
 
 function calcScores(){
-  const q2  = ans[2]  !== undefined ? ans[2]  : 0;
   const q3  = ans[3]  !== undefined ? ans[3]  : 0;
   const q4  = ans[4]  !== undefined ? ans[4]  : 0;
   const q5  = ans[5]  !== undefined ? ans[5]  : 0;
   const q7  = ans[7]  !== undefined ? ans[7]  : 0;
   const q8  = ans[8]  !== undefined ? ans[8]  : 0;
-  const q9  = ans[9]  !== undefined ? ans[9]  : 0;
   const q10 = ans[10] !== undefined ? ans[10] : 0;
-  const q11 = ans[11] !== undefined ? ans[11] : 0;
   const q12 = ans[12] !== undefined ? ans[12] : 0; // seguidores
   const q13 = ans[13] !== undefined ? ans[13] : 0; // atendimentos
   const q14 = ans[14] !== undefined ? ans[14] : 0; // faturamento
   const q15 = ans[15] !== undefined ? ans[15] : 0; // investimento
+
+  const stratCount = multiSel.includes(7) ? 0 : multiSel.filter(i=>i!==7).length;
 
   // Dimensões do radar (8)
   const atendS   = [1,3,6,8,9];
@@ -570,17 +595,17 @@ function calcScores(){
   const presenca      = Math.min(10, Math.round([1,3,5,7][q3]*0.5 + atendS[Math.min(q13,4)]*0.5));
   const posicionamento= Math.min(10,[2,4,6,8][q7]);
   const conteudo      = Math.min(10,[1,3,6,8][q8]);
-  const audiencia     = Math.min(10, Math.round([1,4,7,9][q9]*0.5 + segS[Math.min(q12,3)]*0.5));
+  const audiencia     = Math.min(10, segS[Math.min(q12,3)]);
   const infoproduto   = Math.min(10,[1,3,5,9][q5]);
   const conversao     = Math.min(10,[1,3,6,9][q10]);
-  const estrategia    = Math.min(10, Math.round([3,5,7,8,9][Math.min(q4,4)]*0.65 + invS[Math.min(q15,5)]*0.35));
+  const estrategia    = Math.min(10, Math.round([3,5,7,8,9][Math.min(q4,4)]*0.55 + invS[Math.min(q15,5)]*0.25 + Math.min(stratCount*1.5,5)*0.2));
   const potencialFin  = Math.min(10, fatS[Math.min(q14,5)]);
 
   const dims=[presenca,posicionamento,conteudo,audiencia,infoproduto,conversao,estrategia,potencialFin];
   const avg=dims.reduce((a,b)=>a+b,0)/8;
 
-  // Perfil: Expansão se alto potencial financeiro + objetivo de escala + infoproduto avançado
-  const expansaoIndicators = [0,1,3,2][q2] + [0,1,3,3,3][Math.min(q4,4)] + [0,1,2,3][q5];
+  // Perfil: Expansão se objetivo de escala + infoproduto avançado + bom faturamento
+  const expansaoIndicators = [0,1,3,3,3][Math.min(q4,4)] + [0,1,2,3][q5] + (fatS[Math.min(q14,5)]>=6?2:0);
   const profile = expansaoIndicators >= 5 ? 'B' : 'A';
 
   // Potencial baseado no faturamento real (q14)
