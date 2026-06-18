@@ -455,13 +455,23 @@ let cur=0, ans={}, user={}, multiSel=[];
 const _sp=new URLSearchParams(window.location.search);
 const utms={utm_source:_sp.get('utm_source')||'',utm_campaign:_sp.get('utm_campaign')||'',utm_content:_sp.get('utm_content')||'',utm_medium:_sp.get('utm_medium')||''};
 
+// ─── Analytics ───────────────────────────────────────────────────────────────
+const _SUPA='https://opmffekgymdifshluxwt.supabase.co';
+const _KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wbWZmZWtneW1kaWZzaGx1eHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDc2NjksImV4cCI6MjA4NzE4MzY2OX0.C4QaY3pn-heGH9i_uj_jSaTvOiZxLQC7D0MOAXH_sMY';
+let _lastStep=-1;
+(()=>{const k='_asid';let s=sessionStorage.getItem(k)||'';if(!s){s='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&0x3|0x8)).toString(16);});sessionStorage.setItem(k,s);}window._asid=s;})();
+function _track(t,x){const d={session_id:window._asid,event_type:t,utm_source:utms.utm_source,utm_campaign:utms.utm_campaign,utm_medium:utms.utm_medium,device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop'};if(x)Object.assign(d,x);fetch(_SUPA+'/rest/v1/anamnese_events',{method:'POST',headers:{'Content-Type':'application/json','apikey':_KEY,'Authorization':'Bearer '+_KEY,'Prefer':'return=minimal'},body:JSON.stringify(d)}).catch(()=>{});}
+_track('page_view');
+// ─────────────────────────────────────────────────────────────────────────────
+
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
-function startQuiz(){document.getElementById('prog-wrap').style.display='block';cur=0;render();show('s-quiz');}
+function startQuiz(){_track('quiz_start');document.getElementById('prog-wrap').style.display='block';cur=0;render();show('s-quiz');}
 function updateProgress(){const pct=(cur/Qs.length)*100;document.getElementById('prog-fill').style.width=pct+'%';document.getElementById('btn-bk').disabled=cur===0;document.getElementById('btn-bk2').disabled=cur===0;}
 
 function render(){
   updateProgress();
   const q=Qs[cur];const isLast=cur===Qs.length-1;
+  if(cur!==_lastStep){_lastStep=cur;_track('step_view',{step_index:cur,step_id:q.id,step_title:q.title.replace(/<[^>]*>/g,'')});}
   document.getElementById('btn-nx').textContent=isLast?'Ver meu Perfil →':'Próxima →';
   let html=`<div class="q-title">${q.title}</div><p class="q-sub">${q.sub||''}</p>`;
   if(q.type==='single'){
@@ -491,23 +501,29 @@ function render(){
   document.getElementById('qbody').innerHTML=html;
 }
 
-function pick(qid,i){ans[qid]=i;document.getElementById('btn-nx').disabled=false;document.querySelectorAll('.opt').forEach((b,idx)=>b.classList.toggle('sel',idx===i));setTimeout(()=>next(),220);}
+function pick(qid,i){_track('step_answer',{step_index:cur,step_id:qid,step_title:Qs[cur].title.replace(/<[^>]*>/g,''),answer_index:i,answer_text:Qs[cur].opts[i].t});ans[qid]=i;document.getElementById('btn-nx').disabled=false;document.querySelectorAll('.opt').forEach((b,idx)=>b.classList.toggle('sel',idx===i));setTimeout(()=>next(),220);}
 function toggleChip(i){
   const noneIdx=7;
   if(i===noneIdx){multiSel=multiSel.includes(noneIdx)?[]:[noneIdx];}
   else{multiSel=multiSel.filter(x=>x!==noneIdx);if(multiSel.includes(i))multiSel=multiSel.filter(x=>x!==i);else multiSel.push(i);}
   render();
 }
-function next(){cur<Qs.length-1?(cur++,render()):startAnalyzing();}
+function next(){
+  const q=Qs[cur];
+  if(q.type==='multi'){const sel=multiSel.filter(i=>i!==7).map(i=>q.opts[i].t).join(', ')||'Nenhuma';_track('step_answer',{step_index:cur,step_id:q.id,step_title:q.title,answer_text:sel});}
+  else if(q.type==='text'){_track('step_answer',{step_index:cur,step_id:q.id,step_title:q.title,answer_text:ans[q.id]||''});}
+  cur<Qs.length-1?(cur++,render()):startAnalyzing();
+}
 function prev(){cur>0&&(cur--,render());}
 
 function startAnalyzing(){
+  _track('quiz_complete');
   show('s-analyzing');document.getElementById('prog-fill').style.width='95%';
   drawAnimatedRadar('c-analyzing');
   const labels=['Mapeando seu perfil...','Identificando gargalos...','Calculando potencial...','Determinando seu perfil...'];
   let li=0;
   const iv=setInterval(()=>{li++;if(li<labels.length)document.getElementById('analyzing-label').textContent=labels[li];},800);
-  setTimeout(()=>{clearInterval(iv);show('s-capture');},3500);
+  setTimeout(()=>{clearInterval(iv);_track('capture_view');show('s-capture');},3500);
 }
 
 function drawAnimatedRadar(canvasId){
@@ -526,6 +542,7 @@ async function submitCapture(e){
   user.name=document.getElementById('cap-name').value;
   user.email=document.getElementById('cap-email').value;
   user.phone=document.getElementById('cap-phone').value;
+  _track('capture_submit');
   trackLead(user.name,user.email,user.phone);
   show('s-loading');drawAnimatedRadar('c-loading');
   const scores=calcScores();
@@ -565,7 +582,7 @@ async function submitCapture(e){
       })
     });
   }catch(err){console.error(err);}
-  setTimeout(()=>{buildResults(scores);show('s-results');document.getElementById('prog-fill').style.width='100%';},2500);
+  setTimeout(()=>{buildResults(scores);show('s-results');document.getElementById('prog-fill').style.width='100%';_track('results_view',{profile:scores.profile});},2500);
 }
 
 function calcScores(){
@@ -673,13 +690,13 @@ function buildResults(sc){
   // CTA
   const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese de Funil Digital. Meu perfil é ${isExpansao?'Expansão':'Construção'} — quero garantir o meu Diagnóstico 360!`);
   const waUrl=`https://wa.me/5512988037941?text=${msg}`;
-  document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom').forEach(b=>b.href=waUrl);
+  document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom').forEach(b=>{b.href=waUrl;b.onclick=()=>_track('cta_click',{profile:sc.profile});});
   document.getElementById('cta-body-text').innerHTML=isExpansao
     ?`Seu perfil <b>Expansão</b> indica que você tem tudo para escalar. O Diagnóstico 360 vai estruturar seu funil e lançamento com um plano personalizado para o seu caso.`
     :`Seu perfil <b>Construção</b> tem potencial real. O Diagnóstico 360 vai te dar o plano exato para construir base, autoridade e começar a converter digitalmente.`;
 }
 
-function showCta(){show('s-cta');window.scrollTo(0,0);}
+function showCta(){_track('cta_view');show('s-cta');window.scrollTo(0,0);}
 
 function drawRadarChart(ctx,data,labels,primaryColor,showLabels,doAnimate,onComplete){
   const W=ctx.canvas.width,H=ctx.canvas.height,cx=W/2,cy=H/2;
