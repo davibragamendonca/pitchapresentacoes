@@ -460,7 +460,7 @@ const _SUPA='https://opmffekgymdifshluxwt.supabase.co';
 const _KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9wbWZmZWtneW1kaWZzaGx1eHd0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2MDc2NjksImV4cCI6MjA4NzE4MzY2OX0.C4QaY3pn-heGH9i_uj_jSaTvOiZxLQC7D0MOAXH_sMY';
 let _lastStep=-1;
 (()=>{const k='_asid';let s=sessionStorage.getItem(k)||'';if(!s){s='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&0x3|0x8)).toString(16);});sessionStorage.setItem(k,s);}window._asid=s;})();
-function _track(t,x){const d={session_id:window._asid,event_type:t,utm_source:utms.utm_source,utm_campaign:utms.utm_campaign,utm_medium:utms.utm_medium,device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop'};if(x)Object.assign(d,x);fetch(_SUPA+'/rest/v1/anamnese_events',{method:'POST',headers:{'Content-Type':'application/json','apikey':_KEY,'Authorization':'Bearer '+_KEY,'Prefer':'return=minimal'},body:JSON.stringify(d)}).catch(()=>{});}
+function _track(t,x){const d={session_id:window._asid,event_type:t,utm_source:utms.utm_source,utm_campaign:utms.utm_campaign,utm_medium:utms.utm_medium,device:/Mobi|Android/i.test(navigator.userAgent)?'mobile':'desktop'};if(x)Object.assign(d,x);fetch(_SUPA+'/rest/v1/anamnese_events',{method:'POST',headers:{'Content-Type':'application/json','apikey':_KEY,'Authorization':'Bearer '+_KEY,'Prefer':'return=minimal'},body:JSON.stringify(d)}).then(r=>{if(!r.ok)r.text().then(b=>console.error('[track] '+t+' →',r.status,b));else console.log('[track] ✓',t);}).catch(e=>console.error('[track] network error',t,e));}
 _track('page_view');
 // ─────────────────────────────────────────────────────────────────────────────
 
