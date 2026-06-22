@@ -180,42 +180,15 @@
       color: var(--purple-l); font-size: 11px; font-weight: 800; margin-top: 2px;
     }
 
-    /* Phone visual */
-    .phone-mock {
-      width: 260px; height: 460px; margin: 0 auto;
-      background: linear-gradient(145deg, #120630, #0a0220);
-      border-radius: 36px; border: 2px solid rgba(168,85,247,.4);
-      box-shadow: 0 0 60px rgba(109,33,217,.25), 0 0 100px rgba(109,33,217,.1);
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 22px; padding: 36px 20px;
-      position: relative;
+    /* Phone image */
+    .forwho-img {
+      display: flex; align-items: center; justify-content: center;
     }
-    .phone-mock::before {
-      content: ''; position: absolute; top: 16px;
-      width: 56px; height: 5px;
-      background: rgba(168,85,247,.4); border-radius: 3px;
+    .forwho-img img {
+      width: 100%; max-width: 420px;
+      height: auto; display: block;
+      filter: drop-shadow(0 20px 60px rgba(109,33,217,.25));
     }
-    .phone-icons { display: flex; gap: 16px; }
-    .phone-icon {
-      width: 50px; height: 50px;
-      background: rgba(168,85,247,.15); border: 1px solid rgba(168,85,247,.3);
-      border-radius: 14px; display: flex; align-items: center;
-      justify-content: center; font-size: 20px;
-    }
-    .phone-icon.active {
-      background: rgba(168,85,247,.35); border-color: rgba(168,85,247,.7);
-    }
-    .phone-bars { width: 100%; display: flex; flex-direction: column; gap: 8px; padding: 0 4px; }
-    .phone-bar {
-      height: 8px; border-radius: 4px;
-      background: rgba(168,85,247,.15);
-    }
-    .phone-bar.a { background: linear-gradient(90deg, #7C3AED, #A855F7); width: 70%; }
-    .phone-bar.b { width: 50%; }
-    .phone-bar.c { background: linear-gradient(90deg, #7C3AED, #A855F7); width: 40%; }
-    .phone-stat { text-align: center; }
-    .phone-stat .pn { font-size: 30px; font-weight: 900; color: #A855F7; line-height: 1; }
-    .phone-stat .pl { font-size: 10px; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
     /* ── 4 ETAPAS ── */
     .etapas {
@@ -391,7 +364,7 @@
     /* ── RESPONSIVE ── */
     @media(max-width:960px){
       .forwho-inner { grid-template-columns: 1fr; }
-      .phone-mock { display: none; }
+      .forwho-img { margin-top: 40px; }
       .quem-inner { grid-template-columns: 1fr; }
       .quem-photo { display: none; }
       .etapa { grid-template-columns: 1fr; gap: 24px; }
@@ -518,24 +491,9 @@
         </div>
       </div>
 
-      <!-- Phone visual -->
-      <div class="phone-mock">
-        <div class="phone-icons">
-          <div class="phone-icon">❤️</div>
-          <div class="phone-icon active">👤</div>
-          <div class="phone-icon">✈️</div>
-        </div>
-        <div class="phone-bars">
-          <div class="phone-bar a"></div>
-          <div class="phone-bar"></div>
-          <div class="phone-bar a" style="width:45%;"></div>
-          <div class="phone-bar b"></div>
-        </div>
-        <div class="phone-stat">
-          <div class="pn">+80%</div>
-          <div class="pl">Engajamento</div>
-        </div>
-        <img src="logo-roxo.svg" alt="" style="height:18px;opacity:.25;filter:invert(1);">
+      <!-- Phone image -->
+      <div class="forwho-img">
+        <img src="diag360-mockup.png" alt="Diagnóstico 360">
       </div>
     </div>
   </div>
