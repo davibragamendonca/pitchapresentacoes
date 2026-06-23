@@ -7,6 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
+  <!-- Meta Pixel Code -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2464454597399812');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel Code -->
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -732,6 +738,45 @@
 </footer>
 
 <script>
+  /* ── Helpers ── */
+  function getCookie(n) {
+    const m = document.cookie.match(new RegExp('(^| )' + n + '=([^;]+)'));
+    return m ? m[2] : '';
+  }
+  function getFbc() {
+    const c = getCookie('_fbc');
+    if (c) return c;
+    const p = new URLSearchParams(window.location.search).get('fbclid');
+    return p ? `fb.1.${Date.now()}.${p}` : '';
+  }
+  function getFbp() { return getCookie('_fbp'); }
+
+  async function sha256(str) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  /* ── Lead tracking com Advanced Matching ── */
+  async function trackLead(name, phone) {
+    if (typeof fbq !== 'function') return;
+    try {
+      const ph = await sha256(phone.replace(/\D/g, ''));
+      const fn = await sha256(name.split(' ')[0].toLowerCase().trim());
+      const ln = name.split(' ').length > 1
+        ? await sha256(name.split(' ').slice(-1)[0].toLowerCase().trim())
+        : undefined;
+
+      const userData = { ph, fn };
+      if (ln) userData.ln = ln;
+
+      fbq('init', '2464454597399812', userData);
+      fbq('track', 'Lead', {}, { eventID: `lead_diag360_${Date.now()}` });
+    } catch (err) {
+      fbq('track', 'Lead');
+    }
+  }
+
+  /* ── Form submit ── */
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -739,25 +784,32 @@
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
+    const nome      = document.getElementById('name').value;
+    const whatsapp  = document.getElementById('whatsapp').value;
+    const eventID   = `lead_diag360_${Date.now()}`;
+
     const payload = {
-      nome:          document.getElementById('name').value,
+      nome,
       especialidade: document.getElementById('specialty').value,
       instagram:     document.getElementById('instagram').value,
-      whatsapp:      document.getElementById('whatsapp').value,
+      whatsapp,
       seguidores:    document.getElementById('followers').value,
       origem:        'Diagnóstico 360 — Landing Page Branca',
-      data_envio:    new Date().toISOString()
+      data_envio:    new Date().toISOString(),
+      fbc:           getFbc(),
+      fbp:           getFbp(),
+      event_id:      eventID
     };
 
-    try {
-      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
+    /* Pixel Lead + Webhook em paralelo */
+    await Promise.allSettled([
+      trackLead(nome, whatsapp),
+      fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
-      });
-    } catch (err) {
-      console.error('Webhook error:', err);
-    }
+      })
+    ]);
 
     document.getElementById('leadForm').innerHTML = `
       <div style="text-align:center;padding:24px 0;">
