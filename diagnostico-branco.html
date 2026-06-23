@@ -751,6 +751,15 @@
   }
   function getFbp() { return getCookie('_fbp'); }
 
+  /* ── UTMs ── */
+  const _sp = new URLSearchParams(window.location.search);
+  const utms = {
+    utm_source:   _sp.get('utm_source')   || '',
+    utm_campaign: _sp.get('utm_campaign') || '',
+    utm_content:  _sp.get('utm_content')  || '',
+    utm_medium:   _sp.get('utm_medium')   || ''
+  };
+
   async function sha256(str) {
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
     return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -795,10 +804,16 @@
       whatsapp,
       seguidores:    document.getElementById('followers').value,
       origem:        'Diagnóstico 360 — Landing Page Branca',
-      data_envio:    new Date().toISOString(),
+      utm_source:    utms.utm_source,
+      utm_campaign:  utms.utm_campaign,
+      utm_content:   utms.utm_content,
+      utm_medium:    utms.utm_medium,
       fbc:           getFbc(),
       fbp:           getFbp(),
-      event_id:      eventID
+      user_agent:    navigator.userAgent,
+      page_url:      window.location.href,
+      event_id:      eventID,
+      data_envio:    new Date().toISOString()
     };
 
     /* Pixel Lead + Webhook em paralelo */
