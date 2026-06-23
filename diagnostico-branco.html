@@ -816,15 +816,16 @@
       data_envio:    new Date().toISOString()
     };
 
-    /* Pixel Lead + Webhook em paralelo */
-    await Promise.allSettled([
-      trackLead(nome, whatsapp),
-      fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-    ]);
+    /* Webhook com keepalive — sobrevive ao redirect de página */
+    fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).catch(() => {});
+
+    /* Pixel em paralelo, sem bloquear */
+    trackLead(nome, whatsapp).catch(() => {});
 
     const waMsg = encodeURIComponent(`Oii, sou ${nome} e quero agendar o Diagnóstico 360!`);
     const waUrl = `https://wa.me/5512988037941?text=${waMsg}`;
