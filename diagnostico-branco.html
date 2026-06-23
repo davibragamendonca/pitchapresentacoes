@@ -811,13 +811,18 @@
       })
     ]);
 
+    const waMsg = encodeURIComponent(`Oii, sou ${nome} e quero agendar o Diagnóstico 360!`);
+    const waUrl = `https://wa.me/5512988037941?text=${waMsg}`;
+
     document.getElementById('leadForm').innerHTML = `
       <div style="text-align:center;padding:24px 0;">
         <div style="font-size:48px;margin-bottom:16px;">✅</div>
         <h3 style="font-size:20px;font-weight:800;margin-bottom:8px;color:var(--text);">Solicitação enviada!</h3>
-        <p style="font-size:14px;color:var(--text2);line-height:1.6;">Nossa equipe entrará em contato<br>em até 24h pelo WhatsApp.</p>
+        <p style="font-size:14px;color:var(--text2);line-height:1.6;">Redirecionando para o WhatsApp...</p>
       </div>
     `;
+
+    setTimeout(() => { window.location.href = waUrl; }, 1500);
   }
 
   document.querySelectorAll('a[href^="#"]').forEach(a => {
