@@ -254,11 +254,8 @@
     .quem-text p b { color: var(--text); }
     .quem-photo {
       aspect-ratio: 3/4; border-radius: 18px;
-      border: 2px dashed var(--border-l);
-      background: linear-gradient(135deg, rgba(109,33,217,.05), rgba(168,85,247,.03));
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 12px;
-      color: var(--muted); font-size: 13px; text-align: center; padding: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(109,33,217,.18);
     }
 
     /* ── CASES ── */
@@ -571,8 +568,7 @@
         <p style="color:var(--muted);font-style:italic;">[Aguardando informações — pode me passar o texto aqui]</p>
       </div>
       <div class="quem-photo">
-        <div style="font-size:48px;">📸</div>
-        <span>Foto ou imagem da equipe</span>
+        <img src="pitch-davi.jpg" alt="Davi Braga — Pitch Company" style="width:100%;height:100%;object-fit:cover;border-radius:18px;">
       </div>
     </div>
   </div>
