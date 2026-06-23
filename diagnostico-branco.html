@@ -368,7 +368,7 @@
       .forwho-inner { grid-template-columns: 1fr; }
       .forwho-img { margin-top: 40px; }
       .quem-inner { grid-template-columns: 1fr; }
-      .quem-photo { display: none; }
+      .quem-photo { aspect-ratio: 3/4; max-width: 320px; margin: 32px auto 0; }
       .etapa { grid-template-columns: 1fr; gap: 24px; }
       .etapa-visual { overflow: visible; }
       .shot-grid-3 { grid-template-columns: repeat(2,1fr); }
@@ -683,6 +683,7 @@
           <label for="specialty">Especialidade / Área</label>
           <select id="specialty" required>
             <option value="">Selecione sua área</option>
+            <option>Médico Integrativo</option>
             <option>Médico — Clínico Geral</option>
             <option>Médico — Especialista</option>
             <option>Dentista / Odontologista</option>
