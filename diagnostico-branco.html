@@ -81,19 +81,24 @@
     .sec-head h2 em { font-style: normal; color: var(--purple); }
     .sec-head p { color: var(--text2); margin-top: 12px; font-size: 15px; }
 
+    @keyframes pulse-btn {
+      0%, 100% { box-shadow: 0 0 24px rgba(168,85,247,.35); }
+      50%       { box-shadow: 0 0 44px rgba(168,85,247,.65), 0 0 80px rgba(168,85,247,.2); }
+    }
     .btn {
       display: inline-flex; align-items: center; gap: 10px;
       background: linear-gradient(135deg, #A855F7, #7C3AED);
       color: #fff; font-size: 15px; font-weight: 800; letter-spacing: .3px;
       padding: 17px 34px; border-radius: 8px;
       text-decoration: none; border: none; cursor: pointer;
-      transition: all .25s;
-      box-shadow: 0 0 24px rgba(168,85,247,.35);
+      transition: background .25s, transform .25s;
+      animation: pulse-btn 2.8s ease-in-out infinite;
     }
     .btn:hover {
       background: linear-gradient(135deg, #C084FC, #A855F7);
       transform: translateY(-2px);
-      box-shadow: 0 0 40px rgba(168,85,247,.55);
+      animation: none;
+      box-shadow: 0 0 44px rgba(168,85,247,.7);
     }
 
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
@@ -108,7 +113,7 @@
     .bar a { color: #fff; font-weight: 800; text-decoration: underline; }
 
     /* ── HERO ── */
-    .hero { padding: 88px 0 72px; text-align: center; }
+    .hero { padding: 52px 0 72px; text-align: center; }
     .mob-br { display: none; }
 
     .hero h1 {
@@ -423,7 +428,7 @@
       em quem precisa ouvir e como sair do anonimato e se tornar uma personalidade
       notável <b>com seguidores engajados e compradores!</b>
     </p>
-    <a href="#form" class="btn" style="font-size:16px;padding:18px 40px;">QUERO MEU DIAGNÓSTICO 360 →</a>
+    <a href="#form" class="btn" style="font-size:16px;padding:18px 40px;">QUERO MEU DIAGNÓSTICO 360</a>
     <p class="hero-trust" style="margin-top:16px;">Análise 100% personalizada &nbsp;·&nbsp; Estratégia para o seu nicho &nbsp;·&nbsp; <b>30 dias de acompanhamento</b></p>
   </div>
 </section>
@@ -487,7 +492,7 @@
           </li>
         </ul>
         <div style="margin-top:36px;">
-          <a href="#form" class="btn">QUERO UM DIAGNÓSTICO DO MEU PERFIL →</a>
+          <a href="#form" class="btn">QUERO UM DIAGNÓSTICO DO MEU PERFIL</a>
         </div>
       </div>
 
@@ -548,7 +553,7 @@
     </div>
 
     <div style="text-align:center;margin-top:44px;">
-      <a href="#form" class="btn" style="font-size:16px;padding:18px 40px;">QUERO UM DIAGNÓSTICO DO MEU PERFIL →</a>
+      <a href="#form" class="btn" style="font-size:16px;padding:18px 40px;">QUERO UM DIAGNÓSTICO DO MEU PERFIL</a>
     </div>
   </div>
 </section>
@@ -615,7 +620,7 @@
       <a class="shot wide-depo" href="depo/anonimo.jpg.jpeg" target="_blank"><img src="depo/anonimo.jpg.jpeg" alt="Depoimento"></a>
     </div>
     <div style="text-align:center;margin-top:44px;">
-      <a href="#form" class="btn">QUERO MEU DIAGNÓSTICO 360 →</a>
+      <a href="#form" class="btn">QUERO MEU DIAGNÓSTICO 360</a>
     </div>
   </div>
 </section>
@@ -656,7 +661,7 @@
       </details>
     </div>
     <div style="text-align:center;margin-top:44px;">
-      <a href="#form" class="btn">QUERO MEU DIAGNÓSTICO 360 →</a>
+      <a href="#form" class="btn">QUERO MEU DIAGNÓSTICO 360</a>
     </div>
   </div>
 </section>
@@ -709,7 +714,7 @@
             <option>Mais de 50.000</option>
           </select>
         </div>
-        <button type="submit" class="fbtn">QUERO MEU DIAGNÓSTICO 360 →</button>
+        <button type="submit" class="fbtn">QUERO MEU DIAGNÓSTICO 360</button>
         <p class="fdis">🔒 Seus dados estão protegidos. Não enviamos spam.</p>
       </form>
     </div>
