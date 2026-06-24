@@ -237,8 +237,16 @@
         </div>
         <div class="card">
           <div class="card-title">Últimos Leads</div>
-          <div class="card-sub">Mais recentes primeiro</div>
+          <div class="card-sub">Mais recentes primeiro — <span style="color:var(--green);font-weight:700">MQL</span> = qualificado (5k+ seguidores)</div>
           <div id="diag-leads-table"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Fontes de Tráfego — Diagnóstico 360</div>
+          <div class="card-sub">UTMs dos leads capturados</div>
+          <table class="utm-table">
+            <thead><tr><th>UTM Source</th><th>UTM Campaign</th><th>UTM Medium</th><th>Leads</th></tr></thead>
+            <tbody id="diag-utm-tbody"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -562,25 +570,37 @@ async function loadDiag360(){
   }
 }
 
+function isMQL(seg){
+  if(!seg)return false;
+  return seg.includes('5.000 a 10.000')||seg.includes('10.000 a 50.000')||seg.includes('Mais de 50.000');
+}
+
 function renderDiag360(headers,rows){
   const cN=findCol(headers,'nome','name');
   const cE=findCol(headers,'especialidade','área','area','atuação','atuacao');
   const cS=findCol(headers,'seguidor');
   const cI=findCol(headers,'instagram');
   const cD=findCol(headers,'data','timestamp','created','envio','hora');
+  const cUS=findCol(headers,'utm_source','source');
+  const cUC=findCol(headers,'utm_campaign','campaign');
+  const cUM=findCol(headers,'utm_medium','medium');
 
   const total=rows.length;
+  const mqls=cS?rows.filter(r=>isMQL(r[cS])).length:0;
+  const nonMql=total-mqls;
   const week=rows.filter(r=>{
     if(!cD)return false;
     const d=new Date(r[cD]);
     return!isNaN(d)&&(Date.now()-d)<7*86400000;
   }).length;
 
+  const mqlPct=total?Math.round(mqls/total*100):0;
+
   document.getElementById('diag-kpi-grid').innerHTML=`
     <div class="kpi-card purple"><div class="kpi-label">Total de Leads</div><div class="kpi-value">${total}</div><div class="kpi-sub">desde o início</div></div>
-    <div class="kpi-card orange"><div class="kpi-label">Últimos 7 dias</div><div class="kpi-value">${week||'—'}</div><div class="kpi-sub">leads recentes</div></div>
-    <div class="kpi-card"><div class="kpi-label">Especialidade Top</div><div class="kpi-value" style="font-size:15px;line-height:1.3">${getTop(rows,cE)}</div><div class="kpi-sub">mais frequente</div></div>
-    <div class="kpi-card"><div class="kpi-label">Faixa Top</div><div class="kpi-value" style="font-size:15px;line-height:1.3">${getTop(rows,cS)}</div><div class="kpi-sub">de seguidores</div></div>
+    <div class="kpi-card green"><div class="kpi-label">MQL — Qualificados</div><div class="kpi-value">${mqls}</div><div class="kpi-sub">${mqlPct}% dos leads · 5k+ seguidores</div></div>
+    <div class="kpi-card orange"><div class="kpi-label">Não-MQL</div><div class="kpi-value">${nonMql}</div><div class="kpi-sub">${100-mqlPct}% dos leads · 2k–5k seg.</div></div>
+    <div class="kpi-card"><div class="kpi-label">Últimos 7 dias</div><div class="kpi-value">${week||0}</div><div class="kpi-sub">leads recentes</div></div>
   `;
 
   if(cE)renderBars('diag-specialty-list',countBy(rows,cE));
@@ -588,18 +608,46 @@ function renderDiag360(headers,rows){
 
   const cKeys=[cD,cN,cE,cS,cI].filter(Boolean);
   const cLabels={[cD]:'Data',[cN]:'Nome',[cE]:'Especialidade',[cS]:'Seguidores',[cI]:'Instagram'};
-  const recent=[...rows].reverse().slice(0,20);
+  const recent=[...rows].reverse().slice(0,30);
   document.getElementById('diag-leads-table').innerHTML=`
     <table class="utm-table">
-      <thead><tr>${cKeys.map(k=>`<th>${cLabels[k]}</th>`).join('')}</tr></thead>
-      <tbody>${recent.map(r=>`<tr>${cKeys.map(k=>{
-        const v=r[k]||'—';
-        if(k===cD)return`<td style="color:var(--text2);font-size:11px">${fmtDate(v)}</td>`;
-        if(k===cE)return`<td><span class="utm-badge">${v}</span></td>`;
-        if(k===cN)return`<td style="font-weight:600">${v}</td>`;
-        return`<td style="color:var(--text2)">${v}</td>`;
-      }).join('')}</tr>`).join('')}</tbody>
+      <thead><tr><th>MQL</th>${cKeys.map(k=>`<th>${cLabels[k]}</th>`).join('')}</tr></thead>
+      <tbody>${recent.map(r=>{
+        const mql=cS?isMQL(r[cS]):false;
+        const mqlBadge=mql
+          ?`<span style="background:#DCFCE7;color:#16A34A;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px">MQL</span>`
+          :`<span style="background:#F3F4F6;color:#9CA3AF;font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px">—</span>`;
+        return`<tr>${`<td>${mqlBadge}</td>`}${cKeys.map(k=>{
+          const v=r[k]||'—';
+          if(k===cD)return`<td style="color:var(--text2);font-size:11px">${fmtDate(v)}</td>`;
+          if(k===cE)return`<td><span class="utm-badge">${v}</span></td>`;
+          if(k===cN)return`<td style="font-weight:600">${v}</td>`;
+          return`<td style="color:var(--text2)">${v}</td>`;
+        }).join('')}</tr>`;
+      }).join('')}</tbody>
     </table>`;
+
+  /* UTM table */
+  const utmMap={};
+  rows.forEach(r=>{
+    const src=(cUS&&r[cUS])||'(direto)';
+    const camp=(cUC&&r[cUC])||'—';
+    const med=(cUM&&r[cUM])||'—';
+    const k=[src,camp,med].join('|||');
+    utmMap[k]=(utmMap[k]||0)+1;
+  });
+  const utmRows=Object.entries(utmMap).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  document.getElementById('diag-utm-tbody').innerHTML=utmRows.length
+    ?utmRows.map(([k,n])=>{
+        const[src,camp,med]=k.split('|||');
+        return`<tr>
+          <td><span class="utm-badge">${src}</span></td>
+          <td style="color:var(--text2);font-size:12px">${camp}</td>
+          <td style="color:var(--text2);font-size:12px">${med}</td>
+          <td style="font-weight:700">${n}</td>
+        </tr>`;
+      }).join('')
+    :`<tr><td colspan="4" style="color:var(--text2);font-size:13px;padding:16px">Nenhum UTM registrado nos leads.</td></tr>`;
 }
 
 function countBy(rows,col){
