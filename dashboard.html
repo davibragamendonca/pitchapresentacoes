@@ -207,6 +207,42 @@
       </div>
 
     </div><!-- /dash-content -->
+
+    <!-- DIAGNÓSTICO 360 -->
+    <div id="diag360-section">
+      <div style="border-top:3px solid var(--border);margin:40px 0 32px;"></div>
+      <div style="margin-bottom:24px">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--purple);margin-bottom:4px;">Funil 2</div>
+        <div style="font-size:22px;font-weight:900;margin-bottom:4px;">Diagnóstico 360</div>
+        <div style="font-size:13px;color:var(--text2)">Leads capturados na landing page branca</div>
+      </div>
+      <div id="diag-loading" class="state-msg" style="padding:40px"><h3>Carregando leads...</h3><p>Buscando dados da planilha</p></div>
+      <div id="diag-error" class="state-msg" style="display:none;padding:40px">
+        <h3>Planilha não acessível</h3>
+        <p>No Google Sheets: <b>Arquivo → Compartilhar → Publicar na web</b>, escolha formato CSV e clique em Publicar.</p>
+      </div>
+      <div id="diag-content" style="display:none">
+        <div class="kpi-grid" id="diag-kpi-grid"></div>
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card" style="margin-bottom:0">
+            <div class="card-title">Por Especialidade</div>
+            <div class="card-sub">Distribuição por área de atuação</div>
+            <div id="diag-specialty-list"></div>
+          </div>
+          <div class="card" style="margin-bottom:0">
+            <div class="card-title">Por Seguidores</div>
+            <div class="card-sub">Faixa de seguidores declarada</div>
+            <div id="diag-followers-list"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Últimos Leads</div>
+          <div class="card-sub">Mais recentes primeiro</div>
+          <div id="diag-leads-table"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -225,6 +261,7 @@ function doLogin(){
     document.getElementById('gate').style.display='none';
     document.getElementById('app').style.display='block';
     loadDashboard();
+    loadDiag360();
   }else{
     document.getElementById('gate-err').textContent='Senha incorreta.';
     document.getElementById('pass-inp').focus();
@@ -235,6 +272,7 @@ if(sessionStorage.getItem('_dauth')==='1'){
   document.getElementById('gate').style.display='none';
   document.getElementById('app').style.display='block';
   loadDashboard();
+  loadDiag360();
 }
 
 // ── Data ──────────────────────────────────────────────────────────────────────
@@ -262,7 +300,7 @@ async function loadDashboard(){
   }
 }
 
-function reloadData(){loadDashboard();}
+function reloadData(){loadDashboard();loadDiag360();}
 
 // ── Core render ───────────────────────────────────────────────────────────────
 function renderAll(){
@@ -473,6 +511,124 @@ function renderDailyChart(ev){
       }
     }
   });
+}
+
+// ── DIAGNÓSTICO 360 ───────────────────────────────────────────────────────────
+const SHEETS_ID='1EchncLBDb00uKG-hRuM9WlnTichjYCn_UXh9qtrxnGU';
+
+function splitCSVLine(line){
+  const r=[];let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i];
+    if(c==='"'){inQ=!inQ;continue;}
+    if(c===','&&!inQ){r.push(cur);cur='';continue;}
+    cur+=c;
+  }
+  r.push(cur);
+  return r.map(v=>v.trim());
+}
+
+function parseCSV(text){
+  const lines=text.trim().split('\n').filter(l=>l.trim());
+  if(!lines.length)return{headers:[],rows:[]};
+  const headers=splitCSVLine(lines[0]);
+  const rows=lines.slice(1).map(l=>{
+    const vals=splitCSVLine(l);
+    const obj={};
+    headers.forEach((h,i)=>obj[h]=vals[i]||'');
+    return obj;
+  }).filter(r=>Object.values(r).some(v=>v));
+  return{headers,rows};
+}
+
+function findCol(headers,...kws){
+  return headers.find(h=>kws.some(k=>h.toLowerCase().includes(k)));
+}
+
+async function loadDiag360(){
+  try{
+    const url=`https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv`;
+    const r=await fetch(url);
+    const text=await r.text();
+    if(text.trim().startsWith('<!'))throw new Error('not csv');
+    const{headers,rows}=parseCSV(text);
+    document.getElementById('diag-loading').style.display='none';
+    if(!rows.length){document.getElementById('diag-error').style.display='block';return;}
+    document.getElementById('diag-content').style.display='block';
+    renderDiag360(headers,rows);
+  }catch(e){
+    document.getElementById('diag-loading').style.display='none';
+    document.getElementById('diag-error').style.display='block';
+  }
+}
+
+function renderDiag360(headers,rows){
+  const cN=findCol(headers,'nome','name');
+  const cE=findCol(headers,'especialidade','área','area','atuação','atuacao');
+  const cS=findCol(headers,'seguidor');
+  const cI=findCol(headers,'instagram');
+  const cD=findCol(headers,'data','timestamp','created','envio','hora');
+
+  const total=rows.length;
+  const week=rows.filter(r=>{
+    if(!cD)return false;
+    const d=new Date(r[cD]);
+    return!isNaN(d)&&(Date.now()-d)<7*86400000;
+  }).length;
+
+  document.getElementById('diag-kpi-grid').innerHTML=`
+    <div class="kpi-card purple"><div class="kpi-label">Total de Leads</div><div class="kpi-value">${total}</div><div class="kpi-sub">desde o início</div></div>
+    <div class="kpi-card orange"><div class="kpi-label">Últimos 7 dias</div><div class="kpi-value">${week||'—'}</div><div class="kpi-sub">leads recentes</div></div>
+    <div class="kpi-card"><div class="kpi-label">Especialidade Top</div><div class="kpi-value" style="font-size:15px;line-height:1.3">${getTop(rows,cE)}</div><div class="kpi-sub">mais frequente</div></div>
+    <div class="kpi-card"><div class="kpi-label">Faixa Top</div><div class="kpi-value" style="font-size:15px;line-height:1.3">${getTop(rows,cS)}</div><div class="kpi-sub">de seguidores</div></div>
+  `;
+
+  if(cE)renderBars('diag-specialty-list',countBy(rows,cE));
+  if(cS)renderBars('diag-followers-list',countBy(rows,cS));
+
+  const cKeys=[cD,cN,cE,cS,cI].filter(Boolean);
+  const cLabels={[cD]:'Data',[cN]:'Nome',[cE]:'Especialidade',[cS]:'Seguidores',[cI]:'Instagram'};
+  const recent=[...rows].reverse().slice(0,20);
+  document.getElementById('diag-leads-table').innerHTML=`
+    <table class="utm-table">
+      <thead><tr>${cKeys.map(k=>`<th>${cLabels[k]}</th>`).join('')}</tr></thead>
+      <tbody>${recent.map(r=>`<tr>${cKeys.map(k=>{
+        const v=r[k]||'—';
+        if(k===cD)return`<td style="color:var(--text2);font-size:11px">${fmtDate(v)}</td>`;
+        if(k===cE)return`<td><span class="utm-badge">${v}</span></td>`;
+        if(k===cN)return`<td style="font-weight:600">${v}</td>`;
+        return`<td style="color:var(--text2)">${v}</td>`;
+      }).join('')}</tr>`).join('')}</tbody>
+    </table>`;
+}
+
+function countBy(rows,col){
+  if(!col)return{};
+  const c={};
+  rows.forEach(r=>{const v=r[col]||'(não informado)';c[v]=(c[v]||0)+1;});
+  return c;
+}
+
+function getTop(rows,col){
+  if(!col)return'—';
+  const entries=Object.entries(countBy(rows,col)).sort((a,b)=>b[1]-a[1]);
+  return entries[0]?.[0]||'—';
+}
+
+function renderBars(id,counts){
+  const sorted=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const max=sorted[0]?.[1]||1;
+  document.getElementById(id).innerHTML=`<div class="ans-list">${sorted.map(([l,n])=>`
+    <div class="ans-item">
+      <div class="ans-label" title="${l}">${l}</div>
+      <div class="ans-bar-wrap"><div class="ans-bar" style="width:${Math.round(n/max*100)}%"></div></div>
+      <div class="ans-count">${n}</div>
+    </div>`).join('')}</div>`;
+}
+
+function fmtDate(s){
+  if(!s||s==='—')return'—';
+  try{const d=new Date(s);if(isNaN(d))return s;return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit'});}catch{return s;}
 }
 
 // ── UTM Sources ───────────────────────────────────────────────────────────────
