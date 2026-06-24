@@ -547,7 +547,7 @@ function findCol(headers,...kws){
 
 async function loadDiag360(){
   try{
-    const url=`https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv`;
+    const url='https://docs.google.com/spreadsheets/d/e/2PACX-1vTgrS_nP5rfoDZXefcOp9B98ODhkuM9rYTmtengXnyXkPie4irT-cMUZSPseReUCpLkaFGcGDic0Ifi/pub?gid=1178488475&single=true&output=csv';
     const r=await fetch(url);
     const text=await r.text();
     if(text.trim().startsWith('<!'))throw new Error('not csv');
