@@ -419,19 +419,9 @@
     <p class="mat-desc" id="mat-desc"></p>
   </div>
 
-  <div class="res-card" style="padding-bottom:8px;">
-    <h3>Diagnóstico do Funil</h3>
-    <p>Avaliação dos pilares do seu funil de vendas digital.</p>
-    <div class="radar-canvas-wrap" id="results-radar-wrap">
-      <canvas id="c-results" width="500" height="500" style="max-width:100%;height:auto;display:block;margin:0 auto;"></canvas>
-    </div>
-  </div>
-
-  <div id="score-items"></div>
-  <div class="res-footer" id="res-footer-txt"></div>
-  <div style="padding:0 16px 16px;">
-    <button class="btn-dark" onclick="showCta()" style="border-radius:14px;">PRÓXIMO PASSO <span class="btn-arr">›</span></button>
-  </div>
+  <p style="padding:20px 20px 4px;text-align:center;font-size:16px;font-weight:800;color:var(--text);">Análise concluída.</p>
+  <p style="padding:0 24px 20px;text-align:center;font-size:13px;color:var(--text2);line-height:1.75;">Agende sua reunião para receber a análise individual do seu <b style="color:var(--text);">Perfil, Conteúdo, Posicionamento e Funil de Vendas.</b></p>
+  <div style="height:90px;"></div>
   <div class="page-footer">Criado por Pitch Company</div>
 </div>
 
@@ -573,11 +563,16 @@
   <div class="page-footer">Criado por Pitch Company · Todos os Direitos Reservados © 2026</div>
 </div>
 
+<!-- Botão fixo na tela de resultados -->
+<div id="res-fixed-cta" style="display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:12px 16px 16px;background:white;border-top:2px solid rgba(124,58,237,.15);z-index:300;box-shadow:0 -4px 20px rgba(0,0,0,.1);">
+  <button class="btn-dark" onclick="showCta()">AGENDAR ANÁLISE INDIVIDUAL <span class="btn-arr">›</span></button>
+</div>
+
 <script>
 const Qs = [
   // BLOCO 1 — Perfil e momento atual
   { id:1,  type:'single', title:'Qual é a sua especialidade?', sub:'Selecione a que melhor te descreve',
-    opts:[{e:'🌿',t:'Medicina Integrativa / Funcional'},{e:'🥗',t:'Nutrição Funcional'},{e:'🦷',t:'Dentista / Odontologista'},{e:'🫀',t:'Cardiologista / Medicina Especializada'},{e:'🌸',t:'Dermatologista'},{e:'🧠',t:'Psicologia / Psicoterapia'},{e:'🔄',t:'Outro profissional da saúde'}]
+    opts:[{e:'🌿',t:'Médico Integrativo'},{e:'⚕️',t:'Médico Especialista'},{e:'🔬',t:'Médico Ortomolecular'},{e:'👶',t:'Médico Pediatra'},{e:'🦷',t:'Dentista / Odontologista'},{e:'🌸',t:'Ginecologista'},{e:'✨',t:'Dermatologista ou Tricologista'},{e:'🥗',t:'Nutricionista Integrativo'}]
   },
   { id:3,  type:'single', title:'Sua presença no Instagram.', sub:'Como está seu perfil hoje?',
     opts:[{e:'🚫',t:'Não tenho perfil ainda'},{e:'📱',t:'Tenho mas posto raramente'},{e:'🔶',t:'Posto com alguma frequência mas sem estratégia clara'},{e:'📊',t:'Posto regularmente mas não converto em pacientes ou vendas'}]
@@ -605,7 +600,7 @@ const Qs = [
   },
   // BLOCO 5 — Dados quantitativos
   { id:12, type:'single', title:'Seguidores no Instagram.', sub:'Quantos seguidores você tem hoje?',
-    opts:[{e:'🌱',t:'Menos de 1.000'},{e:'📊',t:'Entre 1.000 e 5.000'},{e:'📈',t:'Entre 5.000 e 20.000'},{e:'🔥',t:'Mais de 20.000'}]
+    opts:[{e:'📊',t:'2.000 a 5.000'},{e:'📈',t:'5.000 a 10.000'},{e:'🚀',t:'10.000 a 50.000'},{e:'🔥',t:'Mais de 50.000'}]
   },
   { id:13, type:'single', title:'Atendimentos mensais.', sub:'Quantos atendimentos você faz em média por mês?',
     opts:[{e:'🌱',t:'Menos de 20 atendimentos'},{e:'📋',t:'Entre 20 e 50 atendimentos'},{e:'📊',t:'Entre 50 e 100 atendimentos'},{e:'🏆',t:'Entre 100 e 200 atendimentos'},{e:'🔥',t:'Mais de 200 atendimentos'}]
@@ -831,7 +826,6 @@ function buildResults(sc){
   document.getElementById('mat-thumb').style.left=sc.matPos+'%';
   document.getElementById('mat-desc').textContent=sc.matDesc;
 
-  // Profile box
   const isExpansao = sc.profile === 'B';
   document.getElementById('profile-box-wrap').innerHTML=`
     <div class="profile-box ${isExpansao?'expansao':'construcao'}">
@@ -843,35 +837,17 @@ function buildResults(sc){
       }</p>
     </div>`;
 
-  // Radar
-  const RADAR_LABELS=['Presença','Posicion.','Conteúdo','Audiência','Infoprod.','Conversão','Estratégia','Potencial'];
-  setTimeout(()=>{
-    const ctx=document.getElementById('c-results').getContext('2d');
-    drawRadarChart(ctx,sc.dims,[],getRadarColor(sc.avg),false,true,()=>{
-      positionRadarLabels('results-radar-wrap',sc.dims,RADAR_LABELS);
-    });
-  },400);
-
-  // Score items
-  let html='';
-  sc.dims.forEach((d,i)=>{
-    const col=scoreColor(d);const lv=d<=3?0:d<=5?1:d<=7?2:3;
-    html+=`<div class="score-item"><div class="score-top"><div class="score-name"><div class="sdot" style="background:${col}"></div>${DIM_NAMES[i]}</div><div class="sbadge" style="background:${col}20;color:${col}">${d}/10</div></div><p class="score-desc">${DIM_DESCS[i][lv]}</p></div>`;
-  });
-  document.getElementById('score-items').innerHTML=html;
-  document.getElementById('res-footer-txt').textContent=`Seu perfil foi identificado: ${isExpansao?'Expansão':'Construção'}. O Diagnóstico 360 vai te mostrar exatamente o plano certo para o seu momento.`;
-
-  // CTA
-  const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese de Funil Digital. Meu perfil é ${isExpansao?'Expansão':'Construção'} — quero garantir o meu Diagnóstico 360!`);
+  const msg=encodeURIComponent(`Oii, sou ${first} e quero agendar o Diagnóstico 360!`);
   const waUrl=`https://wa.me/5512988037941?text=${msg}`;
   window._waUrl=waUrl;
   document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom,.wa-cta-btn').forEach(b=>{b.href=waUrl;b.onclick=()=>_track('cta_click',{profile:sc.profile});});
   document.getElementById('cta-body-text').innerHTML=isExpansao
     ?`Seu perfil <b>Expansão</b> indica que você tem tudo para escalar. O Diagnóstico 360 vai estruturar seu funil e lançamento com um plano personalizado para o seu caso.`
     :`Seu perfil <b>Construção</b> tem potencial real. O Diagnóstico 360 vai te dar o plano exato para construir base, autoridade e começar a converter digitalmente.`;
+  document.getElementById('res-fixed-cta').style.display='block';
 }
 
-function showCta(){_track('cta_view');if(window._waUrl)document.querySelectorAll('.wa-cta-btn').forEach(b=>{b.href=window._waUrl;b.onclick=()=>_track('cta_click');});show('s-cta');window.scrollTo(0,0);}
+function showCta(){_track('cta_view');document.getElementById('res-fixed-cta').style.display='none';if(window._waUrl)document.querySelectorAll('.wa-cta-btn').forEach(b=>{b.href=window._waUrl;b.onclick=()=>_track('cta_click');});show('s-cta');window.scrollTo(0,0);}
 
 function drawRadarChart(ctx,data,labels,primaryColor,showLabels,doAnimate,onComplete){
   const W=ctx.canvas.width,H=ctx.canvas.height,cx=W/2,cy=H/2;
