@@ -178,6 +178,92 @@
     .cta-duvida{text-align:center;font-size:13px;color:var(--text2);}
     .cta-duvida a{color:var(--purple);font-weight:600;text-decoration:underline;}
     .page-footer{text-align:center;padding:20px 16px;font-size:11px;color:#9CA3AF;}
+
+    /* ── SEÇÕES DIAGNÓSTICO (intro + cta) ────────────────────────────────── */
+    @keyframes pulse-diag{0%,100%{box-shadow:0 0 24px rgba(168,85,247,.35);}50%{box-shadow:0 0 44px rgba(168,85,247,.65),0 0 80px rgba(168,85,247,.2);}}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .dot-live{display:inline-block;width:8px;height:8px;background:#DC2626;border-radius:50%;animation:blink 1.5s infinite;vertical-align:middle;}
+    .announce-bar{background:linear-gradient(135deg,#6B21A8,#4C1D95);color:#fff;text-align:center;padding:10px 16px;font-size:13px;font-weight:600;flex-shrink:0;}
+    .glow-line{height:1px;background:linear-gradient(90deg,transparent,rgba(109,33,217,.2) 35%,rgba(109,33,217,.4) 50%,rgba(109,33,217,.2) 65%,transparent);flex-shrink:0;}
+    .d-wrap{max-width:100%;padding:0 20px;}
+    .tag-diag{display:inline-block;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:#9333EA;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:4px;}
+    .sec-head-d{text-align:center;margin-bottom:28px;}
+    .sec-head-d h2{font-size:clamp(20px,5vw,30px);font-weight:800;line-height:1.2;margin-top:10px;color:#1C0B3D;}
+    .sec-head-d h2 em{font-style:normal;color:#7C3AED;}
+    .sec-head-d p{color:#4B3472;margin-top:8px;font-size:13px;line-height:1.6;}
+
+    /* Hero */
+    .hero-sec{padding:28px 20px 56px;text-align:center;background:white;}
+    .hero-h1{font-size:clamp(22px,6vw,34px);font-weight:900;line-height:1.15;letter-spacing:-0.5px;margin:0 auto 16px;color:#1C0B3D;}
+    .hero-h1 em{font-style:normal;color:#7C3AED;}
+    .hero-h1 strong{color:#7C3AED;}
+    .hero-sub{font-size:14px;color:#4B3472;margin:0 auto 10px;line-height:1.75;}
+    .hero-sub b{color:#1C0B3D;}
+    .hero-trust{font-size:11px;color:#9CA3AF;margin-top:4px;}
+
+    /* Dores */
+    .pain-sec{padding:40px 20px;background:#F7F5FF;border-top:1px solid rgba(109,33,217,.14);border-bottom:1px solid rgba(109,33,217,.14);}
+    .pain-grid-d{display:flex;flex-direction:column;gap:10px;}
+    .pain-card-d{background:white;border:1px solid rgba(109,33,217,.14);border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;}
+    .pain-ico{width:34px;height:34px;background:rgba(255,71,87,.08);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+    .pain-card-d p{font-size:13px;color:#4B3472;line-height:1.55;}
+    .pain-card-d p strong{color:#1C0B3D;}
+
+    /* Para quem é */
+    .forwho-sec{padding:40px 20px;background:white;border-top:1px solid rgba(109,33,217,.14);}
+    .forwho-h2{font-size:clamp(22px,5vw,30px);font-weight:900;line-height:1.15;color:#1C0B3D;margin-bottom:20px;}
+    .forwho-h2 em{font-style:normal;color:#7C3AED;}
+    .checklist-d{list-style:none;display:flex;flex-direction:column;gap:12px;}
+    .checklist-d li{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#4B3472;line-height:1.6;}
+    .chk-d{width:20px;height:20px;flex-shrink:0;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:5px;display:flex;align-items:center;justify-content:center;color:#7C3AED;font-size:9px;font-weight:800;margin-top:2px;}
+    .forwho-mockup{width:100%;max-width:220px;display:block;margin:24px auto 0;filter:drop-shadow(0 16px 40px rgba(109,33,217,.2));}
+
+    /* 4 Etapas */
+    .etapas-sec{padding:40px 20px;background:#F7F5FF;border-top:1px solid rgba(109,33,217,.14);}
+    .etapa-d{background:white;border:1px solid rgba(109,33,217,.14);border-radius:14px;padding:18px;display:flex;gap:14px;align-items:flex-start;margin-bottom:12px;}
+    .etapa-d:last-child{margin-bottom:0;}
+    .etapa-ico-d{font-size:22px;width:46px;height:46px;background:rgba(168,85,247,.1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .etapa-num-d{font-size:9px;font-weight:800;color:#7C3AED;letter-spacing:2px;text-transform:uppercase;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.25);padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;}
+    .etapa-d h3{font-size:14px;font-weight:800;color:#1C0B3D;margin-bottom:6px;line-height:1.25;}
+    .etapa-d p{font-size:13px;color:#4B3472;line-height:1.65;}
+
+    /* Quem somos */
+    .quem-sec{padding:40px 20px;background:white;border-top:1px solid rgba(109,33,217,.14);}
+    .quem-h2{font-size:clamp(20px,5vw,28px);font-weight:800;line-height:1.2;margin-bottom:14px;color:#1C0B3D;}
+    .quem-h2 em{font-style:normal;color:#7C3AED;}
+    .quem-p{font-size:13px;color:#4B3472;line-height:1.75;margin-bottom:10px;}
+    .quem-p b{color:#1C0B3D;}
+    .quem-photo-d{border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(109,33,217,.18);margin-top:20px;}
+    .quem-photo-d img{width:100%;height:auto;display:block;}
+
+    /* Cases */
+    .cases-sec{padding:40px 20px;background:#F7F5FF;border-top:1px solid rgba(109,33,217,.14);}
+    .shot-grid-d{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+    .shot-d{border-radius:10px;overflow:hidden;border:1px solid rgba(109,33,217,.14);display:block;transition:transform .2s,box-shadow .2s;}
+    .shot-d:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(168,85,247,.2);}
+    .shot-d img{width:100%;height:auto;display:block;}
+
+    /* Depoimentos */
+    .testi-sec{padding:40px 20px;background:white;border-top:1px solid rgba(109,33,217,.14);}
+    .depo-grid-d{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+    .depo-grid-d .shot-d.wide-d{grid-column:span 2;}
+
+    /* FAQ */
+    .faq-sec{padding:40px 20px;background:#F7F5FF;border-top:1px solid rgba(109,33,217,.14);}
+    .faq-list-d{display:flex;flex-direction:column;gap:2px;}
+    .fi-d{background:white;border:1px solid rgba(109,33,217,.14);border-radius:10px;overflow:hidden;}
+    .fi-d[open]{border-color:rgba(168,85,247,.35);}
+    .fi-d summary{padding:14px 16px;font-size:13px;font-weight:600;color:#1C0B3D;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;}
+    .fi-d summary::-webkit-details-marker{display:none;}
+    .fi-d summary::after{content:'+';font-size:18px;color:#7C3AED;font-weight:300;flex-shrink:0;transition:transform .2s;}
+    .fi-d[open] summary::after{transform:rotate(45deg);}
+    .fi-d .fa-d{padding:0 16px 14px;font-size:13px;color:#4B3472;line-height:1.65;}
+    .fi-d .fa-d b{color:#1C0B3D;}
+
+    /* Final CTA */
+    .final-cta-sec{padding:44px 20px;background:linear-gradient(135deg,#6B21A8,#4C1D95);text-align:center;}
+    .final-cta-sec h2{font-size:clamp(18px,5vw,26px);font-weight:900;color:#fff;margin-bottom:10px;line-height:1.2;}
+    .final-cta-sec p{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:24px;line-height:1.6;}
   </style>
 </head>
 <body>
@@ -185,24 +271,58 @@
 
 <!-- INTRO -->
 <div class="screen active" id="s-intro">
-  <div class="intro-top">
-    <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo">
-    <div class="intro-badge">🚀 Anamnese de Funil Digital</div>
-    <h1 class="intro-h1">Enquanto você não está no digital, outro médico está atendendo <span style="color:var(--purple)">seus próximos pacientes.</span></h1>
-    <p class="intro-sub">Quantos pacientes ideais você perdeu esta semana para alguém com metade da sua formação, mas com o dobro da presença online? A Anamnese Digital revela isso.</p>
-  </div>
-  <div class="intro-cards">
-    <div class="intro-card">
-      <div class="ic-num">#01</div>
-      <h3>Descubra seu Perfil Digital</h3>
-      <p>Em menos de 5 minutos, nossa análise identifica se você está no momento de Construção ou Expansão — e o que fazer em cada cenário.</p>
+
+  <!-- Barra de anúncio -->
+  <div class="announce-bar"><span class="dot-live" style="margin-right:8px;"></span><strong>5 Vagas abertas</strong> — Diagnóstico 360 Grátis</div>
+
+  <!-- Hero -->
+  <div class="hero-sec">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:24px;">
+      <img src="logo-roxo.svg" alt="Pitch Company" class="intro-logo" style="margin-bottom:0;">
+      <span style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6D28D9;background:rgba(109,40,217,.08);border:1px solid rgba(109,40,217,.25);padding:4px 14px;border-radius:100px;">Diagnóstico 360 — Grátis</span>
     </div>
-    <div class="intro-card">
-      <div class="ic-num">#02</div>
-      <h3>Agende sua Análise Individual</h3>
-      <p>Com base no seu perfil, vamos analisar seu caso de forma individual — seu Instagram, seu nicho e seus concorrentes — e te entregar um plano de ação personalizado para você executar.</p>
+    <h1 class="hero-h1">Médico, descubra por que seu <em>Instagram</em> não cresce e o que fazer para atrair milhares de seguidores que valorizam o que você entrega e <strong>venda todos os dias.</strong></h1>
+    <p class="hero-sub">O <b>Diagnóstico 360 Gratuito</b> vai te mostrar por que sua mensagem não está chegando em quem precisa ouvir e como se tornar uma autoridade notável <b>com seguidores engajados e compradores nos próximos 30 dias!</b></p>
+    <p class="hero-trust">100% Gratuito &nbsp;·&nbsp; Análise personalizada &nbsp;·&nbsp; Estratégia para o seu nicho</p>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <!-- Dores -->
+  <div class="pain-sec">
+    <div class="sec-head-d">
+      <div class="tag-diag">VOCÊ SE IDENTIFICA?</div>
+      <h2>Reconhece algum desses <em>sintomas</em>?</h2>
+      <p>Se você respondeu sim para pelo menos 2, o Diagnóstico 360 foi feito para você.</p>
+    </div>
+    <div class="pain-grid-d">
+      <div class="pain-card-d"><div class="pain-ico">📉</div><p>Você posta conteúdo com frequência, mas o perfil <strong>não cresce</strong> e o engajamento está travado</p></div>
+      <div class="pain-card-d"><div class="pain-ico">🎯</div><p>Seus seguidores <strong>não viram clientes</strong> — o perfil existe mas não converte</p></div>
+      <div class="pain-card-d"><div class="pain-ico">🤔</div><p>Você não sabe <strong>por que o concorrente cresce</strong> e você não, mesmo tendo mais qualificação</p></div>
+      <div class="pain-card-d"><div class="pain-ico">🔇</div><p>Você tem autoridade e conhecimento, mas <strong>não sabe como posicionar isso no digital</strong></p></div>
+      <div class="pain-card-d"><div class="pain-ico">🕳️</div><p>Seu <strong>funil de vendas não existe ou não funciona</strong> — você depende só de indicação</p></div>
+      <div class="pain-card-d"><div class="pain-ico">😓</div><p>Você já tentou várias estratégias e <strong>nenhuma trouxe resultado consistente</strong> até agora</p></div>
     </div>
   </div>
+
+  <div class="glow-line"></div>
+
+  <!-- Para quem é -->
+  <div class="forwho-sec">
+    <div class="tag-diag" style="margin-bottom:14px;">PARA QUEM É</div>
+    <h2 class="forwho-h2">Pra quem é esse <em>DIAGNÓSTICO?</em></h2>
+    <ul class="checklist-d">
+      <li><span class="chk-d">✓</span>Pra médicos que já atendem, têm autoridade no consultório, mas ainda não conseguiram transformar isso em presença digital consistente.</li>
+      <li><span class="chk-d">✓</span>Pra quem já posta conteúdo mas sente que o perfil não cresce — ou cresce, mas não converte em pacientes e vendas.</li>
+      <li><span class="chk-d">✓</span>Pra médicos que dependem de indicação e querem criar um canal digital que gera pacientes todos os meses, de forma previsível.</li>
+      <li><span class="chk-d">✓</span>Pra quem tem conhecimento e autoridade, mas ainda não sabe como posicioná-los no Instagram para se destacar na sua especialidade.</li>
+      <li><span class="chk-d">✓</span>Pra quem já tem uma audiência, mas os seguidores não engajam, não compram e não indicam.</li>
+      <li><span class="chk-d">✓</span>Pra quem quer construir um funil de vendas real — e parar de depender de post viral ou sorte para crescer.</li>
+    </ul>
+    <img src="diag360-mockup.png" alt="Diagnóstico 360" class="forwho-mockup">
+  </div>
+
+  <!-- Botão fixo para iniciar -->
   <div class="intro-cta-fixed">
     <button class="btn-dark" onclick="startQuiz()">INICIAR MINHA ANAMNESE <span class="btn-arr">›</span></button>
   </div>
@@ -340,62 +460,116 @@
   <p class="cta-text" id="cta-body-text">Seu perfil foi identificado.<br><b>Toque abaixo e garanta sua vaga no Diagnóstico 360.</b></p>
   <a class="btn-wa-g" id="btn-wa-cta" href="https://wa.me/5512988037941" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
 
-  <div class="ia-forwho">
-    <h2 class="ia-section-title">O Diagnóstico 360 é <span style="color:var(--purple)">para você?</span></h2>
-    <p class="ia-section-sub">Veja se você é o perfil certo antes de clicar</p>
-    <div class="ia-fw-yes">
-      <h3>✅ É para você se...</h3>
-      <ul class="ia-fw-list">
-        <li>✓ Você é profissional de saúde que quer crescer no digital e ser referência no nicho</li>
-        <li>✓ Você quer criar renda além dos atendimentos com infoprodutos ou mentorias</li>
-        <li>✓ Você está cansado de postar sem resultado e quer entender o que há de errado</li>
-        <li>✓ Você quer um plano claro de funil e lançamento para executar com suporte</li>
-      </ul>
+  <!-- 4 Etapas -->
+  <div class="etapas-sec">
+    <div class="sec-head-d">
+      <div class="tag-diag">METODOLOGIA</div>
+      <h2>O que você vai levar nessa <em>sessão estratégica</em>:</h2>
     </div>
-    <div class="ia-fw-no">
-      <h3>❌ Não é para você se...</h3>
-      <ul class="ia-fw-list">
-        <li>✗ Você busca resultados imediatos sem nenhuma implementação</li>
-        <li>✗ Você não está disposto a receber feedback honesto sobre seu perfil</li>
-        <li>✗ Você quer apenas seguidores sem pensar em conversão ou monetização</li>
-      </ul>
+    <div class="etapa-d">
+      <div class="etapa-ico-d">🔍</div>
+      <div>
+        <div class="etapa-num-d">01</div>
+        <h3>Análise da sua estrutura atual no Instagram</h3>
+        <p>Vamos identificar os gargalos invisíveis que estão te mantendo no anonimato e mostrar exatamente o que precisa ser corrigido pra começar a atrair seguidores qualificados.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="ia-faq" style="padding-top:0;">
-    <h2 class="ia-section-title">Perguntas <span style="color:var(--purple)">frequentes</span></h2>
-    <p class="ia-section-sub">Tire suas dúvidas antes de avançar</p>
-    <div class="ia-faq-list">
-      <details class="ia-fi"><summary>Preciso ter muitos seguidores para contratar?</summary><p>Não. O diagnóstico é eficaz independente do tamanho do perfil. Trabalhamos com profissionais em diferentes momentos — de quem está construindo até quem já quer escalar.</p></details>
-      <details class="ia-fi"><summary>O diagnóstico foca em infoproduto ou captação de pacientes?</summary><p>Nos dois — ele é personalizado para o seu perfil. Quem está no perfil Expansão recebe estratégia de infoproduto e funil de vendas. Quem está em Construção recebe estratégia de posicionamento e captação.</p></details>
-      <details class="ia-fi"><summary>Quanto tempo dura o processo completo?</summary><p>O Diagnóstico 360 tem duração total de 30 dias — incluindo as reuniões, entrega do PDF e acompanhamento via WhatsApp para execução do plano.</p></details>
+    <div class="etapa-d">
+      <div class="etapa-ico-d">✍️</div>
+      <div>
+        <div class="etapa-num-d">02</div>
+        <h3>Leitura do seu conteúdo e posicionamento</h3>
+        <p>Vamos avaliar se o que você posta ativa os 3 níveis da atenção digital e te mostrar como transformar suas ideias em conteúdo que engaja, conecta e vende.</p>
+      </div>
     </div>
-  </div>
-
-  <div class="ia-testi" style="padding-top:0;">
-    <h2 class="ia-section-title">O que dizem <span style="color:var(--purple)">quem já fez</span></h2>
-    <p class="ia-section-sub">Resultados reais de profissionais de saúde</p>
-    <div class="ia-testi-masonry">
-      <div class="ia-testi-item"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento"></div>
-      <div class="ia-testi-item"><img src="depo/daniela.jpg.jpeg" alt="Depoimento"></div>
-      <div class="ia-testi-item"><img src="depo/giu.jpg.jpeg" alt="Depoimento"></div>
-      <div class="ia-testi-item"><img src="depo/mariana.jpg.jpeg" alt="Depoimento"></div>
-      <div class="ia-testi-item"><img src="depo/michele.jpg.jpeg" alt="Depoimento"></div>
-      <div class="ia-testi-item"><img src="depo/taina.jpg.jpeg" alt="Depoimento"></div>
+    <div class="etapa-d">
+      <div class="etapa-ico-d">👥</div>
+      <div>
+        <div class="etapa-num-d">03</div>
+        <h3>Alinhamento dos pilares da sua audiência</h3>
+        <p>Você vai entender quais ajustes fazer na sua bio, nos seus temas e na forma como se comunica pra atrair seguidores que valorizam o que você entrega e querem pagar por isso.</p>
+      </div>
     </div>
-    <div class="ia-cases-title">Resultados dos nossos clientes</div>
-    <div class="ia-testi-masonry">
-      <div class="ia-testi-item"><img src="cases/viral-1.jpg.jpeg" alt="Resultado"></div>
-      <div class="ia-testi-item"><img src="cases/viral-2.jpg.jpeg" alt="Resultado"></div>
-      <div class="ia-testi-item"><img src="cases/roas-1.jpg.jpeg" alt="Resultado"></div>
-      <div class="ia-testi-item"><img src="cases/roas-2.jpg.jpeg" alt="Resultado"></div>
-    </div>
-    <div style="padding:20px 0 8px;">
-      <a class="btn-wa-g" id="btn-wa-bottom" href="https://wa.me/5512988037941" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
+    <div class="etapa-d">
+      <div class="etapa-ico-d">🎯</div>
+      <div>
+        <div class="etapa-num-d">04</div>
+        <h3>Plano de ação pra atrair seguidores qualificados</h3>
+        <p>Você vai sair da sessão com um plano prático e personalizado pra começar a atrair os seguidores certos: pessoas que engajam, compartilham e compram o que você vende.</p>
+      </div>
     </div>
   </div>
 
-  <p class="cta-duvida">Dúvidas? <a href="https://wa.me/5512988037941" target="_blank">Fale com a gente no WhatsApp.</a></p>
+  <!-- Quem é a Pitch -->
+  <div class="quem-sec">
+    <div class="tag-diag" style="margin-bottom:14px;">QUEM SOMOS</div>
+    <h2 class="quem-h2">Quem é a <em>Pitch Company?</em></h2>
+    <p class="quem-p">A Pitch Company é uma <b>aceleradora especializada em posicionamento e crescimento digital</b> para médicos e profissionais da Medicina Integrativa. Vivemos exclusivamente da internet e já ajudamos dezenas de especialistas da saúde a gerarem mais de <b>R$ 1 milhão em vendas</b> através do digital.</p>
+    <p class="quem-p">Hoje, nossas estratégias já impactaram milhares de vidas e ajudaram profissionais da saúde a conquistarem mais autoridade, atraírem os pacientes certos e <b>expandirem sua missão através da internet.</b></p>
+    <div class="quem-photo-d"><img src="pitch-davi.png" alt="Davi Braga — Pitch Company"></div>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <!-- Cases -->
+  <div class="cases-sec">
+    <div class="sec-head-d">
+      <div class="tag-diag">CASES DE SUCESSO</div>
+      <h2>Números <em>reais</em> de clientes da Pitch Company</h2>
+      <p>Conteúdo orgânico viral e resultados comprovados</p>
+    </div>
+    <div class="shot-grid-d">
+      <a class="shot-d" href="cases/viral-1.jpg.jpeg" target="_blank"><img src="cases/viral-1.jpg.jpeg" alt="648K views"></a>
+      <a class="shot-d" href="cases/viral-2.jpg.jpeg" target="_blank"><img src="cases/viral-2.jpg.jpeg" alt="296K views"></a>
+      <a class="shot-d" href="cases/viral-3.jpg.jpeg" target="_blank"><img src="cases/viral-3.jpg.jpeg" alt="320K views"></a>
+      <a class="shot-d" href="cases/viral-4.jpeg" target="_blank"><img src="cases/viral-4.jpeg" alt="865K views"></a>
+      <a class="shot-d" href="cases/viral-5.jpeg" target="_blank"><img src="cases/viral-5.jpeg" alt="11,8mi views"></a>
+      <a class="shot-d" href="cases/viral-6.jpeg" target="_blank"><img src="cases/viral-6.jpeg" alt="10,4mi views"></a>
+    </div>
+  </div>
+
+  <!-- Depoimentos -->
+  <div class="testi-sec">
+    <div class="sec-head-d">
+      <div class="tag-diag">DEPOIMENTOS</div>
+      <h2>O que nossos <em>clientes dizem</em></h2>
+      <p>Prints reais de profissionais que passaram pelo Diagnóstico 360</p>
+    </div>
+    <div class="depo-grid-d">
+      <a class="shot-d" href="depo/mariana.jpg.jpeg" target="_blank"><img src="depo/mariana.jpg.jpeg" alt="Dra. Mariana Vilasboas"></a>
+      <a class="shot-d" href="depo/giu.jpg.jpeg" target="_blank"><img src="depo/giu.jpg.jpeg" alt="Giu Soares"></a>
+      <a class="shot-d" href="depo/taina.jpg.jpeg" target="_blank"><img src="depo/taina.jpg.jpeg" alt="Tainá Garcia"></a>
+      <a class="shot-d" href="depo/daniela.jpg.jpeg" target="_blank"><img src="depo/daniela.jpg.jpeg" alt="Daniela Arakelian"></a>
+      <a class="shot-d wide-d" href="depo/michele.jpg.jpeg" target="_blank"><img src="depo/michele.jpg.jpeg" alt="Michele Cristiane Mendes"></a>
+      <a class="shot-d wide-d" href="depo/franciaine.jpg.jpeg" target="_blank"><img src="depo/franciaine.jpg.jpeg" alt="Franciaine Cardoso"></a>
+    </div>
+  </div>
+
+  <div class="glow-line"></div>
+
+  <!-- FAQ -->
+  <div class="faq-sec">
+    <div class="sec-head-d">
+      <div class="tag-diag">DÚVIDAS</div>
+      <h2>Perguntas que você <em>provavelmente tem</em></h2>
+    </div>
+    <div class="faq-list-d">
+      <details class="fi-d"><summary>Quanto tempo dura o processo completo?</summary><div class="fa-d">O Diagnóstico 360 tem duração total de <b>30 dias</b>. A fase de análise interna acontece nas primeiras semanas, seguida da entrega e apresentação. Os 30 dias incluem o período de acompanhamento e suporte para execução do plano de ação.</div></details>
+      <details class="fi-d"><summary>O diagnóstico é genérico ou personalizado para mim?</summary><div class="fa-d"><b>100% personalizado.</b> Tudo começa com uma reunião estratégica onde nossa equipe entende seu nicho, sua audiência, seus produtos e sua realidade. O diagnóstico, o funil ideal e o plano de ação são construídos especificamente para você — não existe template genérico.</div></details>
+      <details class="fi-d"><summary>Preciso ter muitos seguidores para contratar?</summary><div class="fa-d">Não. O diagnóstico é eficaz <b>independente do tamanho do perfil</b>. Muitos profissionais que nos procuram estão na fase de construção e precisam exatamente de uma base estratégica sólida para crescer com consistência desde o início.</div></details>
+      <details class="fi-d"><summary>O diagnóstico foca em infoproduto ou captação de pacientes?</summary><div class="fa-d">Nos dois — ele é <b>100% personalizado para o seu perfil.</b> Quem está no perfil Expansão recebe estratégia de infoproduto e funil de vendas. Quem está em Construção recebe estratégia de posicionamento e captação de pacientes.</div></details>
+      <details class="fi-d"><summary>Como funciona o suporte durante os 30 dias?</summary><div class="fa-d">Você terá acesso a um <b>grupo exclusivo no WhatsApp</b> com a equipe da Pitch Company. Suporte para dúvidas, acompanhamento da execução do plano e consolidação do posicionamento digital durante todo o período.</div></details>
+    </div>
+  </div>
+
+  <!-- CTA Final -->
+  <div class="final-cta-sec">
+    <h2>Pronto para descobrir o que está te impedindo de crescer?</h2>
+    <p>Garanta uma das 5 vagas disponíveis para o Diagnóstico 360 Gratuito</p>
+    <a class="btn-wa-g wa-cta-btn" id="btn-wa-bottom" href="https://wa.me/5512988037941" target="_blank">AGENDAR DIAGNÓSTICO 360 →</a>
+  </div>
+
+  <p class="cta-duvida" style="padding:12px 16px;">Dúvidas? <a href="https://wa.me/5512988037941" target="_blank">Fale com a gente no WhatsApp.</a></p>
   <div class="page-footer">Criado por Pitch Company · Todos os Direitos Reservados © 2026</div>
 </div>
 
@@ -690,13 +864,14 @@ function buildResults(sc){
   // CTA
   const msg=encodeURIComponent(`Oii, me chamo ${first} e acabei de fazer a minha Anamnese de Funil Digital. Meu perfil é ${isExpansao?'Expansão':'Construção'} — quero garantir o meu Diagnóstico 360!`);
   const waUrl=`https://wa.me/5512988037941?text=${msg}`;
-  document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom').forEach(b=>{b.href=waUrl;b.onclick=()=>_track('cta_click',{profile:sc.profile});});
+  window._waUrl=waUrl;
+  document.querySelectorAll('#btn-wa-cta,#btn-wa-bottom,.wa-cta-btn').forEach(b=>{b.href=waUrl;b.onclick=()=>_track('cta_click',{profile:sc.profile});});
   document.getElementById('cta-body-text').innerHTML=isExpansao
     ?`Seu perfil <b>Expansão</b> indica que você tem tudo para escalar. O Diagnóstico 360 vai estruturar seu funil e lançamento com um plano personalizado para o seu caso.`
     :`Seu perfil <b>Construção</b> tem potencial real. O Diagnóstico 360 vai te dar o plano exato para construir base, autoridade e começar a converter digitalmente.`;
 }
 
-function showCta(){_track('cta_view');show('s-cta');window.scrollTo(0,0);}
+function showCta(){_track('cta_view');if(window._waUrl)document.querySelectorAll('.wa-cta-btn').forEach(b=>{b.href=window._waUrl;b.onclick=()=>_track('cta_click');});show('s-cta');window.scrollTo(0,0);}
 
 function drawRadarChart(ctx,data,labels,primaryColor,showLabels,doAnimate,onComplete){
   const W=ctx.canvas.width,H=ctx.canvas.height,cx=W/2,cy=H/2;
