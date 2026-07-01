@@ -55,6 +55,10 @@
     .opt-t{flex:1;}
     .opt-c{color:#9CA3AF;font-size:15px;flex-shrink:0;}
     .opt.sel .opt-c{color:#111827;}
+    .opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+    .opt-grid .opt{margin-bottom:0;font-size:12px;padding:11px 10px;gap:7px;border-radius:12px;flex-direction:column;align-items:flex-start;height:100%;}
+    .opt-grid .opt .opt-e{font-size:18px;}
+    .opt-grid .opt .opt-c{display:none;}
     .chips{display:flex;flex-wrap:wrap;gap:10px;}
     .chip{padding:10px 16px;border:1.5px solid var(--border);border-radius:100px;background:white;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;transition:all .15s;}
     .chip.sel{border-color:#111827;border-width:2px;background:#F9FAFB;}
@@ -637,10 +641,13 @@ function render(){
   let html=`<div class="q-title">${q.title}</div><p class="q-sub">${q.sub||''}</p>`;
   if(q.type==='single'){
     document.getElementById('btn-nx').disabled=ans[q.id]===undefined;
+    const useGrid=q.opts.length>=6;
+    if(useGrid)html+=`<div class="opt-grid">`;
     q.opts.forEach((o,i)=>{
       const sel=ans[q.id]===i;
-      html+=`<button class="opt${sel?' sel':''}" onclick="pick(${q.id},${i})"><span class="opt-e">${o.e}</span><span class="opt-t">${o.t}</span><span class="opt-c">›</span></button>`;
+      html+=`<button class="opt${sel?' sel':''}" onclick="pick(${q.id},${i})"><span class="opt-e">${o.e}</span><span class="opt-t">${o.t}</span>${useGrid?'':'<span class="opt-c">›</span>'}</button>`;
     });
+    if(useGrid)html+=`</div>`;
   } else if(q.type==='multi'){
     document.getElementById('btn-nx').disabled=false;
     html+='<div class="chips">';
