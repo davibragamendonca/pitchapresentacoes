@@ -237,7 +237,7 @@
     .quem-sec{padding:40px 20px;background:white;border-top:1px solid rgba(109,33,217,.14);}
     .quem-h2{font-size:clamp(20px,5vw,28px);font-weight:800;line-height:1.2;margin-bottom:14px;color:#1C0B3D;}
     .quem-h2 em{font-style:normal;color:#7C3AED;}
-    .quem-p{font-size:13px;color:#4B3472;line-height:1.75;margin-bottom:10px;}
+    .quem-p{font-size:14px;color:#4B3472;line-height:1.75;margin-bottom:10px;}
     .quem-p b{color:#1C0B3D;}
     .quem-photo-d{border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(109,33,217,.18);margin-top:20px;}
     .quem-photo-d img{width:100%;height:auto;display:block;}
@@ -419,12 +419,9 @@
     <div class="res-qhdr-badge">Anamnese Digital</div>
   </div>
 
-  <!-- Profile badge (injected) -->
-  <div id="profile-box-wrap"></div>
-
-  <div class="money-box">
-    <p class="money-txt">Você está deixando aproximadamente<strong id="res-money">R$ 0</strong>de potencial digital na mesa todos os meses.</p>
-  </div>
+  <!-- Profile badge (injected, hidden) -->
+  <div id="profile-box-wrap" style="display:none;"></div>
+  <strong id="res-money" style="display:none;"></strong>
 
   <div class="res-card">
     <h3>Nível de Maturidade Digital</h3>
@@ -435,8 +432,8 @@
   </div>
 
   <!-- Teia de aranha — radar dos 8 pilares -->
-  <div class="res-card" style="padding-bottom:8px;">
-    <h3>Diagnóstico do Funil</h3>
+  <div class="res-card" style="padding-bottom:8px;text-align:center;">
+    <h3>Pré Diagnóstico 360</h3>
     <p>Seus 8 pilares digitais com base nas suas respostas.</p>
     <div class="radar-canvas-wrap" id="results-radar-wrap">
       <canvas id="c-results" width="500" height="500" style="max-width:100%;height:auto;display:block;margin:0 auto;"></canvas>
@@ -473,46 +470,44 @@
   <!-- 4 Etapas -->
   <div class="etapas-sec">
     <div class="sec-head-d">
-      <div class="tag-diag">METODOLOGIA</div>
-      <h2>O que você vai levar nessa <em>sessão estratégica</em>:</h2>
+      <h2>O que você vai ganhar nessa <em>sessão estratégica</em> de 4 etapas:</h2>
     </div>
-    <div class="etapa-d">
-      <div class="etapa-ico-d">🔍</div>
-      <div>
+    <div class="etapa-img-card">
+      <div class="etapa-img-body">
         <div class="etapa-num-d">01</div>
         <h3>Análise da sua estrutura atual no Instagram</h3>
         <p>Vamos identificar os gargalos invisíveis que estão te mantendo no anonimato e mostrar exatamente o que precisa ser corrigido pra começar a atrair seguidores qualificados.</p>
+        <img src="metodologia-1.png" alt="Análise de Instagram">
       </div>
     </div>
-    <div class="etapa-d">
-      <div class="etapa-ico-d">✍️</div>
-      <div>
+    <div class="etapa-img-card">
+      <div class="etapa-img-body">
         <div class="etapa-num-d">02</div>
         <h3>Leitura do seu conteúdo e posicionamento</h3>
         <p>Vamos avaliar se o que você posta ativa os 3 níveis da atenção digital e te mostrar como transformar suas ideias em conteúdo que engaja, conecta e vende.</p>
+        <img src="metodologia-2.png" alt="Sessão estratégica">
       </div>
     </div>
-    <div class="etapa-d">
-      <div class="etapa-ico-d">👥</div>
-      <div>
+    <div class="etapa-img-card">
+      <div class="etapa-img-body">
         <div class="etapa-num-d">03</div>
         <h3>Alinhamento dos pilares da sua audiência</h3>
         <p>Você vai entender quais ajustes fazer na sua bio, nos seus temas e na forma como se comunica pra atrair seguidores que valorizam o que você entrega e querem pagar por isso.</p>
+        <img src="metodologia-3.png" alt="Insights do Instagram">
       </div>
     </div>
-    <div class="etapa-d">
-      <div class="etapa-ico-d">🎯</div>
-      <div>
+    <div class="etapa-img-card">
+      <div class="etapa-img-body">
         <div class="etapa-num-d">04</div>
-        <h3>Plano de ação pra atrair seguidores qualificados</h3>
-        <p>Você vai sair da sessão com um plano prático e personalizado pra começar a atrair os seguidores certos: pessoas que engajam, compartilham e compram o que você vende.</p>
+        <h3>Plano de ação pra atrair pacientes qualificados</h3>
+        <p>Você vai sair da sessão com um plano prático e personalizado pra começar a atrair os pacientes certos: pessoas que valorizam sua especialidade e compram o que você oferece.</p>
+        <img src="metodologia-4.png" alt="Diagnóstico 360 Plano Individual">
       </div>
     </div>
   </div>
 
   <!-- Quem é a Pitch -->
   <div class="quem-sec">
-    <div class="tag-diag" style="margin-bottom:14px;">QUEM SOMOS</div>
     <h2 class="quem-h2">Quem é a <em>Pitch Company?</em></h2>
     <p class="quem-p">A Pitch Company é uma <b>aceleradora especializada em posicionamento e crescimento digital</b> para médicos e profissionais da Medicina Integrativa. Vivemos exclusivamente da internet e já ajudamos dezenas de especialistas da saúde a gerarem mais de <b>R$ 1 milhão em vendas</b> através do digital.</p>
     <p class="quem-p">Hoje, nossas estratégias já impactaram milhares de vidas e ajudaram profissionais da saúde a conquistarem mais autoridade, atraírem os pacientes certos e <b>expandirem sua missão através da internet.</b></p>
