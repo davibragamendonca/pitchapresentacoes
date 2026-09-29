@@ -10,7 +10,7 @@
     {
       "source": "/",
       "has": [{ "type": "host", "value": "diag.pitchcompany.com.br" }],
-      "destination": "/diagnostico-360",
+      "destination": "/empresarios",
       "permanent": false
     },
     {
