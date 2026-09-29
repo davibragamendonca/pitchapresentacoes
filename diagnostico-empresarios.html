@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico 360 | Davi Mendonza</title>
+  <meta name="description" content="Diagnóstico 360: uma análise do seu Funil de Vendas e do seu Marketing Pessoal para empresários e criadores que são excelentes, mas ainda não são vistos.">
+  <meta property="og:title" content="Diagnóstico 360 | Davi Mendonza">
+  <meta property="og:description" content="Descubra onde o seu negócio está ficando invisível ou frágil: posicionamento, conteúdo, funil ou frentes de crescimento.">
+  <meta property="og:image" content="diag360-mockup.png">
+  <meta name="theme-color" content="#050010">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #050010;
+      --bg2:      #0A0020;
+      --card:     rgba(255,255,255,.035);
+      --card-h:   rgba(168,85,247,.08);
+      --purple:   #A855F7;
+      --purple-l: #C084FC;
+      --purple-d: #6B21A8;
+      --violet:   #2E1065;
+      --fuchsia:  #E879F9;
+      --text:     #F3E8FF;
+      --text2:    #C4B5FD;
+      --muted:    rgba(196,181,253,.62);
+      --border:   rgba(168,85,247,.16);
+      --border-l: rgba(168,85,247,.34);
+      --red:      #FB7185;
+      --green:    #34D399;
+      --radius:   18px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+
+    /* ---------- Background layers ---------- */
+    .bg-layer {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 45% at 18% 12%, rgba(109,40,217,.32), transparent 70%),
+        radial-gradient(ellipse 55% 45% at 85% 88%, rgba(88,28,135,.26), transparent 70%),
+        linear-gradient(175deg, #060012, #050010 50%, #07001A);
+    }
+    .bg-layer::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(168,85,247,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(168,85,247,.06) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, #000 20%, transparent 75%);
+    }
+
+    .wrap { width: 100%; max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+    .narrow { max-width: 820px; }
+    section { padding: 104px 0; position: relative; }
+
+    .glow-line {
+      height: 1px; width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(168,85,247,.7) 35%, rgba(232,121,249,.9) 50%, rgba(168,85,247,.7) 65%, transparent);
+      opacity: .55;
+    }
+
+    /* ---------- Type ---------- */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 12px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text2); opacity: .85; margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--purple); box-shadow: 0 0 12px var(--purple), 0 0 24px rgba(168,85,247,.4);
+    }
+    h1, h2, h3 { letter-spacing: -.025em; line-height: 1.08; }
+    h2 { font-size: clamp(30px, 4.4vw, 50px); font-weight: 800; margin-bottom: 20px; }
+    h3 { font-size: 20px; font-weight: 700; line-height: 1.25; }
+    .fx { color: var(--fuchsia); text-shadow: 0 0 22px rgba(232,121,249,.45); }
+    .pl { color: var(--purple-l); }
+    .lead { font-size: clamp(16px, 1.6vw, 19px); color: var(--text2); line-height: 1.65; max-width: 680px; }
+    .center { text-align: center; }
+    .center .lead { margin-left: auto; margin-right: auto; }
+    .sec-head { margin-bottom: 56px; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 18px 34px; border-radius: 12px; border: 0; cursor: pointer;
+      font: 800 15px/1 'Inter', sans-serif; letter-spacing: .06em; text-transform: uppercase;
+      color: #fff; text-decoration: none;
+      background: linear-gradient(135deg, #9333EA, #C026D3);
+      box-shadow: 0 10px 34px rgba(168,85,247,.42), inset 0 1px 0 rgba(255,255,255,.2);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 14px 44px rgba(192,38,211,.55), inset 0 1px 0 rgba(255,255,255,.2); }
+    .btn .arr { transition: transform .2s ease; }
+    .btn:hover .arr { transform: translateX(4px); }
+    .btn-note { font-size: 13px; color: var(--muted); margin-top: 16px; }
+    .cta-row { margin-top: 48px; }
+
+    /* ---------- Header ---------- */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(5,0,16,.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+    .brand { line-height: 1.2; text-decoration: none; }
+    .brand b { display: block; font-size: 13px; font-weight: 800; letter-spacing: .16em; }
+    .brand span { font-size: 11px; letter-spacing: .14em; color: var(--muted); }
+    .top-sign { font-size: 11px; letter-spacing: .16em; color: var(--muted); text-transform: uppercase; text-align: right; }
+    .top-cta {
+      display: none; padding: 11px 18px; border-radius: 10px; font-size: 12px; font-weight: 800;
+      letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: #fff;
+      background: linear-gradient(135deg, #9333EA, #C026D3);
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { padding: 72px 0 96px; }
+    .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+    .hero h1 { font-size: clamp(38px, 6vw, 72px); font-weight: 900; letter-spacing: -.035em; margin-bottom: 26px; }
+    .hero .lead { margin-bottom: 36px; }
+    .hero-visual { position: relative; }
+    .hero-visual::before {
+      content: ''; position: absolute; inset: 10% 5%; border-radius: 50%;
+      background: radial-gradient(circle, rgba(168,85,247,.45), transparent 65%); filter: blur(30px);
+    }
+    .hero-visual img { position: relative; width: 125%; max-width: none; margin-left: -12%; animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+    .hero-proof { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 32px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--border); }
+    .hero-proof div { font-size: 13px; color: var(--muted); line-height: 1.4; max-width: 170px; }
+    .hero-proof strong { display: block; font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -.02em; }
+
+    /* ---------- Thesis ---------- */
+    .thesis { text-align: center; padding: 120px 0; }
+    .thesis blockquote {
+      font-size: clamp(28px, 4.2vw, 50px); font-weight: 800; line-height: 1.15; letter-spacing: -.03em;
+      max-width: 900px; margin: 0 auto 28px;
+    }
+    .thesis p { color: var(--text2); font-size: 18px; max-width: 640px; margin: 0 auto; }
+    .sep {
+      width: 180px; height: 2px; margin: 0 auto 44px;
+      background: linear-gradient(90deg, transparent, var(--purple) 40%, var(--fuchsia) 50%, var(--purple) 60%, transparent);
+    }
+
+    /* ---------- Cards grid (dores) ---------- */
+    .grid { display: grid; gap: 18px; }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 30px 28px; position: relative; overflow: hidden;
+      transition: border-color .25s ease, background .25s ease, transform .25s ease;
+    }
+    .card:hover { border-color: var(--border-l); background: var(--card-h); transform: translateY(-3px); }
+    .card .tag { font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--purple-l); margin-bottom: 14px; }
+    .card h3 { margin-bottom: 10px; }
+    .card p { font-size: 15px; color: var(--text2); }
+    .pain .quote { font-style: italic; color: var(--text); font-size: 17px; font-weight: 500; line-height: 1.45; margin-bottom: 12px; }
+
+    /* ---------- Compare ---------- */
+    .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .cmp {
+      border-radius: 22px; padding: 34px 30px 30px; border: 1px solid var(--border);
+      background: var(--card); display: flex; flex-direction: column;
+    }
+    .cmp.good { border-color: var(--border-l); background: linear-gradient(160deg, rgba(147,51,234,.14), rgba(192,38,211,.05) 60%, transparent); box-shadow: 0 0 60px rgba(168,85,247,.12); }
+    .cmp-label { font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 8px; }
+    .cmp.bad .cmp-label { color: var(--red); }
+    .cmp.good .cmp-label { color: var(--fuchsia); }
+    .cmp h3 { font-size: 24px; margin-bottom: 18px; }
+    .cmp svg { width: 100%; height: auto; margin: 6px 0 22px; }
+    .cmp p { font-size: 15px; color: var(--text2); margin-top: auto; }
+    .named {
+      margin-top: 40px; padding: 30px 32px; border-radius: 18px;
+      border: 1px solid var(--border-l); background: rgba(46,16,101,.35);
+      font-size: 18px; color: var(--text2); line-height: 1.6;
+    }
+    .named strong { color: var(--text); }
+    .named strong.fx { color: var(--fuchsia); }
+    .pulse { animation: pulse 2.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+    @keyframes pulse { 0%,100% { opacity: .55 } 50% { opacity: 1 } }
+    .flow { stroke-dasharray: 4 6; animation: dash 1.6s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -20 } }
+
+    /* ---------- Big question ---------- */
+    .question {
+      text-align: center; padding: 64px 36px; border-radius: 26px;
+      background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,.22), transparent 70%), rgba(255,255,255,.02);
+      border: 1px solid var(--border);
+    }
+    .question h2 { font-size: clamp(26px, 3.8vw, 44px); max-width: 820px; margin: 0 auto 18px; }
+    .question p { color: var(--text2); font-size: 17px; max-width: 580px; margin: 0 auto; }
+
+    /* ---------- Checker ---------- */
+    .checker { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: stretch; }
+    .fronts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .front {
+      display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none;
+      padding: 15px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--card);
+      font-size: 15px; font-weight: 500; transition: all .2s ease;
+    }
+    .front input { position: absolute; opacity: 0; pointer-events: none; }
+    .front .box {
+      flex: none; width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border-l);
+      display: grid; place-items: center; transition: all .2s ease;
+    }
+    .front .box svg { width: 12px; height: 12px; opacity: 0; transition: opacity .15s; }
+    .front:hover { border-color: var(--border-l); }
+    .front.on { border-color: var(--purple); background: rgba(168,85,247,.12); }
+    .front.on .box { background: var(--purple); border-color: var(--purple); box-shadow: 0 0 12px rgba(168,85,247,.6); }
+    .front.on .box svg { opacity: 1; }
+    .front input:focus-visible + .box { outline: 2px solid var(--fuchsia); outline-offset: 2px; }
+    .result {
+      border-radius: 20px; border: 1px solid var(--border-l); padding: 32px 28px;
+      background: linear-gradient(170deg, rgba(46,16,101,.6), rgba(5,0,16,.6));
+      display: flex; flex-direction: column; justify-content: center; text-align: center;
+    }
+    .result .count { font-size: 76px; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
+    .result .count small { font-size: 22px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+    .result .meter { height: 8px; border-radius: 99px; background: rgba(168,85,247,.15); margin: 20px 0 22px; overflow: hidden; }
+    .result .meter i { display: block; height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--red), var(--purple), var(--fuchsia)); transition: width .4s ease; }
+    .result h3 { font-size: 22px; margin-bottom: 10px; }
+    .result p { font-size: 15px; color: var(--text2); margin-bottom: 22px; }
+    .result .btn { padding: 15px 22px; font-size: 13px; }
+
+    /* ---------- Pillars (o que analisa) ---------- */
+    .pillar { padding: 34px 30px; }
+    .pillar .num {
+      font-size: 13px; font-weight: 800; letter-spacing: .14em; color: var(--fuchsia);
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px;
+    }
+    .pillar .num::after { content: ''; width: 40px; height: 1px; background: linear-gradient(90deg, var(--fuchsia), transparent); }
+    .pillar h3 { font-size: 23px; margin-bottom: 12px; }
+    .pillar ul { list-style: none; margin-top: 18px; display: grid; gap: 10px; }
+    .pillar li { font-size: 14.5px; color: var(--text2); padding-left: 22px; position: relative; }
+    .pillar li::before { content: ''; position: absolute; left: 2px; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+
+    .mechanism {
+      margin-top: 28px; border-radius: 22px; padding: 40px 36px; text-align: center;
+      background: linear-gradient(135deg, rgba(147,51,234,.22), rgba(192,38,211,.1));
+      border: 1px solid var(--border-l);
+    }
+    .mechanism .eyebrow { justify-content: center; }
+    .mechanism p.m { font-size: clamp(22px, 3vw, 32px); font-weight: 800; letter-spacing: -.02em; line-height: 1.25; max-width: 760px; margin: 0 auto; }
+
+    /* ---------- Gallery ---------- */
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .shot { border-radius: 16px; border: 1px solid var(--border); background: var(--card); padding: 16px 16px 18px; }
+    .shot img { border-radius: 10px; aspect-ratio: 4/3; object-fit: contain; width: 100%; margin-bottom: 14px; }
+    .shot b { font-size: 14px; display: block; }
+    .shot span { font-size: 13px; color: var(--muted); }
+
+    /* ---------- Steps ---------- */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; counter-reset: s; position: relative; }
+    .step { padding: 30px 24px; }
+    .step .n {
+      width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 20px;
+      font-weight: 900; font-size: 17px; color: #fff;
+      background: linear-gradient(135deg, #7C3AED, #C026D3); box-shadow: 0 0 22px rgba(168,85,247,.45);
+    }
+    .step h3 { font-size: 18px; margin-bottom: 8px; }
+    .step p { font-size: 14.5px; }
+
+    /* ---------- Deliverables ---------- */
+    .deliv { display: flex; gap: 16px; align-items: flex-start; padding: 26px 24px; }
+    .deliv .ic {
+      flex: none; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+      background: rgba(168,85,247,.14); border: 1px solid var(--border-l);
+    }
+    .deliv .ic svg { width: 22px; height: 22px; stroke: var(--purple-l); }
+    .deliv h3 { font-size: 17px; margin-bottom: 6px; }
+    .deliv p { font-size: 14.5px; }
+
+    /* ---------- About ---------- */
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .about-photo { position: relative; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-l); box-shadow: 0 0 80px rgba(168,85,247,.2); }
+    .about-photo img { width: 100%; aspect-ratio: 4/5; object-fit: cover; transform: scale(1.12); transform-origin: 50% 40%; }
+    .about-photo figcaption {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 22px 20px;
+      background: linear-gradient(transparent, rgba(5,0,16,.95));
+    }
+    .about-photo figcaption b { display: block; font-size: 18px; }
+    .about-photo figcaption span { font-size: 13px; color: var(--text2); letter-spacing: .08em; }
+    .about p { color: var(--text2); font-size: 17px; margin-bottom: 18px; }
+    .about p strong { color: var(--text); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    .stat { padding: 22px 18px; border-radius: 16px; border: 1px solid var(--border); background: var(--card); }
+    .stat strong { display: block; font-size: 30px; font-weight: 900; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
+    .stat span { font-size: 13px; color: var(--muted); line-height: 1.4; display: block; }
+    .belief { margin-top: 26px; padding-left: 20px; border-left: 2px solid var(--fuchsia); font-size: 17px; font-weight: 600; font-style: italic; color: var(--text); }
+
+    /* ---------- Proof ---------- */
+    .proof-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 34px; flex-wrap: wrap; }
+    .proof-tabs button {
+      font: 700 13px 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase;
+      padding: 12px 20px; border-radius: 99px; cursor: pointer;
+      color: var(--text2); background: var(--card); border: 1px solid var(--border);
+    }
+    .proof-tabs button.on { color: #fff; background: rgba(168,85,247,.22); border-color: var(--purple); }
+    .proof-panel { display: none; }
+    .proof-panel.on { display: block; }
+    .masonry { columns: 3 260px; column-gap: 16px; }
+    .masonry a { display: block; break-inside: avoid; margin-bottom: 16px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); transition: border-color .2s, transform .2s; }
+    .masonry a:hover { border-color: var(--purple); transform: translateY(-2px); }
+
+    /* ---------- For who ---------- */
+    .fit { padding: 34px 30px; }
+    .fit h3 { font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .fit ul { list-style: none; display: grid; gap: 14px; }
+    .fit li { font-size: 15.5px; color: var(--text2); padding-left: 30px; position: relative; line-height: 1.5; }
+    .fit li::before { position: absolute; left: 0; top: 0; font-weight: 800; }
+    .fit.yes { border-color: rgba(52,211,153,.3); }
+    .fit.yes li::before { content: '✓'; color: var(--green); }
+    .fit.no li::before { content: '✕'; color: var(--red); }
+
+    /* ---------- FAQ ---------- */
+    .faq { display: grid; gap: 12px; }
+    .faq details { border: 1px solid var(--border); border-radius: 14px; background: var(--card); transition: border-color .2s; }
+    .faq details[open] { border-color: var(--border-l); background: var(--card-h); }
+    .faq summary {
+      list-style: none; cursor: pointer; padding: 22px 56px 22px 24px; position: relative;
+      font-weight: 700; font-size: 16.5px;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: '+'; position: absolute; right: 24px; top: 50%; transform: translateY(-50%);
+      font-size: 24px; font-weight: 400; color: var(--purple-l); transition: transform .2s;
+    }
+    .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+    .faq details p { padding: 0 24px 22px; color: var(--text2); font-size: 15.5px; }
+
+    /* ---------- Final CTA + form ---------- */
+    .final { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .final h2 { font-size: clamp(32px, 4.6vw, 54px); font-weight: 900; }
+    .final .lead { margin-bottom: 24px; }
+    .final .quote-line { font-size: 17px; font-weight: 600; color: var(--text); padding-left: 18px; border-left: 2px solid var(--purple); }
+    .form-box {
+      border-radius: 24px; padding: 38px 34px; border: 1px solid var(--border-l);
+      background: linear-gradient(170deg, rgba(46,16,101,.55), rgba(10,0,32,.85));
+      box-shadow: 0 0 90px rgba(168,85,247,.18);
+    }
+    .form-box h3 { font-size: 24px; margin-bottom: 6px; }
+    .form-box .fsub { font-size: 14px; color: var(--muted); margin-bottom: 26px; }
+    .fg { margin-bottom: 16px; }
+    .fg label { display: block; font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 7px; }
+    .fg input, .fg select {
+      width: 100%; padding: 14px 16px; border-radius: 10px; font: 500 15px 'Inter', sans-serif;
+      color: var(--text); background: rgba(5,0,16,.7); border: 1px solid var(--border-l); outline: none;
+      transition: border-color .2s, box-shadow .2s; appearance: none; -webkit-appearance: none;
+    }
+    .fg select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C084FC' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px;
+    }
+    .fg select option { background: #0A0020; color: var(--text); }
+    .fg input::placeholder { color: rgba(196,181,253,.35); }
+    .fg input:focus, .fg select:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(168,85,247,.2); }
+    .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-box .btn { width: 100%; margin-top: 8px; }
+    .fdis { font-size: 12px; color: var(--muted); text-align: center; margin-top: 14px; }
+    .success { text-align: center; padding: 20px 0; }
+    .success .ok { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 18px; display: grid; place-items: center; background: rgba(52,211,153,.15); border: 1px solid rgba(52,211,153,.4); }
+    .success h3 { margin-bottom: 8px; }
+    .success p { color: var(--text2); font-size: 15px; margin-bottom: 24px; }
+    .btn-wa { background: linear-gradient(135deg, #25D366, #1AAB52); box-shadow: 0 8px 26px rgba(37,211,102,.35); }
+    .btn-wa:hover { box-shadow: 0 12px 34px rgba(37,211,102,.5); }
+
+    /* ---------- Footer ---------- */
+    .signoff { text-align: center; padding: 80px 0 64px; }
+    .signoff p { font-size: clamp(20px, 2.6vw, 28px); font-weight: 700; letter-spacing: -.02em; max-width: 720px; margin: 0 auto 22px; line-height: 1.3; }
+    .ig-link { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: .12em; color: var(--purple-l); text-decoration: none; font-size: 14px; }
+    .ig-link:hover { color: var(--fuchsia); }
+    footer { padding: 36px 0 44px; text-align: center; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--border); }
+    footer img { height: 26px; width: auto; margin: 0 auto 14px; opacity: .5; }
+
+    /* ---------- Mobile sticky CTA ---------- */
+    .m-cta {
+      position: fixed; left: 16px; right: 16px; bottom: 14px; z-index: 60; display: none;
+      transform: translateY(140%); transition: transform .3s ease;
+    }
+    .m-cta.show { transform: translateY(0); }
+    .m-cta .btn { width: 100%; padding: 17px; }
+
+    /* ---------- Reveal ---------- */
+    .rv { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .rv { opacity: 1; transform: none; transition: none; }
+      .hero-visual img, .pulse, .flow { animation: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+      .hero-grid, .about, .final, .checker { grid-template-columns: 1fr; }
+      .hero-visual { max-width: 420px; margin: 0 auto; }
+      .hero-visual img { width: 100%; margin-left: 0; }
+      .g3, .steps { grid-template-columns: repeat(2, 1fr); }
+      .gallery { grid-template-columns: repeat(2, 1fr); }
+      .about-photo { max-width: 420px; margin: 0 auto; }
+      .top-sign { display: none; }
+      .top-cta { display: inline-block; }
+    }
+    @media (max-width: 680px) {
+      section { padding: 76px 0; }
+      .wrap { padding: 0 16px; }
+      .hero { padding: 36px 0 72px; }
+      .hero-visual { max-width: 280px; }
+      .g3, .g2, .steps, .compare, .fronts { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .shot { padding: 10px 10px 12px; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+      .hero-proof { gap: 14px; grid-template-columns: repeat(3, 1fr); }
+      .hero-proof strong { font-size: 19px; }
+      .hero-proof div { font-size: 11.5px; }
+      .stat { padding: 16px 12px; }
+      .stat strong { font-size: 22px; }
+      .stat span { font-size: 11.5px; }
+      .frow { grid-template-columns: 1fr; gap: 0; }
+      .form-box { padding: 28px 20px; }
+      .question { padding: 44px 22px; }
+      .named, .mechanism { padding: 26px 22px; }
+      .btn { width: 100%; padding: 18px 20px; font-size: 14px; }
+      .cmp { padding: 28px 22px 24px; }
+      .m-cta { display: block; }
+      .top-cta { display: none; }
+      body { padding-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-layer" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="#topo">
+      <b>DAVI MENDONZA</b>
+      <span>@ODAVIMENDONZA</span>
+    </a>
+    <div class="top-sign">Funil de vendas, marketing<br>e marca pessoal</div>
+    <a class="top-cta" href="#form">Quero meu diagnóstico</a>
+  </div>
+</header>
+
+<main id="topo">
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <div class="eyebrow">Diagnóstico 360 · Empresários e criadores</div>
+      <h1>Você é excelente.<br>O mercado ainda <span class="fx">não sabe</span> disso.</h1>
+      <p class="lead">O Diagnóstico 360 é uma análise completa do seu <strong class="pl">funil de vendas</strong> e do seu <strong class="pl">marketing pessoal</strong>. Ele mostra onde o seu negócio está invisível ou frágil: no posicionamento, no conteúdo, no funil ou na falta de frentes de crescimento.</p>
+      <a class="btn" href="#form">Quero meu diagnóstico <span class="arr">→</span></a>
+      <p class="btn-note">Análise 100% personalizada · Plano de ação concreto · 30 dias de acompanhamento</p>
+      <div class="hero-proof">
+        <div><strong>+20 experts</strong>acelerados com funil e conteúdo</div>
+        <div><strong>+R$ 1 milhão</strong>vendido com funil e conteúdo</div>
+        <div><strong>250 mil</strong>seguidores em 6 meses para uma médica</div>
+      </div>
+    </div>
+    <div class="hero-visual rv">
+      <img src="diag360-mockup.png" alt="Diagnóstico 360 aberto no celular" width="1477" height="1065">
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ THESIS ============ -->
+<section class="thesis">
+  <div class="wrap">
+    <div class="sep"></div>
+    <blockquote class="rv">O Brasil está cheio de gente excelente que <span class="fx">ninguém lembra</span> e ninguém compra.</blockquote>
+    <p class="rv">Não por falta de talento. Por falta de estratégia. Excelência sem estratégia vira anonimato. Isso vale para um país, e vale para o seu negócio.</p>
+  </div>
+</section>
+
+<!-- ============ PAINS ============ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Você se reconhece?</div>
+      <h2>Talvez o problema nunca tenha sido <span class="pl">a sua competência</span></h2>
+      <p class="lead">Se pelo menos duas dessas frases soam familiares, o Diagnóstico foi feito para você.</p>
+    </div>
+    <div class="grid g3">
+      <article class="card pain rv">
+        <div class="tag">Invisibilidade</div>
+        <p class="quote">"Eu entrego qualidade e ninguém percebe."</p>
+        <p>Você vê gente menos preparada lotando turma e cobrando mais, enquanto ainda depende de indicação.</p>
+      </article>
+      <article class="card pain rv">
+        <div class="tag">Injustiça</div>
+        <p class="quote">"Eu sei mais do que ele. Por que ele vende e eu não?"</p>
+        <p>O mercado parece recompensar quem aparece, não quem é bom. E isso tem explicação.</p>
+      </article>
+      <article class="card pain rv">
+        <div class="tag">Fragilidade</div>
+        <p class="quote">"Se o anúncio parar, o faturamento despenca."</p>
+        <p>Um algoritmo que muda, um cliente grande que sai, e o mês inteiro fica em risco. Você vive com medo de um mês ruim.</p>
+      </article>
+      <article class="card pain rv">
+        <div class="tag">Perda de identidade</div>
+        <p class="quote">"Meu perfil ficou igual ao de todo mundo."</p>
+        <p>De tanto copiar o formato do guru e o Reels em alta, você não reconhece mais a própria voz.</p>
+      </article>
+      <article class="card pain rv">
+        <div class="tag">Medo de se posicionar</div>
+        <p class="quote">"Se eu escolher um lado, vou perder cliente."</p>
+        <p>Então você fala com todo mundo, e acaba não sendo lembrado por ninguém.</p>
+      </article>
+      <article class="card pain rv">
+        <div class="tag">Cansaço de guru</div>
+        <p class="quote">"Não aguento mais promessa fácil."</p>
+        <p>Você quer profundidade e alguém que pense junto, não mais uma fórmula de 7 dias.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ ONE FRONT vs ECOSYSTEM ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">A tese</div>
+      <h2>Os grandes não crescem pra cima.<br><span class="fx">Crescem pros lados.</span></h2>
+      <p class="lead">Talento te coloca no jogo. Ecossistema te mantém nele.</p>
+    </div>
+
+    <div class="compare">
+      <div class="cmp bad rv">
+        <div class="cmp-label">Uma frente só</div>
+        <h3>Um canal, uma oferta, uma fonte de cliente</h3>
+        <svg viewBox="0 0 400 220" role="img" aria-label="Negócio ligado a uma única fonte de clientes, com a conexão rompida">
+          <line x1="200" y1="140" x2="200" y2="62" stroke="#FB7185" stroke-width="2" class="flow" opacity=".8"/>
+          <line x1="192" y1="92" x2="208" y2="104" stroke="#FB7185" stroke-width="3" stroke-linecap="round"/>
+          <line x1="208" y1="92" x2="192" y2="104" stroke="#FB7185" stroke-width="3" stroke-linecap="round"/>
+          <rect x="140" y="26" width="120" height="36" rx="10" fill="rgba(251,113,133,.1)" stroke="rgba(251,113,133,.6)"/>
+          <text x="200" y="49" text-anchor="middle" fill="#FDA4AF" font-family="Inter" font-size="13" font-weight="600">Indicação</text>
+          <circle cx="200" cy="165" r="30" fill="rgba(168,85,247,.14)" stroke="rgba(168,85,247,.5)"/>
+          <text x="200" y="170" text-anchor="middle" fill="#F3E8FF" font-family="Inter" font-size="13" font-weight="700">Você</text>
+          <g opacity=".22" font-family="Inter" font-size="11" fill="#C4B5FD">
+            <circle cx="60" cy="90" r="4" fill="#C4B5FD"/><circle cx="340" cy="90" r="4" fill="#C4B5FD"/>
+            <circle cx="70" cy="190" r="4" fill="#C4B5FD"/><circle cx="330" cy="190" r="4" fill="#C4B5FD"/>
+          </g>
+        </svg>
+        <p>Se essa porta fechar amanhã, o negócio para junto. O excelente é esquecido quando depende de uma frente só.</p>
+      </div>
+
+      <div class="cmp good rv">
+        <div class="cmp-label">Ecossistema</div>
+        <h3>Várias frentes, e cada uma leva às outras</h3>
+        <svg viewBox="0 0 400 220" role="img" aria-label="Marca pessoal no centro conectada a seis frentes de crescimento">
+          <defs>
+            <radialGradient id="core" cx="50%" cy="50%" r="50%">
+              <stop offset="0" stop-color="#E879F9" stop-opacity=".55"/><stop offset="1" stop-color="#A855F7" stop-opacity=".08"/>
+            </radialGradient>
+          </defs>
+          <g stroke="#C084FC" stroke-width="1.5" opacity=".75" class="flow">
+            <line x1="200" y1="115" x2="72" y2="45"/><line x1="200" y1="115" x2="328" y2="45"/>
+            <line x1="200" y1="115" x2="46" y2="120"/><line x1="200" y1="115" x2="354" y2="120"/>
+            <line x1="200" y1="115" x2="90" y2="192"/><line x1="200" y1="115" x2="310" y2="192"/>
+          </g>
+          <g stroke="rgba(168,85,247,.25)" stroke-width="1" fill="none">
+            <path d="M72 45 Q200 5 328 45"/><path d="M46 120 Q60 170 90 192"/><path d="M354 120 Q340 170 310 192"/>
+          </g>
+          <circle cx="200" cy="115" r="38" fill="#12052E"/>
+          <circle cx="200" cy="115" r="38" fill="url(#core)" stroke="#E879F9" stroke-width="1.5" class="pulse"/>
+          <text x="200" y="111" text-anchor="middle" fill="#fff" font-family="Inter" font-size="11.5" font-weight="800">Marca</text>
+          <text x="200" y="126" text-anchor="middle" fill="#fff" font-family="Inter" font-size="11.5" font-weight="800">pessoal</text>
+          <g font-family="Inter" font-size="11.5" font-weight="600" fill="#F3E8FF" text-anchor="middle">
+            <rect x="32" y="30" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="72" y="48">Instagram</text>
+            <rect x="288" y="30" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="328" y="48">YouTube</text>
+            <rect x="6" y="106" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="46" y="124">Produtos</text>
+            <rect x="314" y="106" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="354" y="124">Tráfego</text>
+            <rect x="50" y="178" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="90" y="196">Parcerias</text>
+            <rect x="270" y="178" width="80" height="28" rx="8" fill="#1A0840" stroke="#A855F7"/><text x="310" y="196">Lançamento</text>
+          </g>
+        </svg>
+        <p>Se uma frente cai, as outras seguram. A mesma pessoa te encontra num vídeo, num post, num e-book e num lançamento, e te escolhe.</p>
+      </div>
+    </div>
+
+    <div class="named rv">
+      Isso tem nome: <strong class="fx">crescimento horizontal</strong>. Em vez de subir numa frente só, você abre várias ao mesmo tempo (marca pessoal, conteúdo, produtos, mídia, parcerias) e cerca a sua audiência por todos os lados. <strong>Uma fonte de renda é um risco. Várias frentes são um patrimônio.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BIG QUESTION + CHECKER ============ -->
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="question rv">
+      <div class="eyebrow">Responda com honestidade</div>
+      <h2>Se a sua principal fonte de cliente sumisse amanhã, <span class="fx">o que sobraria</span> do seu negócio?</h2>
+      <p>Marque abaixo as frentes que já trazem clientes ou audiência para você hoje.</p>
+    </div>
+
+    <div class="checker" style="margin-top:22px">
+      <div class="fronts rv" id="fronts">
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Indicação e boca a boca</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Instagram orgânico</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Anúncios (tráfego pago)</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>YouTube, podcast ou blog</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lista de contatos (e-mail ou WhatsApp)</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Produto de entrada (e-book, curso curto)</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Oferta recorrente (assinatura, mentoria)</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Lançamentos ou eventos</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Parcerias e sócios</label>
+        <label class="front"><input type="checkbox"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5l2.5 2.5L10 3.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mídia, palestras ou imprensa</label>
+      </div>
+      <div class="result rv" aria-live="polite">
+        <div class="count"><span id="fcount">0</span><small> / 10 frentes</small></div>
+        <div class="meter"><i id="fmeter"></i></div>
+        <h3 id="ftitle">Marque as suas frentes</h3>
+        <p id="ftext">Veja em segundos se o seu negócio está pendurado em uma coisa só.</p>
+        <a class="btn" href="#form">Quero o diagnóstico completo <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ WHAT IT ANALYZES ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">O que o diagnóstico analisa</div>
+      <h2>Uma análise 360 dos 4 pontos onde<br>um negócio <span class="fx">fica invisível</span></h2>
+      <p class="lead">Não é uma consultoria genérica. É uma leitura profunda de quem você é, do que você vende e de como o seu cliente chega até você.</p>
+    </div>
+    <div class="grid g2">
+      <article class="card pillar rv">
+        <div class="num">01</div>
+        <h3>Posicionamento e marca pessoal</h3>
+        <p>Por que alguém escolheria você, e não o concorrente que aparece mais? Aqui a gente encontra a sua voz de volta.</p>
+        <ul>
+          <li>Bio, promessa única e prova social</li>
+          <li>Clareza da sua proposta de valor</li>
+          <li>Onde você está copiando em vez de ser leal à sua visão</li>
+        </ul>
+      </article>
+      <article class="card pillar rv">
+        <div class="num">02</div>
+        <h3>Conteúdo</h3>
+        <p>O que você publica constrói autoridade e desejo, ou só ocupa espaço no feed?</p>
+        <ul>
+          <li>Temas com maior potencial para o seu público</li>
+          <li>Equilíbrio entre alcance, conexão e venda</li>
+          <li>Estudo de concorrentes e perfis de referência</li>
+        </ul>
+      </article>
+      <article class="card pillar rv">
+        <div class="num">03</div>
+        <h3>Funil de vendas</h3>
+        <p>O caminho que transforma um desconhecido em cliente. Sem ele, o seguidor gosta, mas não compra.</p>
+        <ul>
+          <li>Captação de lead (o contato interessado) e aquecimento</li>
+          <li>Modelo ideal: lançamento, perpétuo ou os dois</li>
+          <li>LTV: quanto cada cliente pode pagar ao longo do tempo</li>
+        </ul>
+      </article>
+      <article class="card pillar rv">
+        <div class="num">04</div>
+        <h3>Frentes de crescimento</h3>
+        <p>Quais portas o seu negócio ainda não abriu, e qual abrir primeiro.</p>
+        <ul>
+          <li>Fontes de aquisição: de onde vem cada cliente hoje</li>
+          <li>Equilíbrio entre orgânico e tráfego pago</li>
+          <li>Oportunidades de recorrência, produtos e parcerias</li>
+        </ul>
+      </article>
+    </div>
+    <div class="mechanism rv">
+      <div class="eyebrow">O método por trás</div>
+      <p class="m">Funis de vendas + marketing pessoal elaborados para você <span class="fx">crescer de forma horizontal</span>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSIDE ============ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Por dentro de um diagnóstico</div>
+      <h2>Sem achismo. <span class="pl">Tudo documentado.</span></h2>
+    </div>
+    <div class="gallery">
+      <figure class="shot rv"><img src="metodologia-1.png" alt="Slide de análise de Instagram" loading="lazy"><b>Análise de perfil</b><span>O que funciona e o que trava</span></figure>
+      <figure class="shot rv"><img src="metodologia-2.png" alt="Sessão estratégica" loading="lazy"><b>Sessão estratégica</b><span>Reunião para entender o negócio</span></figure>
+      <figure class="shot rv"><img src="metodologia-3.png" alt="Leitura dos insights" loading="lazy"><b>Leitura dos números</b><span>Insights e dados reais</span></figure>
+      <figure class="shot rv"><img src="metodologia-4.png" alt="Plano individual" loading="lazy"><b>Plano individual</b><span>Próximos passos claros</span></figure>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Como funciona</div>
+      <h2>4 fases, 30 dias, <span class="fx">clareza total</span></h2>
+    </div>
+    <div class="steps">
+      <div class="card step rv"><div class="n">1</div><h3>Coleta</h3><p>Reunião inicial para mapear o seu negócio, a sua oferta, os seus canais e o funil que você tem hoje.</p></div>
+      <div class="card step rv"><div class="n">2</div><h3>Análise</h3><p>A equipe mergulha no seu perfil, conteúdo, concorrentes, modelo de negócio e ofertas.</p></div>
+      <div class="card step rv"><div class="n">3</div><h3>Entrega</h3><p>Você recebe o diagnóstico completo, o funil ideal e o plano de ação, apresentados em detalhe.</p></div>
+      <div class="card step rv"><div class="n">4</div><h3>Acompanhamento</h3><p>30 dias de suporte pelo WhatsApp para você executar o plano com segurança.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DELIVERABLES ============ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">O que você recebe</div>
+      <h2>Entregáveis concretos, <span class="pl">nas suas mãos</span></h2>
+    </div>
+    <div class="grid g3">
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div><div><h3>Diagnóstico em PDF</h3><p>Análise completa do seu perfil, conteúdo e posicionamento.</p></div></div>
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h18l-7 8v6l-4 2v-8z"/></svg></div><div><h3>Funil de vendas ideal</h3><p>Mapa do funil desenhado para o seu público e a sua oferta.</p></div></div>
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="6" r="2"/><circle cx="20" cy="6" r="2"/><circle cx="4" cy="18" r="2"/><circle cx="20" cy="18" r="2"/><path d="M6 7l3.5 3M18 7l-3.5 3M6 17l3.5-3M18 17l-3.5-3"/></svg></div><div><h3>Mapa de frentes</h3><p>Onde você depende de uma coisa só e quais frentes abrir primeiro.</p></div></div>
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><div><h3>Análise da concorrência</h3><p>O que as referências do seu mercado fazem e onde há espaço vazio.</p></div></div>
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></div><div><h3>Plano de ação</h3><p>Próximos passos claros e executáveis, em ordem de prioridade.</p></div></div>
+      <div class="card deliv rv"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div><div><h3>30 dias de suporte</h3><p>Acompanhamento pelo WhatsApp durante a execução do plano.</p></div></div>
+    </div>
+    <div class="cta-row center rv">
+      <a class="btn" href="#form">Descobrir onde estou invisível <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ ABOUT ============ -->
+<section>
+  <div class="wrap about">
+    <figure class="about-photo rv">
+      <img src="pitch-davi.png" alt="Davi Mendonza" loading="lazy">
+      <figcaption><b>Davi Mendonza</b><span>@ODAVIMENDONZA</span></figcaption>
+    </figure>
+    <div class="rv">
+      <div class="eyebrow">Quem vai olhar o seu negócio</div>
+      <h2>Eu vejo toda semana gente excelente <span class="pl">escondida</span> atrás do próprio funil</h2>
+      <p>Sou <strong>Davi Mendonza</strong>, gestor de Marketing Pessoal e especialista em Funil de Vendas Online. Meu trabalho é fazer quem é bom de verdade ser visto, lembrado e escolhido.</p>
+      <p>Não acredito em hack nem em sucesso fácil. Acredito em sistemas que geram oportunidades e movimento, trazem previsibilidade e, no fim, liberdade.</p>
+      <div class="stats">
+        <div class="stat"><strong class="fx">+20</strong><span>experts acelerados com funil e conteúdo</span></div>
+        <div class="stat"><strong>+R$ 1 mi</strong><span>vendido com funil e conteúdo</span></div>
+        <div class="stat"><strong>250 mil</strong><span>seguidores em 6 meses para uma médica</span></div>
+      </div>
+      <p class="belief">"Ser visto é dever de quem é bom. Quando o excelente se cala, o mercado se enche de medianos."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF ============ -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Resultados reais</div>
+      <h2>Números de quem <span class="fx">decidiu ser visto</span></h2>
+      <p class="lead">Conteúdo orgânico, vendas e tráfego pago de clientes acompanhados pela Pitch Company.</p>
+    </div>
+    <div class="proof-tabs" role="tablist">
+      <button class="on" data-tab="p-viral" role="tab" aria-selected="true">Conteúdo orgânico</button>
+      <button data-tab="p-roas" role="tab" aria-selected="false">Vendas e tráfego</button>
+      <button data-tab="p-depo" role="tab" aria-selected="false">Depoimentos</button>
+    </div>
+    <div class="proof-panel on" id="p-viral">
+      <div class="masonry">
+        <a href="cases/viral-1.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/viral-1.jpg.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-2.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/viral-2.jpg.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-3.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/viral-3.jpg.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-4.jpeg" target="_blank" rel="noopener"><img src="cases/viral-4.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-5.jpeg" target="_blank" rel="noopener"><img src="cases/viral-5.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-6.jpeg" target="_blank" rel="noopener"><img src="cases/viral-6.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+        <a href="cases/viral-7.jpeg" target="_blank" rel="noopener"><img src="cases/viral-7.jpeg" alt="Resultado de conteúdo orgânico" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="proof-panel" id="p-roas">
+      <div class="masonry">
+        <a href="cases/roas-1.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/roas-1.jpg.jpeg" alt="Resultado de vendas e tráfego pago" loading="lazy"></a>
+        <a href="cases/roas-2.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/roas-2.jpg.jpeg" alt="Resultado de vendas e tráfego pago" loading="lazy"></a>
+        <a href="cases/roas-3.jpg.jpeg" target="_blank" rel="noopener"><img src="cases/roas-3.jpg.jpeg" alt="Resultado de vendas e tráfego pago" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="proof-panel" id="p-depo">
+      <div class="masonry">
+        <a href="depo/daniela.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/daniela.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/franciaine.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/franciaine.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/giu.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/giu.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/mariana.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/mariana.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/michele.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/michele.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/taina.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/taina.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+        <a href="depo/anonimo.jpg.jpeg" target="_blank" rel="noopener"><img src="depo/anonimo.jpg.jpeg" alt="Depoimento de cliente" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ FOR WHO ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Para quem é</div>
+      <h2>O Diagnóstico é <span class="pl">para você?</span></h2>
+    </div>
+    <div class="grid g2">
+      <div class="card fit yes rv">
+        <h3>É para você se...</h3>
+        <ul>
+          <li>Você vende o próprio conhecimento: serviço, especialidade, infoproduto ou pequeno negócio.</li>
+          <li>Você é bom no que faz, mas o mercado ainda não percebe o seu valor.</li>
+          <li>Você depende de um canal, uma oferta ou uma fonte de cliente só.</li>
+          <li>Você quer ser referência e construir um negócio que dure, não um pico.</li>
+          <li>Você está pronto para ouvir a verdade e executar um plano.</li>
+        </ul>
+      </div>
+      <div class="card fit no rv">
+        <h3>Não é para você se...</h3>
+        <ul>
+          <li>Você procura hack, atalho ou dinheiro rápido.</li>
+          <li>Você quer resultado sem implementar nada.</li>
+          <li>Você não está disposto a receber um feedback honesto.</li>
+          <li>Você quer só seguidores, sem se importar com clientes.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section style="padding-top:0">
+  <div class="wrap narrow">
+    <div class="sec-head center rv">
+      <div class="eyebrow">Dúvidas</div>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="faq rv">
+      <details>
+        <summary>Funciona para o meu tipo de negócio?</summary>
+        <p>O Diagnóstico foi feito para quem vende conhecimento ou serviço: especialistas, profissionais liberais, prestadores de serviço, criadores de infoproduto e donos de pequenos negócios. Na primeira reunião a gente entende o seu mercado antes de qualquer análise.</p>
+      </details>
+      <details>
+        <summary>É genérico ou personalizado?</summary>
+        <p>100% personalizado. O funil ideal, o mapa de frentes e o plano de ação são construídos a partir do seu negócio, da sua oferta e do seu público. Não existe template.</p>
+      </details>
+      <details>
+        <summary>Preciso ter muitos seguidores?</summary>
+        <p>Não. O Diagnóstico funciona em qualquer tamanho de perfil. Muita gente nos procura justamente na fase de construção, para crescer com uma base estratégica desde o início.</p>
+      </details>
+      <details>
+        <summary>Quanto tempo dura?</summary>
+        <p>O processo completo leva 30 dias: coleta, análise interna, entrega do diagnóstico e acompanhamento para você executar o plano.</p>
+      </details>
+      <details>
+        <summary>Como funciona o suporte?</summary>
+        <p>Durante os 30 dias você tem acesso direto à equipe pelo WhatsApp para tirar dúvidas e acompanhar a execução do plano.</p>
+      </details>
+      <details>
+        <summary>E depois dos 30 dias?</summary>
+        <p>Você sai com clareza total e um plano executável. Se quiser, pode seguir com a Pitch Company em serviços contínuos, como tráfego pago, social media, edição de vídeo e coprodução de conteúdo.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="glow-line"></div>
+
+<!-- ============ FINAL + FORM ============ -->
+<section id="form">
+  <div class="wrap final">
+    <div class="rv">
+      <div class="eyebrow">Seu próximo passo</div>
+      <h2>E você, está sendo lembrado pelo que faz <span class="fx">de melhor?</span></h2>
+      <p class="lead">Ou está deixando o espaço para quem faz pior? Descubra onde o seu negócio está ficando invisível e quais frentes ele ainda não abriu.</p>
+      <p class="quote-line">Excelência sem estratégia vira anonimato.<br>Estratégia de uma frente só vira fragilidade.</p>
+    </div>
+    <div class="form-box rv">
+      <h3>Solicite o seu Diagnóstico 360</h3>
+      <p class="fsub">Leva menos de 1 minuto. A equipe entra em contato em até 24h.</p>
+      <form id="leadForm" novalidate>
+        <div class="fg">
+          <label for="name">Nome completo</label>
+          <input type="text" id="name" autocomplete="name" placeholder="Seu nome" required>
+        </div>
+        <div class="fg">
+          <label for="business">O que você vende?</label>
+          <select id="business" required>
+            <option value="">Selecione</option>
+            <option>Serviço / consultoria</option>
+            <option>Especialista / profissional liberal</option>
+            <option>Infoproduto (curso, mentoria)</option>
+            <option>Pequeno negócio / empresa</option>
+            <option>Criador de conteúdo</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="frow">
+          <div class="fg">
+            <label for="instagram">@ do Instagram</label>
+            <input type="text" id="instagram" placeholder="@seuperfil" required>
+          </div>
+          <div class="fg">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="tel" id="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(11) 99999-9999" required>
+          </div>
+        </div>
+        <div class="fg">
+          <label for="source">Hoje, de onde vem a maior parte dos seus clientes?</label>
+          <select id="source" required>
+            <option value="">Selecione</option>
+            <option>Indicação</option>
+            <option>Instagram orgânico</option>
+            <option>Anúncios (tráfego pago)</option>
+            <option>Lançamentos</option>
+            <option>Várias frentes equilibradas</option>
+            <option>Ainda não tenho clientes constantes</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label for="revenue">Faturamento mensal aproximado</label>
+          <select id="revenue">
+            <option value="">Prefiro não dizer</option>
+            <option>Até R$ 10 mil</option>
+            <option>R$ 10 mil a R$ 30 mil</option>
+            <option>R$ 30 mil a R$ 100 mil</option>
+            <option>Acima de R$ 100 mil</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Quero meu diagnóstico <span class="arr">→</span></button>
+        <p class="fdis">🔒 Seus dados estão protegidos. Não enviamos spam.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGN-OFF ============ -->
+<div class="signoff">
+  <div class="wrap">
+    <div class="sep"></div>
+    <p>Me segue se você quer ver os próximos conteúdos feitos para <span class="fx">pessoas excelentes</span>.</p>
+    <a class="ig-link" href="https://instagram.com/odavimendonza" target="_blank" rel="noopener">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+      @ODAVIMENDONZA
+    </a>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="logo-branco.svg" alt="Pitch Company">
+    <p><b>Pitch Company</b> · Todos os direitos reservados</p>
+    <p style="margin-top:5px">Diagnóstico 360 · Funil de Vendas e Marketing Pessoal para empresários e criadores</p>
+    <p style="margin-top:8px;font-size:11px">Pitch Company LTDA · CNPJ 54.566.812/0001-28</p>
+  </div>
+</footer>
+
+<div class="m-cta" id="mcta"><a class="btn" href="#form">Quero meu diagnóstico <span class="arr">→</span></a></div>
+
+<script>
+  /* Reveal on scroll */
+  (function () {
+    const els = document.querySelectorAll('.rv');
+    if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(e => io.observe(e));
+  })();
+
+  /* Fronts checker */
+  (function () {
+    const items = document.querySelectorAll('#fronts .front');
+    const total = items.length;
+    const cEl = document.getElementById('fcount'), mEl = document.getElementById('fmeter');
+    const tEl = document.getElementById('ftitle'), pEl = document.getElementById('ftext');
+    function update() {
+      let n = 0;
+      items.forEach(l => { const on = l.querySelector('input').checked; l.classList.toggle('on', on); if (on) n++; });
+      cEl.textContent = n;
+      mEl.style.width = (n / total * 100) + '%';
+      if (n === 0) {
+        tEl.textContent = 'Marque as suas frentes';
+        pEl.textContent = 'Veja em segundos se o seu negócio está pendurado em uma coisa só.';
+      } else if (n <= 2) {
+        tEl.textContent = 'Pendurado em uma frente só';
+        pEl.textContent = 'Se uma dessas portas fechar amanhã, o faturamento vai junto. O Diagnóstico mostra quais frentes abrir primeiro.';
+      } else if (n <= 5) {
+        tEl.textContent = 'Você começou a empilhar';
+        pEl.textContent = 'Já existem frentes, mas elas se alimentam entre si? O Diagnóstico mostra onde o funil está vazando entre uma e outra.';
+      } else {
+        tEl.textContent = 'Ecossistema em construção';
+        pEl.textContent = 'Muitas frentes abertas. Agora a pergunta é se elas estão conectadas por um funil e se o seu posicionamento está claro em todas.';
+      }
+    }
+    items.forEach(l => l.querySelector('input').addEventListener('change', update));
+  })();
+
+  /* Proof tabs */
+  document.querySelectorAll('.proof-tabs button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.proof-tabs button').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.proof-panel').forEach(p => p.classList.remove('on'));
+      b.classList.add('on'); b.setAttribute('aria-selected', 'true');
+      document.getElementById(b.dataset.tab).classList.add('on');
+    });
+  });
+
+  /* Mobile sticky CTA: show after hero, hide near the form */
+  (function () {
+    const bar = document.getElementById('mcta');
+    const form = document.getElementById('form');
+    function onScroll() {
+      const past = window.scrollY > window.innerHeight * .8;
+      const r = form.getBoundingClientRect();
+      const nearForm = r.top < window.innerHeight && r.bottom > 0;
+      bar.classList.toggle('show', past && !nearForm);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
+  /* WhatsApp mask */
+  document.getElementById('whatsapp').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2, v.length - 4)}-${v.slice(-4)}`;
+    else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else if (v.length) v = `(${v}`;
+    e.target.value = v;
+  });
+
+  /* Lead form */
+  document.getElementById('leadForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const val = id => document.getElementById(id).value.trim();
+    const required = ['name', 'business', 'instagram', 'whatsapp', 'source'];
+    let firstBad = null;
+    required.forEach(id => {
+      const el = document.getElementById(id);
+      const bad = !el.value.trim() || (id === 'whatsapp' && el.value.replace(/\D/g, '').length < 10);
+      el.style.borderColor = bad ? '#FB7185' : '';
+      if (bad && !firstBad) firstBad = el;
+    });
+    if (firstBad) { firstBad.focus(); return; }
+
+    const btn = form.querySelector('button[type=submit]');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const payload = {
+      nome: val('name'),
+      negocio: val('business'),
+      instagram: val('instagram'),
+      whatsapp: val('whatsapp'),
+      principal_fonte_clientes: val('source'),
+      faturamento: val('revenue'),
+      origem: 'Diagnóstico 360 — Empresários e Criadores',
+      data_envio: new Date().toISOString()
+    };
+    try {
+      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (err) { console.error('Webhook error:', err); }
+
+    const first = payload.nome.split(' ')[0];
+    const waMsg = encodeURIComponent(
+      `Olá! Acabei de solicitar o Diagnóstico 360.\n\n👤 ${payload.nome}\n📸 ${payload.instagram}\n📱 ${payload.whatsapp}\n💼 ${payload.negocio}\n🧲 Clientes vêm de: ${payload.principal_fonte_clientes}\n\nQuero descobrir onde meu negócio está ficando invisível!`
+    );
+    const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    form.innerHTML = `
+      <div class="success">
+        <div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <h3>Solicitação enviada, ${esc(first)}!</h3>
+        <p>A equipe entra em contato em até 24h.<br>Se preferir, fale com a gente agora:</p>
+        <a class="btn btn-wa" href="https://wa.me/5512988037941?text=${waMsg}" target="_blank" rel="noopener">Falar no WhatsApp agora <span class="arr">→</span></a>
+      </div>`;
+  });
+</script>
+</body>
+</html>
