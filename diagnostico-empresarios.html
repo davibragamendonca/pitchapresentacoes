@@ -1111,8 +1111,15 @@
     } catch (err) { try { fbq('track', 'Lead'); } catch (e) {} }
 
     const first = payload.nome.split(' ')[0];
+    const trabalho = {
+      'Serviço / consultoria': 'serviços e consultoria',
+      'Especialista / profissional liberal': 'atendimento como especialista',
+      'Infoproduto (curso, mentoria)': 'infoprodutos, cursos e mentorias',
+      'Pequeno negócio / empresa': 'meu próprio negócio',
+      'Criador de conteúdo': 'criação de conteúdo'
+    }[payload.negocio];
     const waMsg = encodeURIComponent(
-      `Olá! Acabei de solicitar o Diagnóstico 360.\n\n👤 ${payload.nome}\n📸 ${payload.instagram}\n📱 ${payload.whatsapp}\n💼 ${payload.negocio}\n🧲 Clientes vêm de: ${payload.principal_fonte_clientes}\n\nQuero descobrir onde meu negócio está ficando invisível!`
+      `Olá, quero fazer o Diagnóstico 360, sou ${payload.nome}${trabalho ? ' e trabalho com ' + trabalho : ''}. Quero descobrir onde meu negócio está ficando invisível!`
     );
     const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     form.innerHTML = `
