@@ -9,6 +9,10 @@
   <meta property="og:description" content="Descubra onde o seu negócio está ficando invisível ou frágil: posicionamento, conteúdo, funil ou frentes de crescimento.">
   <meta property="og:image" content="diag360-mockup.png">
   <meta name="theme-color" content="#050010">
+  <!-- Meta Pixel -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2464454597399812');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1" alt=""></noscript>
+  <!-- End Meta Pixel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1087,12 +1091,24 @@
       data_envio: new Date().toISOString()
     };
     try {
-      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-360-profissionais-saude', {
+      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-empresarios', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
     } catch (err) { console.error('Webhook error:', err); }
+
+    /* Meta Pixel: Lead com advanced matching (dados em SHA-256) */
+    try {
+      if (typeof fbq === 'function') {
+        const sha = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); };
+        let digits = payload.whatsapp.replace(/D/g, ''); if (digits.length <= 11) digits = '55' + digits;
+        const ph = await sha(digits);
+        const fn = await sha(payload.nome.split(' ')[0].toLowerCase());
+        fbq('init', '2464454597399812', { ph, fn });
+        fbq('track', 'Lead', { content_name: 'Diagnóstico 360 — Empresários', content_category: payload.negocio }, { eventID: 'lead_diagemp_' + Date.now() });
+      }
+    } catch (err) { try { fbq('track', 'Lead'); } catch (e) {} }
 
     const first = payload.nome.split(' ')[0];
     const waMsg = encodeURIComponent(
@@ -1104,7 +1120,7 @@
         <div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
         <h3>Solicitação enviada, ${esc(first)}!</h3>
         <p>A equipe entra em contato em até 24h.<br>Se preferir, fale com a gente agora:</p>
-        <a class="btn btn-wa" href="https://wa.me/5512988037941?text=${waMsg}" target="_blank" rel="noopener">Falar no WhatsApp agora <span class="arr">→</span></a>
+        <a class="btn btn-wa" onclick="try{fbq('track','Contact')}catch(e){}" href="https://wa.me/5512988037941?text=${waMsg}" target="_blank" rel="noopener">Falar no WhatsApp agora <span class="arr">→</span></a>
       </div>`;
   });
 </script>
