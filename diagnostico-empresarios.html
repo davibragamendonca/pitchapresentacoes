@@ -931,8 +931,8 @@
             <input type="text" id="instagram" placeholder="@seuperfil" required>
           </div>
           <div class="fg">
-            <label for="whatsapp">WhatsApp</label>
-            <input type="tel" id="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(11) 99999-9999" required>
+            <label for="whatsapp">WhatsApp com DDD</label>
+            <input type="tel" id="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(12) 99999-9999" required>
           </div>
         </div>
         <div class="fg">
@@ -1054,7 +1054,9 @@
 
   /* WhatsApp mask */
   document.getElementById('whatsapp').addEventListener('input', e => {
-    let v = e.target.value.replace(/\D/g, '').slice(0, 11);
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 11 && v.startsWith('55')) v = v.slice(2); /* remove o código do país (+55) */
+    v = v.slice(0, 11);
     if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2, v.length - 4)}-${v.slice(-4)}`;
     else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
     else if (v.length) v = `(${v}`;
@@ -1085,6 +1087,7 @@
       negocio: val('business'),
       instagram: val('instagram'),
       whatsapp: val('whatsapp'),
+      whatsapp_e164: '+55' + val('whatsapp').replace(/\D/g, ''),
       principal_fonte_clientes: val('source'),
       faturamento: val('revenue'),
       origem: 'Diagnóstico 360 — Empresários e Criadores',
@@ -1102,7 +1105,7 @@
     try {
       if (typeof fbq === 'function') {
         const sha = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); };
-        let digits = payload.whatsapp.replace(/D/g, ''); if (digits.length <= 11) digits = '55' + digits;
+        const digits = payload.whatsapp_e164.replace(/\D/g, '');
         const ph = await sha(digits);
         const fn = await sha(payload.nome.split(' ')[0].toLowerCase());
         fbq('init', '2464454597399812', { ph, fn });
