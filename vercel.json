@@ -1,6 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/empresarios", "destination": "/diagnostico-empresarios" },
+    { "source": "/empres%C3%A1rios", "destination": "/diagnostico-empresarios" },
+    { "source": "/empresários", "destination": "/diagnostico-empresarios" }
+  ],
   "redirects": [
     {
       "source": "/",
