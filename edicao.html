@@ -607,17 +607,28 @@
 
   /* WhatsApp mask */
   const wa = document.getElementById('whatsapp');
-  wa.addEventListener('input', () => {
-    let d = wa.value.replace(/\D/g, '').slice(0, 11);
+  /* Normaliza autocomplete/colar: "+55 12 98803-7941", "012...", "0055..." viram "12988037941" */
+  const phoneDigits = v => {
+    let d = v.replace(/\D/g, '');
+    if (d.startsWith('00')) d = d.slice(2);
+    if (d.length > 11 && d.startsWith('55')) d = d.slice(2);
+    if (d.length > 11 && d.startsWith('0')) d = d.slice(1);
+    return d.slice(0, 11);
+  };
+  const maskPhone = () => {
+    const d = phoneDigits(wa.value);
     wa.value = d.length > 6 ? `(${d.slice(0,2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}` : d.length > 2 ? `(${d.slice(0,2)}) ${d.slice(2)}` : d;
-  });
+  };
+  wa.addEventListener('input', maskPhone);
+  wa.addEventListener('change', maskPhone);
+  wa.addEventListener('blur', maskPhone);
 
   /* Submit */
   const val = id => document.getElementById(id).value.trim();
   document.getElementById('leadForm').addEventListener('submit', async e => {
     e.preventDefault();
     const err = document.getElementById('err');
-    const nome = val('name'), email = val('email'), digits = val('whatsapp').replace(/\D/g, '');
+    const nome = val('name'), email = val('email'), digits = phoneDigits(val('whatsapp'));
     if (nome.length < 2) return err.textContent = 'Digite seu nome.';
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err.textContent = 'Digite um e-mail válido.';
     if (digits.length < 10) return err.textContent = 'Digite um WhatsApp válido com DDD.';
