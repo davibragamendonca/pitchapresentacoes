@@ -184,8 +184,10 @@
 
     /* viz 2/3: chat */
     .chat { position: absolute; inset: 14px; display: flex; flex-direction: column; gap: 8px; justify-content: flex-end; }
+    .viz.vc { height: auto; min-height: 140px; }
+    .viz.vc .chat { position: relative; inset: auto; padding: 14px; min-height: 140px; }
     .bub { max-width: 82%; padding: 8px 12px; border-radius: 12px; font-size: 12px; line-height: 1.35; opacity: 0; transform: translateY(8px); animation: bub 6s infinite; }
-    .bub.ai { background: rgba(168,85,247,.18); border: 1px solid var(--border-l); color: var(--text); border-bottom-left-radius: 4px; }
+    .bub.ai { align-self: flex-start; background: rgba(168,85,247,.18); border: 1px solid var(--border-l); color: var(--text); border-bottom-left-radius: 4px; }
     .bub.me { align-self: flex-end; background: linear-gradient(135deg, var(--neon), var(--purple)); color: #fff; border-bottom-right-radius: 4px; }
     .bub:nth-child(2) { animation-delay: .9s; } .bub:nth-child(3) { animation-delay: 1.8s; }
     @keyframes bub { 0% { opacity: 0; transform: translateY(8px); } 8%,85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
@@ -286,6 +288,8 @@
       .step .num { width: 52px; height: 52px; font-size: 15px; border-radius: 15px; }
       .rail { left: 25px; }
       .viz { grid-column: 2; height: 128px; }
+      .viz.vc, .viz.vc .chat { min-height: 0; }
+      .bub { max-width: 92%; font-size: 11.5px; }
     }
     @media (max-width: 520px) {
       .ed-body { grid-template-columns: 112px 1fr; gap: 12px; }
@@ -415,7 +419,7 @@
       <div class="step">
         <div class="num">02</div>
         <div class="txt"><div class="k">Conversa</div><h3>Inicie a conversa</h3><p>Diga em português simples o que você quer: "edita meu reels com legenda e cortes". Sem comando, sem código.</p></div>
-        <div class="viz"><div class="chat">
+        <div class="viz vc"><div class="chat">
           <div class="bub me">Edita meu vídeo pro Reels 🎬</div>
           <div class="bub ai">Bora! Vou te fazer algumas perguntas rápidas.</div>
           <div class="bub ai"><span class="typing"><i></i><i></i><i></i></span></div>
@@ -425,7 +429,7 @@
       <div class="step">
         <div class="num">03</div>
         <div class="txt"><div class="k">Briefing</div><h3>Responda as perguntas da IA</h3><p>Estilo da legenda, cores da marca, formato do vídeo. A IA entende o seu jeito e configura tudo sozinha.</p></div>
-        <div class="viz"><div class="chat">
+        <div class="viz vc"><div class="chat">
           <div class="bub ai">Qual a cor da sua marca?</div>
           <div class="bub me">Roxo neon 💜</div>
           <div class="bub ai">Perfeito. Legenda estilo viral, ok?</div>
