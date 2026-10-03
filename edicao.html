@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edição de Vídeo com IA — Davi Mendonza</title>
+  <meta name="description" content="A IA editou esse vídeo em 15 minutos, sem gastar 1 único centavo. Baixe grátis o arquivo de edição de vídeo com IA do Davi Mendonza.">
+  <meta property="og:title" content="A IA editou esse vídeo em 15 minutos, sem gastar 1 único centavo">
+  <meta property="og:description" content="Baixe grátis o arquivo que transforma o Claude Code no seu editor de vídeo.">
+  <meta property="og:image" content="pitch-davi.png">
+
+  <!-- Meta Pixel -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2464454597399812');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1" alt=""></noscript>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #050010; --bg2: #0A0020;
+      --card: rgba(255,255,255,.035);
+      --purple: #A855F7; --purple-l: #C084FC; --purple-d: #6B21A8; --neon: #8600FF;
+      --fuchsia: #E879F9; --text: #F3E8FF; --text2: #C4B5FD;
+      --muted: rgba(196,181,253,.62);
+      --border: rgba(168,85,247,.16); --border-l: rgba(168,85,247,.34);
+      --green: #34D399; --red: #FB7185; --radius: 18px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif; line-height: 1.5;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 0%, rgba(134,0,255,.22), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 100% 30%, rgba(232,121,249,.10), transparent 70%);
+    }
+    main, header, footer { position: relative; z-index: 1; }
+    .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+    section { padding: 96px 0; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--purple-l); margin-bottom: 16px; }
+    h2 { font-size: clamp(30px, 4.4vw, 48px); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 18px; }
+    .lead { font-size: clamp(16px, 1.6vw, 19px); color: var(--text2); line-height: 1.65; max-width: 640px; }
+    .center { text-align: center; } .center .lead { margin: 0 auto; }
+    .fx { background: linear-gradient(90deg, var(--purple-l), var(--fuchsia)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 19px 30px; border: 0; border-radius: 14px; cursor: pointer; text-decoration: none;
+      font: 800 15px/1 'Inter', sans-serif; letter-spacing: .05em; text-transform: uppercase; color: #fff;
+      background: linear-gradient(135deg, var(--neon), var(--purple) 55%, var(--fuchsia));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset, 0 12px 40px rgba(134,0,255,.45);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 18px 54px rgba(134,0,255,.6); }
+    .btn .arr { transition: transform .2s ease; } .btn:hover .arr { transform: translateX(4px); }
+    .btn-note { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+    /* ---------- TOP ---------- */
+    .top { padding: 22px 0; }
+    .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text); }
+    .brand img { height: 30px; }
+    .brand b { display: block; font-size: 13px; font-weight: 800; letter-spacing: .16em; }
+    .brand span { font-size: 11px; letter-spacing: .14em; color: var(--muted); }
+    .pill { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--border-l); color: var(--green); background: rgba(52,211,153,.06); white-space: nowrap; }
+
+    /* ---------- HERO ---------- */
+    .hero { padding: 40px 0 90px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+    .hero h1 { font-size: clamp(36px, 5.6vw, 66px); font-weight: 900; letter-spacing: -.04em; line-height: 1.03; margin-bottom: 24px; }
+    .hero h1 .strike { position: relative; white-space: nowrap; }
+    .hero h1 .strike::after {
+      content: ''; position: absolute; left: -2%; right: -2%; bottom: .08em; height: .14em; border-radius: 4px;
+      background: linear-gradient(90deg, var(--neon), var(--fuchsia)); transform-origin: left; transform: scaleX(0);
+      animation: draw 1s .6s cubic-bezier(.2,.8,.2,1) forwards; z-index: -1; opacity: .85;
+    }
+    @keyframes draw { to { transform: scaleX(1); } }
+    .hero .lead { margin-bottom: 32px; }
+    .hero .lead strong { color: var(--text); }
+    .hero-proof { display: flex; gap: 28px; margin-top: 34px; flex-wrap: wrap; }
+    .hero-proof div { font-size: 13px; color: var(--muted); line-height: 1.35; }
+    .hero-proof strong { display: block; font-size: 26px; font-weight: 900; color: var(--text); letter-spacing: -.02em; }
+
+    /* Editor mockup */
+    .editor {
+      position: relative; border-radius: 24px; padding: 18px; background: linear-gradient(180deg, rgba(20,6,46,.9), rgba(8,0,24,.95));
+      border: 1px solid var(--border-l); box-shadow: 0 0 120px rgba(134,0,255,.28), 0 30px 80px rgba(0,0,0,.5);
+    }
+    .ed-bar { display: flex; align-items: center; gap: 7px; margin-bottom: 14px; }
+    .ed-bar i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.14); }
+    .ed-bar span { margin-left: auto; font-size: 11px; color: var(--muted); }
+    .ed-body { display: grid; grid-template-columns: 150px 1fr; gap: 16px; }
+    .phone {
+      position: relative; aspect-ratio: 9/16; border-radius: 16px; overflow: hidden;
+      background: linear-gradient(160deg, #2a0a5c, #12002e 55%, #3b0764); border: 1px solid var(--border-l);
+    }
+    .phone::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% 38%, rgba(232,121,249,.35), transparent 45%); animation: pulse 3s ease-in-out infinite; }
+    .phone .face { position: absolute; left: 50%; top: 30%; width: 44%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; background: linear-gradient(180deg, rgba(243,232,255,.35), rgba(243,232,255,.12)); }
+    .phone .body { position: absolute; left: 50%; top: 56%; width: 80%; height: 50%; transform: translateX(-50%); border-radius: 50% 50% 0 0; background: rgba(243,232,255,.12); }
+    .cap {
+      position: absolute; left: 8%; right: 8%; bottom: 20%; text-align: center; font-weight: 900; font-size: 13px; line-height: 1.15;
+      text-transform: uppercase; text-shadow: 0 2px 8px rgba(0,0,0,.6);
+    }
+    .cap b { color: #FDE047; }
+    .cap span { display: inline-block; opacity: 0; transform: translateY(6px) scale(.9); }
+    .phone .zoom { position: absolute; inset: 0; animation: zoom 6s ease-in-out infinite; }
+    @keyframes zoom { 0%,40% { transform: scale(1); } 50%,90% { transform: scale(1.12); } 100% { transform: scale(1); } }
+    @keyframes pulse { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+    .side { display: flex; flex-direction: column; gap: 10px; font-size: 12px; min-width: 0; }
+    .task { display: flex; align-items: center; gap: 9px; padding: 9px 11px; border-radius: 10px; background: var(--card); border: 1px solid var(--border); color: var(--muted); transition: all .35s ease; }
+    .task .ck { flex: none; width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--border-l); display: grid; place-items: center; font-size: 10px; color: transparent; transition: all .35s ease; }
+    .task.done { color: var(--text); border-color: rgba(52,211,153,.35); background: rgba(52,211,153,.06); }
+    .task.done .ck { background: var(--green); border-color: var(--green); color: #052e1c; }
+    .task.run { color: var(--text); border-color: var(--border-l); }
+    .task.run .ck { border-top-color: var(--fuchsia); animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .timeline { margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(0,0,0,.25); border: 1px solid var(--border); }
+    .track { position: relative; height: 16px; border-radius: 5px; margin-bottom: 6px; overflow: hidden; display: flex; gap: 3px; }
+    .track i { display: block; height: 100%; border-radius: 4px; }
+    .t1 i { background: rgba(168,85,247,.55); } .t2 i { background: rgba(232,121,249,.45); } .t3 i { background: rgba(52,211,153,.4); }
+    .playhead { position: absolute; top: 8px; bottom: 8px; width: 2px; background: #fff; box-shadow: 0 0 10px #fff; left: 12px; animation: play 6s linear infinite; }
+    @keyframes play { from { left: 12px; } to { left: calc(100% - 14px); } }
+    .ed-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 10px; }
+    .meter { font-size: 11px; color: var(--muted); line-height: 1.2; }
+    .meter strong { display: block; font-size: 20px; color: var(--text); font-weight: 700; }
+    .meter.money strong { color: var(--green); }
+    .float-tag {
+      position: absolute; right: -14px; top: -16px; padding: 9px 14px; border-radius: 12px; font-size: 12px; font-weight: 800;
+      background: linear-gradient(135deg, var(--neon), var(--fuchsia)); box-shadow: 0 10px 30px rgba(134,0,255,.5);
+      animation: bob 3s ease-in-out infinite;
+    }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(3deg); } 50% { transform: translateY(-6px) rotate(3deg); } }
+
+    /* ---------- PAIN / COMPARE ---------- */
+    .cmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 48px; }
+    .cmp { padding: 32px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--card); }
+    .cmp.good { border-color: var(--border-l); background: linear-gradient(160deg, rgba(134,0,255,.14), rgba(255,255,255,.02)); box-shadow: 0 0 60px rgba(134,0,255,.15); }
+    .cmp-label { font-size: 12px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 18px; }
+    .cmp.bad .cmp-label { color: var(--red); } .cmp.good .cmp-label { color: var(--green); }
+    .cmp ul { list-style: none; display: grid; gap: 14px; }
+    .cmp li { display: flex; gap: 12px; font-size: 15.5px; color: var(--text2); }
+    .cmp li b { color: var(--text); }
+    .cmp li::before { flex: none; font-weight: 900; }
+    .cmp.bad li::before { content: '✕'; color: var(--red); } .cmp.good li::before { content: '✓'; color: var(--green); }
+
+    /* ---------- JOURNEY ---------- */
+    .journey { position: relative; margin-top: 56px; }
+    .rail { position: absolute; left: 31px; top: 10px; bottom: 10px; width: 2px; background: var(--border); border-radius: 2px; }
+    .rail i { position: absolute; inset: 0 0 auto 0; height: 0; background: linear-gradient(180deg, var(--neon), var(--fuchsia)); box-shadow: 0 0 14px var(--purple); border-radius: 2px; }
+    .step { position: relative; display: grid; grid-template-columns: 64px 1fr 300px; gap: 26px; align-items: center; padding: 22px 0; }
+    .step .num {
+      position: relative; z-index: 1; width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center;
+      font: 700 18px 'JetBrains Mono', monospace; color: var(--muted); background: var(--bg2); border: 1px solid var(--border);
+      transition: all .5s ease;
+    }
+    .step.on .num { color: #fff; border-color: transparent; background: linear-gradient(135deg, var(--neon), var(--fuchsia)); box-shadow: 0 0 34px rgba(134,0,255,.55); }
+    .step .txt .k { font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--purple-l); margin-bottom: 6px; }
+    .step h3 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+    .step p { color: var(--text2); font-size: 15px; max-width: 460px; }
+    .viz {
+      position: relative; height: 140px; border-radius: 16px; overflow: hidden;
+      background: linear-gradient(160deg, rgba(20,6,46,.85), rgba(8,0,24,.9)); border: 1px solid var(--border);
+      opacity: .35; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease, border-color .6s ease;
+    }
+    .step.on .viz { opacity: 1; transform: none; border-color: var(--border-l); }
+    .viz * { animation-play-state: paused !important; }
+    .step.on .viz * { animation-play-state: running !important; }
+
+    /* viz 1: file drops into terminal */
+    .v1 .term { position: absolute; left: 16px; right: 16px; bottom: 14px; height: 62px; border-radius: 10px; background: #000; border: 1px solid var(--border); padding: 9px 12px; font: 500 11px 'JetBrains Mono', monospace; color: var(--green); }
+    .v1 .term em { color: var(--muted); font-style: normal; }
+    .v1 .file { position: absolute; left: 50%; top: 14px; width: 40px; height: 48px; margin-left: -20px; border-radius: 6px; background: linear-gradient(160deg, var(--purple-l), var(--neon)); box-shadow: 0 6px 20px rgba(134,0,255,.6); animation: drop 3s ease-in-out infinite; }
+    .v1 .file::after { content: '.md'; position: absolute; bottom: 6px; left: 0; right: 0; text-align: center; font: 700 10px 'JetBrains Mono', monospace; color: #fff; }
+    @keyframes drop { 0% { transform: translateY(-60px) rotate(-12deg); opacity: 0; } 30% { transform: translateY(0) rotate(0); opacity: 1; } 55% { transform: translateY(44px) scale(.4); opacity: 0; } 100% { opacity: 0; } }
+    .v1 .ok { opacity: 0; animation: appear 3s infinite; }
+    @keyframes appear { 0%,55% { opacity: 0; } 62%,95% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* viz 2/3: chat */
+    .chat { position: absolute; inset: 14px; display: flex; flex-direction: column; gap: 8px; justify-content: flex-end; }
+    .bub { max-width: 82%; padding: 8px 12px; border-radius: 12px; font-size: 12px; line-height: 1.35; opacity: 0; transform: translateY(8px); animation: bub 6s infinite; }
+    .bub.ai { background: rgba(168,85,247,.18); border: 1px solid var(--border-l); color: var(--text); border-bottom-left-radius: 4px; }
+    .bub.me { align-self: flex-end; background: linear-gradient(135deg, var(--neon), var(--purple)); color: #fff; border-bottom-right-radius: 4px; }
+    .bub:nth-child(2) { animation-delay: .9s; } .bub:nth-child(3) { animation-delay: 1.8s; }
+    @keyframes bub { 0% { opacity: 0; transform: translateY(8px); } 8%,85% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+    .typing { display: inline-flex; gap: 3px; } .typing i { width: 5px; height: 5px; border-radius: 50%; background: var(--purple-l); animation: blink 1s infinite; }
+    .typing i:nth-child(2) { animation-delay: .15s; } .typing i:nth-child(3) { animation-delay: .3s; }
+    @keyframes blink { 0%,100% { opacity: .25; } 50% { opacity: 1; } }
+
+    /* viz 4: installs */
+    .inst { position: absolute; inset: 18px; display: grid; gap: 14px; align-content: center; }
+    .inst .row { font: 500 11px 'JetBrains Mono', monospace; color: var(--text2); }
+    .inst .row div { display: flex; justify-content: space-between; margin-bottom: 6px; }
+    .inst .bar { height: 8px; border-radius: 6px; background: rgba(255,255,255,.06); overflow: hidden; }
+    .inst .bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: linear-gradient(90deg, var(--neon), var(--fuchsia)); animation: fill 3.2s ease-in-out infinite; }
+    .inst .row:nth-child(2) .bar i { animation-delay: .5s; background: linear-gradient(90deg, #3b82f6, #FDE047); }
+    @keyframes fill { 0% { width: 0; } 70%,100% { width: 100%; } }
+
+    /* viz 5: pick video */
+    .v5 .grid { position: absolute; inset: 16px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .v5 .grid i { border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid var(--border); position: relative; }
+    .v5 .grid i::after { content: '▶'; position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; color: var(--muted); font-style: normal; }
+    .v5 .grid i.pick { animation: pick 3s infinite; }
+    @keyframes pick { 0%,35% { border-color: var(--border); box-shadow: none; } 45%,90% { border-color: var(--fuchsia); box-shadow: 0 0 20px rgba(232,121,249,.6); background: rgba(232,121,249,.15); } 100% { border-color: var(--border); } }
+    .v5 .cursor { position: absolute; width: 16px; height: 16px; left: 20%; top: 80%; animation: cursor 3s infinite; }
+    @keyframes cursor { 0% { left: 15%; top: 85%; } 40%,100% { left: 60%; top: 52%; } }
+
+    /* viz 6: render */
+    .v6 { display: grid; place-items: center; }
+    .ring { width: 86px; height: 86px; }
+    .ring circle { fill: none; stroke-width: 7; }
+    .ring .bg { stroke: rgba(255,255,255,.07); }
+    .ring .fg { stroke: url(#g); stroke-linecap: round; stroke-dasharray: 226; stroke-dashoffset: 226; transform: rotate(-90deg); transform-origin: center; animation: ring 4s ease-in-out infinite; }
+    @keyframes ring { 0% { stroke-dashoffset: 226; } 75%,100% { stroke-dashoffset: 0; } }
+    .v6 .lbl { position: absolute; font: 700 12px 'JetBrains Mono', monospace; color: var(--text); }
+    .v6 .done { position: absolute; bottom: 12px; font-size: 11px; font-weight: 800; letter-spacing: .14em; color: var(--green); text-transform: uppercase; opacity: 0; animation: appear2 4s infinite; }
+    @keyframes appear2 { 0%,74% { opacity: 0; } 80%,96% { opacity: 1; } 100% { opacity: 0; } }
+
+    /* viz 7: viral */
+    .v7 .views { position: absolute; left: 18px; top: 16px; }
+    .v7 .views small { display: block; font-size: 10px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; }
+    .v7 .views strong { font-size: 30px; font-weight: 900; letter-spacing: -.03em; }
+    .v7 svg.chart { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 70px; }
+    .v7 .line { fill: none; stroke: url(#g2); stroke-width: 3; stroke-dasharray: 400; stroke-dashoffset: 400; animation: line 3.5s ease-out infinite; }
+    @keyframes line { 0% { stroke-dashoffset: 400; } 70%,100% { stroke-dashoffset: 0; } }
+    .heart { position: absolute; right: 24px; bottom: 20px; font-size: 18px; opacity: 0; animation: heart 2.4s ease-out infinite; }
+    .heart:nth-child(3) { right: 50px; animation-delay: .6s; font-size: 14px; } .heart:nth-child(4) { right: 34px; animation-delay: 1.3s; font-size: 22px; }
+    @keyframes heart { 0% { opacity: 0; transform: translateY(0) scale(.6); } 20% { opacity: 1; } 100% { opacity: 0; transform: translateY(-90px) scale(1.1); } }
+
+    /* ---------- ABOUT ---------- */
+    .about { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .about-photo { position: relative; border-radius: 24px; overflow: hidden; border: 1px solid var(--border-l); box-shadow: 0 0 80px rgba(134,0,255,.25); }
+    .about-photo img { display: block; width: 100%; aspect-ratio: 4/5; object-fit: cover; transform: scale(1.12); transform-origin: 50% 40%; }
+    .about-photo figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 60px 22px 20px; background: linear-gradient(180deg, transparent, rgba(5,0,16,.95)); }
+    .about-photo figcaption b { display: block; font-size: 18px; }
+    .about-photo figcaption span { font-size: 13px; color: var(--text2); letter-spacing: .08em; }
+    .about p { color: var(--text2); font-size: 17px; margin-bottom: 18px; }
+    .about p strong { color: var(--text); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0 8px; }
+    .stat { padding: 18px; border-radius: 14px; background: var(--card); border: 1px solid var(--border); }
+    .stat strong { display: block; font-size: 26px; font-weight: 900; letter-spacing: -.03em; line-height: 1.1; margin-bottom: 6px; }
+    .stat span { font-size: 13px; color: var(--muted); line-height: 1.4; display: block; }
+
+    /* ---------- FORM ---------- */
+    .cta-box {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 48px; border-radius: 28px;
+      border: 1px solid var(--border-l); background: linear-gradient(160deg, rgba(134,0,255,.16), rgba(10,0,32,.7));
+      box-shadow: 0 0 120px rgba(134,0,255,.2);
+    }
+    .cta-box ul { list-style: none; display: grid; gap: 12px; margin-top: 24px; }
+    .cta-box li { display: flex; gap: 12px; color: var(--text2); font-size: 15.5px; }
+    .cta-box li::before { content: '✓'; color: var(--green); font-weight: 900; }
+    form { display: grid; gap: 14px; }
+    label { font-size: 13px; font-weight: 600; color: var(--text2); display: grid; gap: 7px; }
+    input {
+      width: 100%; padding: 16px 16px; border-radius: 12px; border: 1px solid var(--border-l); background: rgba(5,0,16,.7);
+      color: var(--text); font: 500 16px 'Inter', sans-serif; outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    input:focus { border-color: var(--fuchsia); box-shadow: 0 0 0 4px rgba(232,121,249,.15); }
+    input::placeholder { color: rgba(196,181,253,.38); }
+    form .btn { width: 100%; margin-top: 6px; }
+    .err { color: var(--red); font-size: 13px; min-height: 18px; }
+    .success { text-align: center; padding: 10px 0; }
+    .success .icon { width: 72px; height: 72px; margin: 0 auto 18px; border-radius: 50%; display: grid; place-items: center; font-size: 34px; background: rgba(52,211,153,.12); border: 1px solid rgba(52,211,153,.4); }
+    .success h3 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+    .success p { color: var(--text2); font-size: 15px; margin-bottom: 24px; }
+
+    footer { padding: 40px 0 56px; text-align: center; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); }
+
+    .rv { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+    .rv.in { opacity: 1; transform: none; }
+
+    @media (max-width: 920px) {
+      section { padding: 72px 0; }
+      .hero-grid, .about, .cta-box, .cmp-grid { grid-template-columns: 1fr; }
+      .hero-grid { gap: 48px; }
+      .about-photo { max-width: 380px; margin: 0 auto; width: 100%; }
+      .cta-box { padding: 30px 22px; gap: 30px; }
+      .step { grid-template-columns: 52px 1fr; gap: 18px; }
+      .step .num { width: 52px; height: 52px; font-size: 15px; border-radius: 15px; }
+      .rail { left: 25px; }
+      .viz { grid-column: 2; height: 128px; }
+    }
+    @media (max-width: 520px) {
+      .ed-body { grid-template-columns: 112px 1fr; gap: 12px; }
+      .cap { font-size: 10px; }
+      .task { font-size: 11px; padding: 8px 9px; }
+      .float-tag { right: 6px; }
+      .stats { grid-template-columns: 1fr; }
+      .top .pill { display: none; }
+      .hero-proof { gap: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .rv { opacity: 1; transform: none; }
+      .cap span, .bub, .v1 .ok, .v6 .done { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="logo-branco.svg" alt="Pitch Company">
+      <div><b>DAVI MENDONZA</b><span>PITCH COMPANY</span></div>
+    </a>
+    <div class="pill">● Material 100% gratuito</div>
+  </div>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="rv">
+      <div class="eyebrow">Edição de vídeo com IA · Arquivo liberado</div>
+      <h1>A IA editou esse vídeo em <span class="fx">15 minutos</span>, sem gastar <span class="strike">1 único centavo</span>.</h1>
+      <p class="lead">Se você é <strong>empresário ou criador</strong>, isso vai te economizar tempo e dinheiro com edição de vídeo e treinamento de equipe. Legendas, cortes, zooms e motions: tudo feito pela IA, no seu computador.</p>
+      <a href="#baixar" class="btn">Quero o arquivo grátis <span class="arr">→</span></a>
+      <p class="btn-note">Cadastro rápido · acesso imediato ao arquivo</p>
+      <div class="hero-proof">
+        <div><strong class="fx">15 min</strong>do bruto ao vídeo pronto</div>
+        <div><strong>R$ 0</strong>sem assinatura, sem editor</div>
+        <div><strong>7 passos</strong>sem saber programar</div>
+      </div>
+    </div>
+
+    <div class="editor rv" aria-hidden="true">
+      <div class="float-tag">🤖 Editado por IA</div>
+      <div class="ed-bar"><i></i><i></i><i></i><span class="mono">claude-code · reels.mp4</span></div>
+      <div class="ed-body">
+        <div class="phone">
+          <div class="zoom"><div class="face"></div><div class="body"></div></div>
+          <div class="cap" id="cap"></div>
+        </div>
+        <div class="side" id="tasks">
+          <div class="task"><span class="ck">✓</span>Cortar silêncios</div>
+          <div class="task"><span class="ck">✓</span>Transcrever áudio</div>
+          <div class="task"><span class="ck">✓</span>Legendas animadas</div>
+          <div class="task"><span class="ck">✓</span>Zooms e motions</div>
+          <div class="task"><span class="ck">✓</span>Renderizar 1080×1920</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="track t1"><i style="width:22%"></i><i style="width:30%"></i><i style="width:18%"></i><i style="width:26%"></i></div>
+        <div class="track t2"><i style="width:10%;margin-left:8%"></i><i style="width:14%;margin-left:12%"></i><i style="width:9%;margin-left:18%"></i></div>
+        <div class="track t3"><i style="width:100%"></i></div>
+        <div class="playhead"></div>
+      </div>
+      <div class="ed-foot">
+        <div class="meter"><span>Tempo</span><strong class="mono" id="clock">00:00</strong></div>
+        <div class="meter money"><span>Custo</span><strong class="mono">R$ 0,00</strong></div>
+        <div class="meter"><span>Status</span><strong id="status" style="font-size:14px">Editando…</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="center rv">
+      <div class="eyebrow">Por que isso muda o jogo</div>
+      <h2>Editar vídeo não precisa ser <span class="fx">caro nem lento</span></h2>
+      <p class="lead">Você grava. A IA faz o trabalho pesado. Você posta.</p>
+    </div>
+    <div class="cmp-grid">
+      <div class="cmp bad rv">
+        <div class="cmp-label">Do jeito antigo</div>
+        <ul>
+          <li><span>Editor freelancer cobrando <b>por vídeo</b> ou mensalidade fixa</span></li>
+          <li><span>Dias esperando a entrega e <b>idas e vindas</b> de ajuste</span></li>
+          <li><span>Semanas <b>treinando equipe</b> em programa de edição</span></li>
+          <li><span>Conteúdo parado porque <b>ninguém teve tempo</b> de editar</span></li>
+        </ul>
+      </div>
+      <div class="cmp good rv">
+        <div class="cmp-label">Com o arquivo + IA</div>
+        <ul>
+          <li><span><b>R$ 0</b> em edição: roda no seu computador</span></li>
+          <li><span>Vídeo pronto em <b>cerca de 15 minutos</b></span></li>
+          <li><span>Qualquer pessoa do time usa: <b>é só conversar</b> com a IA</span></li>
+          <li><span>Legendas, cortes e motions <b>no padrão de quem viraliza</b></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY ============ -->
+<section id="passos">
+  <div class="wrap">
+    <div class="center rv">
+      <div class="eyebrow">O passo a passo</div>
+      <h2>Do arquivo ao vídeo viral em <span class="fx">7 passos</span></h2>
+      <p class="lead">Não precisa saber programar nem editar. A IA conduz você em cada etapa.</p>
+    </div>
+
+    <div class="journey" id="journey">
+      <div class="rail"><i id="railFill"></i></div>
+
+      <div class="step">
+        <div class="num">01</div>
+        <div class="txt"><div class="k">Começo</div><h3>Cole o arquivo no Claude Code</h3><p>Baixe o arquivo que vou te liberar aqui e arraste para dentro do Claude Code. É ele que ensina a IA a editar como profissional.</p></div>
+        <div class="viz v1"><div class="file"></div><div class="term">&gt; arquivo recebido<br><span class="ok">✓ skill de edição carregada</span><br><em>_</em></div></div>
+      </div>
+
+      <div class="step">
+        <div class="num">02</div>
+        <div class="txt"><div class="k">Conversa</div><h3>Inicie a conversa</h3><p>Diga em português simples o que você quer: "edita meu reels com legenda e cortes". Sem comando, sem código.</p></div>
+        <div class="viz"><div class="chat">
+          <div class="bub me">Edita meu vídeo pro Reels 🎬</div>
+          <div class="bub ai">Bora! Vou te fazer algumas perguntas rápidas.</div>
+          <div class="bub ai"><span class="typing"><i></i><i></i><i></i></span></div>
+        </div></div>
+      </div>
+
+      <div class="step">
+        <div class="num">03</div>
+        <div class="txt"><div class="k">Briefing</div><h3>Responda as perguntas da IA</h3><p>Estilo da legenda, cores da marca, formato do vídeo. A IA entende o seu jeito e configura tudo sozinha.</p></div>
+        <div class="viz"><div class="chat">
+          <div class="bub ai">Qual a cor da sua marca?</div>
+          <div class="bub me">Roxo neon 💜</div>
+          <div class="bub ai">Perfeito. Legenda estilo viral, ok?</div>
+        </div></div>
+      </div>
+
+      <div class="step">
+        <div class="num">04</div>
+        <div class="txt"><div class="k">Preparação</div><h3>Instale o Remotion e o Python</h3><p>A IA te mostra exatamente o que baixar e como instalar, clique a clique. Você só faz isso uma vez.</p></div>
+        <div class="viz"><div class="inst">
+          <div class="row"><div><span>remotion</span><span>instalando…</span></div><div class="bar"><i></i></div></div>
+          <div class="row"><div><span>python</span><span>instalando…</span></div><div class="bar"><i></i></div></div>
+        </div></div>
+      </div>
+
+      <div class="step">
+        <div class="num">05</div>
+        <div class="txt"><div class="k">Seu vídeo</div><h3>Selecione o vídeo para editar</h3><p>Escolha a gravação bruta, do jeito que saiu do celular. Erros, pausas e silêncios a IA resolve.</p></div>
+        <div class="viz v5">
+          <div class="grid"><i></i><i></i><i></i><i></i><i></i><i></i><i class="pick"></i><i></i></div>
+          <svg class="cursor" viewBox="0 0 16 16"><path d="M2 1l11 7-5 1-2 5z" fill="#fff" stroke="#000" stroke-width="1"/></svg>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">06</div>
+        <div class="txt"><div class="k">Mágica</div><h3>Aguarde a entrega</h3><p>Vá tomar um café. A IA corta, legenda, aplica zooms e motions e renderiza o vídeo final pronto para postar.</p></div>
+        <div class="viz v6">
+          <svg class="ring" viewBox="0 0 86 86"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#8600FF"/><stop offset="1" stop-color="#E879F9"/></linearGradient></defs><circle class="bg" cx="43" cy="43" r="36"/><circle class="fg" cx="43" cy="43" r="36"/></svg>
+          <span class="lbl">render</span>
+          <span class="done">✓ vídeo pronto</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="num">07</div>
+        <div class="txt"><div class="k">Resultado</div><h3>Poste e viralize</h3><p>Vídeo com cara de editor profissional, no ar no mesmo dia. Agora é repetir o processo e manter a constância.</p></div>
+        <div class="viz v7">
+          <div class="views"><small>Visualizações</small><strong class="mono" id="views">0</strong></div>
+          <span class="heart">💜</span><span class="heart">❤️</span><span class="heart">🔥</span>
+          <svg class="chart" viewBox="0 0 300 70" preserveAspectRatio="none"><defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#8600FF"/><stop offset="1" stop-color="#34D399"/></linearGradient></defs><path class="line" d="M0 66 L40 62 L80 60 L120 55 L160 50 L200 38 L240 22 L270 12 L300 4"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="center rv" style="margin-top:40px">
+      <a href="#baixar" class="btn">Liberar meu arquivo <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section>
+  <div class="wrap about">
+    <figure class="about-photo rv">
+      <img src="pitch-davi.png" alt="Davi Mendonza" loading="lazy">
+      <figcaption><b>Davi Mendonza</b><span>@ODAVIMENDONZA</span></figcaption>
+    </figure>
+    <div class="rv">
+      <div class="eyebrow">Quem é Davi Mendonza</div>
+      <h2>Gestor de Funil de Vendas e especialista em <span class="fx">Marketing Pessoal</span></h2>
+      <p>Sou <strong>Davi Mendonza</strong>, fundador da Pitch Company. Meu trabalho é fazer quem é bom de verdade ser <strong>visto, lembrado e escolhido</strong>, com conteúdo e funis que vendem.</p>
+      <p>Uso IA todos os dias para produzir mais com menos. Este arquivo é exatamente o processo que eu uso para editar vídeos sem depender de editor, e agora ele é seu.</p>
+      <div class="stats">
+        <div class="stat"><strong class="fx">+20</strong><span>experts acelerados com funil e conteúdo</span></div>
+        <div class="stat"><strong>+R$ 1 mi</strong><span>vendido com funil e conteúdo</span></div>
+        <div class="stat"><strong>250 mil</strong><span>seguidores em 6 meses para uma médica</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORM ============ -->
+<section id="baixar">
+  <div class="wrap">
+    <div class="cta-box rv">
+      <div>
+        <div class="eyebrow">Acesso gratuito</div>
+        <h2>Libere agora o arquivo de <span class="fx">edição com IA</span></h2>
+        <p class="lead">Preencha seus dados e o link do arquivo aparece na hora.</p>
+        <ul>
+          <li>Arquivo pronto para colar no Claude Code</li>
+          <li>Legendas, cortes, zooms e motions automáticos</li>
+          <li>Funciona para Reels, TikTok e Shorts</li>
+        </ul>
+      </div>
+      <div id="formWrap">
+        <form id="leadForm" novalidate>
+          <label>Seu nome<input id="name" type="text" autocomplete="name" placeholder="Como você se chama?" required></label>
+          <label>Seu melhor e-mail<input id="email" type="email" autocomplete="email" placeholder="voce@email.com" required></label>
+          <label>WhatsApp<input id="whatsapp" type="tel" autocomplete="tel" inputmode="tel" placeholder="(11) 99999-9999" required></label>
+          <div class="err" id="err"></div>
+          <button class="btn" type="submit" id="sendBtn">Liberar o arquivo <span class="arr">→</span></button>
+          <p class="btn-note" style="text-align:center;margin-top:2px">🔒 Seus dados estão seguros. Zero spam.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="yr"></span> Pitch Company · Davi Mendonza</div>
+</footer>
+
+<script>
+  const DRIVE_URL = 'https://drive.google.com/drive/folders/16S-5hqolMRjg9pK50WDQWDvdGboSMCfx?usp=sharing';
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* Reveal on scroll */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .15 });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  /* Hero editor loop: tasks, captions, clock */
+  const tasks = [...document.querySelectorAll('#tasks .task')];
+  const cap = document.getElementById('cap');
+  const clock = document.getElementById('clock');
+  const status = document.getElementById('status');
+  const lines = [['ESSE', 'VÍDEO', 'FOI'], ['EDITADO', 'PELA', '<b>IA</b>'], ['EM', '<b>15</b>', 'MINUTOS']];
+  let li = 0;
+  function showCaption() {
+    cap.innerHTML = lines[li].map(w => `<span>${w}</span>`).join(' ');
+    [...cap.children].forEach((s, i) => s.animate(
+      [{ opacity: 0, transform: 'translateY(6px) scale(.9)' }, { opacity: 1, transform: 'none' }],
+      { duration: 260, delay: i * 220, fill: 'forwards', easing: 'cubic-bezier(.2,.8,.2,1)' }));
+    li = (li + 1) % lines.length;
+  }
+  showCaption(); setInterval(showCaption, 1800);
+
+  function runEditor() {
+    tasks.forEach(t => t.className = 'task');
+    status.textContent = 'Editando…'; status.style.color = '';
+    let i = 0;
+    const tick = () => {
+      if (i > 0) tasks[i - 1].className = 'task done';
+      if (i < tasks.length) { tasks[i].className = 'task run'; i++; setTimeout(tick, 1100); }
+      else { status.textContent = 'Pronto ✓'; status.style.color = 'var(--green)'; setTimeout(runEditor, 3200); }
+    };
+    tick();
+    const total = tasks.length * 1100, start = performance.now();
+    const clk = now => {
+      const p = Math.min((now - start) / total, 1), s = Math.round(p * 900);
+      clock.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+      if (p < 1) requestAnimationFrame(clk);
+    };
+    requestAnimationFrame(clk);
+  }
+  runEditor();
+
+  /* Journey: activate steps + fill rail on scroll */
+  const steps = [...document.querySelectorAll('.step')];
+  const journey = document.getElementById('journey');
+  const railFill = document.getElementById('railFill');
+  const viewsEl = document.getElementById('views');
+  let viewsStarted = false;
+  function onScroll() {
+    const r = journey.getBoundingClientRect(), mid = innerHeight * .62;
+    railFill.style.height = Math.max(0, Math.min(1, (mid - r.top) / r.height)) * 100 + '%';
+    steps.forEach((s, i) => {
+      const on = s.getBoundingClientRect().top + 32 < mid;
+      s.classList.toggle('on', on);
+      if (on && i === steps.length - 1 && !viewsStarted) { viewsStarted = true; countViews(); }
+    });
+  }
+  function countViews() {
+    const target = 1284567, start = performance.now();
+    const f = now => {
+      const p = Math.min((now - start) / 3000, 1), e = 1 - Math.pow(1 - p, 3);
+      viewsEl.textContent = Math.round(target * e).toLocaleString('pt-BR');
+      if (p < 1) requestAnimationFrame(f); else setTimeout(() => { viewsStarted = false; countViews(); }, 2500);
+    };
+    requestAnimationFrame(f);
+  }
+  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll); onScroll();
+
+  /* WhatsApp mask */
+  const wa = document.getElementById('whatsapp');
+  wa.addEventListener('input', () => {
+    let d = wa.value.replace(/\D/g, '').slice(0, 11);
+    wa.value = d.length > 6 ? `(${d.slice(0,2)}) ${d.slice(2, d.length - 4)}-${d.slice(-4)}` : d.length > 2 ? `(${d.slice(0,2)}) ${d.slice(2)}` : d;
+  });
+
+  /* Submit */
+  const val = id => document.getElementById(id).value.trim();
+  document.getElementById('leadForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = document.getElementById('err');
+    const nome = val('name'), email = val('email'), digits = val('whatsapp').replace(/\D/g, '');
+    if (nome.length < 2) return err.textContent = 'Digite seu nome.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return err.textContent = 'Digite um e-mail válido.';
+    if (digits.length < 10) return err.textContent = 'Digite um WhatsApp válido com DDD.';
+    err.textContent = '';
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true; btn.innerHTML = 'Liberando…';
+
+    const payload = {
+      nome, email, whatsapp: val('whatsapp'), whatsapp_e164: '+55' + digits,
+      origem: 'Isca — Edição de Vídeo com IA (/edicao)',
+      data_envio: new Date().toISOString()
+    };
+    try {
+      const ctrl = new AbortController(); setTimeout(() => ctrl.abort(), 5000);
+      await fetch('https://webhook.dev.pitchcompany.com.br/webhook/isca-edicao-video', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), signal: ctrl.signal, keepalive: true
+      });
+    } catch (err) { console.error('Webhook error:', err); }
+
+    /* Meta Pixel: Lead com advanced matching (SHA-256) */
+    try {
+      if (typeof fbq === 'function') {
+        const sha = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); };
+        const ph = await sha('55' + digits);
+        const fn = await sha(nome.split(' ')[0].toLowerCase());
+        const em = await sha(email.toLowerCase());
+        fbq('init', '2464454597399812', { ph, fn, em });
+        fbq('track', 'Lead', { content_name: 'Isca — Edição de Vídeo com IA' }, { eventID: 'lead_edicao_' + Date.now() });
+      }
+    } catch (e2) { try { fbq('track', 'Lead'); } catch (e3) {} }
+
+    const first = nome.split(' ')[0];
+    document.getElementById('formWrap').innerHTML = `
+      <div class="success">
+        <div class="icon">🎬</div>
+        <h3>Arquivo liberado, ${first.replace(/[<>&"]/g, '')}!</h3>
+        <p>Clique abaixo para abrir a pasta no Google Drive, baixe o arquivo e siga o passo 1: cole no Claude Code.</p>
+        <a class="btn" href="${DRIVE_URL}" target="_blank" rel="noopener" style="width:100%">Abrir o arquivo <span class="arr">→</span></a>
+        <p class="btn-note">Salve este link, ele é seu.</p>
+      </div>`;
+  });
+</script>
+</body>
+</html>
