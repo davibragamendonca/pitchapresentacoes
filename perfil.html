@@ -47,18 +47,25 @@
       </div>
     </div>
     <div>
-      <div class="report" aria-label="Exemplo de diagnóstico">
-        <div class="rp-head">
-          <div class="ring" style="--p:58"><span>58<small>/100</small></span></div>
-          <div><h4>Diagnóstico de @seuperfil</h4><p>Exemplo de diagnóstico · 42 pontos de potencial desperdiçado</p></div>
+      <div class="report lab" id="lab" aria-label="Exemplo real de análise: a plataforma da Pitch lendo os Reels de um perfil">
+        <div class="lab-head"><div><span class="live"></span>Analisando <b>@dramarianavilasboas</b></div><span class="lab-count"><b id="labN">0</b>/40 Reels</span></div>
+        <div class="lab-prog"><i id="labProg"></i></div>
+        <div class="lab-stage">
+          <div class="lab-label">01 · Parede de capas</div>
+          <div class="lab-wall" id="labWall"></div>
+          <div class="lab-label">02 · Mapa de desempenho <span>views × curtidas por mil</span></div>
+          <div class="lab-map" id="labMap"></div>
+          <div class="lab-result">
+            <div class="lab-ok">✓ Análise concluída</div>
+            <div class="lab-find"><span>Formato campeão</span><b>Ranking</b><em>2,5× a mediana</em></div>
+            <div class="lab-find"><span>Gancho que mais prende</span><b>Erro comum</b><em>1,9× a mediana</em></div>
+            <div class="lab-find"><span>Recorde do perfil</span><b>12,2 mi views</b><em>ranking de xaropes</em></div>
+            <p>Diagnóstico pronto pra ser apresentado ao vivo.</p>
+          </div>
         </div>
-        <div class="pillar"><span>Posicionamento & bio</span><div class="bar"><i class="" style="width:72%"></i></div><b>72</b></div>
-        <div class="pillar"><span>Ganchos</span><div class="bar"><i class="lo" style="width:41%"></i></div><b>41</b></div>
-        <div class="pillar"><span>Formatos</span><div class="bar"><i class="" style="width:64%"></i></div><b>64</b></div>
-        <div class="pillar"><span>Consistência</span><div class="bar"><i class="mid" style="width:55%"></i></div><b>55</b></div>
-        <div class="pillar"><span>Conversão</span><div class="bar"><i class="lo" style="width:33%"></i></div><b>33</b></div>
-        <div class="pillar"><span>Aproveitamento de virais</span><div class="bar"><i class="mid" style="width:48%"></i></div><b>48</b></div>
-        <div class="rp-foot"><b>Causa nº 1:</b> seus 3 vídeos campeões abrem apontando um erro do público, e você parou de usar esse gancho há 2 meses.</div>
+        <div class="lab-label">03 · Por trás do vídeo</div>
+        <div class="lab-now" id="labNow"><div class="th"></div><div><div class="tags"><span>Lendo gancho…</span></div><p>Transcrevendo e classificando cada vídeo.</p></div></div>
+        <div class="lab-foot">Exemplo real · case Pitch · dados públicos do perfil</div>
       </div>
     </div>
   </div>
@@ -95,7 +102,7 @@
       <div class="card"><span class="num">PASSO 1</span><h3>Garanta sua vaga</h3><p>R$17 no Pix ou cartão. Pagamento único, sem mensalidade.</p></div>
       <div class="card"><span class="num">PASSO 2</span><h3>Responda 2 minutos de perguntas</h3><p>Seu @, o que você vende e o que quer do Instagram. Logo depois do pagamento.</p></div>
       <div class="card"><span class="num">PASSO 3</span><h3>Confirme no WhatsApp</h3><p>Você escolhe o melhor horário. Enquanto isso, a gente monta o seu diagnóstico.</p></div>
-      <div class="card"><span class="num">PASSO 4</span><h3>Apresentação ao vivo</h3><p>Uma reunião individual de 30 minutos: a gente apresenta o diagnóstico e define com você os próximos passos.</p></div>
+      <div class="card"><span class="num">PASSO 4</span><h3>Apresentação ao vivo + documento</h3><p>Reunião individual de 30 minutos com o diagnóstico completo. Depois, você recebe o documento estruturado pra colocar em prática.</p></div>
     </div>
   </div>
 </section>
@@ -112,6 +119,7 @@
       <div class="deliver"><div class="ck">✓</div><div><h3>O que já funciona</h3><p>Seus 3 vídeos campeões e o padrão por trás deles, pra você repetir de propósito.</p></div></div>
       <div class="deliver"><div class="ck">✓</div><div><h3>3 ajustes rápidos pra aplicar essa semana</h3><p>Nada de plano de 6 meses. O que muda o jogo já nos próximos posts.</p></div></div>
       <div class="deliver"><div class="ck">✓</div><div><h3>Reunião individual de 30 minutos</h3><p>O diagnóstico é apresentado ao vivo, com espaço pras suas dúvidas e os direcionamentos da Pitch.</p></div></div>
+      <div class="deliver"><div class="ck">✓</div><div><h3>O documento completo, depois da reunião</h3><p>Tudo o que foi apresentado, organizado e estruturado pra você colocar em ação no seu perfil.</p></div></div>
     </div>
   </div>
 </section>
@@ -162,6 +170,7 @@
         <li>Seus 3 vídeos campeões e o padrão por trás deles</li>
         <li>3 ajustes rápidos pra aplicar essa semana</li>
         <li>Apresentação ao vivo numa reunião individual de 30 minutos</li>
+        <li>Documento completo e estruturado, entregue depois da reunião</li>
       </ul>
       <a class="btn js-buy" href="#oferta">Quero meu diagnóstico por R$17 <span class="arr">→</span></a>
       <p class="btn-note">Pix ou cartão · Garantia de 7 dias</p>
@@ -208,5 +217,6 @@
     });
   })();
 </script>
+<script src="perfil-hero.js" defer></script>
 </body>
 </html>
