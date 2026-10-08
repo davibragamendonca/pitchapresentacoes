@@ -41,11 +41,12 @@
 
 <section style="padding-top:56px">
   <div class="wrap narrow">
-    <div class="steps"><span class="done">✓ Pagamento</span><span class="now">2 · Perguntas</span><span>3 · WhatsApp</span></div>
+    <div class="steps"><span class="done">✓ Pagamento</span><span class="now">2 · Perguntas</span><span>3 · Confirmar no WhatsApp</span></div>
+    <div class="vid" id="vid" hidden></div>
     <div class="sec-head center" style="margin-bottom:36px">
       <div class="eyebrow">Pagamento confirmado</div>
       <h2>Falta só <span class="fx">um passo</span> pro seu diagnóstico</h2>
-      <p class="lead">Responda as perguntas abaixo (leva 2 minutos). Com elas a gente começa a análise, e você vai direto pro WhatsApp pra agendar a call de interpretação.</p>
+      <p class="lead">Responda as perguntas abaixo (leva 2 minutos). Com elas a gente monta o seu diagnóstico e <b>apresenta ao vivo, numa reunião individual</b>. No final, você confirma o horário pelo WhatsApp.</p>
     </div>
 
     <form class="form-card" id="onbForm" novalidate>
@@ -110,7 +111,7 @@
       </div>
       <div class="field"><label for="frustracao">Qual a sua maior frustração com o Instagram hoje?</label><textarea id="frustracao" placeholder="Pode ser sincero(a). Isso guia a análise."></textarea></div>
       <div class="field"><label for="referencias">Perfis que você admira ou usa de referência <em>(opcional)</em></label><input id="referencias" autocapitalize="off" placeholder="@perfil1, @perfil2"></div>
-      <button class="btn" type="submit" style="width:100%">Enviar e ir pro WhatsApp <span class="arr">→</span></button>
+      <button class="btn" type="submit" style="width:100%">Enviar e confirmar no WhatsApp <span class="arr">→</span></button>
       <p class="btn-note center">Seus dados são usados só para fazer o seu diagnóstico.</p>
     </form>
   </div>
@@ -121,9 +122,14 @@
 <script>
   const WA_NUMBER = '5512988037941';
   const WEBHOOK = 'https://webhook.dev.pitchcompany.com.br/webhook/diag-perfil';
+  /* Vídeo de boas-vindas no topo: cole o link do YouTube (deixe vazio para esconder) */
+  const VIDEO_URL = '';
 
   const $ = id => document.getElementById(id);
   const val = id => $(id).value.trim();
+
+  const yt = (VIDEO_URL.match(/(?:youtu.be/|v=|shorts/|embed/)([w-]{11})/) || [])[1];
+  if (yt) { $('vid').hidden = false; $('vid').innerHTML = `<iframe src="https://www.youtube.com/embed/${yt}?rel=0&modestbranding=1" title="Boas-vindas" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; }
 
   /* Pré-preenche o que der: nicho pela URL, e-mail/nome se a Greenn mandar na URL */
   const qs = new URLSearchParams(location.search);
@@ -209,17 +215,17 @@
       `• Área: ${payload.area}\n` +
       `• Vendo: ${payload.vende}\n` +
       `• Objetivo: ${payload.objetivo}\n\n` +
-      `Já respondi as perguntas. Quero agendar a minha call!`
+      `Já respondi as perguntas. Quero confirmar a apresentação do meu diagnóstico. Qual o melhor dia e horário?`
     );
     const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
     const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    document.querySelector('.steps').innerHTML = '<span class="done">✓ Pagamento</span><span class="done">✓ Perguntas</span><span class="now">3 · WhatsApp</span>';
+    document.querySelector('.steps').innerHTML = '<span class="done">✓ Pagamento</span><span class="done">✓ Perguntas</span><span class="now">3 · Confirmar no WhatsApp</span>';
     form.innerHTML = `
       <div class="success">
         <div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
         <h3>Tudo certo, ${esc(first)}!</h3>
-        <p>Recebemos suas respostas e o seu diagnóstico já entrou na fila.<br>Agora é só chamar no WhatsApp pra agendar a sua call.</p>
-        <a class="btn btn-wa" id="waBtn" href="${waUrl}" target="_blank" rel="noopener">Agendar no WhatsApp <span class="arr">→</span></a>
+        <p>Recebemos suas respostas e o seu diagnóstico já entrou em produção.<br>Agora confirme no WhatsApp o melhor horário pra gente te apresentar.</p>
+        <a class="btn btn-wa" id="waBtn" href="${waUrl}" target="_blank" rel="noopener">Confirmar no WhatsApp <span class="arr">→</span></a>
         <p class="btn-note">Abrindo o WhatsApp em instantes…</p>
       </div>`;
     let contacted = false;
