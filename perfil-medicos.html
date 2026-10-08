@@ -35,7 +35,7 @@
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">Diagnóstico de Perfil · Médicos e profissionais de saúde</div>
-      <h1>Você é referência no consultório.<br>No Instagram, <span class="fx">ainda é invisível.</span></h1>
+      <h1>Você é referência no consultório. <br>No Instagram, <span class="fx">ainda é invisível.</span></h1>
       <p class="lead">Vou analisar seus últimos 30 Reels, o seu perfil do Instagram e a jornada do seu paciente até o consultório, e te apresentar, numa reunião individual, um diagnóstico mostrando <b>por que o seu perfil não atrai pacientes</b>, o que já funciona e <b>o que precisa mudar primeiro</b>, sempre dentro das regras de publicidade médica.</p>
       <a class="btn js-buy" href="#oferta">Quero meu diagnóstico <span class="arr">→</span></a>
       <p class="btn-note">Pix ou cartão · Garantia de 7 dias · Sem pedir sua senha</p>
@@ -119,9 +119,11 @@
       <div class="deliver"><div class="ck">✓</div><div><h3>O que já funciona</h3><p>Seus 3 vídeos campeões e o padrão por trás deles, pra você repetir de propósito.</p></div></div>
       <div class="deliver"><div class="ck">✓</div><div><h3>3 ajustes rápidos pra aplicar essa semana</h3><p>Nada de plano de 6 meses. O que muda o jogo já nos próximos posts.</p></div></div>
       <div class="deliver"><div class="ck">✓</div><div><h3>Reunião individual de 30 minutos</h3><p>O diagnóstico é apresentado ao vivo, com espaço pras suas dúvidas e os direcionamentos da Pitch.</p></div></div>
-      <div class="deliver"><div class="ck">✓</div><div><h3>O documento completo, depois da reunião</h3><p>Tudo o que foi apresentado, organizado e estruturado pra você colocar em ação no seu perfil.</p></div></div>
     </div>
-    <div class="bonus"><span class="bonus-tag">🎁 Bônus</span><h3>Análise do seu funil de vendas</h3><p>Além da análise individual do seu perfil e dos seus conteúdos, a gente analisa a jornada do seu paciente: do primeiro vídeo até a consulta agendada, onde ele está travando e se o seu Instagram realmente está trazendo pacientes.</p></div>
+    <div class="bonus-list">
+      <div class="bonus"><span class="bonus-tag">🎁 Bônus 1</span><h3>Análise do seu funil de vendas</h3><p>Além da análise individual do seu perfil e dos seus conteúdos, a gente analisa a jornada do seu paciente: do primeiro vídeo até a consulta agendada, onde ele está travando e se o seu Instagram realmente está trazendo pacientes.</p></div>
+      <div class="bonus"><span class="bonus-tag">🎁 Bônus 2</span><h3>Documento completo e estruturado</h3><p>Depois da reunião, você recebe tudo o que foi apresentado num documento organizado, com o direcionamento passo a passo pra colocar em ação no seu perfil. É seu pra consultar sempre que precisar.</p></div>
+    </div>
   </div>
 </section>
 
@@ -171,8 +173,8 @@
         <li>Seus 3 vídeos campeões e o padrão por trás deles</li>
         <li>3 ajustes rápidos pra aplicar essa semana</li>
         <li>Apresentação ao vivo numa reunião individual de 30 minutos</li>
-        <li>Documento completo e estruturado, entregue depois da reunião</li>
-        <li class="bn"><b>Bônus:</b> análise do seu funil de vendas</li>
+        <li class="bn"><b>Bônus 1:</b> análise do seu funil de vendas</li>
+        <li class="bn"><b>Bônus 2:</b> documento completo e estruturado, entregue depois da reunião</li>
       </ul>
       <a class="btn js-buy" href="#oferta">Quero meu diagnóstico por R$17 <span class="arr">→</span></a>
       <p class="btn-note">Pix ou cartão · Garantia de 7 dias</p>
@@ -218,6 +220,17 @@
         try { fbq('track', 'InitiateCheckout', { value: 17, currency: 'BRL', content_name: 'Diagnóstico de Perfil', content_category: 'medicos' }); } catch (err) {}
       });
     });
+  })();
+</script>
+<script>
+  /* Botão fixo do celular: só aparece depois que o botão do topo sai da tela, e some na oferta */
+  (function () {
+    const bar = document.querySelector('.sticky-buy'), hero = document.querySelector('.hero .js-buy'), offer = document.getElementById('oferta');
+    if (!bar || !hero || !('IntersectionObserver' in window)) { bar && bar.classList.add('show'); return; }
+    let heroOn = true, offerOn = false;
+    const upd = () => bar.classList.toggle('show', !heroOn && !offerOn);
+    new IntersectionObserver(([e]) => { heroOn = e.isIntersecting || e.boundingClientRect.top > 0; upd(); }).observe(hero);
+    if (offer) new IntersectionObserver(([e]) => { offerOn = e.isIntersecting; upd(); }).observe(offer);
   })();
 </script>
 <script src="perfil-hero.js" defer></script>
