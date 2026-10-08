@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento confirmado | Diagnóstico de Perfil</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#050010">
+  <!-- Meta Pixel -->
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2464454597399812');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1" alt=""></noscript>
+  <!-- End Meta Pixel -->
+  <script>
+    /* Purchase no Pixel ao chegar do checkout (1x por navegador).
+       Se ativar o Pixel dentro da Greenn, troque para false para não contar a venda duas vezes. */
+    const FIRE_PURCHASE = true;
+    const NICHO = new URLSearchParams(location.search).get('n') === 'medicos' ? 'medicos' : 'aberto';
+    if (FIRE_PURCHASE) {
+      try {
+        if (!localStorage.getItem('pitch_perfil_purchase')) {
+          fbq('track', 'Purchase', { value: 17, currency: 'BRL', content_name: 'Diagnóstico de Perfil', content_category: NICHO });
+          localStorage.setItem('pitch_perfil_purchase', '1');
+        }
+      } catch (e) {}
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+<script>if (NICHO === 'medicos') document.body.classList.add('light');</script>
+<div class="bg-layer"></div>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand"><b>PITCH COMPANY</b><span>DIAGNÓSTICO DE PERFIL</span></span>
+  </div>
+</header>
+
+<section style="padding-top:56px">
+  <div class="wrap narrow">
+    <div class="steps"><span class="done">✓ Pagamento</span><span class="now">2 · Perguntas</span><span>3 · WhatsApp</span></div>
+    <div class="sec-head center" style="margin-bottom:36px">
+      <div class="eyebrow">Pagamento confirmado</div>
+      <h2>Falta só <span class="fx">um passo</span> pro seu diagnóstico</h2>
+      <p class="lead">Responda as perguntas abaixo (leva 2 minutos). Com elas a gente começa a análise, e você vai direto pro WhatsApp pra agendar a call de interpretação.</p>
+    </div>
+
+    <form class="form-card" id="onbForm" novalidate>
+      <div class="row2">
+        <div class="field"><label for="nome">Seu nome</label><input id="nome" autocomplete="name" placeholder="Nome e sobrenome"></div>
+        <div class="field"><label for="whatsapp">WhatsApp</label><input id="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 99999-9999"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="email">E-mail <em>(o mesmo da compra)</em></label><input id="email" type="email" autocomplete="email" placeholder="voce@email.com"></div>
+        <div class="field"><label for="instagram">@ do Instagram <em>(perfil público)</em></label><input id="instagram" autocapitalize="off" placeholder="@seuperfil"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="nicho">Você é…</label>
+          <select id="nicho">
+            <option value="">Selecione</option>
+            <option value="medicos">Médico(a) ou profissional de saúde</option>
+            <option value="aberto">Outra área</option>
+          </select>
+        </div>
+        <div class="field"><label for="area" id="areaLabel">Sua área / profissão</label><input id="area" placeholder="Ex.: pediatra, advogada, personal trainer"></div>
+      </div>
+      <div class="field"><label for="vende">O que você vende ou quer vender pelo Instagram?</label><input id="vende" placeholder="Ex.: consultas particulares, mentoria, curso, loja…"></div>
+      <div class="row2">
+        <div class="field"><label for="objetivo">Seu principal objetivo hoje</label>
+          <select id="objetivo">
+            <option value="">Selecione</option>
+            <option>Atrair mais clientes / pacientes</option>
+            <option>Ser reconhecido(a) como autoridade</option>
+            <option>Vender um produto ou serviço digital</option>
+            <option>Crescer em seguidores e alcance</option>
+          </select>
+        </div>
+        <div class="field"><label for="frequencia">Com que frequência você posta?</label>
+          <select id="frequencia">
+            <option value="">Selecione</option>
+            <option>Todo dia</option>
+            <option>3 a 5 vezes por semana</option>
+            <option>1 a 2 vezes por semana</option>
+            <option>Quando dá, sem constância</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="seguidores">Quantos seguidores, mais ou menos?</label>
+          <select id="seguidores">
+            <option value="">Selecione</option>
+            <option>Até 1 mil</option>
+            <option>1 mil a 10 mil</option>
+            <option>10 mil a 50 mil</option>
+            <option>50 mil a 200 mil</option>
+            <option>Mais de 200 mil</option>
+          </select>
+        </div>
+        <div class="field"><label for="quemgrava">Quem cuida do seu conteúdo hoje?</label>
+          <select id="quemgrava">
+            <option value="">Selecione</option>
+            <option>Eu mesmo(a), sozinho(a)</option>
+            <option>Eu + alguém que edita</option>
+            <option>Social media / agência</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="frustracao">Qual a sua maior frustração com o Instagram hoje?</label><textarea id="frustracao" placeholder="Pode ser sincero(a). Isso guia a análise."></textarea></div>
+      <div class="field"><label for="referencias">Perfis que você admira ou usa de referência <em>(opcional)</em></label><input id="referencias" autocapitalize="off" placeholder="@perfil1, @perfil2"></div>
+      <button class="btn" type="submit" style="width:100%">Enviar e ir pro WhatsApp <span class="arr">→</span></button>
+      <p class="btn-note center">Seus dados são usados só para fazer o seu diagnóstico.</p>
+    </form>
+  </div>
+</section>
+
+<footer>Pitch Company · Diagnóstico de Perfil</footer>
+
+<script>
+  const WA_NUMBER = '5512988037941';
+  const WEBHOOK = 'https://webhook.dev.pitchcompany.com.br/webhook/diag-perfil';
+
+  const $ = id => document.getElementById(id);
+  const val = id => $(id).value.trim();
+
+  /* Pré-preenche o que der: nicho pela URL, e-mail/nome se a Greenn mandar na URL */
+  const qs = new URLSearchParams(location.search);
+  $('nicho').value = qs.get('n') === 'medicos' ? 'medicos' : (qs.get('n') ? 'aberto' : '');
+  ['email', 'nome'].forEach(k => { const v = qs.get(k) || qs.get(k === 'nome' ? 'name' : k); if (v) $(k).value = v; });
+  const syncArea = () => {
+    const med = $('nicho').value === 'medicos';
+    $('areaLabel').textContent = med ? 'Sua especialidade' : 'Sua área / profissão';
+    $('area').placeholder = med ? 'Ex.: pediatria, dermatologia, odontologia' : 'Ex.: advogada, personal trainer, arquiteto';
+  };
+  $('nicho').addEventListener('change', syncArea); syncArea();
+
+  /* Máscara do WhatsApp (aceita autocomplete com +55) */
+  $('whatsapp').addEventListener('input', e => {
+    let v = e.target.value.replace(/\D/g, '');
+    if (v.length > 11 && v.startsWith('55')) v = v.slice(2);
+    v = v.slice(0, 11);
+    if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2, v.length - 4)}-${v.slice(-4)}`;
+    else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else if (v.length) v = `(${v}`;
+    e.target.value = v;
+  });
+
+  $('onbForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const form = e.target;
+    const required = ['nome', 'whatsapp', 'email', 'instagram', 'nicho', 'area', 'vende', 'objetivo', 'frequencia', 'seguidores', 'frustracao'];
+    let firstBad = null;
+    required.forEach(id => {
+      const el = $(id);
+      const v = el.value.trim();
+      const bad = !v
+        || (id === 'whatsapp' && v.replace(/\D/g, '').length < 10)
+        || (id === 'email' && !/^\S+@\S+\.\S+$/.test(v));
+      el.style.borderColor = bad ? '#FB7185' : '';
+      if (bad && !firstBad) firstBad = el;
+    });
+    if (firstBad) { firstBad.focus(); return; }
+
+    const btn = form.querySelector('button[type=submit]');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const ig = '@' + val('instagram').replace(/^@+/, '').replace(/^https?:\/\/(www\.)?instagram\.com\//i, '').replace(/[/?].*$/, '');
+    const payload = {
+      nome: val('nome'),
+      whatsapp: val('whatsapp'),
+      whatsapp_e164: '+55' + val('whatsapp').replace(/\D/g, ''),
+      email: val('email'),
+      instagram: ig,
+      nicho: val('nicho'),
+      area: val('area'),
+      vende: val('vende'),
+      objetivo: val('objetivo'),
+      frequencia: val('frequencia'),
+      seguidores: val('seguidores'),
+      quem_cuida: val('quemgrava'),
+      frustracao: val('frustracao'),
+      referencias: val('referencias'),
+      origem: 'Diagnóstico de Perfil R$17',
+      data_envio: new Date().toISOString()
+    };
+    try {
+      await fetch(WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    } catch (err) { console.error('Webhook error:', err); }
+
+    /* Meta Pixel: Lead com advanced matching (SHA-256) */
+    try {
+      if (typeof fbq === 'function') {
+        const sha = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); };
+        const ph = await sha(payload.whatsapp_e164.replace(/\D/g, ''));
+        const fn = await sha(payload.nome.split(' ')[0].toLowerCase());
+        const em = await sha(payload.email.toLowerCase());
+        fbq('init', '2464454597399812', { ph, fn, em });
+        fbq('track', 'Lead', { content_name: 'Diagnóstico de Perfil — onboarding', content_category: payload.nicho }, { eventID: 'lead_perfil_' + Date.now() });
+      }
+    } catch (err) { try { fbq('track', 'Lead'); } catch (e) {} }
+
+    const first = payload.nome.split(' ')[0];
+    const waMsg = encodeURIComponent(
+      `Olá! Sou ${payload.nome} e comprei o Diagnóstico de Perfil.\n\n` +
+      `• Instagram: ${payload.instagram}\n` +
+      `• Área: ${payload.area}\n` +
+      `• Vendo: ${payload.vende}\n` +
+      `• Objetivo: ${payload.objetivo}\n\n` +
+      `Já respondi as perguntas. Quero agendar a minha call!`
+    );
+    const waUrl = `https://wa.me/${WA_NUMBER}?text=${waMsg}`;
+    const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    document.querySelector('.steps').innerHTML = '<span class="done">✓ Pagamento</span><span class="done">✓ Perguntas</span><span class="now">3 · WhatsApp</span>';
+    form.innerHTML = `
+      <div class="success">
+        <div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+        <h3>Tudo certo, ${esc(first)}!</h3>
+        <p>Recebemos suas respostas e o seu diagnóstico já entrou na fila.<br>Agora é só chamar no WhatsApp pra agendar a sua call.</p>
+        <a class="btn btn-wa" id="waBtn" href="${waUrl}" target="_blank" rel="noopener">Agendar no WhatsApp <span class="arr">→</span></a>
+        <p class="btn-note">Abrindo o WhatsApp em instantes…</p>
+      </div>`;
+    let contacted = false;
+    const contact = () => { if (contacted) return; contacted = true; try { fbq('track', 'Contact'); } catch (e) {} };
+    $('waBtn').addEventListener('click', contact);
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => { if (contacted) return; contact(); location.href = waUrl; }, 2500);
+  });
+</script>
+</body>
+</html>
