@@ -124,7 +124,7 @@
   const $ = id => document.getElementById(id);
   const val = id => $(id).value.trim();
 
-  const yt = (VIDEO_URL.match(/(?:youtu.be/|v=|shorts/|embed/)([w-]{11})/) || [])[1];
+  const yt = (VIDEO_URL.match(/(?:youtu\.be\/|v=|shorts\/|embed\/)([\w-]{11})/) || [])[1];
   if (yt) { $('vid').hidden = false; $('vid').innerHTML = `<iframe src="https://www.youtube.com/embed/${yt}?rel=0&modestbranding=1" title="Boas-vindas" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; }
 
   /* Pré-preenche o que der: nicho pela URL, e-mail/nome se a Greenn mandar na URL */
