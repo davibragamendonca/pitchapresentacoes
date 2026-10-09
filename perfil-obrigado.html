@@ -60,13 +60,9 @@
       </div>
       <div class="row2">
         <div class="field"><label for="nicho">Você é…</label>
-          <select id="nicho">
-            <option value="">Selecione</option>
-            <option value="medicos">Médico(a) ou profissional de saúde</option>
-            <option value="aberto">Outra área</option>
-          </select>
+          <input id="nicho" placeholder="Ex.: médica, nutricionista, advogada, criadora de conteúdo">
         </div>
-        <div class="field"><label for="area" id="areaLabel">Sua área / profissão</label><input id="area" placeholder="Ex.: pediatra, advogada, personal trainer"></div>
+        <div class="field"><label for="area">Sua especialidade / nicho</label><input id="area" placeholder="Ex.: pediatria, emagrecimento, direito de família"></div>
       </div>
       <div class="field"><label for="vende">O que você vende ou quer vender pelo Instagram?</label><input id="vende" placeholder="Ex.: consultas particulares, mentoria, curso, loja…"></div>
       <div class="row2">
@@ -133,14 +129,7 @@
 
   /* Pré-preenche o que der: nicho pela URL, e-mail/nome se a Greenn mandar na URL */
   const qs = new URLSearchParams(location.search);
-  $('nicho').value = qs.get('n') === 'medicos' ? 'medicos' : (qs.get('n') ? 'aberto' : '');
   ['email', 'nome'].forEach(k => { const v = qs.get(k) || qs.get(k === 'nome' ? 'name' : k); if (v) $(k).value = v; });
-  const syncArea = () => {
-    const med = $('nicho').value === 'medicos';
-    $('areaLabel').textContent = med ? 'Sua especialidade' : 'Sua área / profissão';
-    $('area').placeholder = med ? 'Ex.: pediatria, dermatologia, odontologia' : 'Ex.: advogada, personal trainer, arquiteto';
-  };
-  $('nicho').addEventListener('change', syncArea); syncArea();
 
   /* Máscara do WhatsApp (aceita autocomplete com +55) */
   $('whatsapp').addEventListener('input', e => {
@@ -182,6 +171,7 @@
       instagram: ig,
       nicho: val('nicho'),
       area: val('area'),
+      pagina: qs.get('n') || '',
       vende: val('vende'),
       objetivo: val('objetivo'),
       frequencia: val('frequencia'),
@@ -212,7 +202,7 @@
     const waMsg = encodeURIComponent(
       `Olá! Sou ${payload.nome} e comprei o Diagnóstico de Perfil.\n\n` +
       `• Instagram: ${payload.instagram}\n` +
-      `• Área: ${payload.area}\n` +
+      `• Sou: ${payload.nicho} · ${payload.area}\n` +
       `• Vendo: ${payload.vende}\n` +
       `• Objetivo: ${payload.objetivo}\n\n` +
       `Já respondi as perguntas. Quero confirmar a apresentação do meu diagnóstico. Qual o melhor dia e horário?`
