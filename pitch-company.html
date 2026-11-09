@@ -341,11 +341,29 @@ section{position:relative}
 /* CTA FINAL */
 .final{padding:150px 0;text-align:center;overflow:hidden;background:
   radial-gradient(700px 420px at 50% 100%,rgba(134,0,255,.45),transparent 70%),var(--noite)}
-.final h2{font-size:clamp(40px,6.4vw,88px);font-weight:800;margin:20px auto 24px;max-width:960px}
-.final .lead{margin:0 auto 40px}
-.final .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-.final .mini{margin-top:26px;font-size:13.5px;color:#8F82A0}
-.final .eng-final{width:120px;margin:0 auto}
+.final{text-align:left;padding:130px 0}
+.diag{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.final h2{font-size:clamp(38px,5vw,68px);font-weight:800;margin:18px 0 20px}
+.entrega{list-style:none;display:grid;gap:12px;margin-top:28px}
+.entrega li{display:flex;gap:12px;color:#fff;font-weight:500;font-size:16px}
+.entrega li::before{content:"✓";flex:none;width:24px;height:24px;border-radius:50%;background:var(--laranja);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;margin-top:1px}
+.form-box{background:#fff;border-radius:28px;padding:34px;box-shadow:0 40px 90px -30px rgba(134,0,255,.6);color:var(--texto)}
+.form-box h3{font-size:26px;color:var(--tinta)}
+.form-box .fsub{font-size:14px;color:var(--suave);margin:6px 0 22px}
+.fg{display:grid;gap:6px;margin-bottom:14px;min-width:0}
+.fg label{font-size:13px;font-weight:600;color:var(--tinta)}
+.fg input,.fg select{width:100%;font:inherit;font-size:16px;padding:13px 14px;border-radius:12px;border:1.5px solid var(--linha);background:var(--fundo-2);color:var(--tinta);outline:none;transition:border-color .2s,background .2s}
+.fg input:focus,.fg select:focus{border-color:var(--violeta);background:#fff}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-box .btn{margin-top:6px}
+.dark .form-box .btn-pri{background:var(--roxo);color:#fff;box-shadow:0 10px 30px -8px rgba(81,0,120,.6)}
+.fdis{font-size:12.5px;color:var(--suave);text-align:center;margin-top:12px}
+.sucesso{text-align:center;padding:20px 0}
+.sucesso h3{margin:14px 0 8px}
+.sucesso p{font-size:15px;margin-bottom:20px}
+.sucesso .ok{width:56px;height:56px;border-radius:50%;background:#E3F9EE;display:grid;place-items:center;margin:0 auto}
+@media (max-width:900px){.diag{grid-template-columns:1fr;gap:40px}.final{padding:90px 0}.form-box{padding:24px}}
+@media (max-width:480px){.frow{grid-template-columns:1fr;gap:0}}
 
 footer{background:#0C0214;color:#7F7290;padding:50px 0;font-size:13.5px}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
@@ -380,7 +398,7 @@ footer a:hover{color:#fff}
       <a href="#resultados">Resultados</a>
       <a href="#builders">Builders</a>
     </nav>
-    <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico</a>
+    <a class="btn btn-pri" href="#diagnostico">Quero meu diagnóstico</a>
   </div>
 </header>
 
@@ -392,7 +410,7 @@ footer a:hover{color:#fff}
       <h1 class="rv d1">Seu conhecimento pode mudar <span class="grad">milhares de vidas.</span></h1>
       <p class="lead rv d2">Falta o sistema que leva esse conhecimento até as pessoas certas. A Pitch constrói o seu ecossistema digital completo: <b style="color:var(--tinta)">produto, funil e marca pessoal</b>, girando juntos como uma engrenagem só.</p>
       <div class="ctas rv d3">
-        <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico <span class="seta">→</span></a>
+        <a class="btn btn-pri" href="#diagnostico">Quero meu diagnóstico <span class="seta">→</span></a>
         <a class="btn btn-sec" href="#ecossistema">Como funciona</a>
       </div>
       <div class="prova rv d4">
@@ -748,33 +766,60 @@ footer a:hover{color:#fff}
   </div>
 </section>
 
-<!-- PROCESSO -->
-<section class="proc">
-  <div class="wrap">
-    <div class="sec-h">
-      <span class="eyebrow rv">Como começa</span>
-      <h2 class="rv d1">Primeiro a gente acha o furo. Depois constrói.</h2>
+<!-- DIAGNÓSTICO + FORM -->
+<section class="final dark" id="diagnostico">
+  <div class="wrap diag">
+    <div class="rv">
+      <span class="eyebrow">Diagnóstico 360</span>
+      <h2>Você está a um funil de <span class="grad">distância.</span></h2>
+      <p class="lead">Você recebe uma análise do seu funil de vendas e do seu marketing pessoal, com o ponto exato onde está perdendo clientes e o plano para corrigir.</p>
+      <ul class="entrega">
+        <li>Leitura do funil, da oferta e da esteira de produtos</li>
+        <li>Análise do posicionamento e do conteúdo</li>
+        <li>Plano de ação priorizado, com 30 dias de acompanhamento</li>
+      </ul>
     </div>
-    <div class="proc-g">
-      <div class="pc primeiro rv"><div class="s">01</div><h3>Diagnóstico</h3><p>Você recebe uma leitura do seu funil e do seu marketing pessoal, com o ponto exato onde está perdendo clientes.</p></div>
-      <div class="pc rv d1"><div class="s">02</div><h3>Estratégia</h3><p>Esteira de produtos, oferta e o funil certo para o seu público e o seu momento.</p></div>
-      <div class="pc rv d2"><div class="s">03</div><h3>Construção</h3><p>Páginas, conteúdo, posicionamento e automações. As engrenagens no lugar.</p></div>
-      <div class="pc rv d3"><div class="s">04</div><h3>Escala</h3><p>Leitura de números, novos testes e novas fontes de aquisição. A roda gira cada vez mais rápido.</p></div>
+    <div class="form-box rv d1">
+      <h3>Solicite o seu diagnóstico</h3>
+      <p class="fsub">Leva menos de 1 minuto. A equipe entra em contato em até 24h.</p>
+      <form id="leadForm" novalidate>
+        <div class="fg"><label for="name">Nome completo</label><input type="text" id="name" autocomplete="name" placeholder="Seu nome" required></div>
+        <div class="fg"><label for="business">O que você vende?</label>
+          <select id="business" required>
+            <option value="">Selecione</option>
+            <option>Serviço / consultoria</option>
+            <option>Especialista / profissional liberal</option>
+            <option>Infoproduto (curso, mentoria)</option>
+            <option>Pequeno negócio / empresa</option>
+            <option>Criador de conteúdo</option>
+            <option>Outro</option>
+          </select></div>
+        <div class="frow">
+          <div class="fg"><label for="instagram">@ do Instagram</label><input type="text" id="instagram" placeholder="@seuperfil" required></div>
+          <div class="fg"><label for="whatsapp">WhatsApp com DDD</label><input type="tel" id="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(12) 99999-9999" required></div>
+        </div>
+        <div class="fg"><label for="source">Hoje, de onde vem a maior parte dos seus clientes?</label>
+          <select id="source" required>
+            <option value="">Selecione</option>
+            <option>Indicação</option>
+            <option>Instagram orgânico</option>
+            <option>Anúncios (tráfego pago)</option>
+            <option>Lançamentos</option>
+            <option>Várias frentes equilibradas</option>
+            <option>Ainda não tenho clientes constantes</option>
+          </select></div>
+        <div class="fg"><label for="revenue">Faturamento mensal aproximado</label>
+          <select id="revenue">
+            <option value="">Prefiro não dizer</option>
+            <option>Até R$ 10 mil</option>
+            <option>R$ 10 mil a R$ 30 mil</option>
+            <option>R$ 30 mil a R$ 100 mil</option>
+            <option>Acima de R$ 100 mil</option>
+          </select></div>
+        <button type="submit" class="btn btn-pri" style="width:100%">Quero meu diagnóstico <span class="seta">→</span></button>
+        <p class="fdis">🔒 Seus dados estão protegidos. Não enviamos spam.</p>
+      </form>
     </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
-<section class="final dark">
-  <div class="wrap">
-    <svg class="eng-final rv" viewBox="-160 -160 320 320" aria-hidden="true"><g class="gira-lenta"><path class="gear" data-t="10" data-ro="150" data-ri="124" data-h="0" fill="#8600FF"/></g><circle r="110" fill="#14031F"/><circle r="96" fill="none" stroke="#fff" stroke-width="10"/><path d="M-50 -52H50L14 -8V40M-50 -52L-14 -8V40" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="0" cy="66" r="9" fill="#FF8A00"/></svg>
-    <h2 class="rv d1">Você está a um funil de <span class="grad">distância.</span></h2>
-    <p class="lead rv d2">Você recebe um diagnóstico do seu funil e do seu marketing pessoal e sai sabendo exatamente qual engrenagem está travando o seu crescimento.</p>
-    <div class="ctas rv d3">
-      <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico <span class="seta">→</span></a>
-      <a class="btn btn-sec wa" href="#" data-wa>Falar no WhatsApp</a>
-    </div>
-    <p class="mini rv d4">Build your business. Build your brand. Build your freedom.</p>
   </div>
 </section>
 
@@ -986,6 +1031,37 @@ footer a:hover{color:#fff}
   car.addEventListener('click',e=>{if(moved>4)return;const c=e.target.closest('.card');if(!c)return;lbI.src=c.dataset.src;lb.classList.add('on')});
   lb.onclick=()=>lb.classList.remove('on');
   addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+
+  /* ---------- formulário do diagnóstico ---------- */
+  const wa=document.getElementById('whatsapp');
+  wa.addEventListener('input',e=>{let v=e.target.value.replace(/\D/g,'');if(v.length>11&&v.startsWith('55'))v=v.slice(2);v=v.slice(0,11);
+    if(v.length>6)v=`(${v.slice(0,2)}) ${v.slice(2,v.length-4)}-${v.slice(-4)}`;else if(v.length>2)v=`(${v.slice(0,2)}) ${v.slice(2)}`;else if(v.length)v=`(${v}`;e.target.value=v});
+  document.getElementById('leadForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const form=e.target, val=id=>document.getElementById(id).value.trim();
+    let bad1=null;
+    ['name','business','instagram','whatsapp','source'].forEach(id=>{const el=document.getElementById(id);
+      const bad=!el.value.trim()||(id==='whatsapp'&&el.value.replace(/\D/g,'').length<10);
+      el.style.borderColor=bad?'#FB7185':'';if(bad&&!bad1)bad1=el});
+    if(bad1){bad1.focus();return}
+    const btn=form.querySelector('button[type=submit]');btn.textContent='Enviando...';btn.disabled=true;
+    const payload={nome:val('name'),negocio:val('business'),instagram:val('instagram'),whatsapp:val('whatsapp'),
+      whatsapp_e164:'+55'+val('whatsapp').replace(/\D/g,''),principal_fonte_clientes:val('source'),faturamento:val('revenue'),
+      origem:'Página institucional Pitch Company',data_envio:new Date().toISOString()};
+    try{await fetch('https://webhook.dev.pitchcompany.com.br/webhook/diag-empresarios',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})}catch(err){console.error('Webhook error:',err)}
+    try{
+      const sha=async t=>{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')};
+      const ph=await sha(payload.whatsapp_e164.replace(/\D/g,'')), fn=await sha(payload.nome.split(' ')[0].toLowerCase());
+      fbq('init','2464454597399812',{ph,fn});
+      fbq('track','Lead',{content_name:'Diagnóstico 360 — Página Pitch Company',content_category:payload.negocio},{eventID:'lead_pitchco_'+Date.now()});
+    }catch(err){try{fbq('track','Lead')}catch(_){}}
+    const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const first=payload.nome.split(' ')[0];
+    const msg=encodeURIComponent(`Olá! Sou ${payload.nome}, vim pela página da Pitch Company e quero fazer o Diagnóstico 360.`);
+    form.innerHTML=`<div class="sucesso"><div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1FAF5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
+      <h3>Solicitação enviada, ${esc(first)}!</h3><p>A equipe entra em contato em até 24h.<br>Se preferir, fale com a gente agora:</p>
+      <a class="btn btn-wa" onclick="try{fbq('track','Contact')}catch(e){}" href="https://wa.me/5512988037941?text=${msg}" target="_blank" rel="noopener">Falar no WhatsApp agora →</a></div>`;
+  });
 
   /* ---------- manifesto: acende linha a linha ---------- */
   const linhas=[...document.querySelectorAll('#manif p')];
