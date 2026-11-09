@@ -379,6 +379,176 @@ footer a:hover{color:#fff}
 .wa-flut{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#1FAF5A;display:grid;place-items:center;box-shadow:0 10px 30px -6px rgba(31,175,90,.6);transform:scale(0);transition:transform .4s cubic-bezier(.2,1.4,.4,1)}
 .wa-flut.on{transform:scale(1)}
 
+/* ajustes gerais */
+.hero h1{font-size:clamp(36px,5.2vw,70px)}
+.simbolo{max-width:440px}
+.final .eng-final{width:96px;margin:0 0 22px;display:block;overflow:visible}
+
+/* ===================== MOBILE ===================== */
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  body{font-size:15px}
+  .btn{padding:15px 22px;font-size:15px}
+  .lead{font-size:15.5px}
+  .eyebrow{font-size:11px;letter-spacing:.12em}
+  .eyebrow::before{width:16px}
+
+  /* nav */
+  .nav .wrap{height:60px}
+  .nav img{height:28px}
+  .nav .btn{padding:9px 14px;font-size:12.5px}
+
+  /* paddings de seção */
+  .sec,.inimigo,.eco,.funis,.fly,.fund,.manif,.final{padding:64px 0}
+  .res{padding:64px 0 56px}
+  .case{padding:0 0 64px}
+  .sec-h{margin-bottom:30px}
+  .sec-h h2,.fly h2,.fund h2,.case-box h2,.final h2{font-size:clamp(26px,7.4vw,30px)!important;margin:12px 0 14px!important;line-height:1.08}
+
+  /* hero */
+  .hero{padding:84px 0 40px}
+  .hero .wrap{gap:18px}
+  .simbolo{max-width:190px;margin:0 auto -6px}
+  .hero h1{font-size:clamp(30px,8.6vw,36px);margin:14px 0 14px}
+  .hero .lead{margin-bottom:24px}
+  .hero .ctas{flex-direction:column}
+  .hero .ctas .btn{width:100%}
+  .hero .prova{margin-top:22px;font-size:13px}
+  .avs img{width:32px;height:32px}
+
+  /* faixa */
+  .marq{padding:14px 0}
+  .marq-t{gap:34px}
+  .marq-i{font-size:12.5px}
+  .marq-i b{font-size:19px}
+  .marq-i::after{margin-left:28px}
+
+  /* mitos */
+  .mitos{gap:12px}
+  .mito{padding:22px 20px}
+  .mito .diz{font-size:13.5px}
+  .mito .e{font-size:21px;margin:8px 0 6px}
+  .mito p{font-size:14.5px}
+  .mito .num{font-size:40px;right:16px;top:12px}
+
+  /* inimigo */
+  .vs{border-radius:20px}
+  .vs-col{padding:22px 20px}
+  .vs-col h3{font-size:19px;margin-bottom:14px}
+  .vs-col ul{gap:10px}
+  .vs-col li{font-size:14.5px}
+  .frase-g{margin-top:36px;font-size:21px}
+
+  /* ecossistema */
+  .engrenagens{height:auto;aspect-ratio:630/510;max-width:340px;margin:0 auto 26px}
+  .eng-lbl{font-size:26px}
+  .eng-sub{display:none}
+  .soma{font-size:15px;gap:8px;margin-bottom:30px}
+  .soma .res{padding:6px 14px}
+  .pilares{gap:12px}
+  .pilar{padding:22px 20px}
+  .pilar h3{font-size:21px;margin:6px 0 8px}
+  .pilar p{font-size:14.5px;margin-bottom:12px}
+  .pilar ul{font-size:14px;gap:7px}
+  .pilar .quem{margin-top:16px;padding-top:12px}
+  .esteira{margin-top:56px;gap:26px}
+  .esteira h3{font-size:24px;margin:10px 0 10px}
+  .esteira .lead{font-size:15px!important}
+  .degraus{height:200px;gap:5px}
+  .degrau{padding:8px 6px;border-radius:12px 12px 6px 6px}
+  .degrau b{font-size:11.5px}
+  .degrau small{display:none}
+
+  /* funis */
+  .tabs{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px 18px;padding:0 20px 4px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:none;padding:10px 15px;font-size:13.5px}
+  .tab .star{font-size:8.5px;padding:2px 6px}
+  .painel{padding:20px;border-radius:20px}
+  .painel-top{gap:14px;margin-bottom:22px}
+  .painel h3{font-size:21px;margin-bottom:8px}
+  .painel p{font-size:14.5px}
+  .painel .quando{padding:14px 16px;font-size:14px;border-radius:14px}
+  .passo{min-width:92px}
+  .passo .bx{width:50px;height:50px;border-radius:14px;font-size:21px}
+  .passo::after{top:25px;left:calc(50% + 25px);right:calc(-50% + 25px)}
+  .passo span{font-size:12px;margin-top:8px}
+  .passo small{font-size:10.5px}
+
+  /* flywheel */
+  .fly .wrap{gap:30px}
+  .roda{max-width:320px}
+  .no-txt{font-size:17px}
+  .fly-passos{margin-top:22px;gap:6px}
+  .fp{padding:11px 12px;gap:12px}
+  .fp .n{width:28px;height:28px;font-size:13px}
+  .fp b{font-size:15px}
+  .regra{margin-top:20px;padding:16px 18px;font-size:14px}
+
+  /* resultados */
+  .res-top{margin-bottom:22px;gap:16px}
+  .car-nav button{width:44px;height:44px}
+  .kpis{gap:10px;margin-bottom:26px}
+  .kpi{padding:16px 14px;border-radius:16px}
+  .kpi .v{font-size:23px}
+  .kpi p{font-size:12px;margin-top:6px}
+  .filtros{flex-wrap:nowrap;overflow-x:auto;margin:0 -20px;padding:0 20px 4px;scrollbar-width:none}
+  .filtros::-webkit-scrollbar{display:none}
+  .carrossel{gap:12px;padding:8px 20px 22px}
+  .card{width:min(250px,70vw);border-radius:18px}
+  .card .cap{padding:12px 14px 14px}
+  .card .cap b{font-size:17px}
+  .card .cap small{font-size:12px}
+  .car-bar{padding:0 20px}
+  .arraste{font-size:12px}
+
+  /* case */
+  .case-box{padding:26px 20px;border-radius:22px;gap:24px}
+  .case-n{gap:18px;margin-top:20px}
+  .case-n div b{font-size:24px}
+  .etapas{gap:8px}
+  .etapa{padding:14px 14px;gap:12px;border-radius:14px}
+  .etapa b{font-size:14.5px}
+  .etapa p{font-size:13px}
+
+  /* fundadores */
+  .fund .wrap{gap:30px}
+  .foto .moldura{border-radius:20px}
+  .foto .eng-bg{display:none}
+  .foto .selo{left:12px;bottom:12px;padding:10px 13px;font-size:12px}
+  .foto .selo b{font-size:18px}
+  .duo{gap:10px;margin-top:22px}
+  .pessoa{padding:18px}
+  .pessoa h3{font-size:20px}
+  .pessoa p{font-size:14px}
+
+  /* manifesto */
+  .manif .bg-eng{width:460px;right:-200px}
+  .manif-t{margin-top:20px!important}
+  .manif-t p{font-size:19px;margin-bottom:14px}
+  .wearebuilders{font-size:42px;margin-top:32px}
+  .pil4{margin-top:32px;gap:10px;grid-template-columns:1fr 1fr}
+  .p4{padding:16px 14px;border-radius:16px}
+  .p4 b{font-size:17px}
+  .p4 span{font-size:10px;margin:2px 0 6px}
+  .p4 p{font-size:12.5px}
+
+  /* diagnóstico */
+  .diag{gap:28px}
+  .final .eng-final{width:88px;margin-bottom:16px}
+  .entrega{margin-top:18px;gap:9px}
+  .entrega li{font-size:14.5px}
+  .form-box{padding:22px 18px;border-radius:20px}
+  .form-box h3{font-size:21px}
+  .form-box .fsub{font-size:13px;margin-bottom:16px}
+  .fg{margin-bottom:11px}
+  .fg input,.fg select{padding:12px 13px}
+
+  footer{padding:32px 0;font-size:12.5px}
+  footer .wrap{flex-direction:column;align-items:flex-start;gap:10px}
+  .wa-flut{width:52px;height:52px;right:14px;bottom:14px}
+}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}.degrau{transform:none}
@@ -446,8 +616,6 @@ footer a:hover{color:#fff}
           <circle cx="-40" cy="126" r="11" class="gota" style="animation-delay:1.5s"/>
         </g>
       </svg>
-      <div class="chip-flut a"><div class="ic">📈</div><div><span class="n">22 mi</span><small>views em 90 dias</small></div></div>
-      <div class="chip-flut b"><div class="ic">💰</div><div><span class="n">ROAS 6,7</span><small>R$ 103 mil de lucro</small></div></div>
     </div>
   </div>
 </section>
@@ -541,19 +709,19 @@ footer a:hover{color:#fff}
           <linearGradient id="gC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9F2E"/><stop offset="1" stop-color="#E06400"/></linearGradient>
           <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#3E005C" flood-opacity=".28"/></filter>
         </defs>
-        <g transform="translate(205 230)" filter="url(#sh)">
+        <g id="gpA" transform="translate(205 230)" filter="url(#sh)">
           <g class="gira" data-w="1"><path class="gear" data-t="12" data-ro="150" data-ri="124" data-h="0" fill="url(#gA)"/></g>
           <circle r="98" fill="rgba(255,255,255,.08)"/>
           <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 1</text>
           <text class="eng-lbl" text-anchor="middle" y="14">Produto</text>
         </g>
-        <g transform="translate(500 205)" filter="url(#sh)">
+        <g id="gpB" transform="translate(500 205)" filter="url(#sh)">
           <g class="gira" data-w="-1.2" data-off="15"><path class="gear" data-t="10" data-ro="128" data-ri="102" data-h="0" fill="url(#gB)"/></g>
           <circle r="80" fill="rgba(255,255,255,.08)"/>
           <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 2</text>
           <text class="eng-lbl" text-anchor="middle" y="14">Funil</text>
         </g>
-        <g transform="translate(795 230)" filter="url(#sh)">
+        <g id="gpC" transform="translate(795 230)" filter="url(#sh)">
           <g class="gira" data-w="1"><path class="gear" data-t="12" data-ro="150" data-ri="124" data-h="0" fill="url(#gC)"/></g>
           <circle r="98" fill="rgba(255,255,255,.1)"/>
           <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 3</text>
@@ -770,6 +938,12 @@ footer a:hover{color:#fff}
 <section class="final dark" id="diagnostico">
   <div class="wrap diag">
     <div class="rv">
+      <svg class="eng-final" viewBox="-160 -160 320 320" aria-hidden="true">
+        <g class="gira-lenta"><path class="gear" data-t="10" data-ro="150" data-ri="124" data-h="0" fill="#8600FF"/></g>
+        <circle r="110" fill="#14031F"/><circle r="96" fill="none" stroke="#fff" stroke-width="10"/>
+        <path d="M-50 -52H50L14 -8V40M-50 -52L-14 -8V40" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <g fill="#FF8A00"><circle cx="0" cy="44" r="8" class="gota"/><circle cx="0" cy="44" r="8" class="gota" style="animation-delay:.7s"/><circle cx="0" cy="44" r="8" class="gota" style="animation-delay:1.4s"/></g>
+      </svg>
       <span class="eyebrow">Diagnóstico 360</span>
       <h2>Você está a um funil de <span class="grad">distância.</span></h2>
       <p class="lead">Você recebe uma análise do seu funil de vendas e do seu marketing pessoal, com o ponto exato onde está perdendo clientes e o plano para corrigir.</p>
@@ -857,6 +1031,16 @@ footer a:hover{color:#fff}
     p.setAttribute('fill-rule','evenodd');
     p.setAttribute('stroke-linejoin','round');
   });
+
+  /* ---------- mobile: engrenagens em triângulo ---------- */
+  const mob=matchMedia('(max-width:640px)');
+  function layoutEng(){
+    const svg=document.getElementById('engSvg');
+    const pos=mob.matches?{A:[145,180],B:[300,382],C:[455,180],vb:'-15 15 630 510'}:{A:[205,230],B:[500,205],C:[795,230],vb:'0 0 1000 430'};
+    svg.setAttribute('viewBox',pos.vb);
+    ['A','B','C'].forEach(k=>document.getElementById('gp'+k).setAttribute('transform',`translate(${pos[k][0]} ${pos[k][1]})`));
+  }
+  layoutEng(); mob.addEventListener?mob.addEventListener('change',layoutEng):mob.addListener(layoutEng);
 
   /* ---------- rotação contínua, acelera com o scroll ---------- */
   const hero=document.getElementById('heroGear');
@@ -963,7 +1147,7 @@ footer a:hover{color:#fff}
   });
   let ativo=0, flyT=null;
   function pintaFly(){
-    [...nosG.children].forEach((g,i)=>{const c=g.querySelector('circle');c.setAttribute('fill',i===ativo?'#FF8A00':'#1E0832');c.setAttribute('stroke',i===ativo?'#FFB866':'rgba(201,163,255,.35)');c.setAttribute('r',i===ativo?52:46)});
+    [...nosG.children].forEach((g,i)=>{const c=g.querySelector('circle');c.setAttribute('fill',i===ativo?'#FF8A00':'#1E0832');c.setAttribute('stroke',i===ativo?'#FFB866':'rgba(201,163,255,.35)');c.setAttribute('r',mob.matches?(i===ativo?60:54):(i===ativo?52:46))});
     [...passosEl.children].forEach((d,i)=>d.classList.toggle('on',i===ativo));
   }
   const avanca=()=>{ativo=(ativo+1)%NOS.length;pintaFly()};
