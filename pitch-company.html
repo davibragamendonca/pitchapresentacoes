@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pitch Company · Construa o que importa</title>
+<meta name="description" content="A Pitch Company constrói o ecossistema digital de quem tem conhecimento e precisa alcançar mais vidas: esteira de produtos, funil de vendas e marca pessoal.">
+<meta property="og:title" content="Pitch Company · Construa o que importa">
+<meta property="og:description" content="Produto, Funil e Marca Pessoal girando juntos. O sistema que leva o seu conhecimento até as pessoas certas.">
+<meta property="og:image" content="davi-maria.jpg">
+<link rel="icon" href="logo-roxo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','2464454597399812');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2464454597399812&ev=PageView&noscript=1" alt=""></noscript>
+
+<style>
+:root{
+  --roxo:#510078; --roxo-2:#6A0FA0; --violeta:#8600FF; --noite:#14031F; --noite-2:#1E0832;
+  --laranja:#FF8A00; --verde:#2BD47D;
+  --tinta:#160A22; --texto:#3D3349; --suave:#6E647A; --linha:#ECE6F2; --fundo:#FFFFFF; --fundo-2:#F8F5FB;
+  --r:22px;
+  --sombra:0 1px 2px rgba(40,0,70,.06),0 12px 40px -12px rgba(60,0,110,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,sans-serif;color:var(--texto);background:var(--fundo);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,.disp{font-family:"Bricolage Grotesque",Inter,sans-serif;color:var(--tinta);line-height:1.04;letter-spacing:-.025em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+section{position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--roxo)}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor;border-radius:2px}
+.dark .eyebrow{color:#C9A3FF}
+.lead{font-size:clamp(17px,1.6vw,20px);color:var(--suave);max-width:640px}
+.dark{background:var(--noite);color:#CFC4DC}
+.dark h1,.dark h2,.dark h3{color:#fff}
+.dark .lead{color:#B4A6C6}
+.laranja{color:var(--laranja)}
+.grad{background:linear-gradient(100deg,var(--roxo) 0%,var(--violeta) 60%,#B05CFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.dark .grad{background:linear-gradient(100deg,#fff 0%,#D7B4FF 50%,#A866FF 100%);-webkit-background-clip:text;background-clip:text}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:16px;padding:17px 28px;border-radius:999px;transition:transform .25s cubic-bezier(.2,.8,.2,1),box-shadow .25s,background .25s;cursor:pointer;border:0;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-pri{background:var(--roxo);color:#fff;box-shadow:0 10px 30px -8px rgba(81,0,120,.6),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-pri:hover{transform:translateY(-2px);box-shadow:0 16px 40px -10px rgba(134,0,255,.7)}
+.btn-pri .seta{transition:transform .25s}
+.btn-pri:hover .seta{transform:translateX(4px)}
+.btn-sec{background:transparent;color:var(--roxo);box-shadow:inset 0 0 0 1.5px rgba(81,0,120,.25)}
+.btn-sec:hover{box-shadow:inset 0 0 0 1.5px var(--roxo)}
+.dark .btn-pri{background:#fff;color:var(--roxo);box-shadow:0 10px 40px -8px rgba(134,0,255,.8)}
+.dark .btn-sec{color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.3)}
+.btn-wa{background:#1FAF5A;color:#fff}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,box-shadow .3s,transform .35s}
+.nav.solid{background:rgba(255,255,255,.86);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);box-shadow:0 1px 0 var(--linha)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
+.nav img{height:36px;width:auto}
+.nav nav{display:flex;gap:30px;font-size:14.5px;font-weight:600;color:var(--texto)}
+.nav nav a:hover{color:var(--roxo)}
+.nav .btn{padding:11px 20px;font-size:14px}
+@media (max-width:900px){.nav nav{display:none}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+
+/* HERO */
+.hero{padding:150px 0 70px;background:
+  radial-gradient(900px 500px at 85% 20%,rgba(134,0,255,.10),transparent 60%),
+  radial-gradient(600px 400px at 0% 100%,rgba(255,138,0,.06),transparent 60%),#fff;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero h1{font-size:clamp(42px,6.2vw,82px);font-weight:800;margin:22px 0 24px}
+.hero .lead{margin-bottom:36px}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero .prova{display:flex;align-items:center;gap:14px;margin-top:34px;font-size:14px;color:var(--suave)}
+.avs{display:flex}
+.avs img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #fff;margin-left:-10px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.avs img:first-child{margin-left:0}
+.prova b{color:var(--tinta)}
+.simbolo{position:relative;aspect-ratio:1;max-width:520px;width:100%;justify-self:center}
+.simbolo svg{width:100%;height:100%;overflow:visible}
+.simbolo .halo{position:absolute;inset:12%;border-radius:50%;background:radial-gradient(circle,rgba(134,0,255,.28),transparent 68%);filter:blur(30px);animation:respira 5s ease-in-out infinite}
+@keyframes respira{50%{transform:scale(1.12);opacity:.7}}
+.gota{animation:cai 2.2s cubic-bezier(.5,0,.8,.4) infinite;opacity:0}
+@keyframes cai{0%{transform:translateY(-14px);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translateY(40px);opacity:0}}
+.chip-flut{position:absolute;background:#fff;border-radius:16px;padding:12px 16px;box-shadow:var(--sombra);font-size:13px;font-weight:600;color:var(--tinta);display:flex;gap:10px;align-items:center;animation:flut 6s ease-in-out infinite}
+.chip-flut small{display:block;font-weight:500;color:var(--suave);font-size:11.5px}
+.chip-flut .n{font-family:"Bricolage Grotesque";font-size:20px;font-weight:800;color:var(--roxo)}
+.chip-flut.a{top:6%;left:-6%}
+.chip-flut.b{bottom:12%;right:-8%;animation-delay:-3s}
+.chip-flut .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#F3EAFE}
+@keyframes flut{50%{transform:translateY(-12px)}}
+@media (max-width:900px){
+  .hero{padding:120px 0 50px}
+  .hero .wrap{grid-template-columns:1fr}
+  .simbolo{max-width:340px;order:-1;margin-bottom:-10px}
+  .chip-flut.a{left:-4%}.chip-flut.b{right:-4%}
+}
+
+/* faixa de números */
+.marq{border-block:1px solid var(--linha);background:var(--fundo-2);overflow:hidden;padding:22px 0}
+.marq-t{display:flex;gap:56px;width:max-content;animation:marq 38s linear infinite}
+.marq-i{display:flex;align-items:baseline;gap:10px;white-space:nowrap;font-size:14px;color:var(--suave)}
+.marq-i b{font-family:"Bricolage Grotesque";font-size:26px;color:var(--roxo);font-weight:800}
+.marq-i::after{content:"✦";color:#D5C2EA;margin-left:46px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* PROBLEMA */
+.sec{padding:130px 0}
+.sec-h{max-width:780px;margin-bottom:64px}
+.sec-h h2{font-size:clamp(34px,4.6vw,60px);font-weight:800;margin:18px 0 20px}
+.mitos{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.mito{border:1px solid var(--linha);border-radius:var(--r);padding:32px;background:#fff;position:relative;overflow:hidden;transition:transform .35s,box-shadow .35s,border-color .35s}
+.mito:hover{transform:translateY(-4px);box-shadow:var(--sombra);border-color:#DCC9F0}
+.mito .diz{font-size:15px;color:var(--suave);text-decoration:line-through;text-decoration-color:rgba(255,80,80,.55);text-decoration-thickness:2px}
+.mito .e{font-family:"Bricolage Grotesque";font-size:clamp(24px,2.4vw,30px);font-weight:700;color:var(--tinta);margin:14px 0 10px;line-height:1.1}
+.mito .e span{color:var(--roxo)}
+.mito p{font-size:15.5px}
+.mito .num{position:absolute;right:22px;top:16px;font-family:"Bricolage Grotesque";font-size:64px;font-weight:800;color:#F4EEFA;line-height:1}
+@media (max-width:760px){.mitos{grid-template-columns:1fr}.sec{padding:90px 0}}
+
+/* INIMIGO */
+.inimigo{padding:130px 0;overflow:hidden;background:
+  radial-gradient(700px 400px at 100% 0%,rgba(134,0,255,.25),transparent 60%),var(--noite)}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:0;border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.08)}
+.vs-col{padding:40px}
+.vs-col h3{font-size:26px;margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.vs-col.eles{background:rgba(255,255,255,.02)}
+.vs-col.eles h3{color:#8F82A0}
+.vs-col.nos{background:linear-gradient(160deg,rgba(134,0,255,.22),rgba(81,0,120,.12))}
+.vs-col ul{list-style:none;display:grid;gap:14px}
+.vs-col li{display:flex;gap:12px;font-size:16px;align-items:flex-start}
+.vs-col.eles li{color:#8F82A0}
+.vs-col.nos li{color:#fff;font-weight:500}
+.vs-col li i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;margin-top:2px}
+.eles li i{background:rgba(255,255,255,.07);color:#8F82A0}
+.nos li i{background:var(--laranja);color:#fff}
+.vs-mid{display:grid;place-items:center;padding:0 6px;background:rgba(255,255,255,.03);font-family:"Bricolage Grotesque";font-weight:800;color:#6D5F80;writing-mode:vertical-rl;letter-spacing:.3em;font-size:12px}
+@media (max-width:820px){.vs{grid-template-columns:1fr}.vs-mid{writing-mode:horizontal-tb;padding:10px}}
+.frase-g{margin-top:70px;text-align:center;font-family:"Bricolage Grotesque";font-size:clamp(26px,3.6vw,46px);color:#fff;font-weight:700;line-height:1.15;max-width:900px;margin-inline:auto}
+.frase-g em{font-style:normal;color:var(--laranja)}
+
+/* ECOSSISTEMA */
+.eco{padding:130px 0;background:#fff;overflow:hidden}
+.engrenagens{position:relative;height:430px;margin:20px auto 50px;max-width:980px}
+.engrenagens svg{width:100%;height:100%;overflow:visible}
+.eng-lbl{font-family:"Bricolage Grotesque";font-weight:800;fill:#fff;font-size:22px;letter-spacing:-.01em}
+.eng-sub{font-family:Inter;font-weight:600;fill:rgba(255,255,255,.75);font-size:12px;letter-spacing:.14em}
+.soma{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(20px,2.4vw,28px);color:var(--tinta);margin-bottom:60px}
+.soma span.op{color:#C5B3D8}
+.soma .res{background:var(--roxo);color:#fff;padding:8px 20px;border-radius:999px}
+.pilares{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pilar{border-radius:var(--r);padding:34px;background:var(--fundo-2);border:1px solid var(--linha);position:relative;overflow:hidden}
+.pilar .tag{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--roxo)}
+.pilar h3{font-size:28px;margin:10px 0 12px}
+.pilar p{font-size:15.5px;margin-bottom:18px}
+.pilar ul{list-style:none;display:grid;gap:9px;font-size:14.5px;color:var(--tinta);font-weight:500}
+.pilar li{display:flex;gap:10px;align-items:flex-start}
+.pilar li::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--laranja);margin-top:8px}
+.pilar .quem{margin-top:22px;padding-top:18px;border-top:1px solid var(--linha);font-size:13px;color:var(--suave)}
+.pilar .quem b{color:var(--tinta)}
+.pilar.dest{background:var(--noite);border-color:transparent;color:#CFC4DC}
+.pilar.dest h3{color:#fff}.pilar.dest .tag{color:#C9A3FF}.pilar.dest ul{color:#fff}.pilar.dest .quem{border-color:rgba(255,255,255,.1);color:#9C8DB0}.pilar.dest .quem b{color:#fff}
+@media (max-width:900px){.pilares{grid-template-columns:1fr}.engrenagens{height:300px}}
+
+/* ESTEIRA */
+.esteira{margin-top:110px;display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:end}
+.esteira h3{font-size:clamp(28px,3.2vw,42px);margin:16px 0 16px}
+.degraus{display:flex;align-items:flex-end;gap:12px;height:340px}
+.degrau{flex:1;border-radius:18px 18px 8px 8px;padding:16px 14px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;position:relative;transform-origin:bottom;transform:scaleY(.05);transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.in .degrau{transform:none}
+.degrau:nth-child(1){height:28%;background:#E9DDF6;color:var(--roxo);transition-delay:.05s}
+.degrau:nth-child(2){height:44%;background:#C69BEB;transition-delay:.15s}
+.degrau:nth-child(3){height:62%;background:#9A4FD6;transition-delay:.25s}
+.degrau:nth-child(4){height:80%;background:var(--roxo);transition-delay:.35s}
+.degrau:nth-child(5){height:100%;background:linear-gradient(180deg,var(--laranja),#E86A00);transition-delay:.45s}
+.degrau b{font-family:"Bricolage Grotesque";font-size:17px;line-height:1.1}
+.degrau small{font-size:11.5px;opacity:.85;line-height:1.3}
+@media (max-width:900px){.esteira{grid-template-columns:1fr}.degraus{height:280px;gap:6px}.degrau{padding:10px 8px}.degrau b{font-size:13px}.degrau small{font-size:10px}}
+
+/* FUNIS */
+.funis{padding:130px 0;background:var(--fundo-2)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tab{padding:12px 20px;border-radius:999px;font-weight:600;font-size:14.5px;background:#fff;border:1px solid var(--linha);cursor:pointer;color:var(--texto);transition:all .25s;display:inline-flex;gap:8px;align-items:center}
+.tab .star{font-size:10px;font-weight:800;background:var(--laranja);color:#fff;border-radius:999px;padding:2px 7px;letter-spacing:.05em}
+.tab.on{background:var(--roxo);color:#fff;border-color:var(--roxo)}
+.painel{background:#fff;border:1px solid var(--linha);border-radius:28px;padding:42px;box-shadow:var(--sombra)}
+.painel-top{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px}
+.painel h3{font-size:clamp(26px,3vw,38px);margin-bottom:12px}
+.painel .quando{background:var(--fundo-2);border-radius:18px;padding:22px 24px;font-size:15px}
+.painel .quando b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--roxo);margin-bottom:6px}
+.fluxo{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:6px 2px 14px;scrollbar-width:none}
+.fluxo::-webkit-scrollbar{display:none}
+.passo{flex:1;min-width:132px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.passo .bx{width:70px;height:70px;border-radius:20px;background:var(--fundo-2);border:1.5px solid var(--linha);display:grid;place-items:center;font-size:28px;transition:all .4s;position:relative;z-index:2}
+.passo span{font-size:13px;font-weight:600;color:var(--tinta);margin-top:12px;line-height:1.3;padding:0 6px}
+.passo small{font-size:11.5px;color:var(--suave);margin-top:4px;padding:0 6px;line-height:1.35}
+.passo::after{content:"";position:absolute;top:35px;left:calc(50% + 35px);right:calc(-50% + 35px);height:2px;background:repeating-linear-gradient(90deg,#D9C8EC 0 6px,transparent 6px 11px);z-index:1}
+.passo:last-child::after{display:none}
+.passo.on .bx{background:var(--roxo);border-color:var(--roxo);transform:scale(1.08);box-shadow:0 10px 30px -8px rgba(134,0,255,.6)}
+.passo.feito .bx{border-color:#C69BEB;background:#F3EAFE}
+.passo.feito::after{background:var(--violeta)}
+.passo.fim .bx{background:var(--verde);border-color:var(--verde)}
+@media (max-width:820px){.painel{padding:26px}.painel-top{grid-template-columns:1fr;gap:20px}}
+
+/* FLYWHEEL */
+.fly{padding:140px 0;overflow:hidden;background:
+  radial-gradient(800px 500px at 50% 50%,rgba(134,0,255,.22),transparent 65%),var(--noite)}
+.fly .wrap{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.roda{position:relative;aspect-ratio:1;width:100%;max-width:540px;justify-self:center}
+.roda svg{width:100%;height:100%;overflow:visible}
+.no-txt{font-family:"Bricolage Grotesque";font-weight:700;font-size:15px;fill:#fff}
+.no-c{transition:all .5s}
+.fly-passos{display:grid;gap:10px;margin-top:34px}
+.fp{display:flex;gap:16px;padding:16px 18px;border-radius:16px;border:1px solid transparent;transition:all .4s;cursor:pointer}
+.fp .n{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:"Bricolage Grotesque";font-weight:800;background:rgba(255,255,255,.06);color:#9C8DB0;transition:all .4s}
+.fp b{color:#fff;font-size:16px;display:block}
+.fp p{font-size:14px;color:#9C8DB0;max-height:0;overflow:hidden;transition:max-height .5s,opacity .4s;opacity:0}
+.fp.on{background:rgba(134,0,255,.14);border-color:rgba(201,163,255,.25)}
+.fp.on .n{background:var(--laranja);color:#fff}
+.fp.on p{max-height:80px;opacity:1;margin-top:4px}
+.regra{margin-top:30px;padding:22px 24px;border-radius:18px;background:rgba(255,138,0,.1);border:1px solid rgba(255,138,0,.3);color:#FFD9B0;font-size:15.5px}
+.regra b{color:#fff}
+@media (max-width:900px){.fly .wrap{grid-template-columns:1fr}.roda{max-width:380px}}
+
+/* RESULTADOS */
+.res{padding:130px 0 110px;background:#fff;overflow:hidden}
+.res-top{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:34px}
+.res-top .sec-h{margin-bottom:0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:46px}
+.kpi{border-radius:20px;padding:24px;background:var(--fundo-2);border:1px solid var(--linha)}
+.kpi .v{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(28px,3.2vw,40px);color:var(--roxo);line-height:1}
+.kpi p{font-size:13.5px;margin-top:8px;color:var(--suave);line-height:1.4}
+@media (max-width:860px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.filtros{display:flex;gap:8px;flex-wrap:wrap}
+.car-wrap{position:relative}
+.carrossel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:10px max(24px,calc((100vw - 1180px)/2 + 24px)) 30px;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.carrossel::-webkit-scrollbar{display:none}
+.carrossel.drag{cursor:grabbing;scroll-snap-type:none}
+.carrossel.drag .card{pointer-events:none}
+.card{flex:none;width:300px;scroll-snap-align:start;border-radius:24px;overflow:hidden;background:#0E0B14;box-shadow:0 18px 40px -18px rgba(30,0,60,.45);transition:transform .4s cubic-bezier(.2,.8,.2,1);position:relative;cursor:zoom-in}
+.card:hover{transform:translateY(-6px)}
+.card .img{height:380px;display:grid;place-items:center;background:#0E0B14;overflow:hidden}
+.card .img img{width:100%;height:100%;object-fit:cover;object-position:top;-webkit-user-drag:none;transition:transform .6s}
+.card:hover .img img{transform:scale(1.04)}
+.card .img.contain img{object-fit:contain}
+.card .cap{padding:18px 20px 20px;background:linear-gradient(180deg,#1A0E26,#14031F);border-top:1px solid rgba(255,255,255,.06)}
+.card .cap .t{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#C9A3FF}
+.card .cap b{display:block;font-family:"Bricolage Grotesque";font-size:22px;color:#fff;line-height:1.1;margin-top:6px}
+.card .cap small{display:block;font-size:13px;color:#9C8DB0;margin-top:4px}
+.card.dep{background:#fff}
+.card.dep .img{background:#F3EFF7}
+.card.oculto{display:none}
+.car-nav{display:flex;gap:10px}
+.car-nav button{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--linha);background:#fff;cursor:pointer;display:grid;place-items:center;transition:all .25s;color:var(--tinta)}
+.car-nav button:hover{background:var(--roxo);border-color:var(--roxo);color:#fff}
+.car-bar{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:20px}
+.trilho{flex:1;height:3px;background:var(--linha);border-radius:3px;overflow:hidden}
+.trilho i{display:block;height:100%;width:20%;background:var(--roxo);border-radius:3px;transition:width .2s,transform .2s}
+.arraste{font-size:13px;color:var(--suave);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.arraste svg{animation:mao 1.8s ease-in-out infinite}
+@keyframes mao{50%{transform:translateX(-8px)}}
+
+/* CASE */
+.case{padding:0 0 130px;background:#fff}
+.case-box{border-radius:32px;background:var(--noite);padding:60px;display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center;overflow:hidden;position:relative}
+.case-box::before{content:"";position:absolute;width:600px;height:600px;right:-200px;top:-260px;background:radial-gradient(circle,rgba(134,0,255,.35),transparent 65%)}
+.case-box h2{font-size:clamp(32px,4vw,52px);color:#fff;margin:16px 0 18px;position:relative}
+.case-box .lead{color:#B4A6C6;position:relative}
+.case-n{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap;position:relative}
+.case-n div b{display:block;font-family:"Bricolage Grotesque";font-size:36px;color:#fff;font-weight:800;line-height:1}
+.case-n div b.g{color:var(--verde)}
+.case-n div span{font-size:13px;color:#9C8DB0}
+.etapas{display:grid;gap:12px;position:relative}
+.etapa{display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px 20px}
+.etapa .k{flex:none;font-family:"Bricolage Grotesque";font-weight:800;font-size:13px;color:var(--laranja);background:rgba(255,138,0,.12);border-radius:10px;padding:6px 10px}
+.etapa b{color:#fff;display:block;font-size:15.5px}
+.etapa p{font-size:14px;color:#9C8DB0;margin-top:2px}
+@media (max-width:900px){.case-box{grid-template-columns:1fr;padding:34px 24px;gap:34px}}
+
+/* FUNDADORES */
+.fund{padding:130px 0;background:var(--fundo-2);overflow:hidden}
+.fund .wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
+.foto{position:relative}
+.foto .moldura{border-radius:30px;overflow:hidden;box-shadow:0 40px 80px -30px rgba(60,0,110,.5);position:relative}
+.foto .moldura img{width:100%;aspect-ratio:801/711;object-fit:cover}
+.foto .eng-bg{position:absolute;width:62%;right:-18%;bottom:-20%;z-index:-1;opacity:.9}
+.foto .selo{position:absolute;left:-18px;bottom:28px;background:#fff;border-radius:18px;padding:14px 18px;box-shadow:var(--sombra);font-size:13px;color:var(--suave)}
+.foto .selo b{display:block;font-family:"Bricolage Grotesque";font-size:24px;color:var(--roxo);line-height:1}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
+.pessoa{background:#fff;border-radius:20px;padding:24px;border:1px solid var(--linha)}
+.pessoa .papel{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--laranja)}
+.pessoa h3{font-size:24px;margin:6px 0 8px}
+.pessoa p{font-size:14.5px}
+@media (max-width:900px){.fund .wrap{grid-template-columns:1fr;gap:50px}.duo{grid-template-columns:1fr}.foto .selo{left:10px}}
+
+/* MANIFESTO */
+.manif{padding:150px 0;background:var(--noite);overflow:hidden}
+.manif .bg-eng{position:absolute;width:900px;right:-300px;top:50%;transform:translateY(-50%);opacity:.06;pointer-events:none}
+.manif-t{max-width:880px}
+.manif-t p{font-family:"Bricolage Grotesque";font-size:clamp(24px,3vw,38px);line-height:1.25;font-weight:600;color:rgba(255,255,255,.18);transition:color .8s;margin-bottom:22px;letter-spacing:-.015em}
+.manif-t p.on{color:#fff}
+.manif-t p.on em{color:var(--laranja);font-style:normal}
+.manif-t p em{font-style:normal}
+.wearebuilders{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(48px,9vw,130px);line-height:.92;letter-spacing:-.04em;color:#fff;margin-top:60px}
+.wearebuilders span{display:block;background:linear-gradient(90deg,#fff,#B985FF);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pil4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:70px}
+.p4{border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;transition:all .35s}
+.p4:hover{background:rgba(134,0,255,.12);border-color:rgba(201,163,255,.3)}
+.p4 b{font-family:"Bricolage Grotesque";font-size:22px;color:#fff;letter-spacing:.02em}
+.p4 span{display:block;font-size:12px;color:var(--laranja);font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin:2px 0 10px}
+.p4 p{font-size:14px;color:#9C8DB0}
+@media (max-width:860px){.pil4{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.pil4{grid-template-columns:1fr}}
+
+/* PROCESSO */
+.proc{padding:130px 0;background:#fff}
+.proc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:p}
+.pc{padding:30px 26px;border-radius:var(--r);border:1px solid var(--linha);position:relative;background:#fff;transition:all .35s}
+.pc:hover{box-shadow:var(--sombra);transform:translateY(-4px)}
+.pc .s{font-family:"Bricolage Grotesque";font-weight:800;font-size:14px;color:var(--roxo);background:#F3EAFE;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:22px}
+.pc h3{font-size:22px;margin-bottom:8px}
+.pc p{font-size:14.5px}
+.pc.primeiro{background:var(--roxo);border-color:var(--roxo);color:#E6D6F7}
+.pc.primeiro h3{color:#fff}.pc.primeiro .s{background:var(--laranja);color:#fff}
+@media (max-width:900px){.proc-g{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.proc-g{grid-template-columns:1fr}}
+
+/* CTA FINAL */
+.final{padding:150px 0;text-align:center;overflow:hidden;background:
+  radial-gradient(700px 420px at 50% 100%,rgba(134,0,255,.45),transparent 70%),var(--noite)}
+.final h2{font-size:clamp(40px,6.4vw,88px);font-weight:800;margin:20px auto 24px;max-width:960px}
+.final .lead{margin:0 auto 40px}
+.final .ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.final .mini{margin-top:26px;font-size:13.5px;color:#8F82A0}
+.final .eng-final{width:120px;margin:0 auto}
+
+footer{background:#0C0214;color:#7F7290;padding:50px 0;font-size:13.5px}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+footer img{height:30px;width:auto;opacity:.9}
+footer a:hover{color:#fff}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(10,2,18,.92);display:none;align-items:center;justify-content:center;padding:24px;cursor:zoom-out;backdrop-filter:blur(6px)}
+.lb.on{display:flex}
+.lb img{max-height:92vh;max-width:min(92vw,700px);border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+
+/* wa flutuante */
+.wa-flut{position:fixed;right:20px;bottom:20px;z-index:60;width:58px;height:58px;border-radius:50%;background:#1FAF5A;display:grid;place-items:center;box-shadow:0 10px 30px -6px rgba(31,175,90,.6);transform:scale(0);transition:transform .4s cubic-bezier(.2,1.4,.4,1)}
+.wa-flut.on{transform:scale(1)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}.degrau{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="#topo" aria-label="Pitch Company"><img src="logo-roxo.svg" alt="Pitch Company"></a>
+    <nav>
+      <a href="#ecossistema">Ecossistema</a>
+      <a href="#funis">Funis</a>
+      <a href="#flywheel">Flywheel</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#builders">Builders</a>
+    </nav>
+    <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="topo">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow rv">Pitch Company · Marketing Pessoal</span>
+      <h1 class="rv d1">Seu conhecimento pode mudar <span class="grad">milhares de vidas.</span></h1>
+      <p class="lead rv d2">Falta o sistema que leva esse conhecimento até as pessoas certas. A Pitch constrói o seu ecossistema digital completo: <b style="color:var(--tinta)">produto, funil e marca pessoal</b>, girando juntos como uma engrenagem só.</p>
+      <div class="ctas rv d3">
+        <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico <span class="seta">→</span></a>
+        <a class="btn btn-sec" href="#ecossistema">Como funciona</a>
+      </div>
+      <div class="prova rv d4">
+        <div class="avs">
+          <img src="depo/mariana.jpg.jpeg" alt="">
+          <img src="depo/giu.jpg.jpeg" alt="">
+          <img src="depo/taina.jpg.jpeg" alt="">
+          <img src="depo/daniela.jpg.jpeg" alt="">
+        </div>
+        <div><b>+20 experts acelerados</b><br>com funil e conteúdo</div>
+      </div>
+    </div>
+
+    <div class="simbolo rv d2" aria-hidden="true">
+      <div class="halo"></div>
+      <svg viewBox="-260 -260 520 520">
+        <defs>
+          <linearGradient id="gEng" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7A12B8"/><stop offset="1" stop-color="#3E005C"/>
+          </linearGradient>
+        </defs>
+        <g id="heroGear"><path class="gear" data-t="10" data-ro="232" data-ri="196" data-h="0" fill="url(#gEng)"/></g>
+        <circle r="182" fill="#fff"/>
+        <circle r="160" fill="none" stroke="#510078" stroke-width="13"/>
+        <g fill="none" stroke="#510078" stroke-width="17" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M-88 -92 H88 Q96 -92 96 -84 V-78 Q96 -70 90 -65 L30 -14 Q22 -7 22 4 V78"/>
+          <path d="M-88 -92 Q-96 -92 -96 -84 V-78 Q-96 -70 -90 -65 L-30 -14 Q-22 -7 -22 4 V78"/>
+        </g>
+        <g fill="#FF8A00">
+          <rect x="-6" y="34" width="12" height="40" rx="6" class="gota" style="animation-delay:0s"/>
+          <circle cx="40" cy="98" r="11" class="gota" style="animation-delay:.5s"/>
+          <circle cx="-2" cy="112" r="11" class="gota" style="animation-delay:1s"/>
+          <circle cx="-40" cy="126" r="11" class="gota" style="animation-delay:1.5s"/>
+        </g>
+      </svg>
+      <div class="chip-flut a"><div class="ic">📈</div><div><span class="n">22 mi</span><small>views em 90 dias</small></div></div>
+      <div class="chip-flut b"><div class="ic">💰</div><div><span class="n">ROAS 6,7</span><small>R$ 103 mil de lucro</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NÚMEROS -->
+<div class="marq" aria-label="Resultados">
+  <div class="marq-t">
+    <div class="marq-i"><b>R$ 271 mil</b> faturados em um funil</div>
+    <div class="marq-i"><b>22,2 mi</b> de visualizações em 90 dias</div>
+    <div class="marq-i"><b>+183 mil</b> seguidores orgânicos</div>
+    <div class="marq-i"><b>15,3 mi</b> de views em um só vídeo</div>
+    <div class="marq-i"><b>ROAS 6,71</b> no perpétuo</div>
+    <div class="marq-i"><b>+20</b> experts acelerados</div>
+    <div class="marq-i"><b>R$ 271 mil</b> faturados em um funil</div>
+    <div class="marq-i"><b>22,2 mi</b> de visualizações em 90 dias</div>
+    <div class="marq-i"><b>+183 mil</b> seguidores orgânicos</div>
+    <div class="marq-i"><b>15,3 mi</b> de views em um só vídeo</div>
+    <div class="marq-i"><b>ROAS 6,71</b> no perpétuo</div>
+    <div class="marq-i"><b>+20</b> experts acelerados</div>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="eyebrow rv">O diagnóstico que ninguém te deu</span>
+      <h2 class="rv d1">Você não tem um problema de tráfego. Você tem um problema de <span class="grad">sistema.</span></h2>
+      <p class="lead rv d2">Você testa tudo o que aparece na internet, tem ideias de sobra e trabalha até tarde. Mas a venda continua dependendo de sorte, de indicação ou de você. O problema nunca foi esforço.</p>
+    </div>
+    <div class="mitos">
+      <div class="mito rv"><span class="num">01</span><div class="diz">"Meu problema é tráfego."</div><div class="e">O problema é o <span>funil.</span></div><p>Mais anúncio num funil com furo é só mais gente caindo no mesmo buraco.</p></div>
+      <div class="mito rv d1"><span class="num">02</span><div class="diz">"Meu produto é bom, só falta divulgar."</div><div class="e">Falta uma <span>oferta.</span></div><p>Você criou o produto que queria vender. Seu público compra a oferta que resolve a dor dele.</p></div>
+      <div class="mito rv d2"><span class="num">03</span><div class="diz">"Conteúdo bom vende sozinho."</div><div class="e">Falta <span>marca pessoal.</span></div><p>View sem posicionamento é aplauso. Posicionamento transforma audiência em confiança.</p></div>
+      <div class="mito rv d3"><span class="num">04</span><div class="diz">"Testei funil e não funcionou."</div><div class="e">Você testou <span>pouco.</span></div><p>Ninguém acerta no primeiro. Quem tem método testa mais rápido, lê os números e corrige.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INIMIGO -->
+<section class="inimigo dark">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="eyebrow rv">O inimigo em comum</span>
+      <h2 class="rv d1">A cultura do atalho.</h2>
+      <p class="lead rv d2">Ela vende fórmula no lugar de sistema, aparência no lugar de construção e "enriquecer é fácil" no lugar de valor real. A gente escolheu o outro lado.</p>
+    </div>
+    <div class="vs rv">
+      <div class="vs-col eles">
+        <h3>A cultura do atalho</h3>
+        <ul>
+          <li><i>✕</i>Promete dinheiro fácil</li>
+          <li><i>✕</i>Tráfego sem funil</li>
+          <li><i>✕</i>Conteúdo sem estratégia</li>
+          <li><i>✕</i>Copia a estratégia dos outros</li>
+          <li><i>✕</i>Depende de uma única fonte</li>
+          <li><i>✕</i>Sucesso de aparência</li>
+        </ul>
+      </div>
+      <div class="vs-mid">VERSUS</div>
+      <div class="vs-col nos">
+        <h3>O jeito Builder</h3>
+        <ul>
+          <li><i>✓</i>Riqueza como consequência de gerar valor</li>
+          <li><i>✓</i>Funil desenhado para o seu público</li>
+          <li><i>✓</i>Conteúdo que constrói autoridade e vende</li>
+          <li><i>✓</i>Método próprio, testado e medido</li>
+          <li><i>✓</i>Crescimento horizontal, com várias fontes</li>
+          <li><i>✓</i>Processo real, mostrado em público</li>
+        </ul>
+      </div>
+    </div>
+    <p class="frase-g rv">Se o negócio transforma quem está fora, mas destrói quem está dentro, <em>não houve prosperidade.</em></p>
+  </div>
+</section>
+
+<!-- ECOSSISTEMA -->
+<section class="eco" id="ecossistema">
+  <div class="wrap">
+    <div class="sec-h" style="margin-inline:auto;text-align:center">
+      <span class="eyebrow rv">O que a Pitch constrói</span>
+      <h2 class="rv d1">Três engrenagens. <span class="grad">Um só movimento.</span></h2>
+      <p class="lead rv d2" style="margin-inline:auto">Produto sem funil não vende. Funil sem marca não converte. Marca sem produto não fatura. Quando as três giram juntas, uma puxa a outra.</p>
+    </div>
+
+    <div class="engrenagens rv" aria-hidden="true">
+      <svg viewBox="0 0 1000 430" id="engSvg">
+        <defs>
+          <linearGradient id="gA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9A4FD6"/><stop offset="1" stop-color="#6A0FA0"/></linearGradient>
+          <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6A0FA0"/><stop offset="1" stop-color="#2E0047"/></linearGradient>
+          <linearGradient id="gC" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9F2E"/><stop offset="1" stop-color="#E06400"/></linearGradient>
+          <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#3E005C" flood-opacity=".28"/></filter>
+        </defs>
+        <g transform="translate(205 230)" filter="url(#sh)">
+          <g class="gira" data-w="1"><path class="gear" data-t="12" data-ro="150" data-ri="124" data-h="0" fill="url(#gA)"/></g>
+          <circle r="98" fill="rgba(255,255,255,.08)"/>
+          <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 1</text>
+          <text class="eng-lbl" text-anchor="middle" y="14">Produto</text>
+        </g>
+        <g transform="translate(500 205)" filter="url(#sh)">
+          <g class="gira" data-w="-1.2" data-off="15"><path class="gear" data-t="10" data-ro="128" data-ri="102" data-h="0" fill="url(#gB)"/></g>
+          <circle r="80" fill="rgba(255,255,255,.08)"/>
+          <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 2</text>
+          <text class="eng-lbl" text-anchor="middle" y="14">Funil</text>
+        </g>
+        <g transform="translate(795 230)" filter="url(#sh)">
+          <g class="gira" data-w="1"><path class="gear" data-t="12" data-ro="150" data-ri="124" data-h="0" fill="url(#gC)"/></g>
+          <circle r="98" fill="rgba(255,255,255,.1)"/>
+          <text class="eng-sub" text-anchor="middle" y="-16">ENGRENAGEM 3</text>
+          <text class="eng-lbl" text-anchor="middle" y="14">Marca Pessoal</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="soma rv">
+      <span>Produto</span><span class="op">+</span><span>Funil</span><span class="op">+</span><span>Marca Pessoal</span><span class="op">=</span><span class="res">Marketing Pessoal</span>
+    </div>
+
+    <div class="pilares">
+      <div class="pilar rv">
+        <span class="tag">01 · Produto</span>
+        <h3>A esteira de produtos</h3>
+        <p>Você recebe a arquitetura completa das suas ofertas, do conteúdo gratuito ao high ticket. Cada produto prepara a compra do próximo.</p>
+        <ul><li>Oferta desenhada a partir da dor do público</li><li>Order bumps e upsells que aumentam o lucro</li><li>Escada de valor do grátis ao high ticket</li></ul>
+      </div>
+      <div class="pilar dest rv d1">
+        <span class="tag">02 · Funil · especialidade</span>
+        <h3>O funil de vendas</h3>
+        <p>O caminho que leva quem nunca ouviu falar de você até a compra. Desenhado, medido e ajustado até ficar previsível.</p>
+        <ul><li>Webinário e perpétuo, nossas especialidades</li><li>Lançamento, conteúdo eterno e isca digital</li><li>Leitura de números para achar o furo</li></ul>
+        <div class="quem">Liderado por <b>Davi Mendonza</b>, especialista em funil de vendas</div>
+      </div>
+      <div class="pilar rv d2">
+        <span class="tag">03 · Marca Pessoal</span>
+        <h3>A marca que atrai</h3>
+        <p>Identidade, posicionamento e conteúdo que transformam você em referência e geram audiência e comunidade.</p>
+        <ul><li>Identidade e posicionamento</li><li>Conteúdo que gera autoridade e demanda</li><li>Audiência que vira comunidade</li></ul>
+        <div class="quem">Liderado por <b>Maria Amarante</b>, especialista em marca pessoal</div>
+      </div>
+    </div>
+
+    <div class="esteira">
+      <div class="rv">
+        <span class="eyebrow">A esteira de produtos</span>
+        <h3>Do grátis ao high ticket, cada degrau leva ao próximo.</h3>
+        <p class="lead" style="font-size:16.5px">Quem compra o primeiro produto e recebe valor de verdade sobe sozinho para o próximo. É assim que um cliente de R$ 67 vira um cliente de R$ 1.297.</p>
+      </div>
+      <div class="degraus rv">
+        <div class="degrau"><small>Porta de entrada</small><b>Grátis</b></div>
+        <div class="degrau"><small>Isca e conteúdo</small><b>Low ticket</b></div>
+        <div class="degrau"><small>Curso / programa</small><b>Middle</b></div>
+        <div class="degrau"><small>Mentoria</small><b>High ticket</b></div>
+        <div class="degrau"><small>Recorrência</small><b>Comunidade</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNIS -->
+<section class="funis" id="funis">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="eyebrow rv">Engrenagem 2 · Funis</span>
+      <h2 class="rv d1">O funil certo depende do seu público, não da moda.</h2>
+      <p class="lead rv d2">Ticket, tipo de produto, perfil e nível de consciência do público definem a jogada. A gente desenha a sua.</p>
+    </div>
+    <div class="tabs rv" role="tablist" id="tabs"></div>
+    <div class="painel rv" id="painel">
+      <div class="painel-top">
+        <div><h3 id="pT"></h3><p id="pD"></p></div>
+        <div class="quando"><b>Quando usar</b><span id="pQ"></span></div>
+      </div>
+      <div class="fluxo" id="fluxo"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FLYWHEEL -->
+<section class="fly dark" id="flywheel">
+  <div class="wrap">
+    <div class="roda rv" aria-hidden="true">
+      <svg viewBox="-280 -280 560 560" id="rodaSvg">
+        <defs>
+          <radialGradient id="gCentro"><stop offset="0" stop-color="#8600FF"/><stop offset="1" stop-color="#510078"/></radialGradient>
+          <marker id="ponta" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#C9A3FF"/></marker>
+        </defs>
+        <g id="rodaGira"><path class="gear" data-t="24" data-ro="262" data-ri="246" data-h="0" fill="rgba(255,255,255,.04)"/></g>
+        <circle r="200" fill="none" stroke="rgba(201,163,255,.18)" stroke-width="2"/>
+        <circle r="200" fill="none" stroke="url(#gCentro)" stroke-width="3" stroke-dasharray="6 14" id="anelDash"/>
+        <g id="setas"></g>
+        <circle r="92" fill="url(#gCentro)"/>
+        <circle r="92" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+        <text text-anchor="middle" y="-8" style="font:600 11px Inter;letter-spacing:.2em;fill:#E6D6F7">FLYWHEEL DO</text>
+        <text text-anchor="middle" y="24" style="font:800 34px 'Bricolage Grotesque';fill:#fff">Valor</text>
+        <g id="nos"></g>
+      </svg>
+    </div>
+    <div>
+      <span class="eyebrow rv">No que a gente acredita</span>
+      <h2 class="rv d1" style="font-size:clamp(34px,4.4vw,56px);margin:18px 0 18px">O Flywheel do Valor.</h2>
+      <p class="lead rv d2">Funil linear acaba na venda. O flywheel começa nela. Cada cliente bem atendido gira a roda de novo e traz o próximo.</p>
+      <div class="fly-passos rv d3" id="flyPassos"></div>
+      <div class="regra rv"><b>A regra que move tudo:</b> se não gera valor ao cliente, ele não volta e não indica. Por isso cada etapa que a gente constrói começa pelo valor, não pela venda.</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="res" id="resultados">
+  <div class="wrap">
+    <div class="res-top">
+      <div class="sec-h">
+        <span class="eyebrow rv">Resultados</span>
+        <h2 class="rv d1">Prints, não promessas.</h2>
+        <p class="lead rv d2">Vendas, viralização e crescimento orgânico dos negócios que a gente constrói. Arraste para o lado.</p>
+      </div>
+      <div class="car-nav rv">
+        <button type="button" id="prev" aria-label="Anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <button type="button" id="next" aria-label="Próximo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="kpis">
+      <div class="kpi rv"><div class="v" data-count="271" data-pre="R$ " data-suf=" mil">R$ 271 mil</div><p>faturados em um funil, com 77% de margem</p></div>
+      <div class="kpi rv d1"><div class="v" data-count="22.2" data-dec="1" data-suf=" mi">22,2 mi</div><p>de visualizações orgânicas em 90 dias</p></div>
+      <div class="kpi rv d2"><div class="v" data-count="183" data-pre="+" data-suf=" mil">+183 mil</div><p>seguidores conquistados em 90 dias</p></div>
+      <div class="kpi rv d3"><div class="v" data-count="6.71" data-dec="2" data-pre="ROAS ">ROAS 6,71</div><p>R$ 103 mil de lucro com R$ 18 mil em anúncios</p></div>
+    </div>
+    <div class="filtros rv" id="filtros">
+      <button class="tab on" data-f="todos">Todos</button>
+      <button class="tab" data-f="vendas">Vendas</button>
+      <button class="tab" data-f="viral">Viralização</button>
+      <button class="tab" data-f="cresc">Crescimento</button>
+      <button class="tab" data-f="dep">Depoimentos</button>
+    </div>
+  </div>
+  <div class="car-wrap rv" style="margin-top:26px">
+    <div class="carrossel" id="car"></div>
+  </div>
+  <div class="car-bar">
+    <div class="trilho"><i id="trilhoI"></i></div>
+    <div class="arraste"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8l4 4-4 4M6 8l-4 4 4 4M2 12h20"/></svg>Arraste para o lado</div>
+  </div>
+</section>
+
+<!-- CASE -->
+<section class="case">
+  <div class="wrap">
+    <div class="case-box rv">
+      <div>
+        <span class="eyebrow" style="color:#C9A3FF">Case · Funil perpétuo</span>
+        <h2>R$ 103 mil de lucro com um funil simples.</h2>
+        <p class="lead">Nada de truque. Público bem entendido, oferta que resolve a dor rápido e produtos complementares na hora certa. Entre junho e agosto de 2026:</p>
+        <div class="case-n">
+          <div><b class="g">R$ 103,6 mil</b><span>de lucro</span></div>
+          <div><b>R$ 18,1 mil</b><span>em anúncios</span></div>
+          <div><b>6,71</b><span>de ROAS</span></div>
+        </div>
+      </div>
+      <div class="etapas">
+        <div class="etapa"><span class="k">01</span><div><b>Anúncio sem cara de anúncio</b><p>Conteúdo educativo que quebra paradigma e gera valor antes de vender.</p></div></div>
+        <div class="etapa"><span class="k">02</span><div><b>Página de vendas simples · R$ 67</b><p>As dores do público e a solução. Sem enrolação.</p></div></div>
+        <div class="etapa"><span class="k">03</span><div><b>3 ofertas complementares no checkout</b><p>A pessoa já disse sim e está com o cartão na mão. É aqui que nasce o lucro.</p></div></div>
+        <div class="etapa"><span class="k">04</span><div><b>Grupo de valor + high ticket de R$ 1.297</b><p>Todo comprador entra num grupo de conteúdo, com aulas ao vivo e atendimento humano.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FUNDADORES -->
+<section class="fund" id="fundadores">
+  <div class="wrap">
+    <div class="foto rv">
+      <svg class="eng-bg" viewBox="-160 -160 320 320" aria-hidden="true"><g class="gira-lenta"><path class="gear" data-t="10" data-ro="150" data-ri="124" data-h="70" fill="#E3D2F5"/></g></svg>
+      <div class="moldura"><img src="davi-maria.jpg" alt="Davi Mendonza e Maria Amarante, fundadores da Pitch Company" loading="lazy"></div>
+      <div class="selo"><b>+20 experts</b>acelerados pela Pitch</div>
+    </div>
+    <div>
+      <span class="eyebrow rv">Quem constrói com você</span>
+      <h2 class="rv d1" style="font-size:clamp(34px,4.4vw,56px);margin:18px 0 18px">Duas especialidades. Uma mesma visão.</h2>
+      <p class="lead rv d2">A Pitch nasceu nos bastidores do digital, construindo o negócio de outros especialistas. Hoje a gente constrói em público: o processo, as decisões e os números. Porque construir um negócio pode mudar a vida de quem o constrói. E um negócio construído com propósito pode mudar a vida de milhares de pessoas.</p>
+      <div class="duo">
+        <div class="pessoa rv">
+          <span class="papel">Funil de vendas</span>
+          <h3>Davi Mendonza</h3>
+          <p>Estrategista de funis. Desenha o caminho do primeiro contato até a venda, lê os números e acha o furo antes de você gastar mais em anúncio.</p>
+        </div>
+        <div class="pessoa rv d1">
+          <span class="papel">Marca pessoal</span>
+          <h3>Maria Amarante</h3>
+          <p>Especialista em marca pessoal. Constrói identidade, posicionamento e conteúdo que transformam especialistas em referência, sem virar personagem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manif dark" id="builders">
+  <svg class="bg-eng" viewBox="-160 -160 320 320" aria-hidden="true"><g class="gira-lenta"><path class="gear" data-t="12" data-ro="150" data-ri="126" data-h="70" fill="#fff"/></g></svg>
+  <div class="wrap">
+    <span class="eyebrow rv">O movimento</span>
+    <div class="manif-t" id="manif" style="margin-top:34px">
+      <p>A internet ensinou as pessoas a <em>consumir.</em> Consumir conteúdo, copiar estratégias, buscar a próxima oportunidade.</p>
+      <p>A gente acredita em outro caminho. <em>O caminho de quem decide construir.</em></p>
+      <p>Construir negócios que prosperam. Marcas que representam quem somos. E uma vida da qual não precisamos fugir para aproveitar.</p>
+      <p>Não acreditamos em atalhos que sacrificam princípios. Acreditamos em <em>estratégia, execução, autenticidade e evolução constante.</em></p>
+      <p>Enriquecer é consequência. <em>Gerar valor é a missão.</em></p>
+    </div>
+    <div class="wearebuilders rv">We are<span>the Builders.</span></div>
+    <div class="pil4">
+      <div class="p4 rv"><b>BUILD</b><span>Construção</span><p>Negócios, funis, vendas, posicionamento e execução.</p></div>
+      <div class="p4 rv d1"><b>BECOME</b><span>Evolução</span><p>Habilidades, visão, disciplina e decisões melhores.</p></div>
+      <div class="p4 rv d2"><b>FREEDOM</b><span>Liberdade</span><p>Autonomia e um negócio que serve à vida, e não o contrário.</p></div>
+      <div class="p4 rv d3"><b>IMPACT</b><span>Impacto</span><p>Produtos e ideias que melhoram a vida de outras pessoas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section class="proc">
+  <div class="wrap">
+    <div class="sec-h">
+      <span class="eyebrow rv">Como começa</span>
+      <h2 class="rv d1">Primeiro a gente acha o furo. Depois constrói.</h2>
+    </div>
+    <div class="proc-g">
+      <div class="pc primeiro rv"><div class="s">01</div><h3>Diagnóstico</h3><p>Você recebe uma leitura do seu funil e do seu marketing pessoal, com o ponto exato onde está perdendo clientes.</p></div>
+      <div class="pc rv d1"><div class="s">02</div><h3>Estratégia</h3><p>Esteira de produtos, oferta e o funil certo para o seu público e o seu momento.</p></div>
+      <div class="pc rv d2"><div class="s">03</div><h3>Construção</h3><p>Páginas, conteúdo, posicionamento e automações. As engrenagens no lugar.</p></div>
+      <div class="pc rv d3"><div class="s">04</div><h3>Escala</h3><p>Leitura de números, novos testes e novas fontes de aquisição. A roda gira cada vez mais rápido.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final dark">
+  <div class="wrap">
+    <svg class="eng-final rv" viewBox="-160 -160 320 320" aria-hidden="true"><g class="gira-lenta"><path class="gear" data-t="10" data-ro="150" data-ri="124" data-h="0" fill="#8600FF"/></g><circle r="110" fill="#14031F"/><circle r="96" fill="none" stroke="#fff" stroke-width="10"/><path d="M-50 -52H50L14 -8V40M-50 -52L-14 -8V40" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="0" cy="66" r="9" fill="#FF8A00"/></svg>
+    <h2 class="rv d1">Você está a um funil de <span class="grad">distância.</span></h2>
+    <p class="lead rv d2">Você recebe um diagnóstico do seu funil e do seu marketing pessoal e sai sabendo exatamente qual engrenagem está travando o seu crescimento.</p>
+    <div class="ctas rv d3">
+      <a class="btn btn-pri" href="/empresarios">Quero meu diagnóstico <span class="seta">→</span></a>
+      <a class="btn btn-sec wa" href="#" data-wa>Falar no WhatsApp</a>
+    </div>
+    <p class="mini rv d4">Build your business. Build your brand. Build your freedom.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img src="logo-branco.svg" alt="Pitch Company">
+    <span>© 2026 Pitch Company · Construa o que importa.</span>
+    <a href="/privacidade">Política de privacidade</a>
+  </div>
+</footer>
+
+<a class="wa-flut" href="#" data-wa aria-label="Falar no WhatsApp">
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zM20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 0 5.4 0 12c0 2.1.6 4.2 1.6 6L0 24l6.2-1.6c1.8 1 3.8 1.5 5.8 1.5 6.6 0 12-5.4 12-12 0-3.2-1.2-6.2-3.5-8.4z"/></svg>
+</a>
+
+<div class="lb" id="lb"><img id="lbImg" alt=""></div>
+
+<script>
+(function(){
+  const reduz = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- engrenagens: gera o path ---------- */
+  function gearPath(n, ro, ri, hole){
+    const st = Math.PI*2/n, pts=[];
+    for(let i=0;i<n;i++){
+      const a=i*st;
+      [[ri,a-st*.5],[ri,a-st*.27],[ro,a-st*.17],[ro,a+st*.17],[ri,a+st*.27]].forEach(([r,t])=>pts.push([r*Math.cos(t),r*Math.sin(t)]));
+    }
+    let d='M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join('L')+'Z';
+    if(hole>0) d+=`M${hole} 0A${hole} ${hole} 0 1 0 ${-hole} 0A${hole} ${hole} 0 1 0 ${hole} 0Z`;
+    return d;
+  }
+  document.querySelectorAll('path.gear').forEach(p=>{
+    p.setAttribute('d',gearPath(+p.dataset.t,+p.dataset.ro,+p.dataset.ri,+p.dataset.h));
+    p.setAttribute('fill-rule','evenodd');
+    p.setAttribute('stroke-linejoin','round');
+  });
+
+  /* ---------- rotação contínua, acelera com o scroll ---------- */
+  const hero=document.getElementById('heroGear');
+  const giras=[...document.querySelectorAll('.gira')];
+  const lentas=[...document.querySelectorAll('.gira-lenta')];
+  const rodaGira=document.getElementById('rodaGira');
+  const anel=document.getElementById('anelDash');
+  let ang=0, boost=0, lastY=scrollY, lastT=performance.now();
+  addEventListener('scroll',()=>{boost=Math.min(boost+Math.abs(scrollY-lastY)*.04,10);lastY=scrollY},{passive:true});
+  function loop(t){
+    const dt=Math.min(t-lastT,50)/16.67; lastT=t;
+    ang+=(0.12+boost)*dt; boost*=0.93;
+    hero.setAttribute('transform',`rotate(${ang})`);
+    giras.forEach(g=>g.setAttribute('transform',`rotate(${ang*g.dataset.w*.8+(+g.dataset.off||0)})`));
+    lentas.forEach(g=>g.setAttribute('transform',`rotate(${ang*.4})`));
+    rodaGira.setAttribute('transform',`rotate(${ang*.35})`);
+    anel.setAttribute('stroke-dashoffset',-ang*1.5);
+    requestAnimationFrame(loop);
+  }
+  if(!reduz) requestAnimationFrame(loop);
+
+  /* ---------- nav ---------- */
+  const nav=document.getElementById('nav'), waF=document.querySelector('.wa-flut');
+  const onS=()=>{nav.classList.toggle('solid',scrollY>20);waF.classList.toggle('on',scrollY>700)};
+  addEventListener('scroll',onS,{passive:true});onS();
+
+  /* ---------- reveal ---------- */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* ---------- contadores ---------- */
+  const fmt=(v,dec)=>v.toFixed(dec).replace('.',',');
+  const ioC=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return; ioC.unobserve(e.target);
+    const el=e.target, alvo=+el.dataset.count, dec=+el.dataset.dec||0, pre=el.dataset.pre||'', suf=el.dataset.suf||'';
+    if(reduz) return;
+    const t0=performance.now(), dur=1600;
+    (function tick(t){const k=Math.min((t-t0)/dur,1), e2=1-Math.pow(1-k,3);
+      el.textContent=pre+fmt(alvo*e2,dec)+suf; if(k<1) requestAnimationFrame(tick)})(t0);
+  }),{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>ioC.observe(el));
+
+  /* ---------- WhatsApp ---------- */
+  const waUrl='https://wa.me/5512988037941?text='+encodeURIComponent('Olá! Vim pela página da Pitch Company e quero o meu diagnóstico.');
+  document.querySelectorAll('[data-wa]').forEach(a=>{a.href=waUrl;a.target='_blank';a.rel='noopener';
+    a.addEventListener('click',()=>{try{fbq('track','Contact')}catch(e){}})});
+
+  /* ---------- funis ---------- */
+  const FUNIS=[
+    {id:'web',nome:'Webinário',star:1,t:'Funil de Webinário',d:'Uma aula ao vivo que entrega valor de verdade, quebra as objeções e abre o carrinho no momento de maior confiança. É onde a autoridade vira venda em escala.',q:'Produtos de ticket médio e alto, público que precisa ser educado antes de comprar e ofertas de Black Friday ou abertura de turma.',
+     p:[['📣','Anúncio e Reels','atração'],['📄','Página de captura','cadastro'],['💬','Grupo de WhatsApp','aquecimento'],['✉️','Sequência de e-mails','lembretes'],['🎥','Webinário ao vivo','valor + oferta'],['🛒','Carrinho aberto','conversão'],['🤝','Vendedor no WhatsApp','recuperação'],['💰','Venda','']]},
+    {id:'per',nome:'Perpétuo',star:1,t:'Funil Perpétuo',d:'Vende todos os dias, no automático. Conteúdo que atrai, página de vendas direta, checkout com ofertas complementares e um grupo de valor que leva ao high ticket.',q:'Produto validado de ticket baixo ou médio, quando você quer previsibilidade diária sem depender de evento.',
+     p:[['🎬','Reels e anúncio','sem cara de anúncio'],['🤖','Automação no Instagram','link no direct'],['📄','Página de vendas','dor + solução'],['🧾','Checkout','order bumps'],['💰','Compra','lucro'],['👥','Grupo de valor','relacionamento'],['📞','Vendedor','contato humano'],['💎','High ticket','']]},
+    {id:'ete',nome:'Conteúdo Eterno',t:'Funil de Conteúdo Eterno',d:'Conteúdos de busca e de tese que continuam trazendo gente qualificada meses depois de publicados, principalmente no YouTube.',q:'Quando você quer depender menos de tráfego pago e construir autoridade que se acumula com o tempo.',
+     p:[['🔎','Busca no YouTube','descoberta'],['▶️','Vídeo de tese','autoridade'],['🧲','Isca no link','captura'],['✉️','Relacionamento','e-mail e WhatsApp'],['💰','Oferta','']]},
+    {id:'isc',nome:'Isca Digital',t:'Funil de Isca Digital',d:'Um material gratuito que resolve um problema pequeno e real, captura o contato e inicia a escada de valor.',q:'Para construir lista e aquecer público frio antes de uma oferta maior.',
+     p:[['📣','Conteúdo ou anúncio','atração'],['🎁','Isca gratuita','e-book, aula, quiz'],['📥','Captura','contato'],['🔥','Aquecimento','sequência'],['💰','Oferta de entrada','']]},
+    {id:'lan',nome:'Lançamento',t:'Funil de Lançamento',d:'Uma janela de vendas com começo, meio e fim. Captação, aquecimento com conteúdo, evento e carrinho aberto por poucos dias.',q:'Quando você tem audiência engajada e quer concentrar vendas em uma janela de alto impacto.',
+     p:[['📣','Captação','anúncio + orgânico'],['💬','Grupo','expectativa'],['🎓','Aulas de aquecimento','CPLs'],['🛒','Abertura de carrinho','urgência'],['⏳','Fechamento','escassez'],['💰','Vendas','']]}
+  ];
+  const tabsEl=document.getElementById('tabs'), fluxo=document.getElementById('fluxo');
+  let timer=null;
+  function mostra(i){
+    const f=FUNIS[i];
+    [...tabsEl.children].forEach((b,j)=>b.classList.toggle('on',i===j));
+    document.getElementById('pT').textContent=f.t;
+    document.getElementById('pD').textContent=f.d;
+    document.getElementById('pQ').textContent=f.q;
+    fluxo.innerHTML=f.p.map(([ic,n,s])=>`<div class="passo"><div class="bx">${ic}</div><span>${n}</span>${s?`<small>${s}</small>`:''}</div>`).join('');
+    clearInterval(timer);
+    const ps=[...fluxo.children]; let k=0;
+    const step=()=>{ps.forEach((p,j)=>{p.classList.toggle('on',j===k);p.classList.toggle('feito',j<k);p.classList.toggle('fim',k===ps.length-1&&j===k)});
+      const el=ps[k]; if(el&&fluxo.scrollWidth>fluxo.clientWidth) fluxo.scrollTo({left:el.offsetLeft-fluxo.clientWidth/2+el.clientWidth/2,behavior:'smooth'});
+      k=(k+1)%(ps.length+2)};
+    step(); if(!reduz) timer=setInterval(()=>{if(k>=ps.length){ps.forEach(p=>p.className='passo');k=k===ps.length+1?0:k+1;return}step()},900);
+  }
+  FUNIS.forEach((f,i)=>{const b=document.createElement('button');b.className='tab';b.innerHTML=f.nome+(f.star?' <span class="star">ESPECIALIDADE</span>':'');b.onclick=()=>mostra(i);tabsEl.appendChild(b)});
+  mostra(0);
+
+  /* ---------- flywheel ---------- */
+  const NOS=[
+    ['Audiência','Conteúdo e marca pessoal que atraem as pessoas certas.'],
+    ['Leads','Quem confia levanta a mão: isca, captura, grupo.'],
+    ['Compras','O funil certo transforma confiança em venda.'],
+    ['Comunidade','Quem compra e recebe valor fica, participa e sobe na esteira.'],
+    ['Indicação','Cliente transformado indica. E a audiência cresce sozinha.']
+  ];
+  const nosG=document.getElementById('nos'), setasG=document.getElementById('setas'), passosEl=document.getElementById('flyPassos');
+  const R=200, NS='http://www.w3.org/2000/svg';
+  NOS.forEach(([n],i)=>{
+    const a=-Math.PI/2+i*2*Math.PI/NOS.length, x=R*Math.cos(a), y=R*Math.sin(a);
+    const g=document.createElementNS(NS,'g'); g.setAttribute('transform',`translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+    g.innerHTML=`<circle class="no-c" r="46" fill="#1E0832" stroke="rgba(201,163,255,.35)" stroke-width="1.5"/><text class="no-txt" text-anchor="middle" y="5">${n}</text>`;
+    nosG.appendChild(g);
+    const a1=a+0.3, a2=a+2*Math.PI/NOS.length-0.3, r2=R;
+    const p=document.createElementNS(NS,'path');
+    p.setAttribute('d',`M${(r2*Math.cos(a1)).toFixed(1)} ${(r2*Math.sin(a1)).toFixed(1)}A${r2} ${r2} 0 0 1 ${(r2*Math.cos(a2)).toFixed(1)} ${(r2*Math.sin(a2)).toFixed(1)}`);
+    p.setAttribute('fill','none');p.setAttribute('stroke','#C9A3FF');p.setAttribute('stroke-width','2.5');p.setAttribute('marker-end','url(#ponta)');p.setAttribute('opacity','.6');
+    setasG.appendChild(p);
+    const d=document.createElement('div'); d.className='fp';
+    d.innerHTML=`<span class="n">${i+1}</span><div><b>${NOS[i][0]}</b><p>${NOS[i][1]}</p></div>`;
+    d.onclick=()=>{ativo=i;pintaFly();clearInterval(flyT);flyT=setInterval(avanca,2600)};
+    passosEl.appendChild(d);
+  });
+  let ativo=0, flyT=null;
+  function pintaFly(){
+    [...nosG.children].forEach((g,i)=>{const c=g.querySelector('circle');c.setAttribute('fill',i===ativo?'#FF8A00':'#1E0832');c.setAttribute('stroke',i===ativo?'#FFB866':'rgba(201,163,255,.35)');c.setAttribute('r',i===ativo?52:46)});
+    [...passosEl.children].forEach((d,i)=>d.classList.toggle('on',i===ativo));
+  }
+  const avanca=()=>{ativo=(ativo+1)%NOS.length;pintaFly()};
+  pintaFly(); if(!reduz) flyT=setInterval(avanca,2600);
+
+  /* ---------- carrossel de resultados ---------- */
+  const RES=[
+    ['vendas','cases/roas-103k.jpg','Vendas','R$ 103,6 mil de lucro','R$ 18 mil em anúncios · ROAS 6,71'],
+    ['cresc','cases/perfil-22mi-90d.jpg','Crescimento orgânico','22,2 mi de views','+183 mil seguidores em 90 dias'],
+    ['viral','cases/viral-15mi.jpg','Viralização','15,3 mi de views','Um único vídeo · +151 mil seguidores'],
+    ['vendas','cases/roas-271k.jpg','Vendas','R$ 271 mil faturados','R$ 208 mil de lucro · 77% de margem'],
+    ['dep','depo/mariana.jpg.jpeg','Depoimento','Dra. Mariana Vilasboas','Médica · funil e conteúdo'],
+    ['cresc','cases/perfil-13mi-30d.jpg','Crescimento orgânico','13 mi de views','+131 mil seguidores em 30 dias'],
+    ['viral','cases/viral-5.jpeg','Viralização','11,8 mi de views','Conteúdo orgânico'],
+    ['vendas','cases/roas-548.jpg','Vendas','ROAS 5,48','R$ 7,4 mil de lucro com R$ 1,6 mil'],
+    ['dep','depo/giu.jpg.jpeg','Depoimento','Giu Soares','Cliente Pitch'],
+    ['viral','cases/viral-6.jpeg','Viralização','10,4 mi de views','Conteúdo orgânico'],
+    ['cresc','cases/perfil-14mi-90d.jpg','Crescimento orgânico','14,6 mi de views','+53 mil seguidores em 90 dias'],
+    ['vendas','cases/roas-1.jpg.jpeg','Vendas','ROAS 6,10','Funil perpétuo'],
+    ['dep','depo/taina.jpg.jpeg','Depoimento','Tainá Garcia','Cliente Pitch'],
+    ['viral','cases/viral-3mi.jpg','Viralização','3 mi de views','Conteúdo orgânico'],
+    ['vendas','cases/roas-3.jpg.jpeg','Vendas','R$ 117 mil','em vendas'],
+    ['dep','depo/daniela.jpg.jpeg','Depoimento','Daniela Arakelian','Cliente Pitch'],
+    ['viral','cases/viral-1090k.jpg','Viralização','1,09 mi de views','Conteúdo orgânico'],
+    ['vendas','cases/roas-2.jpg.jpeg','Vendas','ROAS 5,46','Funil perpétuo'],
+    ['dep','depo/michele.jpg.jpeg','Depoimento','Michele Cristiane Mendes','Cliente Pitch'],
+    ['viral','cases/viral-4.jpeg','Viralização','865 mil views','Conteúdo orgânico'],
+    ['viral','cases/viral-638k.jpg','Viralização','638 mil views','Conteúdo orgânico'],
+    ['dep','depo/franciaine.jpg.jpeg','Depoimento','Franciaine Cardoso','Cliente Pitch'],
+    ['viral','cases/viral-458k.jpg','Viralização','458 mil views','Conteúdo orgânico'],
+    ['viral','cases/viral-275k.jpg','Viralização','275 mil views','Conteúdo orgânico']
+  ];
+  const car=document.getElementById('car');
+  car.innerHTML=RES.map(([f,src,t,b,s])=>`<figure class="card${f==='dep'?' dep':''}" data-f="${f}" data-src="${src}">
+    <div class="img${f==='vendas'?'':''}"><img src="${src}" alt="${b} · ${s}" loading="lazy" draggable="false"></div>
+    <figcaption class="cap"><span class="t">${t}</span><b>${b}</b><small>${s}</small></figcaption></figure>`).join('');
+
+  // filtros
+  document.querySelectorAll('#filtros .tab').forEach(btn=>btn.onclick=()=>{
+    document.querySelectorAll('#filtros .tab').forEach(b=>b.classList.toggle('on',b===btn));
+    const f=btn.dataset.f;
+    car.querySelectorAll('.card').forEach(c=>c.classList.toggle('oculto',f!=='todos'&&c.dataset.f!==f));
+    car.scrollTo({left:0,behavior:'smooth'}); barra();
+  });
+
+  // arrastar com mouse
+  let down=false, sx=0, sl=0, moved=0;
+  car.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;down=true;moved=0;sx=e.clientX;sl=car.scrollLeft});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-sx;moved=Math.max(moved,Math.abs(dx));if(moved>4)car.classList.add('drag');car.scrollLeft=sl-dx});
+  addEventListener('pointerup',()=>{if(!down)return;down=false;
+    if(car.classList.contains('drag')){car.classList.remove('drag');
+      const cards=[...car.querySelectorAll('.card:not(.oculto)')];const pad=parseFloat(getComputedStyle(car).paddingLeft);
+      let best=cards[0];cards.forEach(c=>{if(Math.abs(c.offsetLeft-pad-car.scrollLeft)<Math.abs(best.offsetLeft-pad-car.scrollLeft))best=c});
+      if(best)car.scrollTo({left:best.offsetLeft-pad,behavior:'smooth'})}});
+  const passo=()=>{const c=car.querySelector('.card:not(.oculto)');return c?c.offsetWidth+18:300};
+  document.getElementById('prev').onclick=()=>car.scrollBy({left:-passo()*2,behavior:'smooth'});
+  document.getElementById('next').onclick=()=>car.scrollBy({left:passo()*2,behavior:'smooth'});
+  const trI=document.getElementById('trilhoI');
+  function barra(){const max=car.scrollWidth-car.clientWidth;const vis=car.clientWidth/car.scrollWidth;
+    trI.style.width=(vis*100)+'%';trI.style.transform=`translateX(${max>0?(car.scrollLeft/max)*((1-vis)/vis)*100:0}%)`}
+  car.addEventListener('scroll',barra,{passive:true});addEventListener('resize',barra);setTimeout(barra,300);
+
+  // lightbox
+  const lb=document.getElementById('lb'), lbI=document.getElementById('lbImg');
+  car.addEventListener('click',e=>{if(moved>4)return;const c=e.target.closest('.card');if(!c)return;lbI.src=c.dataset.src;lb.classList.add('on')});
+  lb.onclick=()=>lb.classList.remove('on');
+  addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')});
+
+  /* ---------- manifesto: acende linha a linha ---------- */
+  const linhas=[...document.querySelectorAll('#manif p')];
+  const ioM=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('on',e.isIntersecting)),{rootMargin:'-35% 0px -35% 0px'});
+  linhas.forEach(l=>ioM.observe(l));
+  if(reduz) linhas.forEach(l=>l.classList.add('on'));
+})();
+</script>
+</body>
+</html>
